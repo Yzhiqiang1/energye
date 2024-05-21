@@ -1,0 +1,7 @@
+com.reactcommunity.rndatetimepicker
+style SpinnerDatePickerDialog
+style SpinnerDatePickerDialogBase
+style SpinnerDatePickerStyle
+style SpinnerTimePickerDialog
+style SpinnerTimePickerDialogBase
+style SpinnerTimePickerStyle

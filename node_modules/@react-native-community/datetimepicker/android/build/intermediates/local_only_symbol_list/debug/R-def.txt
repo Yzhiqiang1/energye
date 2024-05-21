@@ -1,0 +1,8 @@
+R_DEF: Internal format may change without notice
+local
+style SpinnerDatePickerDialog
+style SpinnerDatePickerDialogBase
+style SpinnerDatePickerStyle
+style SpinnerTimePickerDialog
+style SpinnerTimePickerDialogBase
+style SpinnerTimePickerStyle

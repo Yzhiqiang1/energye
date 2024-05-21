@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="http://schemas.android.com/tools">
+    <style name="SpinnerDatePickerDialog" parent="SpinnerDatePickerDialogBase"/>
+    <style name="SpinnerDatePickerDialogBase" parent="Theme.AppCompat.DayNight.Dialog" ns1:targetApi="lollipop">
+        <item name="android:datePickerStyle">@style/SpinnerDatePickerStyle</item>
+    </style>
+    <style name="SpinnerDatePickerStyle" parent="android:Widget.Material.DatePicker" ns1:targetApi="lollipop">
+        <item name="android:datePickerMode">spinner</item>
+    </style>
+    <style name="SpinnerTimePickerDialog" parent="SpinnerTimePickerDialogBase"/>
+    <style name="SpinnerTimePickerDialogBase" parent="Theme.AppCompat.DayNight.Dialog" ns1:targetApi="lollipop">
+        <item name="android:timePickerStyle">@style/SpinnerTimePickerStyle</item>
+    </style>
+    <style name="SpinnerTimePickerStyle" parent="android:Widget.Material.TimePicker" ns1:targetApi="lollipop">
+        <item name="android:timePickerMode">spinner</item>
+    </style>
+</resources>

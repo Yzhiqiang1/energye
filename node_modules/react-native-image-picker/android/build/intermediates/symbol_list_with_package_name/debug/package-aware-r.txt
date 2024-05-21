@@ -1,0 +1,2 @@
+com.imagepicker
+xml imagepicker_provider_paths
