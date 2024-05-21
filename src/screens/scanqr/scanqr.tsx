@@ -213,17 +213,17 @@ export class Scanqr extends Component<any,any> {
                         })
                     },
                     (error) => {
-                        //弹窗提示
+                        // 弹窗提示
                         that.setState({
                             msgType: 2,
                             visible: true,
-                            LoadingMsg: error
+                            LoadingMsg: '获取定位失败，请检查手机是否打开位置信息'
                         },()=>{
                             setTimeout(()=>{
                                 that.setState({
                                     visible: false,
                                 })
-                            },2000)
+                            },3000)
                         })
                     },
                 );
