@@ -1,0 +1,46 @@
+R_DEF: Internal format may change without notice
+local
+attr? hideWheelUntilFocused
+attr? internalLayout
+attr? internalMaxHeight
+attr? internalMaxWidth
+attr? internalMinHeight
+attr? internalMinWidth
+attr? numberPickerStyle
+attr? selectionDivider
+attr? selectionDividerHeight
+attr? selectionDividersDistance
+attr? solidColor
+attr? virtualButtonPressedDrawable
+drawable number_picker_divider_material
+drawable overlay
+id ampm
+id container
+id date
+id day
+id hour
+id minutes
+id month
+id numberpicker_input
+id overlay_image
+id pickerWrapper
+id year
+layout native_picker
+layout number_picker_material
+string ampm_description
+string date_description
+string day_description
+string hour_description
+string hour_tag
+string minutes_description
+string minutes_tag
+string month_description
+string overlay
+string time_tag
+string year_description
+style DatePickerBaseTheme
+style DatePickerTheme
+style android_native
+style android_native_small
+styleable NumberPicker solidColor selectionDivider selectionDividerHeight selectionDividersDistance internalMinHeight internalMaxHeight internalMinWidth internalMaxWidth internalLayout virtualButtonPressedDrawable hideWheelUntilFocused
+styleable Theme numberPickerStyle

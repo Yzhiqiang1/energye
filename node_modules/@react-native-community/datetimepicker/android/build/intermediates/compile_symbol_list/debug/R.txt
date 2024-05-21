@@ -1,0 +1,6 @@
+int style SpinnerDatePickerDialog 0x0
+int style SpinnerDatePickerDialogBase 0x0
+int style SpinnerDatePickerStyle 0x0
+int style SpinnerTimePickerDialog 0x0
+int style SpinnerTimePickerDialogBase 0x0
+int style SpinnerTimePickerStyle 0x0

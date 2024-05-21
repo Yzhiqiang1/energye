@@ -1,0 +1,5 @@
+# Created by .ignore support plugin (hsz.mobi)
+examples
+node_modules
+ios/ZXingObjC-3.2.2/examples
+ios/ZXingObjC-3.2.2/ZXingObjCTests
