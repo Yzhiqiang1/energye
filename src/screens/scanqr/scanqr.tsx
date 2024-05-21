@@ -2,7 +2,7 @@ import { StyleSheet, View, Image, TextInput, Pressable, Text, ScrollView, Animat
 import React, { Component } from 'react'
 import Geolocation from '@react-native-community/geolocation';//获取定位
 import { Camera,  useCameraDevice, useCodeScanner} from "react-native-vision-camera"//二维码
-import {launchImageLibrary} from 'react-native-image-picker';//图片选择器
+import { launchImageLibrary } from 'react-native-image-picker';//图片选择器
 import Navbars from '../../component/Navbars/Navbars';
 import { Dialog } from '@rneui/themed';
 import Loading from '../../component/Loading/Loading';
