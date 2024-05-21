@@ -15,7 +15,7 @@ const LocalBarcodeRecognizer = require('react-native-local-barcode-recognizer');
 const CTSD = require('../../utils/CTSD.js'); //引入坐标转换文件
 const api = require('../../utils/api')//引入接口文件
 import { MapView, Overlay, BaiduMapManager } from 'react-native-baidu-map'
-BaiduMapManager.initSDK('sIMQlfmOXhQmPLF1QMh4aBp8zZO9Lb2A');//ios 使用 BaiduMapManager.initSDK 方法设置 api key
+BaiduMapManager.initSDK('sIMQlfmOXhQmPLF1QMh4aBp8zZO9Lb2A');//ios 使用 BaiduMapManager.initSDK 方法设置 api key(百度地图)
 // 扫码组件
 function MyComponent(props: any) {
     const device = useCameraDevice('back');
