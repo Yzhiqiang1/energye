@@ -1,7 +1,7 @@
 import { StyleSheet, View, Image, TextInput, Pressable, Text, ScrollView, Animated, PermissionsAndroid, AppState, Linking, Dimensions } from 'react-native'
 import React, { Component } from 'react'
 import Geolocation from '@react-native-community/geolocation';//获取定位
-// import { Camera,  useCameraDevice, useCodeScanner} from "react-native-vision-camera"//二维码
+import { Camera,  useCameraDevice, useCodeScanner} from "react-native-vision-camera"//二维码
 import { launchImageLibrary } from 'react-native-image-picker';//图片选择器
 import Navbars from '../../component/Navbars/Navbars';
 import { Dialog } from '@rneui/themed';
@@ -17,66 +17,66 @@ const api = require('../../utils/api')//引入接口文件
 import { MapView, Overlay, BaiduMapManager } from 'react-native-baidu-map'
 BaiduMapManager.initSDK('sIMQlfmOXhQmPLF1QMh4aBp8zZO9Lb2A');//ios 使用 BaiduMapManager.initSDK 方法设置 api key
 // 扫码组件
-// function MyComponent(props: any) {
-//     const device = useCameraDevice('back');
-//     const isFocused = useIsFocused()
-//     const codeScanner = useCodeScanner({
-//         codeTypes: ['qr', 'ean-13'],
-//         onCodeScanned: (codes:any) => {
-//             props.scanCode(codes[0].value)
-//             props.close()
-//         }
-//     });
+function MyComponent(props: any) {
+    const device = useCameraDevice('back');
+    const isFocused = useIsFocused()
+    const codeScanner = useCodeScanner({
+        codeTypes: ['qr', 'ean-13'],
+        onCodeScanned: (codes:any) => {
+            props.scanCode(codes[0].value)
+            props.close()
+        }
+    });
 
-//     //选择照片按钮点击
-//     const choosePic = () => {
-//         const options:any = {
-//             mediaType: 'photo',
-//             includeBase64: true,//base64格式
-//             quality: 0.5,
-//             maxWidth: 200,
-//             maxHeight: 200,
-//             maxFiles: 2,
-//           };
-//         launchImageLibrary(options, (response:any) => {
-//             if (!response.didCancel) {
-//                 // 相册获得的图片base64
-//                 let source = response.assets[0].base64;
-//                 // 处理扫描选取的二维码图片
-//                 recoginze(source);
-//             }
-//         })
+    //选择照片按钮点击
+    const choosePic = () => {
+        const options:any = {
+            mediaType: 'photo',
+            includeBase64: true,//base64格式
+            quality: 0.5,
+            maxWidth: 200,
+            maxHeight: 200,
+            maxFiles: 2,
+          };
+        launchImageLibrary(options, (response:any) => {
+            if (!response.didCancel) {
+                // 相册获得的图片base64
+                let source = response.assets[0].base64;
+                // 处理扫描选取的二维码图片
+                recoginze(source);
+            }
+        })
         
-//     }
-//     // 识别图片二维码
-//     const recoginze = async (data: any) => {
-//         let result = await LocalBarcodeRecognizer.decode(data.replace(",",""), {
-//           codeTypes: ['ean13', 'qr'],
-//         });
-//         props.close()
-//         props.scanCode(result)
-//     }
+    }
+    // 识别图片二维码
+    const recoginze = async (data: any) => {
+        let result = await LocalBarcodeRecognizer.decode(data.replace(",",""), {
+          codeTypes: ['ean13', 'qr'],
+        });
+        props.close()
+        props.scanCode(result)
+    }
 
 
-//     if (device == null) return <View></View>
-//     return <View style={{position:'relative',height: '100%', width: '100%', }}>
-//         <Pressable style={styles.icon} onPress={()=>props.close()}>
-//             <Image style={styles.image} source={require('../../image/gb.png')}></Image>
-//         </Pressable>
-//         <Pressable style={styles.xc} onPress={()=>choosePic()}>
-//             <Image style={styles.image} source={require('../../image/xc.png')}></Image>
-//         </Pressable>
-//         <Camera
-//             photo={false}
-//             video={false}
-//             isActive={isFocused}
-//             style={{zIndex: 9999, height: '100%', width: '100%', }}
-//             onError={(error) => {
-//                 console.error(error)
-//             }}
-//             device={device} codeScanner={codeScanner} />
-//     </View>
-// }
+    if (device == null) return <View></View>
+    return <View style={{position:'relative',height: '100%', width: '100%', }}>
+        <Pressable style={styles.icon} onPress={()=>props.close()}>
+            <Image style={styles.image} source={require('../../image/gb.png')}></Image>
+        </Pressable>
+        <Pressable style={styles.xc} onPress={()=>choosePic()}>
+            <Image style={styles.image} source={require('../../image/xc.png')}></Image>
+        </Pressable>
+        <Camera
+            photo={false}
+            video={false}
+            isActive={isFocused}
+            style={{zIndex: 9999, height: '100%', width: '100%', }}
+            onError={(error) => {
+                console.error(error)
+            }}
+            device={device} codeScanner={codeScanner} />
+    </View>
+}
 
 export class Scanqr extends Component<any,any> {
     translateY = new Animated.Value(0)
@@ -816,8 +816,8 @@ export class Scanqr extends Component<any,any> {
                                 </ScrollView>
                             </View>
                         </Animated.View>
-                    </View>:''
-                    // :<MyComponent close={this.closeCamera} scanCode={this._scanCode}></MyComponent>
+                    </View>
+                    :<MyComponent close={this.closeCamera} scanCode={this._scanCode}></MyComponent>
                 }
                 <Loading 
                     type={this.state.msgType} 
