@@ -262,7 +262,7 @@ export class Playback extends Component<any,any> {
     //断线重连
     reconnect=()=>{
         if(this.state.Internet){
-            livePlayerContext.seek(this.state.current)//设置开始时间
+            livePlayerContext.seek(Number(this.state.current))//设置开始时间
             this.handlePlay()
             this.setState({
                 videoNetWorkError:false
