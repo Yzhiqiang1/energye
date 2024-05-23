@@ -354,7 +354,6 @@ export class PowerAnalysis3 extends Component<any,any> {
                             <View style={styles.item}>
                                 <View style={styles.name}>
                                     <Text style={styles.nameText}>环比分析数据</Text>
-                                    <Image style={styles.img} source={require('../../../image/download.png')}></Image>
                                 </View>
                                 <View style={styles.table}>
                                     <View style={styles.row}>

@@ -9,11 +9,12 @@ import { HttpService } from '../../../utils/http'
 import tool from '../../../utils/tool'
 import Loading from '../../../component/Loading/Loading'
 import Picker from '../../../component/Picker/Picker'
-let _s = util.oneData(3) < 10 ? '0' + util.oneData(3) : util.oneData(3);
-let _f = util.oneData(2) < 10 ? '0' + util.oneData(2) : util.oneData(2);
 const api = require('../../../utils/api')
 
 export class GasAnalysis5 extends Component<any,any> {
+    
+    _s = util.oneData(3) < 10 ? '0' + util.oneData(3) : util.oneData(3);
+    _f = util.oneData(2) < 10 ? '0' + util.oneData(2) : util.oneData(2);
     constructor(props:any){
         super(props)
         this.state={
@@ -26,7 +27,7 @@ export class GasAnalysis5 extends Component<any,any> {
 
             //结束时间弹出层
             endShow: false,
-            end: util.nowDate() + ' ' + _s + ':' + _f, //结束日期
+            end: util.nowDate() + ' ' + this._s + ':' + this._f, //结束日期
             endDate: new Date(util.oneData(), util.oneData(5), util.oneData(4), util.oneData(3), util.oneData(2)).getTime(), //时间戳
             //数据项
             optionData: [],

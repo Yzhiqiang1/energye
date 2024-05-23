@@ -123,12 +123,17 @@ export class PowerTest7 extends Component<any,any> {
         let start = new Date(that.state.start).getTime();
         let end = new Date(that.state.end).getTime(); //结束日期
         if (start > end) {
-            //错误提示信息
-            // wx.showToast({
-            //     title: "开始日期不能大于结束日期!",
-            //     icon: 'none',
-            //     duration: 3000
-            // })
+            this.setState({
+                msgType: 2,
+                visible: true,
+                LoadingMsg:'开始日期不能大于结束日期'
+            },()=>{
+                setTimeout(()=>{
+                    this.setState({
+                        visible: false,
+                    })
+                },3000)
+            })
         } else {
             //查询逐日极值数据
             this.getTbaleHarmonicData(0);
@@ -376,7 +381,7 @@ export class PowerTest7 extends Component<any,any> {
                 that.setState({
                     msgType: 2,
                     visible: true,
-                    LoadingMsg: fail_message,
+                    LoadingMsg:  '请求出错',
                 },()=>{
                     setTimeout(()=>{
                         that.setState({

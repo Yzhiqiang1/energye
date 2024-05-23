@@ -258,12 +258,9 @@ export class WaterAnalysis4 extends Component<any,any> {
                         {this.state.optionData.length == 0?
                             <Text style={styles.empty}>暂无数据</Text>:
                             <View style={styles.item}>
-                                <Text style={styles.name}>
-                                    损耗分析数据统计
-                                    <View style={styles.down}>
-                                        <Image style={styles.img} src='../../image/download.png'></Image>
-                                    </View>
-                                </Text>
+                                <View style={styles.name}>
+                                    <Text style={styles.nameText}>损耗分析数据统计</Text>
+                                </View>
                                 <View style={styles.table}>
                                     <View style={styles.row}>
                                         <Text style={styles.th}>回柜名称</Text>
@@ -411,15 +408,23 @@ const styles = StyleSheet.create({
     },
     name:{
         position: 'relative',
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
         width: '100%',
-        height: 40,
-        lineHeight: 40,
-        fontSize: 18,
-        textAlign: 'center',
         borderColor: '#E5E5E5',
         borderBottomWidth: 1,
         borderStyle: 'solid',
         overflow: 'hidden',
+        paddingRight: 10,
+        paddingLeft: 15
+    },
+    nameText:{
+        height: 40,
+        lineHeight: 45,
+        fontSize: 18,
+        textAlign: 'center',
     },
     echarts:{
         position: 'relative',

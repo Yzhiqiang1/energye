@@ -450,47 +450,6 @@ export class Scanqr extends Component<any,any> {
         let that = this;
         //天地图地址逆解析
         let lonlat = CTSD.gcj02towgs84(Number(that.state.sign_lng), Number(that.state.sign_lat))
-        // wx.request({
-        //     url: api.geocoder,
-        //     data: {
-        //         postStr: {
-        //             'lon': lonlat[0],
-        //             'lat': lonlat[1],
-        //             'ver': 1
-        //         },
-        //         type: 'geocode',
-        //         tk: api.tdKey
-        //     },
-        //     method: 'GET',
-        //     header: {
-        //         'Content-Type': 'text/plain',
-        //     },
-        //     success: function (res) {
-        //         if (res.statusCode == 200) {
-        //             if (res.data.status == 0) {
-        //                 let address = res.data.result.formatted_address + '附近';
-        //                 that.setData({
-        //                     manualAddress: address
-        //                 }); //更新地址
-        //             } else {
-        //                 that.setData({
-        //                     manualAddress: '查询地址失败'
-        //                 }) //更新地址
-        //             }
-        //         } else {
-        //             that.setData({
-        //                 manualAddress: '查询地址失败'
-        //             }) //更新地址
-        //         }
-        //         wx.hideLoading(); //关闭加载效果
-        //     },
-        //     fail: function (e) {
-        //         that.setData({
-        //             manualAddress: '查询地址失败'
-        //         }) //更新地址
-        //         wx.hideLoading(); //关闭加载效果
-        //     }
-        // })
 
         //请求参数
         let postStr = {
@@ -530,7 +489,7 @@ export class Scanqr extends Component<any,any> {
         })
     }
     // 打开摄像头扫描
-    openCamera= async ()=>{
+    openCamera = async ()=>{
         let that = this
         async function onAuth(){
             const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA);

@@ -97,18 +97,10 @@ export class PowerTest5 extends Component<any,any> {
     }
     //日期选择
     clickDate=(e:any)=>{
-        let that = this;
-        if(e.type == 'set'){
-            let date = getTransition(e.nativeEvent.timestamp)
-            that.setState({
-                _date: date,
-                dateShow: false
-            })
-        }else{
-            that.setState({
-                dateShow: false
-            })
-        }
+        this.setState({
+            _date: e,
+            dateShow: false
+        })
     }
     //搜索
     clickSearch=()=>{
@@ -148,8 +140,6 @@ export class PowerTest5 extends Component<any,any> {
         //查询日期
         let date = that.state._date;
         //定义图表数据
-        console.log(that.state.dataSwitchIn);
-        console.log(date);
         let queryData:any = [{
                 name: "折线图",
                 state: true,
@@ -351,31 +341,6 @@ export class PowerTest5 extends Component<any,any> {
                             }
                         }
                         objSeries[3].data.push(objData.Wqn_val); //反向无功电度
-                        // console.log( objSeries,555);
-
-                        // if (objSeries0[0] == undefined) {
-                        //     objSerie0[0] = {
-                        //         name: "平均功率因数",
-                        //         type: 'bar',
-                        //         barGap: 0,
-                        //         showBackground: true,
-                        //         backgroundStyle: {
-                        //             color: "rgba(180, 180, 180, 0.05)"
-                        //         },
-                        //         label: { 
-                        //             show: true,
-                        //             rotate: -90,
-                        //             align: 'right'
-                        //         },
-                        //         xAxisIndex: count, 
-                        //         yAxisIndex: count,
-                        //         data: []
-                        //     }
-                        // }
-                        // objSeries0[0].data.push(objData.Pf_avg); //平均功率因数
-                        // // console.log( objSeries0,555);
-
-                        //每4个为一组
                         if ((i + 1) % 4 == 0) {
                             count = count + 1;
                             for (let a = 0; a < objSeries.length; a++) {
@@ -476,7 +441,7 @@ export class PowerTest5 extends Component<any,any> {
                     </Picker>
                 </View>
                <View style={{flex:2}}>
-                <Picker
+                    <Picker
                         pickerType={1}
                         date={this.state._date}
                         precisionType={this.state.dataSwitchIn==0 ? 2 : 4}

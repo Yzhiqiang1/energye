@@ -1,4 +1,5 @@
-import { AppState, DeviceEventEmitter, Image, StyleSheet, Text, View } from 'react-native'
+import { AppState, DeviceEventEmitter, Dimensions, Image, StyleSheet, Text, View } from 'react-native'
+import {Shadow} from 'react-native-shadow-2'
 import React, { Component } from 'react'
 import Navbar from '../../../component/navbar/navbar'
 import { Register } from '../../../utils/app'
@@ -119,6 +120,7 @@ export class Security1 extends Component<any,any> {
     }
     //组选中切换
     handleSelect=(e:any)=>{
+        dataPos = {}
         //通知首页更新
         DeviceEventEmitter.emit('refresh')
         this.getSwitchData();
@@ -209,7 +211,6 @@ export class Security1 extends Component<any,any> {
 
     //传感器开关按钮
     showPopup=(top_index:any,index:number,switchs:any,devieceNo:any,sensorid:any)=>{
-        console.log(sensorid);
         let data =  {
             top_index: top_index,
             index: index,
@@ -325,7 +326,7 @@ export class Security1 extends Component<any,any> {
                         {/* 面板item */}
                         {this.state.sensorArr.map((top_item:any,top_index:number)=>{
                             return(
-                                <View style={styles.indexMini} key={top_index}>
+                                <Shadow distance={4} style={styles.indexMini} key={top_index}>
                                     {/* 设备信息行 */}
                                     <View style={[styles.deviece,styles.tr]}>
                                         <Image source={require('../../../image/switch1.png')} resizeMode='contain' style={styles.devieceImg}></Image>
@@ -359,7 +360,7 @@ export class Security1 extends Component<any,any> {
                                             </View>
                                         )
                                     })}
-                                </View>
+                                </Shadow>
                             )
                         })}
                          {/* 对话框 */}
@@ -392,18 +393,18 @@ export class Security1 extends Component<any,any> {
 const styles = StyleSheet.create({
     containerMini:{
         display:'flex',
-        alignItems:'center'
+        alignItems:'center',
+        paddingTop: 12
     },
     indexMini :{
         position: 'relative',
-        width: '93%',
+        width: Dimensions.get('window').width-30,
         backgroundColor: '#fff',
         borderRadius: 7,
         display:'flex',
         alignItems:'center',
         opacity: 1,
         marginBottom:11,
-        marginTop:12,
         fontSize: 18,
     },
     

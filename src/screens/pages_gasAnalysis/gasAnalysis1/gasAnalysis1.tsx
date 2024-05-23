@@ -10,11 +10,11 @@ import tool from '../../../utils/tool'
 import { HttpService } from '../../../utils/http'
 import Loading from '../../../component/Loading/Loading'
 import Picker from '../../../component/Picker/Picker'
-let _s = util.oneData(3) < 10 ? '0' + util.oneData(3) : util.oneData(3);
-let _f = util.oneData(2) < 10 ? '0' + util.oneData(2) : util.oneData(2);
 const api = require('../../../utils/api')
 
 export class GasAnalysis1 extends Component<any,any> {
+    _s = util.oneData(3) < 10 ? '0' + util.oneData(3) : util.oneData(3);
+
     constructor(props:any){
         super(props)
         this.state={
@@ -29,8 +29,7 @@ export class GasAnalysis1 extends Component<any,any> {
 
             startDate: new Date(util.oneData(), util.oneData(5), util.oneData(4)).getTime(), //时间戳
             end: util.nowDate(), //结束日期
-            end_HH: _s + '',
-            // end_HH_mm:_s+":"+_f,
+            end_HH: this._s + '',
             endDate: new Date(util.oneData(), util.oneData(5), util.oneData(4), util.oneData(3), util.oneData(2)).getTime(), //时间戳
 
             //年月-日期选择
@@ -506,10 +505,6 @@ export class GasAnalysis1 extends Component<any,any> {
                     {this.state.dataSwitchIn == 0?
                         <View style={styles.flexs}>
                             <View style={styles.flex}>
-                                {/* <View>
-                                    <Text style={styles.choice_date}>{this.state.start} {this.state.start_HH}时</Text>
-                                    <Image style={styles.ico} source={require('../../../image/down.png')}></Image>
-                                </View> */}
                                 <Picker
                                     pickerType={1}
                                     date={[this.state.start,this.state.start_HH]}
@@ -518,10 +513,6 @@ export class GasAnalysis1 extends Component<any,any> {
                                 ></Picker>
                             </View>
                             <View style={styles.flex}>
-                                {/* <View>
-                                <Text style={styles.choice_date}>{this.state.end} {this.state.end_HH}时</Text>
-                                    <Image style={styles.ico} source={require('../../../image/down.png')}></Image>
-                                </View> */}
                                 <Picker
                                     pickerType={1}
                                     date={[this.state.end,this.state.end_HH]}

@@ -12,9 +12,8 @@ import Picker from '../../../component/Picker/Picker'
 import Loading from '../../../component/Loading/Loading'
 const api = require('../../../utils/api')
 
-let _s = util.oneData(3) < 10 ? '0' + util.oneData(3) : util.oneData(3);
-
 export class WaterAnalysis1 extends Component<any,any> {
+    _s = util.oneData(3) < 10 ? '0' + util.oneData(3) : util.oneData(3);
     constructor(props:any){
         super(props)
         this.state={
@@ -30,7 +29,7 @@ export class WaterAnalysis1 extends Component<any,any> {
             startDate: new Date(util.oneData(), util.oneData(5), util.oneData(4)).getTime(), //时间戳
            
             end: util.nowDate(), //结束日期
-            end_HH: _s + '',
+            end_HH: this._s + '',
             // end_HH_mm:_s+":"+_f,
             endDate: new Date(util.oneData(), util.oneData(5), util.oneData(4), util.oneData(3), util.oneData(2)).getTime(), //时间戳
     

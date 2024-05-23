@@ -393,8 +393,21 @@ export class Survey extends Component<any,any> {
                                     <Text style={styles.test}>{this.state.dayTendency}%</Text>
                                     <Image style={styles.imgline} source={require('../../image/survey_line3.png')}></Image>
                                 </View>
-                                  {this.state.dayTendency!= ''?
-                                    <Image style={styles.tendency} src='../../image/{{dayTendency>=0?"survey_up.png":"survey_down.png"}}'></Image>
+                                {this.state.dayTendency!= ''?
+                                  this.state.dayTendency>=0?
+                                  <View style={styles.tenbox}>
+                                    <Image 
+                                    style={styles.tendency}
+                                    source={require('../../image/survey_up.png')} 
+                                    ></Image>
+                                  </View>
+                                  :
+                                  <View style={styles.tenbox}>
+                                     <Image 
+                                      style={styles.tendency}
+                                      source={require('../../image/survey_down.png')} 
+                                      ></Image>
+                                   </View>
                                   : ''}
                             </View>
                         </View> 
@@ -435,8 +448,21 @@ export class Survey extends Component<any,any> {
                                     <Image style={styles.imgline} source={require('../../image/survey_line3.png')}></Image>
                                 </View>
                                 {this.state.monthTendency != ''?
-                                <Image style={styles.tendency}  src='../../image/{{monthTendency>=0?"survey_up.png":"survey_down.png"}}'></Image>:
-                                '' 
+                                  this.state.monthTendency>=0?
+                                  <View style={styles.tenbox}>
+                                    <Image 
+                                    style={styles.tendency}
+                                    source={require('../../image/survey_up.png')} 
+                                    ></Image>
+                                  </View>
+                                  :
+                                  <View style={styles.tenbox}>
+                                     <Image 
+                                      style={styles.tendency}
+                                      source={require('../../image/survey_down.png')} 
+                                      ></Image>
+                                   </View>
+                                  :'' 
                                 }
                             </View>
                         </View>
@@ -608,7 +634,15 @@ const styles  = StyleSheet.create({
     justifyContent: 'center',
     overflow: 'hidden',
   },
-  tendency:{},
+  tenbox: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+  },
+  tendency:{
+    width: 10,
+    height:15,
+  },
   echarts:{
     position: 'relative',
     width: '100%',

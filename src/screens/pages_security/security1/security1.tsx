@@ -1,4 +1,5 @@
-import { AppState, DeviceEventEmitter, Image, StyleSheet, Text, View } from 'react-native'
+import { AppState, Image, StyleSheet, Text, View, Dimensions} from 'react-native'
+import {Shadow} from 'react-native-shadow-2'
 import React, { Component } from 'react'
 import Navbar from '../../../component/navbar/navbar'
 import styleg from '../../../indexCss'
@@ -117,6 +118,7 @@ export class Security2 extends Component<any,any> {
     }
     //组选中切换
     choiceGroup=(e:any)=>{
+        dataPos = {}
         this.getData();
     }
     /****************************
@@ -124,9 +126,7 @@ export class Security2 extends Component<any,any> {
      * *************************/
     refreshData=()=>{
         let that = this;
-        let socket = function (res: { flag: string; deviceId: any; sensorsDates: any; time: any }) { //接收服务器发来的数据
-            console.log('服务器',res);
-            
+        let socket = function (res: any) { //接收服务器发来的数据
             if (that.state.socketTask == true) { //页面卸载后禁止更新 
                 if (res.flag == "00") {
                     let deviceId = res.deviceId; //websocket设备id
@@ -285,7 +285,7 @@ export class Security2 extends Component<any,any> {
                             <Text style={styles.empty}>没有对应传感器</Text>:
                             this.state.leakageArr.map((top_item:any,top_index:number)=>{
                                 return(
-                                    <View style={styles.indexMini} key={top_index}>
+                                    <Shadow distance={4} style={styles.indexMini} key={top_index}>
                                         {/* 设备信息行 */}
                                         <View style={[styles.deviece,styles.tr]}>
                                             <Image 
@@ -351,7 +351,7 @@ export class Security2 extends Component<any,any> {
                                                 </View>
                                             </View>
                                         </View>
-                                    </View>
+                                    </Shadow>
                                 )
                             })
                         }
@@ -371,26 +371,23 @@ export class Security2 extends Component<any,any> {
 const styles = StyleSheet.create({
     containerMini:{
         display:'flex',
-        alignItems:'center'
+        alignItems:'center',
+        paddingTop: 12
     },
     indexMini :{
         position: 'relative',
-        width: '93%',
+        width: Dimensions.get('window').width-30,
         backgroundColor: '#fff',
-        
-        // box-shadow: 0rpx 2rpx 9rpx rgba(31, 31, 31, 0.2),
+        borderRadius: 5,
         opacity: 1,
         marginBottom:11,
-        marginTop:12,
         fontSize: 18,
     },
-    
     tr :{
         borderStyle: 'solid',
         borderBottomWidth: 1,
         borderBottomColor: '#f2f2f2',
         width: '95%',
-        // margin: 0rpx auto,
     },
     
     deviece :{

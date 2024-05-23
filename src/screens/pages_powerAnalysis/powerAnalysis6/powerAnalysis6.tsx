@@ -262,9 +262,6 @@ export class PowerAnalysis6 extends Component<any,any> {
                         <View style={styles.item}>
                             <View style={styles.name}>
                                 <Text style={styles.nameText}>尖峰平谷数据统计</Text>
-                                <View style={styles.down}>
-                                    <Image style={styles.img} source={require('../../../image/download.png')}></Image>
-                                </View>
                             </View>
                             <View style={styles.table}>
                                 {this.state.optionData.map((item:any,index:number)=>{
@@ -484,16 +481,6 @@ const styles = StyleSheet.create({
         marginLeft: 7,
         overflow: 'hidden',
     },
-    down:{
-        position: 'absolute',
-        top: 0,
-        right: 0,
-        width: 40,
-        height: 40,
-        zIndex: 99,
-        textAlign: 'center',
-        overflow: 'hidden',
-    },
     echarts_con:{
         position: 'absolute',
         top: 50,
@@ -540,11 +527,6 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: '#999999',
         overflow: 'hidden',
-    },
-    img:{
-        width: 15,
-        height: 15,
-        verticalAlign: 'middle',
     },
     table:{
         position: 'relative',

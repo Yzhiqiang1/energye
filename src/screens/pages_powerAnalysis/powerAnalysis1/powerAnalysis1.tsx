@@ -12,9 +12,8 @@ import Loading from '../../../component/Loading/Loading'//加载组件
 import { Picker } from '../../../component/Picker/Picker'
 const api = require('../../../utils/api') 
 
-let _s = util.oneData(3) < 10 ? '0' + util.oneData(3) : util.oneData(3);
-
 export class PowerAnalysis1 extends Component<any,any> {
+    _s = util.oneData(3) < 10 ? '0' + util.oneData(3) : util.oneData(3);
     constructor(psopr:any){
         super(psopr)
         this.state={
@@ -35,7 +34,7 @@ export class PowerAnalysis1 extends Component<any,any> {
             endShow: false,
 
             end: util.nowDate(), //结束日期
-            end_HH: _s + '',
+            end_HH: this._s + '',
             endDate: new Date(util.oneData(), util.oneData(5), util.oneData(4), util.oneData(3), util.oneData(2)).getTime(), //时间戳
 
             //年月-日期选择

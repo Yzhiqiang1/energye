@@ -271,10 +271,7 @@ export class WaterAnalysis5 extends Component<any,any> {
                             <Text style={styles.empty}>暂无数据</Text>:
                             <View style={styles.item}>
                                 <Text style={styles.name}>
-                                    电能集抄统计数据
-                                    <View style={styles.down}>
-                                        <Image style={styles.ico} src='../../image/download.png'></Image>
-                                    </View>
+                                    <Text style={styles.nameText}>电能集抄统计数据</Text>
                                 </Text>
                                 <View style={styles.table}>
                                     <View style={styles.row}>
@@ -424,15 +421,23 @@ const styles = StyleSheet.create({
     },
     name:{
         position: 'relative',
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
         width: '100%',
-        height: 40,
-        lineHeight: 40,
-        fontSize: 18,
         borderColor: '#E5E5E5',
         borderBottomWidth: 1,
         borderStyle: 'solid',
         overflow: 'hidden',
+        paddingRight: 10,
         paddingLeft: 15
+    },
+    nameText:{
+        height: 40,
+        lineHeight: 45,
+        fontSize: 18,
+        textAlign: 'center',
     },
     echarts:{
         position: 'relative',

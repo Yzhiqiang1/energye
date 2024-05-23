@@ -10,9 +10,7 @@ import Loading from '../../../component/Loading/Loading'//加载组件
 import Picker from '../../../component/Picker/Picker';
 const util = require('../../../utils/util.js');
 const api = require('../../../utils/api')
-const {
-    plusReduceData
-} = require('../../../utils/util.js');
+const { plusReduceData } = require('../../../utils/util.js');
 export class PowerTest2 extends Component<any,any> {
     constructor(props:any){
         super(props)
@@ -130,17 +128,17 @@ export class PowerTest2 extends Component<any,any> {
             return false;
         }
 
-        // this.setState({
-        //     msgType: 1,
-        //     visible: true,
-        //     LoadingMsg:'加载中...'
-        // })//加载效果
+        this.setState({
+            msgType: 1,
+            visible: true,
+            LoadingMsg:'加载中...'
+        })//加载效果
         let userId = store.getState().userReducer.userId; //用户ID
         let deviceId = store.getState().userReducer.parameterGroup.radioGroup.selectKey; //获取设备ID
         let start = that.state.start //开始日期
         let end = that.state.end; //结束日期
         //定义图表数据
-        let queryData = [];
+        let queryData:any = [];
         //查询数据
         HttpService.apiPost(api.getExtreme, {
             userId: userId,
@@ -154,105 +152,106 @@ export class PowerTest2 extends Component<any,any> {
                 //校验数据是否为空
                 if (listData.length > 0) {
                     //循环数据
-                    // for (let i = 0; i < listData.length; i++) {
-                    //     let objData = listData[i]; //传感器数据
-                    //     let name = objData.sensorLabel; //传感器标签
-                    //     let querylist:any = {
-                    //         name: "",
-                    //         state: true,
-                    //         title: objData.deviceName,
-                    //         legendData: ["最大值", "最小值", "平均值"],
-                    //         xAxisData: [],
-                    //         yAxisName: ["单位(" + objData.sensorUnit + ")"],
-                    //         series: [{
-                    //             name: "最大值",
-                    //             type: 'line',
-                    //             connectNulls: true,
-                    //             markPoint: {
-                    //                 data: [{
-                    //                     type: 'max',
-                    //                     name: 'Max'
-                    //                 }, {
-                    //                     type: 'min',
-                    //                     name: 'Min'
-                    //                 }]
-                    //             },
-                    //             data: []
-                    //         }, {
-                    //             name: "最小值",
-                    //             type: 'line',
-                    //             connectNulls: true,
-                    //             markPoint: {
-                    //                 data: [{
-                    //                     type: 'max',
-                    //                     name: 'Max'
-                    //                 }, {
-                    //                     type: 'min',
-                    //                     name: 'Min'
-                    //                 }]
-                    //             },
-                    //             data: []
-                    //         }, {
-                    //             name: "平均值",
-                    //             type: 'line',
-                    //             connectNulls: true,
-                    //             markPoint: {
-                    //                 data: [{
-                    //                     type: 'max',
-                    //                     name: 'Max'
-                    //                 }, {
-                    //                     type: 'min',
-                    //                     name: 'Min'
-                    //                 }]
-                    //             },
-                    //             data: []
-                    //         }]
-                    //     };
-                    //     //有功功率
-                    //     if (name == 'P' || name == 'Pa' || name == 'Pb' || name == 'Pc') {
-                    //         querylist.name = name == 'P' ? "总有功功率" : name == 'Pa' ? "A相有功功率" : name == 'Pb' ? "B相有功功率" : "C相有功功率";
-                    //         //电流
-                    //     } else if (name == 'Ia' || name == 'Ib' || name == 'Ic') {
-                    //         querylist.name = name == 'Ia' ? "A相电流" : name == 'Ib' ? "B相电流" : "C相电流";
-                    //         //相电压
-                    //     } else if (name == 'Uan' || name == 'Ubn' || name == 'Ucn') {
-                    //         querylist.name = name == 'Uan' ? "A相电压" : name == 'Ubn' ? "B相电压" : "C相电压";
-                    //         //线电压
-                    //     } else if (name == 'Uab' || name == 'Ubc' || name == 'Uca') {
-                    //         querylist.name = name == 'Uab' ? "A线电压" : name == 'Ubc' ? "B线电压" : "C线电压";
-                    //         //频率
-                    //     } else if (name == 'Fr') {
-                    //         querylist.name = "频率";
-                    //         //功率因素
-                    //     } else if (name == 'Pf') {
-                    //         querylist.name = "功率因素";
-                    //         //无功功率
-                    //     } else if (name == 'Q') {
-                    //         querylist.name = "无功功率";
-                    //         //视在功率
-                    //     } else if (name == 'S') {
-                    //         querylist.name = "视在功率";
-                    //     } else if (name == 'IUnB' || name == 'UUnB') {
-                    //         querylist.name = name == 'IUnB' ? "电流不平衡度" : "电压不平衡度";
-                    //     }
-                    //     //处理数据数值
-                    //     let objList:any = objData.data;
-                    //     for (let a = 0; a < objList.length; a++) {
-                    //         //校验数据是否为空
-                    //         if (objList[a].time) {
-                    //             querylist.series[0].data.push(objList[a].max ? objList[a].max : ""); //最大值
-                    //             querylist.series[1].data.push(objList[a].min ? objList[a].min : ""); //最小值
-                    //             querylist.series[2].data.push(objList[a].mean ? objList[a].mean : ""); //平均值
-                    //             querylist.xAxisData.push(objList[a].time);
-                    //         }
-                    //     }
-                    //     queryData.unshift(querylist);
-                    // }
+                    for (let i = 0; i < listData.length; i++) {
+                        if(listData[i].data){
+                        let objData = listData[i]; //传感器数据
+                        let name = objData.sensorLabel; //传感器标签
+                        let querylist:any = {
+                            name: "",
+                            state: true,
+                            title: objData.deviceName,
+                            legendData: ["最大值", "最小值", "平均值"],
+                            xAxisData: [],
+                            yAxisName: ["单位(" + objData.sensorUnit + ")"],
+                            series: [{
+                                name: "最大值",
+                                type: 'line',
+                                connectNulls: true,
+                                markPoint: {
+                                    data: [{
+                                        type: 'max',
+                                        name: 'Max'
+                                    }, {
+                                        type: 'min',
+                                        name: 'Min'
+                                    }]
+                                },
+                                data: []
+                            }, {
+                                name: "最小值",
+                                type: 'line',
+                                connectNulls: true,
+                                markPoint: {
+                                    data: [{
+                                        type: 'max',
+                                        name: 'Max'
+                                    }, {
+                                        type: 'min',
+                                        name: 'Min'
+                                    }]
+                                },
+                                data: []
+                            }, {
+                                name: "平均值",
+                                type: 'line',
+                                connectNulls: true,
+                                markPoint: {
+                                    data: [{
+                                        type: 'max',
+                                        name: 'Max'
+                                    }, {
+                                        type: 'min',
+                                        name: 'Min'
+                                    }]
+                                },
+                                data: []
+                            }]
+                        };
+                            //有功功率
+                        if (name == 'P' || name == 'Pa' || name == 'Pb' || name == 'Pc') {
+                            querylist.name = name == 'P' ? "总有功功率" : name == 'Pa' ? "A相有功功率" : name == 'Pb' ? "B相有功功率" : "C相有功功率";
+                            //电流
+                        } else if (name == 'Ia' || name == 'Ib' || name == 'Ic') {
+                            querylist.name = name == 'Ia' ? "A相电流" : name == 'Ib' ? "B相电流" : "C相电流";
+                            //相电压
+                        } else if (name == 'Uan' || name == 'Ubn' || name == 'Ucn') {
+                            querylist.name = name == 'Uan' ? "A相电压" : name == 'Ubn' ? "B相电压" : "C相电压";
+                            //线电压
+                        } else if (name == 'Uab' || name == 'Ubc' || name == 'Uca') {
+                            querylist.name = name == 'Uab' ? "A线电压" : name == 'Ubc' ? "B线电压" : "C线电压";
+                            //频率
+                        } else if (name == 'Fr') {
+                            querylist.name = "频率";
+                            //功率因素
+                        } else if (name == 'Pf') {
+                            querylist.name = "功率因素";
+                            //无功功率
+                        } else if (name == 'Q') {
+                            querylist.name = "无功功率";
+                            //视在功率
+                        } else if (name == 'S') {
+                            querylist.name = "视在功率";
+                        } else if (name == 'IUnB' || name == 'UUnB') {
+                            querylist.name = name == 'IUnB' ? "电流不平衡度" : "电压不平衡度";
+                        }
+                        // //处理数据数值
+                        let objList:any = objData.data;
+                        for (let a = 0; a < objList.length; a++) {
+                            //校验数据是否为空
+                            if (objList[a].time) {
+                                querylist.series[0].data.push(objList[a].max ? objList[a].max : ""); //最大值
+                                querylist.series[1].data.push(objList[a].min ? objList[a].min : ""); //最小值
+                                querylist.series[2].data.push(objList[a].mean ? objList[a].mean : ""); //平均值
+                                querylist.xAxisData.push(objList[a].time);
+                            }
+                        }
+                        queryData.unshift(querylist);
+                        }
+                    }
                     that.setState({
-                        // optionData: queryData,
+                        optionData: queryData,
                     }, () => {
                         //关闭加载效果
-
                         this.setState({
                             visible: false
                         })
@@ -294,7 +293,7 @@ export class PowerTest2 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: fail_message
+                LoadingMsg: '请求出错'
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -309,7 +308,7 @@ export class PowerTest2 extends Component<any,any> {
         <View>
              {/* 引入自定义导航栏 */}
              <Navbar 
-                pageName={'日原数据'}
+                pageName={'逐日极数据'}
                 showBack={true}
                 showHome={false}
                 isCheck={2}
@@ -348,7 +347,7 @@ export class PowerTest2 extends Component<any,any> {
                     }
                     {this.state.optionData.map((data:any,index:number)=>{
                         return(
-                            data.state == true?
+                            data.state == true&&index<10?
                             <View key={index} style={styles.item}>
                                 <Text style={styles.name}>
                                     {data.name}

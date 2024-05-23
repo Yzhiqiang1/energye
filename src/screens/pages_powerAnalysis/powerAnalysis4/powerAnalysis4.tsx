@@ -262,7 +262,6 @@ export class PowerAnalysis4 extends Component<any,any> {
                             <View style={styles.item}>
                                 <View style={styles.name}>
                                     <Text style={styles.nameText}>损耗分析数据统计</Text>
-                                    <Image style={styles.img} source={require('../../../image/download.png')}></Image>
                                 </View>
                                 <View style={styles.table}>
                                     <View style={styles.row}>
@@ -450,7 +449,6 @@ const styles = StyleSheet.create({
     img:{
         width: 15,
         height: 15,
-        verticalAlign: 'middle',
     },
     table:{
         position: 'relative',

@@ -1,4 +1,5 @@
-import { AppState, DeviceEventEmitter, Image, StyleSheet, Text, View } from 'react-native'
+import { AppState, DeviceEventEmitter, Dimensions, Image, StyleSheet, Text, View } from 'react-native'
+import {Shadow} from 'react-native-shadow-2'
 import React, { Component } from 'react'
 import Navbar from '../../../component/navbar/navbar'
 import styleg from '../../../indexCss'
@@ -142,7 +143,7 @@ export class Security5 extends Component<any,any> {
                             }
                         }
                         let data = that.state.sensorArr
-                        data[dataPos[deviceNo].index].index.updateTime = times
+                        data[dataPos[deviceNo].index].updateTime = times
                         that.setState({
                             sensorArr: data
                         })
@@ -187,6 +188,7 @@ export class Security5 extends Component<any,any> {
      *     获取传感器数据
      * *************************/
     getSwitchData=()=>{
+        dataPos = {}//清空
         let that = this;
         let userId = store.getState().userReducer.userId; //用户ID
         let deviceIds = store.getState().userReducer.parameterGroup.radioSonGroup.selectKey; //获取设备ID----【单选-父含子】
@@ -265,7 +267,8 @@ export class Security5 extends Component<any,any> {
                     showHome={false}
                     isCheck={5}
                     LoginStatus={this.state.LoginStatus}
-                    props={this.props}>
+                    props={this.props}
+                    handleSelect={this.handleSelect}>
                 </Navbar>
 
                 {/* 内容区 */}
@@ -277,62 +280,53 @@ export class Security5 extends Component<any,any> {
                         {/* 面板item */}
                         {this.state.sensorArr.map((top_item:any,top_index:number)=>{
                             return(
-                                <View style={styles.indexMini} key={top_index}>
-                                {/* 设备信息行 */}
-                                <View style={[styles.deviece,styles.tr]}>
-                                    <Image source={require('../../../image/switch1.png')} style={styles.devieceImg}></Image>
-                                    <View style={styles.devieceInfo}>
-                                        <Text style={styles.devieceName} onPress={()=>this.setState({dateShow: !this.state.dateShow})}>{top_item.deviceName}</Text>
-                                        <Text>更新时间: 
-                                            <Text style={styles.lastTime}>{top_item.updateTime ? top_item.updateTime :'暂无数据'}</Text>
+                                <Shadow distance={4} style={styles.indexMini} key={top_index}>
+                                    {/* 设备信息行 */}
+                                    <View style={[styles.deviece,styles.tr]}>
+                                        <Image source={require('../../../image/switch1.png')} style={styles.devieceImg}></Image>
+                                        <View style={styles.devieceInfo}>
+                                            <Text style={styles.devieceName} onPress={()=>this.setState({dateShow: !this.state.dateShow})}>{top_item.deviceName}</Text>
+                                            <Text>更新时间: 
+                                                <Text style={styles.lastTime}>{top_item.updateTime ? top_item.updateTime :'暂无数据'}</Text>
+                                            </Text>
+                                        </View>
+                                        
+                                        <Text 
+                                            style={styles.search}
+                                            onPress={()=>this.historySearch(top_index)}
+                                        >
+                                        查询
                                         </Text>
                                     </View>
-                                    
-                                    <Text 
-                                        style={styles.search}
-                                        onPress={()=>this.historySearch(top_index)}
-                                    >
-                                    查询
-                                    </Text>
-                                </View>
-                                {/* 传感器信息行 */}
-                                {top_item.sensorList.length==0?
-                                    <Text>暂无数据</Text>:''
-                                }
-                                {top_item.sensorList.map((item:any,index:number)=>{
-                                    return(
-                                        <View style={[styles.sensor,styles.tr]} key={index}>
-                                            <Text style={styles.sensorName}>{item.sensorname}</Text>
-                                            {item.isMapping == 1?
-                                                <Text style={styles.sensorVal}>{item.sorVal}</Text>:''
-                                            }
-                                            {/* <block wx:if="{{item.isMapping==0}}">
-                                                <van-switch 
-                                                    class="btn" 
-                                                    checked="{{ false }}" 
-                                                    active-color="green" 
-                                                    inactive-color="#e7e7e7" 
-                                                    size="24px" />
-                                            </block> */}
-                                            {/* 开关 */}
-                                            <Switch
-                                                value={item.switch == 1}
-                                                style={styles.btn}
-                                                color={'#1989fa'}/>
-                                        </View>
-                                    )
-                                })}
-                                {this.state.dateShow?
-                                    <DateTimePicker 
-                                    display="calendar" 
-                                    value={new Date()} 
-                                    mode={'date'} 
-                                    minimumDate={new Date(1950, 0, 1)}
-                                    onChange={(Date)=>this.onChange(Date)}
-                                    />
-                                    :''
-                                }
-                            </View>
+                                    {/* 传感器信息行 */}
+                                    {top_item.sensorList.length==0?
+                                        <Text>暂无数据</Text>:''
+                                    }
+                                    {top_item.sensorList.map((item:any,index:number)=>{
+                                        return(
+                                            <View style={[styles.sensor,styles.tr]} key={index}>
+                                                <Text style={styles.sensorName}>{item.sensorname}</Text>
+                                                {item.isMapping == 1?
+                                                    <Text style={styles.sensorVal}>{item.sorVal}</Text>:
+                                                    <Switch
+                                                    value={item.switch == 1}
+                                                    style={styles.btn}
+                                                    color={'#1989fa'}/>
+                                                }
+                                            </View>
+                                        )
+                                    })}
+                                    {this.state.dateShow?
+                                        <DateTimePicker 
+                                        display="calendar" 
+                                        value={new Date()} 
+                                        mode={'date'} 
+                                        minimumDate={new Date(1950, 0, 1)}
+                                        onChange={(Date)=>this.onChange(Date)}
+                                        />
+                                        :''
+                                    }
+                                </Shadow>
                             )
                         })}
                     </View>
@@ -356,18 +350,18 @@ const styles = StyleSheet.create({
     },
     containerMini:{
         display:'flex',
-        alignItems:'center'
+        alignItems:'center',
+        marginTop:12,
     },
     indexMini :{
         position: 'relative',
-        width: '93%',
+        width: Dimensions.get('window').width-30,
         backgroundColor: '#fff',
         borderRadius: 7,
         display:'flex',
         alignItems:'center',
         opacity: 1,
         marginBottom:11,
-        marginTop:12,
         fontSize: 18,
         height: 268,
 
@@ -425,7 +419,7 @@ const styles = StyleSheet.create({
     },
     sensorVal:{
         position: 'absolute',
-        right: 14,
+        right: 34,
         top: 15,
     },
     btn:{

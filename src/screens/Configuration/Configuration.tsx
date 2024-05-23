@@ -458,8 +458,10 @@ const styles = StyleSheet.create({
     display:'flex',
     flexDirection:'row',
     flexWrap:'wrap',
-    justifyContent:'space-around',
+    justifyContent:'space-between',
     paddingTop: 5,
+    paddingRight: 5,
+    paddingLeft: 5,
   },
   rowR: {
     marginBottom: 10,
