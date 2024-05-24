@@ -1,8 +1,20 @@
-import { StyleSheet, View, Image, TextInput, Pressable, Text, ScrollView, Animated, PermissionsAndroid, AppState, Linking, Dimensions } from 'react-native'
+import {
+    StyleSheet,
+    View,
+    Image,
+    TextInput,
+    Pressable,
+    Text,
+    ScrollView,
+    Animated,
+    Dimensions,
+    Platform,
+} from 'react-native'
 import React, { Component } from 'react'
 import Geolocation from '@react-native-community/geolocation';//获取定位
-import { Camera,  useCameraDevice, useCodeScanner} from "react-native-vision-camera"//二维码
+import { Camera, useCameraDevice, useCodeScanner} from "react-native-vision-camera"//二维码
 import { launchImageLibrary } from 'react-native-image-picker';//图片选择器
+import { PERMISSIONS, openSettings, request} from 'react-native-permissions'
 import Navbars from '../../component/Navbars/Navbars';
 import { Dialog } from '@rneui/themed';
 import Loading from '../../component/Loading/Loading';
@@ -200,41 +212,48 @@ export class Scanqr extends Component<any,any> {
         let that = this
         async function requestLocationPermission() {
             try {
-              const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION);
-              if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-                console.log('位置权限已授权');
-                // //获取当前经纬度
-                Geolocation.getCurrentPosition(
-                    (position) => {
-                        let location = CTSD.wgs84tobd09(Number(position.coords.longitude),Number(position.coords.latitude))
-                        that.setState({
-                            userLatitude: location[1],
-                            userLongitude: location[0],
-                        })
-                    },
-                    (error) => {
-                        // 弹窗提示
-                        that.setState({
-                            msgType: 2,
-                            visible: true,
-                            LoadingMsg: '获取定位失败，请检查手机是否打开位置信息'
-                        },()=>{
-                            setTimeout(()=>{
-                                that.setState({
-                                    visible: false,
-                                })
-                            },3000)
-                        })
-                    },
-                );
-              } else {
-                console.log('位置权限被拒绝');
-              }
+                let permission;
+                if(Platform.OS === 'android'){
+                    permission = PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION;
+                }else{
+                    permission = PERMISSIONS.IOS.LOCATION_WHEN_IN_USE;
+                }
+                const result = await request(permission);
+                if( result === 'granted'){
+                    console.log('位置权限已授权');
+                    // //获取当前经纬度
+                    Geolocation.getCurrentPosition(
+                        (position) => {
+                            let location = CTSD.wgs84tobd09(Number(position.coords.longitude),Number(position.coords.latitude))
+                            that.setState({
+                                userLatitude: location[1],
+                                userLongitude: location[0],
+                            })
+                        },
+                        (error) => {
+                            // 弹窗提示
+                            that.setState({
+                                msgType: 2,
+                                visible: true,
+                                LoadingMsg: '获取定位失败，请检查手机是否打开位置信息'
+                            },()=>{
+                                setTimeout(()=>{
+                                    that.setState({
+                                        visible: false,
+                                    })
+                                },3000)
+                            })
+                        },
+                    );
+                }else{
+                    console.log('位置权限被拒绝');
+                }
             } catch (err) {
                 console.log(err);
             }
           }
         requestLocationPermission()
+        
     }
 
     _mapMenu=()=>{
@@ -491,24 +510,39 @@ export class Scanqr extends Component<any,any> {
     // 打开摄像头扫描
     openCamera = async ()=>{
         let that = this
-        async function onAuth(){
-            const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA);
-            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-                console.log('权限已开启');
-                that.setState({
-                    camera: true
-                })
-            } else {
-                // 拒绝后弹窗提示
-                that.setState({
-                    power: true
-                })
+        async function requestCameraPermission() {
+            try {
+                // 根据平台选择对应的权限常量
+                let permission;
+                if (Platform.OS === 'android') {
+                    permission = PERMISSIONS.ANDROID.CAMERA;
+                } else {
+                    permission = PERMISSIONS.IOS.CAMERA;
+                }
+            
+                const result = await request(permission);
+            
+                if (result === 'granted') {
+                    console.log('Camera permission granted');
+                    // 权限被授予，打开摄像头
+                    that.setState({
+                        camera: true
+                    })
+                } else {
+                    console.log('Camera permission denied');
+                    // 权限被拒绝,弹出提示窗
+                    that.setState({
+                        power: true
+                    })
+                }
+            } catch (error) {
+              console.warn('Error requesting camera permission:', error);
             }
         }
-        onAuth()
+        requestCameraPermission()
     }
     install=()=>{
-        Linking.openSettings()
+        openSettings().catch(() => console.warn('cannot open settings'))
         this.setState({
             power: false
         })
@@ -717,7 +751,7 @@ export class Scanqr extends Component<any,any> {
                         <Pressable style={styles.scanCode} onPress={this.openCamera}>
                             <Image style={styles.img} source={require('../../image/scanCode.png')}></Image>
                         </Pressable>
-                        {/* 摄像头权限拒绝后询问 */}
+                        {/* 摄像头权限拒绝后询问弹窗 */}
                         <Dialog
                             isVisible={this.state.power}
                             backdropStyle={{height:'120%'}}

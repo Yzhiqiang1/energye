@@ -1,4 +1,4 @@
-package com.energyes
+package io.energye.io
 import com.oblador.vectoricons.VectorIconsPackage;
 import android.app.Application
 import com.facebook.react.PackageList

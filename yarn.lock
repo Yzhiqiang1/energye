@@ -6660,6 +6660,11 @@ react-native-paper@^5.12.3:
     color "^3.1.2"
     use-latest-callback "^0.1.5"
 
+react-native-permissions@^4.1.5:
+  version "4.1.5"
+  resolved "https://registry.npmmirror.com/react-native-permissions/-/react-native-permissions-4.1.5.tgz#db4d1ddbf076570043f4fd4168f54bb6020aec92"
+  integrity sha512-r6VMRacASmtRHS+GZ+5HQCp9p9kiE+UU9magHOZCXZLTJitdTuVHWZRrb4v4oqZGU+zAp3mZhTQftuMMv+WLUg==
+
 react-native-picker-select@^9.1.3:
   version "9.1.3"
   resolved "https://registry.npmmirror.com/react-native-picker-select/-/react-native-picker-select-9.1.3.tgz"

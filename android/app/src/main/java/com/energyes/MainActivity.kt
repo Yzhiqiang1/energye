@@ -1,4 +1,4 @@
-package com.energyes
+package io.energye.io
 import android.os.Bundle
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate
