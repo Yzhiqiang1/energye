@@ -326,7 +326,6 @@ export class Security3 extends Component<any,any> {
                                                     appkey: top_item.appkey,
                                                     secret: top_item.secret,
                                             })}}>
-                                              {/* url="/pages_video/playback/playback?sensorName={{top_item.name}}&accessToken={{top_item.accesstoken}}&deviceSerial={{top_item.deviceSerial}}&channelNo={{top_item.channelNo}}&appkey={{top_item.appkey}}&secret={{top_item.secret}}" */}
                                                 <View style={styles.ico}>
                                                 </View>
                                                 <Text style={styles.name}>
@@ -345,14 +344,16 @@ export class Security3 extends Component<any,any> {
                                                     <View style={styles.Video}>
                                                       {top_item.value?
                                                         <VideoPlayer
+                                                        resizeMode="cover"
                                                         style={styles.Video}
                                                         source={{ uri: top_item.value}}
                                                         onBuffer={(data:any)=>this.onBuffer(data)}
-                                                        disableVolume= {true}
-                                                        disableBack= {true}
+                                                        disableVolume={true}
+                                                        disableBack={true}
+                                                        disableFullscreen={true}
                                                         >
-                                                        </VideoPlayer>:''
-                                                      }
+                                                        </VideoPlayer>
+                                                      :''} 
                                                       {top_item.value == ''?
                                                         <Text style={styles.videoNone}>小程序仅支持直播地址HLS</Text>:''
                                                       }
@@ -377,11 +378,11 @@ export class Security3 extends Component<any,any> {
                     :''}
                     
                     {/* 加载所有数据文字提示 */}
-                    {/* {this.state.isPage_test?
+                    {this.state.isPage_test?
                       <Text style={styles.isPageTxt} onPress={()=>console.log(this.state.isPage_test)}>
                           已加载所有数据
                       </Text>:''
-                    } */}
+                    }
                 </View>
                 {/* 弹窗效果组件 */}
                 <Loading 
@@ -551,9 +552,9 @@ const styles = StyleSheet.create({
         height:10,
         borderRadius: 5,
         borderWidth: 1,
-        borderColor: '#777777',
+        borderColor: '#2b92d4',
         borderStyle: 'solid',
-        backgroundColor: '#888888'
+        backgroundColor: '#63bff8'
       },
       offLinevalue:{
         color: '#92938b',
@@ -588,33 +589,8 @@ const styles = StyleSheet.create({
         position: 'relative',
         width: 16,
         height: 16,
-        // border: 1px rgb(255, 255, 255) solid,
-        // borderRadius: '50%',
-        // animation: rotation infinite 1s linear,
-        // margin: 20rpx auto,
       },
-    //   .isPageLoad .load:after :{
-    //       top: 2rpx,
-    //       left: 2rpx,
-    //       width: 10rpx,
-    //       height: 10rpx,
-    //       background-color: rgb(255, 255, 255),
-    //       border-radius: 100%,
-    //       position: absolute,
-    //       content: "",
-    //   }
-    //   @keyframes rotation :{
-    //       0% :{
-    //       transform:rotate(0deg)
-    //     }
-    //     100% :{
-    //       transform:rotate(360deg)
-    //     }
-    //   }
-      /** 数据下发 **/
-    //   .van-dialog__header:{
-    //     padding: 15px 0 !important,
-    //   },
+   
       LowerInput:{
         position: 'relative',
         width: '100%',
@@ -623,8 +599,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#333',
         color: '#fff',
         padding: 10,
-        // box-sizing: border-box,
-        // resize: none,
       },
       videoNone:{
         position: 'absolute',
