@@ -825,8 +825,8 @@ export class Playback extends Component<any,any> {
                     {this.state.videoSrc && this.state.Internet?
                         <Video
                             ref={(ref: any) => {livePlayerContext = ref}}
-                            // source={{ uri: this.state.videoSrc }}
-                            source={{ uri: 'http://devimages.apple.com/iphone/samples/bipbop/gear1/prog_index.m3u8'}}
+                            source={{ uri: this.state.videoSrc }}
+                            // source={{ uri: 'http://devimages.apple.com/iphone/samples/bipbop/gear1/prog_index.m3u8'}}
                             style={{position: 'absolute', width: '100%', height: '100%',zIndex:99}}
                             resizeMode="cover"
                             paused={!this.state.playVideo}

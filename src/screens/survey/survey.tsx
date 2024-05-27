@@ -356,7 +356,7 @@ export class Survey extends Component<any,any> {
         {/* 内容区 */}
         <ScrollView style={styleg.container}>
              <View style={styles.list}>
-                <Text style={styles.title}>环比(单位：kW·h)</Text>
+                <Text  style={[styles.title]}>环比(单位：kW·h)</Text>
                 <View style={styles.con}>
                     <View style={styles.row}>
                         <View style={[styles.row33,styles.pl]}>
@@ -548,8 +548,10 @@ const styles  = StyleSheet.create({
   title:{
     position: 'relative',
     width: '100%',
-    height: 20,
-    lineHeight: 25,
+    height: 30,
+    lineHeight: 30,
+    textAlignVertical: 'center',
+    padding: 0,
     borderLeftWidth: 2,
     borderStyle:'solid',
     borderColor:'#313131',

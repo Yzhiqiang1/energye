@@ -1100,7 +1100,6 @@ export class PowerTest4 extends Component<any,any> {
                   <Text style={styles.empty}>暂无数据</Text>:""
                 }
                 {this.state.optionData.map((data:any,index:any)=>{
-                    console.log(data)
                   return(
                     data.state==true?
                       <View key={index} style={styles.item}>
@@ -1148,7 +1147,8 @@ const styles = StyleSheet.create({
         position: 'relative',
         width: 'auto',
         height: 30,
-        lineHeight: 34,
+        lineHeight: 30,
+        textAlignVertical: 'center',
         paddingLeft: 12,
         paddingRight: 12,
         fontSize: 18,

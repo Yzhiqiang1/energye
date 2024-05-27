@@ -389,7 +389,8 @@ export class Picker extends Component<any,any> {
 const styles = StyleSheet.create({
     text:{
         height: 30,
-        lineHeight: 35,
+        lineHeight: 30,
+        textAlignVertical: 'center',
         fontSize: 18,
         borderStyle: 'solid',
         borderWidth: 1,

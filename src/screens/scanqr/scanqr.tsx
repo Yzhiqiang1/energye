@@ -28,7 +28,9 @@ const CTSD = require('../../utils/CTSD.js'); //引入坐标转换文件
 const api = require('../../utils/api')//引入接口文件
 import { MapView, Overlay, BaiduMapManager } from 'react-native-baidu-map'
 BaiduMapManager.initSDK('sIMQlfmOXhQmPLF1QMh4aBp8zZO9Lb2A');//ios 使用 BaiduMapManager.initSDK 方法设置 api key(百度地图)
-// 扫码组件
+/****
+    扫码组件 
+****/
 function MyComponent(props: any) {
     const device = useCameraDevice('back');
     const isFocused = useIsFocused()
@@ -167,8 +169,7 @@ export class Scanqr extends Component<any,any> {
              * **/
             if (res) {
                 let userId = store.getState().userReducer.userId; //用户ID
-                /**
-                 * 
+                /** * 
                  * 登录后  之前没有存储参数
                  * **/
                 if (store.getState().userReducer.scene.length == 0) {
@@ -524,7 +525,7 @@ export class Scanqr extends Component<any,any> {
             
                 if (result === 'granted') {
                     console.log('Camera permission granted');
-                    // 权限被授予，打开摄像头
+                    // 权限被授予，打开摄像头组件
                     that.setState({
                         camera: true
                     })
@@ -953,7 +954,8 @@ const styles = StyleSheet.create({
     text:{
         marginLeft: 10,
         height: 40,
-        lineHeight: 45,
+        lineHeight: 40,
+        textAlignVertical: 'center',
         fontWeight: '700',
         fontSize: 18,
     },
@@ -1086,7 +1088,8 @@ const styles = StyleSheet.create({
     },
     bottomBut:{
         height: 60,
-        lineHeight: 70,
+        lineHeight: 60,
+        textAlignVertical: 'center',
         flex:1,
         textAlign:'center',
         fontSize: 22,

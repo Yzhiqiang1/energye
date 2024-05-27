@@ -415,19 +415,6 @@ export class PowerAnalysis6 extends Component<any,any> {
 }
 
 const styles = StyleSheet.create({
-    choice_date:{
-        position: 'relative',
-        width: '100%',
-        height: 30,
-        lineHeight: 30,
-        // padding: 0 20rpx,
-        fontSize: 18,
-        color: '#666666',
-        // border: 1px solid #d9d9d9,
-        borderRadius: 5,
-        paddingRight: 25,
-        overflow: 'hidden',
-    },
     ico:{
         position: 'absolute',
         top: 7,
@@ -469,7 +456,8 @@ const styles = StyleSheet.create({
         position: 'relative',
         width: 'auto',
         height: 30,
-        lineHeight: 34,
+        lineHeight: 30,
+        textAlignVertical: 'center',
         paddingLeft: 12,
         paddingRight: 12,
         fontSize: 18,
@@ -509,7 +497,8 @@ const styles = StyleSheet.create({
     },
     nameText:{
         height: 40,
-        lineHeight: 45,
+        lineHeight: 40,
+        textAlignVertical: 'center',
         fontSize: 18,
         textAlign: 'center',
     },
@@ -540,7 +529,8 @@ const styles = StyleSheet.create({
     text:{
         position: 'relative',
         height: 30,
-        lineHeight: 35,
+        lineHeight: 30,
+        textAlignVertical: 'center',
         paddingRight: 5,
         fontSize: 16,
         color: '#666666',

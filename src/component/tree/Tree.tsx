@@ -197,14 +197,15 @@ const styles = StyleSheet.create({
 
     treeItemName:{
         height: 26,
-        
     },
     name:{
         fontSize: 14,
         paddingRight: 5,
         paddingLeft: 5,
         color: '#333',
-        lineHeight: 30,
+        lineHeight: 26,
+        height: 26,
+        textAlignVertical: 'center'
     },
 
 })

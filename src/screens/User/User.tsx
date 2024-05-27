@@ -208,7 +208,8 @@ const styles = StyleSheet.create({
   },
   navName:{
     height:60,
-    lineHeight:75,
+    lineHeight:60,
+    textAlignVertical: 'center',
     textAlign:'center',
     fontSize:20,
     color:'#fff'
@@ -280,7 +281,8 @@ const styles = StyleSheet.create({
     position: 'relative',
     width: '70%',
     height: 40,
-    lineHeight: 45,
+    lineHeight: 40,
+    textAlignVertical: 'center',
     textAlign: 'center',
     fontSize: 18,
     color: '#fff',

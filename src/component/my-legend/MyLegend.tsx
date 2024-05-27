@@ -274,12 +274,13 @@ const styles = StyleSheet.create({
     button:{
         width: 70,
         height: 40,
+        lineHeight: 40,
+        textAlignVertical: 'center',
         color: '#fff',
         backgroundColor: '#07c160',
         borderRadius: 5,
         fontSize: 18,
         textAlign: 'center',
-        lineHeight: 45
     },
     checkbox:{
         fontWeight: 'bold',

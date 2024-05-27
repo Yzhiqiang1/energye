@@ -295,7 +295,8 @@ const styles = StyleSheet.create({
   },
   navName:{
     height:60,
-    lineHeight:75,
+    lineHeight:60,
+    textAlignVertical: 'center',
     textAlign:'center',
     fontSize:20,
     color:'#fff'
@@ -368,8 +369,10 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   searchT:{
+    height: 35,
     textAlign: 'center',
-    lineHeight: 45,
+    lineHeight: 35,
+    textAlignVertical: 'center',
     color:'#fff',
     fontSize: 16,
   },
@@ -412,9 +415,11 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   Spot: {
+    height: 30,
     color: '#333',
     fontSize: 14,
-    lineHeight: 35,
+    lineHeight: 30,
+    textAlignVertical: 'center',
   },
   numberSpot1:{
     position:'absolute',

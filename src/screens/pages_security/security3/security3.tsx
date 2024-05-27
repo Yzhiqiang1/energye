@@ -447,7 +447,8 @@ const styles = StyleSheet.create({
       name:{
         width: '100%',
         height: 40,
-        lineHeight: 45,
+        lineHeight: 40,
+        textAlignVertical: 'center',
         fontSize: 16,
         color: '#333',
         verticalAlign: 'middle',
@@ -595,7 +596,6 @@ const styles = StyleSheet.create({
         position: 'relative',
         width: '100%',
         height: 180,
-        // border: 0,
         backgroundColor: '#333',
         color: '#fff',
         padding: 10,

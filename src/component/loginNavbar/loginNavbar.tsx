@@ -53,7 +53,8 @@ const styles = StyleSheet.create({
       },
       navName:{
         height:60,
-        lineHeight:75,
+        lineHeight:60,
+        textAlignVertical: 'center',
         textAlign:'center',
         fontSize:20,
         color:'#fff'

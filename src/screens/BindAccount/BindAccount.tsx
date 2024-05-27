@@ -157,7 +157,8 @@ const styles = StyleSheet.create({
       },
       navName:{
         height:60,
-        lineHeight:75,
+        lineHeight:60,
+        textAlignVertical: 'center',
         textAlign:'center',
         fontSize:20,
         color:'#fff'
@@ -252,12 +253,16 @@ const styles = StyleSheet.create({
         padding: 0,
     },
     buttonL:{
-        lineHeight: 50,
+        height: 40,
+        lineHeight: 40,
+        textAlignVertical: 'center',
         textAlign: 'center',
         fontSize:18,
     },
     buttonR:{
-        lineHeight: 50,
+        height: 40,
+        lineHeight: 40,
+        textAlignVertical: 'center',
         textAlign: 'center',
         fontSize:18,
         backgroundColor:'#2EA4FF',
