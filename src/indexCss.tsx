@@ -1,5 +1,5 @@
 import { Dimensions, PixelRatio, StyleSheet } from 'react-native'
-const ht = Dimensions.get('window').height*PixelRatio.getFontScale()
+const ht = Dimensions.get('window').height*PixelRatio.getFontScale()//屏幕高度
 const height = Dimensions.get('window').height-ht/9//屏幕显示区域高度
 const styleg = StyleSheet.create({
     containerMax:{

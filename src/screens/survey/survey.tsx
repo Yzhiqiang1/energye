@@ -11,6 +11,7 @@ import MyCanvas from '../../component/my-canvas/MyCanvas'
 import Loading from '../../component/Loading/Loading'
 const api = require('../../utils/api')
 const Fs = Dimensions.get('window').width*PixelRatio.getFontScale()
+let cs: any
 
 export class Survey extends Component<any,any> {
   constructor(props:any){
@@ -38,6 +39,8 @@ export class Survey extends Component<any,any> {
     }
   }
   componentDidMount(): void {
+    console.log(Dimensions.get('window').height);
+    
     Register.userSignIn(false).then(res => {
       //校验登录成功后执行
       if (res == true) {
@@ -172,7 +175,6 @@ export class Survey extends Component<any,any> {
             userId: userId,
             ids: ids,
         }).then((res:any) => {
-          console.log(res);
             if (res.flag == "00") {
                 //传感器数据
                 let times = res.data.times;
@@ -300,7 +302,6 @@ export class Survey extends Component<any,any> {
                   visible: false,
                 })
                 console.log(this.state.optionData_2);
-                
             })
         } else {
             //关闭加载效果
@@ -339,10 +340,15 @@ export class Survey extends Component<any,any> {
         })
     });
   }
-
+  SC =()=>{
+      cs.measure((x: any, y: any,width:any, height:any )=>{
+        console.log(x,y);
+        console.log(width,height);
+      })
+  }
   render() {
     return (
-      <SafeAreaView style={{flex: 1}}>
+      <SafeAreaView style={{flex: 1,width:'100%',height:'100%',}} ref={(ref)=>{cs=ref}}>
          {/* 引入自定义导航栏 */}
         <Navbar 
             pageName={"用能概况"}
@@ -357,7 +363,7 @@ export class Survey extends Component<any,any> {
         {/* 内容区 */}
         <ScrollView style={styleg.container}>
              <View style={styles.list}>
-                <Text  style={[styles.title]}>环比(单位：kW·h)</Text>
+                <Text  style={[styles.title]} onPress={this.SC}>环比(单位：kW·h)</Text>
                 <View style={styles.con}>
                     <View style={styles.row}>
                         <View style={[styles.row33,styles.pl]}>

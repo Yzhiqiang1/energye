@@ -187,6 +187,10 @@ export class Scanqr extends Component<any,any> {
             //地图marker标注点实际经纬度
             sign_lat: 22.614101, //维度
             sign_lng: 113.850261, //经度
+            LOCAT:{
+                latitude: 22.614101, //维度
+                longitude: 113.850261, //经度  
+            },
 
             //搜索框
             positionVal: '',
@@ -802,7 +806,7 @@ export class Scanqr extends Component<any,any> {
                             center={{ longitude: this.state.longitude, latitude: this.state.latitude }}
                             showsUserLocation={true}
                             locationData={{ longitude: this.state.userLongitude, latitude: this.state.userLatitude }}
-                            zoom={12}
+                            zoom={18}
                             onMapClick={this._view}
                             onMapLoaded={this.onLoad}
                         >
