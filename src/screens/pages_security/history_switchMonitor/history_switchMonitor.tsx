@@ -1,4 +1,4 @@
-import { ScrollView, ScrollViewBase, StyleSheet, Text, View } from 'react-native'
+import { Dimensions, PixelRatio, SafeAreaView, ScrollView, ScrollViewBase, StyleSheet, Text, View } from 'react-native'
 import React, { Component } from 'react'
 import styleg from '../../../indexCss'
 import MyCanvas from '../../../component/my-canvas/MyCanvas'
@@ -9,6 +9,7 @@ import Loading from '../../../component/Loading/Loading'
 import Navbars from '../../../component/Navbars/Navbars'
 import Picker from '../../../component/Picker/Picker'
 const api = require('../../../utils/api')
+const Fs = Dimensions.get('window').width*PixelRatio.getFontScale()
 
 export class History_switchMonitor extends Component<any,any> {
     constructor(props:any){
@@ -174,7 +175,7 @@ export class History_switchMonitor extends Component<any,any> {
     }
     render() {
         return (
-            <View>
+            <SafeAreaView style={{flex: 1}}>
                 <Navbars
                 name={'历史记录'}
                 showBack={true}
@@ -182,7 +183,7 @@ export class History_switchMonitor extends Component<any,any> {
                 props={this.props}
                 ></Navbars>
                 {/* 内容区 */}
-                <View style={styleg.container}>
+                <View style={styleg.container10}>
                     <View style={styles.query_head}>
                         <View style={styles.flex}>
                             <Picker
@@ -233,7 +234,7 @@ export class History_switchMonitor extends Component<any,any> {
                     visible={this.state.visible} 
                     LoadingMsg={this.state.LoadingMsg}>
                 </Loading>
-            </View>
+            </SafeAreaView>
         )
     }
 }
@@ -259,7 +260,7 @@ const styles = StyleSheet.create({
         textAlignVertical: 'center',
         paddingLeft: 12,
         paddingRight: 12,
-        fontSize: 16,
+        fontSize: Fs/20,
         color: '#666666',
         borderStyle: 'solid',
         borderWidth: 1,
@@ -282,7 +283,7 @@ const styles = StyleSheet.create({
         lineHeight: 30,
         paddingLeft: 10,
         paddingRight: 10,
-        fontSize: 16,
+        fontSize: Fs/20,
         color: '#666666',
         overflow: 'hidden',
     },
@@ -318,7 +319,7 @@ const styles = StyleSheet.create({
         height: 40,
         lineHeight: 40,
         textAlignVertical: 'center',
-        fontSize: 18,
+        fontSize: Fs/18,
         fontWeight: '600',
         textAlign: 'center',
         borderStyle: 'solid',
@@ -334,11 +335,10 @@ const styles = StyleSheet.create({
     empty:{
         position: 'relative',
         width: '100%',
-        // padding: 50rpx 0,
         paddingTop:25,
         paddingBottom:25,
         textAlign: 'center',
-        fontSize: 18,
+        fontSize: Fs/18,
         color: '#999999',
         overflow: 'hidden',
     },

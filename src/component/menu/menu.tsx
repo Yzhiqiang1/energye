@@ -1,7 +1,8 @@
-import { Text, View, Image, TouchableOpacity } from 'react-native'
+import { Text, View, Image, TouchableOpacity, Dimensions, PixelRatio} from 'react-native'
 import React, { Component } from 'react'
 import { StyleSheet } from 'react-native'
-
+const Fs = Dimensions.get('window').width*PixelRatio.getFontScale()
+const ht = Dimensions.get('window').height*PixelRatio.getFontScale()
 
 export class Menu extends Component<any,any> {
     constructor(props:any){
@@ -68,7 +69,7 @@ const styles = StyleSheet.create({
         bottom: 0,
         left: 0,
         width: '100%',
-        height: 75,
+        height: ht/8,
         paddingBottom: 10,
         backgroundColor: '#fff',
         display: 'flex',
@@ -78,7 +79,7 @@ const styles = StyleSheet.create({
         overflow: 'hidden',
         borderTopColor: '#f4f4f4',
         borderStyle:'solid',
-        borderTopWidth:1,
+        borderTopWidth: 2,
     },
     urlFlex:{
         flex: 1,
@@ -99,7 +100,7 @@ const styles = StyleSheet.create({
         width: '100%',
         textAlign: 'center',
         color: '#707070',
-        fontSize: 18,
+        fontSize: Fs/18,
     },
     txtBarSe:{
         color: '#00b4e6'

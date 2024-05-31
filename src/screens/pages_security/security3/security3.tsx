@@ -1,4 +1,4 @@
-import { ActivityIndicator, Pressable, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, Dimensions, PixelRatio, Pressable, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import React, { Component } from 'react'
 import Navbar from '../../../component/navbar/navbar'
 import styleg from '../../../indexCss'
@@ -8,6 +8,8 @@ import { HttpService } from '../../../utils/http'
 import Loading from '../../../component/Loading/Loading'
 import VideoPlayer from 'react-native-video-controls';
 const api = require('../../../utils/api')
+const Fs = Dimensions.get('window').width*PixelRatio.getFontScale()
+
 export class Security3 extends Component<any,any> {
     constructor(props:any){
         super(props)
@@ -31,7 +33,7 @@ export class Security3 extends Component<any,any> {
             pageCount: 0, //总页数
             scroll_is: true, //是否允许滚动
             isPage_Load: true, //下拉加载效果
-            isPage_test: true, //是否请求文字提示
+            isPage_test: false, //是否请求文字提示
 
             //是否启用实时数据
             socketTask: true, //默认启用
@@ -292,7 +294,7 @@ export class Security3 extends Component<any,any> {
     }
     render() {
         return (
-            <View>
+            <SafeAreaView style={{flex: 1}}>
                 {/* 引入自定义导航栏 */}
                 <Navbar 
                     pageName={'摄像头'}
@@ -390,7 +392,7 @@ export class Security3 extends Component<any,any> {
                     visible={this.state.visible} 
                     LoadingMsg={this.state.LoadingMsg}>
                 </Loading>
-            </View>
+            </SafeAreaView>
         )
     }
 }
@@ -449,7 +451,7 @@ const styles = StyleSheet.create({
         height: 40,
         lineHeight: 40,
         textAlignVertical: 'center',
-        fontSize: 16,
+        fontSize: Fs/20,
         color: '#333',
         verticalAlign: 'middle',
         overflow: 'hidden',
@@ -496,7 +498,7 @@ const styles = StyleSheet.create({
         paddingTop: 10
       },
       value:{
-        fontSize: 22,
+        fontSize: Fs/14,
         color: '#333',
         textAlign: 'center',
         // text-overflow:ellipsis,
@@ -506,11 +508,8 @@ const styles = StyleSheet.create({
       img:{
         width: '100%',
       },
-      minValue:{
-        fontSize: 26,
-      },
       unit:{
-        fontSize: 18,
+        fontSize: Fs/18,
         color: 'red',
       },
       video:{
@@ -520,14 +519,14 @@ const styles = StyleSheet.create({
       },
       videoErr:{
         color:' red',
-        fontSize: 16,
+        fontSize: Fs/20,
       },
       itemTime:{
         position: 'relative',
         width: '100%',
         lineHeight: 15,
         textAlign: 'center',
-        fontSize: 16,
+        fontSize: Fs/20,
         color:' rgb(255, 255, 255)',
         marginTop: 5,
         overflow: 'hidden',
@@ -566,7 +565,7 @@ const styles = StyleSheet.create({
         height: 50,
         lineHeight: 50,
         textAlign: 'center',
-        fontSize: 16,
+        fontSize: Fs/20,
         color: 'rgb(255, 255, 255)',
         overflow: 'hidden',
       },
@@ -577,7 +576,7 @@ const styles = StyleSheet.create({
         height: 40,
         lineHeight: 40,
         textAlign: 'center',
-        fontSize: 16,
+        fontSize: Fs/20,
         color: 'rgb(255, 255, 255)',
         overflow: 'hidden',
       },
@@ -607,7 +606,7 @@ const styles = StyleSheet.create({
         width: '100%',
         textAlign: 'center',
         color: '#f2f2f2',
-        fontSize: 12,
+        fontSize: Fs/22,
         zIndex: 99999,
       },
       empty:{

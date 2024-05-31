@@ -9,12 +9,16 @@ import {
     Animated,
     Dimensions,
     Platform,
+    PixelRatio,
+    SafeAreaView,
 } from 'react-native'
-import React, { Component } from 'react'
+import React, { Component, useEffect } from 'react'
 import Geolocation from '@react-native-community/geolocation';//获取定位
-import { Camera, useCameraDevice, useCodeScanner} from "react-native-vision-camera"//二维码
+import { Camera, useCameraDevice, useCodeScanner} from "react-native-vision-camera"//摄像头扫码
 import { launchImageLibrary } from 'react-native-image-picker';//图片选择器
 import { PERMISSIONS, openSettings, request} from 'react-native-permissions'
+import LinearGradient from 'react-native-linear-gradient';
+
 import Navbars from '../../component/Navbars/Navbars';
 import { Dialog } from '@rneui/themed';
 import Loading from '../../component/Loading/Loading';
@@ -27,11 +31,16 @@ const LocalBarcodeRecognizer = require('react-native-local-barcode-recognizer');
 const CTSD = require('../../utils/CTSD.js'); //引入坐标转换文件
 const api = require('../../utils/api')//引入接口文件
 import { MapView, Overlay, BaiduMapManager } from 'react-native-baidu-map'
-BaiduMapManager.initSDK('sIMQlfmOXhQmPLF1QMh4aBp8zZO9Lb2A');//ios 使用 BaiduMapManager.initSDK 方法设置 api key(百度地图)
+BaiduMapManager.initSDK('acZPZPjtmwZVe9RJ2fz3KzNDEGnV3Pp8');//ios 使用 BaiduMapManager.initSDK 方法设置 api key(百度地图)
+
+const Fs = Dimensions.get('window').width*PixelRatio.getFontScale()
+const ht = Dimensions.get('window').height*PixelRatio.getFontScale()
 /****
     扫码组件 
 ****/
 function MyComponent(props: any) {
+    let translateY1 = new Animated.Value(0)
+    let fadeAnim = new Animated.Value(0)
     const device = useCameraDevice('back');
     const isFocused = useIsFocused()
     const codeScanner = useCodeScanner({
@@ -71,25 +80,88 @@ function MyComponent(props: any) {
         props.scanCode(result)
     }
 
+    useEffect(() => {
+        //扫码条向下平移
+        const shiftDown = Animated.timing(translateY1,
+            {
+                toValue: Dimensions.get('window').height/2.5,
+                duration: 2400,
+                useNativeDriver: true
+            }
+        )
+        //淡入淡出效果
+        const fadeIn = Animated.timing(fadeAnim,
+            {
+                toValue: 1,
+                duration: 400,
+                useNativeDriver: true
+            }
+        )
+        //保持不透明1.6秒让总时长跟平移动画保持一致
+        const maintain = Animated.timing(fadeAnim,
+            {
+                toValue: 1,
+                duration: 1600,
+                useNativeDriver: true
+            }
+        )
+        const fadeOut = Animated.timing(fadeAnim,
+            {
+                toValue: 0,
+                duration: 400,
+                useNativeDriver: true
+            }
+        )
+        //组合淡入淡出动画按顺序进行
+        const dissolvingEffect = Animated.sequence([fadeIn,maintain,fadeOut])
+        //循坏
+        const ScanningStrip = Animated.loop(
+            //组合动画同时进行
+            Animated.parallel([shiftDown, dissolvingEffect])
+        )
+        //开始动画
+        ScanningStrip.start()
+
+        return () => {
+            // 关闭循环
+            ScanningStrip.stop()
+        }
+    }, []);
 
     if (device == null) return <View></View>
-    return <View style={{position:'relative',height: '100%', width: '100%', }}>
-        <Pressable style={styles.icon} onPress={()=>props.close()}>
-            <Image style={styles.image} source={require('../../image/gb.png')}></Image>
-        </Pressable>
-        <Pressable style={styles.xc} onPress={()=>choosePic()}>
-            <Image style={styles.image} source={require('../../image/xc.png')}></Image>
-        </Pressable>
-        <Camera
-            photo={false}
-            video={false}
-            isActive={isFocused}
-            style={{zIndex: 9999, height: '100%', width: '100%', }}
-            onError={(error) => {
-                console.error(error)
-            }}
-            device={device} codeScanner={codeScanner} />
-    </View>
+    return <View style={styles.cameraBox}>
+                <Camera
+                photo={false}
+                video={false}
+                isActive={isFocused}
+                style={{zIndex: 9999, height: '100%', width: '100%', }}
+                onError={(error) => {
+                    console.error(error)
+                }}
+                device={device}
+                codeScanner={codeScanner} 
+                />
+                {/* 扫描条 */}
+                <Animated.View style={[styles.scanBox,{transform:[{translateY: translateY1}],opacity: fadeAnim}]}>
+                    <LinearGradient colors={['rgba(0, 172, 84, 0.1)','rgba(0, 172, 84, 0.3)', 'rgba(0, 172, 84, 0.8)']}
+                    style={styles.ScanningStrip}>
+                    </LinearGradient>
+                </Animated.View>
+                {/* 关闭 */}
+                <Pressable style={styles.icon} onPress={()=>props.close()}>
+                    <Image style={styles.image} source={require('../../image/gb.png')}></Image>
+                </Pressable>
+                 {/* 从相册选取照片 */}
+                <Pressable style={styles.xc} onPress={()=>choosePic()}>
+                    <Image style={styles.image} source={require('../../image/xc.png')}></Image>
+                </Pressable>
+
+                <Animated.View>
+                    <LinearGradient colors={['rgba(0, 172, 84, 0.1)','rgba(0, 172, 84, 0.3)', 'rgba(0, 172, 84, 0.8)']}
+                    style={styles.ScanningStrip}>
+                    </LinearGradient>
+                </Animated.View>
+            </View>
 }
 
 export class Scanqr extends Component<any,any> {
@@ -148,7 +220,8 @@ export class Scanqr extends Component<any,any> {
             show: false,
             scene_id: '',
             // 权限询问
-            power: false
+            power: false,
+            boxHeight: 0
         }
     }
     componentDidMount(): void {
@@ -261,7 +334,7 @@ export class Scanqr extends Component<any,any> {
        //打开弹窗
         Animated.timing(this.translateY,
             {
-                toValue: -400,
+                toValue: -ht/2,
                 duration: 300,
                 useNativeDriver: true
             }
@@ -332,7 +405,7 @@ export class Scanqr extends Component<any,any> {
                                     //打开弹窗
                                     Animated.timing(this.translateY,
                                         {
-                                            toValue: -400,
+                                            toValue: -ht/2,
                                             duration: 300,
                                             useNativeDriver: true
                                         }
@@ -347,7 +420,7 @@ export class Scanqr extends Component<any,any> {
                                     //打开弹窗
                                     Animated.timing(this.translateY,
                                         {
-                                            toValue: -400,
+                                            toValue: -ht/2,
                                             duration: 300,
                                             useNativeDriver: true
                                         }
@@ -388,7 +461,7 @@ export class Scanqr extends Component<any,any> {
                 //打开弹窗
                 Animated.timing(this.translateY,
                     {
-                        toValue: -400,
+                        toValue: -ht/2,
                         duration: 300,
                         useNativeDriver: true
                     }
@@ -457,7 +530,7 @@ export class Scanqr extends Component<any,any> {
             //打开弹窗
             Animated.timing(this.translateY,
                 {
-                    toValue: -400,
+                    toValue: -ht/2,
                     duration: 300,
                     useNativeDriver: true
                 }
@@ -632,7 +705,7 @@ export class Scanqr extends Component<any,any> {
             that.setState({
                 qRcodeId: ''
             });
-            // app.globalData.scene = [];
+            store.dispatch((scene({scene:[]})))
             if (data.flag == '00') {
                 this.setState({
                     visible: false,
@@ -667,18 +740,16 @@ export class Scanqr extends Component<any,any> {
             }
             if (that.state.isManual == false) {
                 //跳转到首页
-                // setTimeout(function () {
-                //     wx.reLaunch({
-                //         url: '/pages/index/index'
-                //     })
-                // }, 3000)
+                setTimeout(()=>{
+                    this.props.navigation.navigate('Index')
+                }, 3000)
             }
         }).catch((fail_message) => {
             /** 无论是否创建成功都重置 **/
             that.setState({
                 qRcodeId: ''
             });
-            // app.globalData.scene = [];
+            store.dispatch((scene({scene:[]})))
             //关闭加载效果
             this.setState({
                 visible: false,
@@ -707,9 +778,16 @@ export class Scanqr extends Component<any,any> {
             show: false
         })
     }
+
+    boxH=(e:any)=>{
+        const { height: newHeight } = e.nativeEvent.layout;
+        this.setState({
+            boxHeight: newHeight
+        })
+    }
     render() {
         return (
-            <View>
+            <SafeAreaView style={{flex: 1}} onLayout={(event) => this.boxH(event)}>
                 <Navbars
                     name={'扫码创建设备'}
                     showHome={false}
@@ -717,7 +795,7 @@ export class Scanqr extends Component<any,any> {
                     props={this.props}
                 ></Navbars>
                 {!this.state.camera?
-                    <View style={styles.container}>
+                    <View style={[styles.container,{height: this.state.boxHeight-ht/10}]}>
                         {/* 地图 */}
                         <MapView 
                             style={{width:'100%',height:'100%'}}
@@ -729,7 +807,6 @@ export class Scanqr extends Component<any,any> {
                             onMapLoaded={this.onLoad}
                         >
                             <Overlay.Marker 
-                                icon={require('../../image/dw.png')}
                                 location={{ 
                                     longitude: this.state.longitude,
                                     latitude: this.state.latitude 
@@ -836,7 +913,7 @@ export class Scanqr extends Component<any,any> {
                         >去登录</Text>
                     </View>
                 </Dialog>
-            </View>
+            </SafeAreaView>
         )
     }
 }
@@ -844,24 +921,24 @@ export class Scanqr extends Component<any,any> {
 const styles = StyleSheet.create({
     container:{
         position: 'absolute',
-        top: 60,
+        top: ht/10,
         width: '100%',
-        height: Dimensions.get('window').height - 40,
         backgroundColor: '#f4f4f4',
         zIndex: 9,
+        overflow: 'hidden'
     },
     search:{
         position: 'absolute',
         top: 10,
         left: 15,
         right: 15,
-        height: 40,
+        height: ht/14,
         zIndex: 999,
     },
     input:{
         position: 'relative',
         width: '100%',
-        height: 40,
+        height: ht/14,
         backgroundColor: '#fff',
         paddingLeft: 45,
         paddingRight: 45,
@@ -871,8 +948,8 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: 0,
         left: 0,
-        width: 40,
-        height: 40,
+        width: ht/14,
+        height: ht/14,
         zIndex: 999,
         padding: 7,
         overflow: 'hidden',
@@ -884,8 +961,8 @@ const styles = StyleSheet.create({
     in:{
         position: 'relative',
         width: '100%',
-        height: 40,
-        fontSize: 16,
+        height: ht/14,
+        fontSize: Fs/20,
         color: '#333',
         backgroundColor: '#fff',
         zIndex: 9,
@@ -895,15 +972,16 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: 0,
         right: 0,
-        width: 40,
-        height: 40,
+        width: ht/14,
+        height: ht/14,
         backgroundColor: '#fff',
         zIndex: 99,
         overflow: 'hidden',
     },
     ico:{
         position: 'absolute',
-        top: 11,
+        top: '50%',
+        marginTop: -9,
         left: 11,
         width: 18,
         height: 18,
@@ -933,7 +1011,7 @@ const styles = StyleSheet.create({
         right:0,
         height: 40,
         lineHeight: 40,
-        fontSize: 18,
+        fontSize: Fs/18,
         color: '#333333',
         borderBottomColor:'#f2f2f2',
         borderBottomWidth:1,
@@ -943,7 +1021,8 @@ const styles = StyleSheet.create({
     },
     popupClose:{
         position: 'absolute',
-        top: 0,
+        top: '50%',
+        marginTop: -10,
         right: 0,
         width: 40,
         height: 40,
@@ -957,7 +1036,7 @@ const styles = StyleSheet.create({
         lineHeight: 40,
         textAlignVertical: 'center',
         fontWeight: '700',
-        fontSize: 18,
+        fontSize: Fs/18,
     },
     popup:{
         position: 'absolute',
@@ -970,7 +1049,7 @@ const styles = StyleSheet.create({
         position: 'relative',
         width: '100%',
         padding: 10,
-        fontSize: 16,
+        fontSize: Fs/20,
         color:'#1989fa',
         backgroundColor: '#ecf9ff',
         overflow: 'hidden',
@@ -999,7 +1078,7 @@ const styles = StyleSheet.create({
         width: "100%",
         height: 20,
         lineHeight: 20,
-        fontSize: 16,
+        fontSize: Fs/20,
         color: '#333',
         overflow: 'hidden',
     },
@@ -1015,7 +1094,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 40,
         lineHeight: 40,
-        fontSize: 16,
+        fontSize: Fs/20,
         color: '#999',
         textAlign: 'center',
         overflow: 'hidden',
@@ -1059,7 +1138,7 @@ const styles = StyleSheet.create({
         marginTop:20,
         textAlign:'center',
         width:'100%',
-        fontSize: 22,
+        fontSize: Fs/15,
         fontWeight: '800',
         color: '#191919'
     },
@@ -1092,7 +1171,7 @@ const styles = StyleSheet.create({
         textAlignVertical: 'center',
         flex:1,
         textAlign:'center',
-        fontSize: 22,
+        fontSize: Fs/15,
         fontWeight: '800',
         color: '#191919'
     },
@@ -1104,7 +1183,7 @@ const styles = StyleSheet.create({
     },
     hint:{
         color: '#333',
-        fontSize: 18,
+        fontSize: Fs/18,
     },
     hintBox:{
         position: 'relative',
@@ -1118,24 +1197,44 @@ const styles = StyleSheet.create({
         position:'absolute',
         right: 10,
         top: 10,
-        fontSize: 16,
+        fontSize: Fs/20,
         color: '#6dabdf'
     },
     butL:{
         position:'absolute',
         left: 10,
         top: 10,
-        fontSize: 16,
+        fontSize: Fs/20,
     },
     btmDialog: {
         position:'absolute',
-        bottom: -400,
+        bottom: -ht/2,
         width: '100%',
-        height: 400,
+        height: ht/2,
         backgroundColor: '#fff',
         borderRadius: 5,
         zIndex: 999
-    }
+    },
+    scanBox: {
+        position: 'absolute',
+        zIndex: 99999,
+        top: '30%', 
+        marginTop: -Fs/3/2,
+        width: '100%', 
+        height: Fs/3, 
+        borderTopLeftRadius: 200,
+        borderTopRightRadius: 200,
+        overflow: 'hidden'
+    },
+    cameraBox: {
+        position:'relative',
+        height: '100%',
+        width: '100%', 
+    },
+    ScanningStrip: {
+        height: 20,
+        width: '100%',
+    },
 })
 
 export default Scanqr

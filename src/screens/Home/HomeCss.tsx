@@ -1,8 +1,11 @@
-import { StyleSheet} from 'react-native'
+import { Dimensions, PixelRatio, StyleSheet} from 'react-native'
+const Fs = Dimensions.get('window').width*PixelRatio.getFontScale() //屏幕宽比   对比字体大小比例
+const ht = Dimensions.get('window').height*PixelRatio.getFontScale()
+
 const styles = StyleSheet.create({
     containerMini: { 
         position: 'absolute',
-        top: 70,
+        top: ht/8,
         bottom:75,
         left: 0,
         width: '100%',
@@ -26,7 +29,9 @@ const styles = StyleSheet.create({
         height: 22,
         lineHeight: 22,
         textAlignVertical: 'center',
-        fontSize: 22,
+        fontSize: Fs/17,
+        fontWeight: '700',
+        color: '#333',
         paddingLeft: 15,
         marginTop: 30,
         marginBottom: 20,
@@ -92,6 +97,14 @@ const styles = StyleSheet.create({
     },
     imgMini: {
         width:45
-    }
+    },
+    size17: {
+        fontSize: Fs/17,
+        color: '#333',
+    },
+    size19: {
+        fontSize: Fs/19,
+        color: '#333',
+    } 
 })
 export default styles

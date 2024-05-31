@@ -1,6 +1,8 @@
-import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
+import { Dimensions, Image, PixelRatio, Pressable, StyleSheet, Text, View } from 'react-native'
 import React, { Component } from 'react'
 import { Icon } from '@rneui/themed';
+const Fs = Dimensions.get('window').width*PixelRatio.getFontScale()
+const ht = Dimensions.get('window').height*PixelRatio.getFontScale()
 
 export class Navbars extends Component<any,any> {
   render() {
@@ -36,13 +38,14 @@ const styles = StyleSheet.create({
         top: 0,
         zIndex: 999,
         width:'100%',
-        height:60,
+        height: ht/10,
         backgroundColor:'#ffffff',
       },
       navLeft:{
         position:'absolute',
         left:10,
-        top:15,
+        top:'50%',
+        marginTop: -15,
         zIndex:999,
         width: 30,
         height: 30,
@@ -57,11 +60,11 @@ const styles = StyleSheet.create({
         height:25,
       },
       navName:{
-        height:60,
-        lineHeight:60,
+        height: ht/10,
+        lineHeight: ht/10,
         textAlignVertical: 'center',
         textAlign:'center',
-        fontSize:20,
+        fontSize: Fs/16,
         color:'#333'
       },
 })

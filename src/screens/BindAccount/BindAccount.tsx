@@ -1,12 +1,13 @@
-import { Dimensions, StyleSheet, Text, View, Image, TextInput, TouchableOpacity, Pressable } from 'react-native'
+import { Dimensions, StyleSheet, Text, View, Image, TextInput, TouchableOpacity, Pressable, PixelRatio, SafeAreaView } from 'react-native'
 import React, { Component,} from 'react'
 import {HttpService} from '../../utils/http'
 import LoginNavbar from '../../component/loginNavbar/loginNavbar'
 import { Set_State } from '../../redux/actions/user';
 import store from '../../redux/store'//全局管理
+import Loading from '../../component/Loading/Loading';
+const Fs = Dimensions.get('window').width*PixelRatio.getFontScale()
 let api = require('../../utils/api')
-const Overlay = require('rn-overlay') //信息提示框
-const Toast = Overlay.Toast
+
 //全屏幕宽高
 const height = Dimensions.get('window').height
 const width = Dimensions.get('window').width
@@ -34,16 +35,42 @@ export class BindAccount extends Component<any,any> {
     Login = ()=>{
         let that = this;
         if (that.state.userName.length < 1) {
-            Toast.show('请输入账号！')
+            this.setState({
+                msgType: 2,
+                visible: true,
+                LoadingMsg: '请输入账号！'
+            },()=>{
+                setTimeout(()=>{
+                    this.setState({
+                        visible: false,
+                    })
+                },2000)
+            })
+            console.log(1);
             return false;
         } else if (that.state.password.length < 1) {
-            Toast.show('请输入密码！')
+            this.setState({
+                msgType: 2,
+                visible: true,
+                LoadingMsg: '请输入密码！'
+            },()=>{
+                setTimeout(()=>{
+                    this.setState({
+                        visible: false,
+                    })
+                },2000)
+            })
             return false;
         }
         that.getLogin(); //登录
     }
     //请求登录
     getLogin = () => {
+        this.setState({
+            msgType: 1,
+            visible: true,
+            LoadingMsg: '登录中...'
+        })
         var userName = this.state.userName;
         var password = this.state.password;
         HttpService.Post(api.applogin,{
@@ -51,11 +78,37 @@ export class BindAccount extends Component<any,any> {
             password:password
         }).then((res:any)=>{
             console.log(res, "登录获取的数据!！")
-            if (res.flag == '00') {
-                //保存登录信息
-                store.dispatch(Set_State('Set_State',res))
-                //跳转首页关闭之前的所有页面
-                this.props.navigation.reset({index: 0,routes: [{ name: 'Index' }]})
+            if(res.flag){
+                if (res.flag == '00') {
+                    //保存登录信息到全局
+                    store.dispatch(Set_State('Set_State',res))
+                    //跳转首页关闭之前的所有页面
+                    this.props.navigation.reset({index: 0,routes: [{ name: 'Index' }]})
+                }else{
+                    this.setState({
+                        msgType: 2,
+                        visible: true,
+                        LoadingMsg: res.msg
+                    },()=>{
+                        setTimeout(()=>{
+                            this.setState({
+                                visible: false,
+                            })
+                        },2000)
+                    })
+                }
+            }else{
+                this.setState({
+                    msgType: 2,
+                    visible: true,
+                    LoadingMsg: '登录异常，检查账号是否正确'
+                },()=>{
+                    setTimeout(()=>{
+                        this.setState({
+                            visible: false,
+                        })
+                    },3000)
+                })
             }
         }).catch(res=>{
             console.log(res);
@@ -75,7 +128,7 @@ export class BindAccount extends Component<any,any> {
     }
   render() {
     return (
-        <View style={styles.view}>
+        <SafeAreaView style={styles.view}>
             <LoginNavbar
                 props={this.props}
                 name={'账号登入'}   
@@ -110,21 +163,27 @@ export class BindAccount extends Component<any,any> {
                     </View>
                     <View style={styles.link}>
                         <TouchableOpacity style={styles.Url}  onPress={()=>this.props.navigation.navigate('BindPhone')}>
-                            <Text style={{color: '#01AAED',fontSize:18}}>短信登录</Text>
+                            <Text style={{color: '#01AAED',fontSize:Fs/18}}>短信登录</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.Url} onPress={()=>this.props.navigation.navigate('AccountRegister')}>
-                            <Text style={{color: '#01AAED',fontSize:18}}>注册账号</Text>
+                            <Text style={{color: '#01AAED',fontSize:Fs/18}}>注册账号</Text>
                         </TouchableOpacity>
                     </View>
                     <View style={styles.Tourist}>
                         <Pressable style={styles.experience} onPress={this.touristLongin}>
                             <Image style={{width:30,height:30}} source={require('../../image/Tourist.png')}></Image>
-                            <Text style={styles.Text}  >体验账号登录</Text>
+                            <Text style={styles.Text}>体验账号登录</Text>
                         </Pressable> 
                     </View>
                 </View>
             </View>
-        </View>
+            {/* 弹窗效果组件 */}
+            <Loading 
+                type={this.state.msgType} 
+                visible={this.state.visible} 
+                LoadingMsg={this.state.LoadingMsg}>
+            </Loading>
+        </SafeAreaView>
     )
   }
 }
@@ -160,13 +219,12 @@ const styles = StyleSheet.create({
         lineHeight:60,
         textAlignVertical: 'center',
         textAlign:'center',
-        fontSize:20,
+        fontSize:Fs/16,
         color:'#fff'
       },
     view:{
         position: 'relative',
-        height:height,
-        width:width,
+        flex: 1,
         backgroundColor: '#f4f4f4',
         overflow: 'hidden',
         flexDirection: 'column',
@@ -221,14 +279,14 @@ const styles = StyleSheet.create({
         height: 50,
         lineHeight: 50,
         color: '#333333',
-        fontSize: 18,
+        fontSize: Fs/18,
         paddingLeft: 80,
     },
     forget:{
         position: 'relative',
         display:'flex',
         alignItems:'flex-end',
-        fontSize: 18,
+        fontSize: Fs/18,
         marginTop: 15,
         marginBottom: 15,
         overflow: 'hidden',
@@ -246,7 +304,6 @@ const styles = StyleSheet.create({
         position: 'relative',
         width: '47.5%',
         height: 40,
-        fontSize: 28,
         color: '#333',
         backgroundColor: '#eee',
         borderRadius: 10,
@@ -257,14 +314,14 @@ const styles = StyleSheet.create({
         lineHeight: 40,
         textAlignVertical: 'center',
         textAlign: 'center',
-        fontSize:18,
+        fontSize: Fs/18,
     },
     buttonR:{
         height: 40,
         lineHeight: 40,
         textAlignVertical: 'center',
         textAlign: 'center',
-        fontSize:18,
+        fontSize: Fs/18,
         backgroundColor:'#2EA4FF',
         borderRadius: 10,
         color:'#fff'

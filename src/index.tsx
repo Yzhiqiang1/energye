@@ -95,7 +95,6 @@ export class Index extends Component {
             <Stack.Screen name="history_switchMonitor" component={history_switchMonitor}></Stack.Screen>
             <Stack.Screen name="ServiceInfo" component={ServiceInfo}></Stack.Screen>
             <Stack.Screen name="Playback" component={Playback}></Stack.Screen>
-
         </Stack.Navigator>
       </SafeAreaProvider>
     )

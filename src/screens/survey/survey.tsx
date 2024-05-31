@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Dimensions, PixelRatio, ScrollView, StyleSheet, Text, View, SafeAreaView} from 'react-native'
 import React, { Component } from 'react'
 import { Register } from '../../utils/app'
 import Navbar from '../../component/navbar/navbar'
@@ -10,6 +10,7 @@ import { CheckBox } from '@rneui/themed';
 import MyCanvas from '../../component/my-canvas/MyCanvas'
 import Loading from '../../component/Loading/Loading'
 const api = require('../../utils/api')
+const Fs = Dimensions.get('window').width*PixelRatio.getFontScale()
 
 export class Survey extends Component<any,any> {
   constructor(props:any){
@@ -341,7 +342,7 @@ export class Survey extends Component<any,any> {
 
   render() {
     return (
-      <View>
+      <SafeAreaView style={{flex: 1}}>
          {/* 引入自定义导航栏 */}
         <Navbar 
             pageName={"用能概况"}
@@ -531,7 +532,7 @@ export class Survey extends Component<any,any> {
             visible={this.state.visible} 
             LoadingMsg={this.state.LoadingMsg}>
         </Loading>
-      </View>
+      </SafeAreaView>
     )
   }
 }
@@ -555,7 +556,7 @@ const styles  = StyleSheet.create({
     borderLeftWidth: 2,
     borderStyle:'solid',
     borderColor:'#313131',
-    fontSize: 20,
+    fontSize: Fs/16,
     color: '#313131',
     paddingLeft: 10,
     marginTop:12,
@@ -621,7 +622,7 @@ const styles  = StyleSheet.create({
     flex: 1,
     paddingRight:5,
     paddingLeft:5,
-    fontSize: 16,
+    fontSize: Fs/20,
     color: '#666666',
     overflow: 'hidden',
   },

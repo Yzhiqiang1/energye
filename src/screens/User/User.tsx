@@ -1,4 +1,4 @@
-import { Text, View, Pressable, ScrollView} from 'react-native'
+import { Text, View, Pressable, ScrollView, Dimensions, PixelRatio, SafeAreaView} from 'react-native'
 import React, { Component } from 'react'
 import { Menu } from '../../component/menu/menu'//底部导航组件
 import styleg from '../../indexCss'//公共scc
@@ -10,6 +10,8 @@ import { Image } from '@rneui/themed';
 import { HttpService } from '../../utils/http'
 import Loading from '../../component/Loading/Loading'//加载窗口组件
 const api = require('../..//utils/api')
+const Fs = Dimensions.get('window').width*PixelRatio.getFontScale()
+const ht = Dimensions.get('window').height*PixelRatio.getFontScale()
 
 export class User extends Component<any,any> {
   constructor(props: {}){
@@ -29,7 +31,6 @@ export class User extends Component<any,any> {
         msgType: 1,
         visible: false,
         LoadingMsg: '',
-        
     }
   }
 
@@ -81,7 +82,7 @@ export class User extends Component<any,any> {
          //退出后跳转登录页面
          this.props.navigation.reset({
           index: 1,
-          routes: [{ name: 'Index' }],
+          routes: [{ name: 'BindAccount' }],
         });
       }else {
         //关闭加载效果
@@ -130,7 +131,7 @@ export class User extends Component<any,any> {
   }
   render() {
     return (
-      <View style={styleg.containerMax}>
+      <SafeAreaView style={styleg.containerMax}>
 
         <View style={styles.nav}>
           <Pressable style={styles.navLeft} onPress={()=>{this.props.navigation.navigate('Index')}}>
@@ -178,7 +179,7 @@ export class User extends Component<any,any> {
             LoadingMsg={this.state.LoadingMsg}>
         </Loading>
         <Menu myMeun={'1004'} props = {this.props}></Menu>
-      </View>
+      </SafeAreaView>
     )
   }
 }
@@ -186,13 +187,14 @@ export class User extends Component<any,any> {
 const styles = StyleSheet.create({
   nav:{
     position:'relative',
-    height:60,
+    height: ht/10,
     backgroundColor:'#2ea4ff',
   },
   navLeft:{
     position:'absolute',
     left:10,
-    top:15,
+    top:'50%',
+    marginTop: -15,
     zIndex:999,
     width: 30,
     height: 30,
@@ -207,11 +209,11 @@ const styles = StyleSheet.create({
     height:25,
   },
   navName:{
-    height:60,
-    lineHeight:60,
+    height:ht/10,
+    lineHeight:ht/10,
     textAlignVertical: 'center',
     textAlign:'center',
-    fontSize:20,
+    fontSize:Fs/16,
     color:'#fff'
   },
   user:{
@@ -246,7 +248,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 25,
     lineHeight: 25,
-    fontSize: 22,
+    fontSize: Fs/14,
     color: '#000',
     fontWeight: '700',
   },
@@ -255,7 +257,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 25,
     lineHeight: 25,
-    fontSize: 16,
+    fontSize: Fs/20,
     fontWeight: '400',
     color: '#666',
   },
@@ -284,7 +286,7 @@ const styles = StyleSheet.create({
     lineHeight: 40,
     textAlignVertical: 'center',
     textAlign: 'center',
-    fontSize: 18,
+    fontSize: Fs/18,
     color: '#fff',
     backgroundColor:'#1890FF',
     borderRadius: 5,

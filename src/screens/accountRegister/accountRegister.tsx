@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Dimensions, Image, PixelRatio, StyleSheet, Text, TextInput, TouchableOpacity, View,SafeAreaView } from 'react-native'
 import React, { Component } from 'react'
 import { CheckBox } from '@rneui/themed';
 import Navbar from '../../component/navbar/navbar'
@@ -6,6 +6,7 @@ import tool from '../../utils/tool';
 import { HttpService } from '../../utils/http';
 import Loading from '../../component/Loading/Loading';
 const api = require('../../utils/api')
+const Fs = Dimensions.get('window').width*PixelRatio.getFontScale()
 
 export class AccountRegister extends Component<any,any> {
     constructor(props: any){
@@ -180,7 +181,6 @@ export class AccountRegister extends Component<any,any> {
         password: password,
         }).then((res:any) => {
             console.log(res);
-            
             if (res.flag == '00') {
                 this.setState({
                     msgType: 2,
@@ -191,13 +191,11 @@ export class AccountRegister extends Component<any,any> {
                         this.setState({
                             visible: false,
                         })
-                    },2000)
+                    },3000)
                 })
                 //跳转到账号登录页
-                setTimeout(function name(params) {
-                    // wx.reLaunch({
-                    //     url: '../BindAccount/BindAccount'
-                    // })
+                setTimeout(()=>{
+                    this.props.navigation.navigate('BindAccount')
                 }, 3050)
             } else {
                 this.setState({
@@ -344,7 +342,7 @@ export class AccountRegister extends Component<any,any> {
     }
     render() {
         return (
-        <View style={styles.box}>
+        <SafeAreaView style={styles.box}>
             <Navbar
                 props={this.props}
                 pageName={'注册账号'}   
@@ -401,17 +399,17 @@ export class AccountRegister extends Component<any,any> {
                 </View>
             </View>
             <Loading
-            type={this.state.msgType}
-            LoadingMsg={this.state.LoadingMsg}
-            visible={this.state.visible}
+                type={this.state.msgType}
+                LoadingMsg={this.state.LoadingMsg}
+                visible={this.state.visible}
             ></Loading>
-        </View>
+        </SafeAreaView>
         )
     }
 }
 const styles = StyleSheet.create({
     box:{
-        height: '100%',
+        flex: 1,
         display:'flex',
         alignItems:'center',
         backgroundColor: '#fff',
@@ -430,7 +428,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 50,
         marginTop: 15,
-        fontSize: 16,
+        fontSize: Fs/20,
         borderBottomWidth:1,
         borderBottomColor:'#e3e3e3',
     },
@@ -442,7 +440,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 50,
         marginTop: 15,
-        fontSize: 16,
+        fontSize: Fs/20,
     },
     Img:{
         position: 'absolute',
@@ -461,7 +459,7 @@ const styles = StyleSheet.create({
         lineHeight: 50,
         textAlignVertical: 'center',
         textAlign: 'right',
-        fontSize: 16,
+        fontSize: Fs/20,
         color: '#01AAED',
         zIndex: 99,
     },
@@ -471,7 +469,7 @@ const styles = StyleSheet.create({
         height: 50,
         lineHeight: 50,
         color: '#333333',
-        fontSize: 18,
+        fontSize: Fs/18,
         paddingLeft: 40,
     },
     agree:{
@@ -502,7 +500,7 @@ const styles = StyleSheet.create({
         lineHeight: 40,
         textAlignVertical: 'center',
         textAlign: 'center',
-        fontSize: 18,
+        fontSize: Fs/18,
         color: '#333',
         backgroundColor: '#eee',
         borderRadius: 5,
@@ -515,7 +513,7 @@ const styles = StyleSheet.create({
         lineHeight: 40,
         textAlignVertical: 'center',
         textAlign: 'center',
-        fontSize: 18,
+        fontSize: Fs/18,
         color: '#fff',
         backgroundColor: '#2EA4FF',
         borderRadius: 5,
@@ -532,7 +530,7 @@ const styles = StyleSheet.create({
         justifyContent:'center'
     },
     Url:{
-        fontSize: 16,
+        fontSize: Fs/20,
         color: '#01AAED',
         paddingRight:10,
         paddingLeft:10,

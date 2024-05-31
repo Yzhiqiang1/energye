@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { Dimensions, Image, PixelRatio, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import React, { Component } from 'react'
 import Navbar from '../../../component/navbar/navbar'
 import styleg from '../../../indexCss'
@@ -9,6 +9,7 @@ import { HttpService } from '../../../utils/http'
 import Loading from '../../../component/Loading/Loading'
 import Picker from '../../../component/Picker/Picker'
 const api = require('../../../utils/api')
+const Fs = Dimensions.get('window').width*PixelRatio.getFontScale()
 
 let arrWeekTime = String(util.nowDate(1)).split('-');
 let getWeek = util.getWeek(arrWeekTime[0], arrWeekTime[1])
@@ -289,7 +290,7 @@ export class GasAnalysis3 extends Component<any,any> {
     }
     render() {
         return (
-            <View>
+            <SafeAreaView style={{flex: 1}}>
                 {/* 引入自定义导航栏 */}
                 <Navbar 
                     pageName={'环比分析'}
@@ -390,7 +391,7 @@ export class GasAnalysis3 extends Component<any,any> {
                     visible={this.state.visible} 
                     LoadingMsg={this.state.LoadingMsg}>
                 </Loading>
-            </View>
+            </SafeAreaView>
         )
     }
 }
@@ -420,7 +421,7 @@ const styles = StyleSheet.create({
         lineHeight: 30,
         textAlignVertical: 'center',
         textAlign: 'center',
-        fontSize: 18,
+        fontSize: Fs/18,
         color: '#333',
     },
     ico:{
@@ -465,7 +466,7 @@ const styles = StyleSheet.create({
         textAlignVertical: 'center',
         paddingLeft: 12,
         paddingRight: 12,
-        fontSize: 18,
+        fontSize: Fs/18,
         color: '#666666',
         borderStyle:'solid',
         borderWidth: 1,
@@ -503,7 +504,7 @@ const styles = StyleSheet.create({
         height: 40,
         lineHeight: 40,
         textAlignVertical: 'center',
-        fontSize: 18,
+        fontSize: Fs/18,
         paddingLeft: 15,
         borderColor: '#E5E5E5',
         borderBottomWidth: 1,
@@ -521,7 +522,7 @@ const styles = StyleSheet.create({
         paddingTop: 25,
         paddingBottom: 25,
         textAlign: 'center',
-        fontSize: 18,
+        fontSize: Fs/18,
         color: '#999999',
         overflow: 'hidden',
     },
@@ -549,7 +550,7 @@ const styles = StyleSheet.create({
         paddingRight:3,
         paddingLeft:3,
         overflow: 'hidden',
-        fontSize: 18,
+        fontSize: Fs/18,
         color: '#666666',
         textAlign:'center'
 
@@ -561,7 +562,7 @@ const styles = StyleSheet.create({
         paddingRight:3,
         paddingLeft:3,
         overflow: 'hidden',
-        fontSize: 16,
+        fontSize: Fs/20,
         color: '#666666',
         textAlign:'center'
     },

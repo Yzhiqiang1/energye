@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { Dimensions, PixelRatio, StyleSheet, Text, View } from 'react-native'
 import React, { Component } from 'react'
 import styleg from '../../../indexCss'
 import util from '../../../utils/util'
@@ -7,6 +7,7 @@ import store from '../../../redux/store'
 import { HttpService } from '../../../utils/http'
 import Loading from '../../../component/Loading/Loading'
 const api = require('../../../utils/api')
+const Fs = Dimensions.get('window').width*PixelRatio.getFontScale()
 
 export class Security4_dl extends Component<any,any> {
     constructor(props:any){
@@ -313,7 +314,7 @@ const styles = StyleSheet.create({
         height: 30,
         // lineHeight: calc(60rpx - 2rpx),
         // padding: 0 25rpx,
-        fontSize: 16,
+        fontSize: Fs/20,
         color: "#666666",
         // border: 1px solid #d9d9d9,
         borderRadius: 5,
@@ -333,7 +334,7 @@ const styles = StyleSheet.create({
         height: 30,
         // lineHeight: calc(60rpx - 2rpx),
         // padding: 0 20rpx,
-        fontSize: 16,
+        fontSize: Fs/16,
         color: '#666666',
         // border: 1px solid #d9d9d9,
         borderRadius: 5,
@@ -372,7 +373,7 @@ const styles = StyleSheet.create({
         height: 30,
         lineHeight: 30,
         // padding: 0 20rpx,
-        fontSize: 16,
+        fontSize: Fs/20,
         color: '#666666',
         overflow: 'hidden',
     },
@@ -381,9 +382,8 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 40,
         lineHeight: 40,
-        fontSize: 18,
+        fontSize: Fs/18,
         textAlign: 'center',
-        // border-bottom: 1px solid #E5E5E5,
         borderBottomWidth: 1,
         borderBottomColor: '#E5E5E5',
         borderStyle: 'solid',

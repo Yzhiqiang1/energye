@@ -1,4 +1,4 @@
-import { AppState, DeviceEventEmitter, Dimensions, Image, StyleSheet, Text, View } from 'react-native'
+import { AppState, DeviceEventEmitter, Dimensions, Image, PixelRatio, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import {Shadow} from 'react-native-shadow-2'
 import React, { Component } from 'react'
 import Navbar from '../../../component/navbar/navbar'
@@ -11,6 +11,7 @@ import { Dialog } from '@rneui/themed';
 import Loading from '../../../component/Loading/Loading'
 import { localSocket } from '../../../redux/actions/user'
 const api = require('../../../utils/api')
+const Fs = Dimensions.get('window').width*PixelRatio.getFontScale()
 
 let dataPos:any = {}; //dataPOS:{a:{},b:{}}
 let eventListener:any = {}
@@ -305,7 +306,7 @@ export class Security1 extends Component<any,any> {
     }
     render() {
         return (
-            <View>
+            <SafeAreaView style={{flex: 1}}>
                 {/* 引入自定义导航栏 */}
                 <Navbar 
                     pageName={'开关控制'}
@@ -385,7 +386,7 @@ export class Security1 extends Component<any,any> {
                     visible={this.state.visible} 
                     LoadingMsg={this.state.LoadingMsg}>
                 </Loading>
-            </View>
+            </SafeAreaView>
         )
     }
 }
@@ -405,7 +406,7 @@ const styles = StyleSheet.create({
         alignItems:'center',
         opacity: 1,
         marginBottom:11,
-        fontSize: 18,
+        fontSize: Fs/18,
     },
     
     tr :{
@@ -433,19 +434,19 @@ const styles = StyleSheet.create({
         left: 60,
     },
     devieceName:{
-        fontSize: 18,
+        fontSize: Fs/18,
         fontWeight: '900',
         color: '#333'
     },
     lastTime:{
-        fontSize: 16,
+        fontSize: Fs/20,
     },
     search:{
         position: 'absolute',
         top: 7,
         right: 0,
         color: 'steelblue',
-        fontSize:18
+        fontSize: Fs/18
     },
     sensor:{
         height: 50,
@@ -455,7 +456,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: 13,
         left: 18,
-        fontSize: 16,
+        fontSize: Fs/20,
         color: '#333'
     },
     btn:{
@@ -488,7 +489,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         height: 80,
         lineHeight: 80,
-        fontSize: 18,
+        fontSize: Fs/18,
         color: '#333',
         fontWeight: '700',
         borderBottomWidth: 1,
@@ -507,7 +508,7 @@ const styles = StyleSheet.create({
     Dialog:{
         width: '50%',
         height: '100%',
-        fontSize: 18,
+        fontSize: Fs/18,
         fontWeight: '600',
         textAlign: 'center',
     },

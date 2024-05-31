@@ -1,4 +1,4 @@
-import { Image, ImageBackground, StyleSheet, View, Platform, Pressable, NativeModules, StatusBar, Text, } from 'react-native'
+import { Image, ImageBackground, StyleSheet, View, Platform, Pressable, NativeModules, StatusBar, Text, PixelRatio, SafeAreaView, } from 'react-native'
 import React, { Component } from 'react'
 import Picker from '../../../component/Picker/Picker'
 import { Register } from '../../../utils/app'
@@ -13,6 +13,8 @@ const api = require('../../../utils/api')
 const { StatusBarManager } = NativeModules;
 const STATUS_BAR_HEIGHT = Platform.OS === 'android' ? StatusBar.currentHeight : StatusBarManager.HEIGHT;//状态栏高度
 let size = Dimensions.get('window')
+const Fs = size.width*PixelRatio.getFontScale()
+const ht = size.height*PixelRatio.getFontScale()
 
 let autoHideTimer: any = undefined
 let livePlayerContext: any
@@ -809,7 +811,7 @@ export class Playback extends Component<any,any> {
     
     render() {
         return (
-        <View style={styles.box}>
+        <SafeAreaView style={{flex: 1}}>
             {!this.state.fullScreen?
                 <Navbars
                 name={this.state.title}
@@ -938,22 +940,15 @@ export class Playback extends Component<any,any> {
                 visible={this.state.visible} 
                 LoadingMsg={this.state.LoadingMsg}>
             </Loading>
-        </View>
+        </SafeAreaView>
         )
     }
 }
 
 const styles = StyleSheet.create({
-    box:{
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-    },
     pageLive:{
         position: 'absolute',
-        top: 60,
+        top: ht/10,
         bottom: 0,
         width:'100%',
         backgroundColor: '#f2f2f2',
@@ -1051,7 +1046,7 @@ const styles = StyleSheet.create({
     },
     videoLoadingText :{
         color: '#fff',
-        fontSize: 18,
+        fontSize: Fs/18,
         textAlign: 'center',
         width: '100%',
         lineHeight: 20,
@@ -1127,7 +1122,7 @@ const styles = StyleSheet.create({
         padding: 5,
     },
     hdOption :{
-        fontSize: 18,
+        fontSize: Fs/18,
         color: '#fff',
         letterSpacing: 0,
         height: 20,
@@ -1150,32 +1145,15 @@ const styles = StyleSheet.create({
         verticalAlign: 'top',
         margin: 0,
     },
-    buttoncCntrolsItem :{
-        color: '#999999',
-        fontSize: 24,
-        lineHeight: 30,
-        padding: 0,
-        position: 'relative',
-    },
-    // button:after:{display:none,},
     itemImg :{
         width: 30,
         height: 30,
-    },
-    itemText :{
-        fontSize: 24,
-        color: '#999999',
-        letterSpacing: 0,
-        lineHeight: 30,
-        verticalAlign: 'top',
-        marginLeft: 6,
     },
     disabled :{
         color: '#CCCCCC',
     },
     panelContainer :{
         display: 'flex',
-        // height: calc(100vh - 600rpx),
         justifyContent:'space-around',
         alignItems: "flex-start",
         alignContent: 'flex-start',
@@ -1186,8 +1164,6 @@ const styles = StyleSheet.create({
         height: 122,
         marginTop: 8,
         backgroundColor: '#FFFFFF',
-        // box-shadow: 0 10rpx 42rpx 0 rgba(0,0,0,0.05),
-        // border:2rpx solid #fff,
         borderRadius: 18,
         textAlign: 'center',
     },
@@ -1197,7 +1173,7 @@ const styles = StyleSheet.create({
         marginTop: 20,
     },
     panelName :{
-        fontSize: 16,
+        fontSize: Fs/20,
         // color: rgba(0, 0, 0, 0.65),
     },
     ptzContainer :{

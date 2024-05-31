@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { Dimensions, Image, PixelRatio, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import React, { Component } from 'react'
 import Navbar from '../../../component/navbar/navbar'
 import styleg from '../../../indexCss'
@@ -10,6 +10,7 @@ import tool from '../../../utils/tool'
 import Loading from '../../../component/Loading/Loading'
 import Picker from '../../../component/Picker/Picker'
 const api = require('../../../utils/api')
+const Fs = Dimensions.get('window').width*PixelRatio.getFontScale()
 
 export class PowerAnalysis5 extends Component<any,any> {
     _s = util.oneData(3) < 10 ? '0' + util.oneData(3) : util.oneData(3);
@@ -231,7 +232,7 @@ export class PowerAnalysis5 extends Component<any,any> {
     }
     render() {
         return (
-            <View>
+            <SafeAreaView style={{flex: 1}}>
             {/* 引入自定义导航栏 */}
             <Navbar 
                 pageName={'电能集抄'}
@@ -270,7 +271,7 @@ export class PowerAnalysis5 extends Component<any,any> {
                 <View style={styles.echarts_con}>
                     {this.state.optionData.length == 0 ?
                         <Text style={styles.empty}>暂无数据</Text>:
-                        <View style={styles.item}>
+                        <ScrollView style={styles.item}>
                             <Text style={styles.name}>
                                 <Text style={styles.nameText}>电能集抄统计数据</Text>
                             </Text>
@@ -292,7 +293,7 @@ export class PowerAnalysis5 extends Component<any,any> {
                                     )
                                 })}
                             </View>
-                        </View>
+                        </ScrollView>
                     }
                 </View>
             </View>
@@ -302,7 +303,7 @@ export class PowerAnalysis5 extends Component<any,any> {
                 visible={this.state.visible} 
                 LoadingMsg={this.state.LoadingMsg}>
             </Loading>
-            </View>
+            </SafeAreaView>
         )
     }
 }
@@ -365,7 +366,7 @@ const styles = StyleSheet.create({
         textAlignVertical: 'center',
         paddingLeft: 12,
         paddingRight: 12,
-        fontSize: 18,
+        fontSize: Fs/18,
         color: '#666666',
         borderStyle:'solid',
         borderWidth: 1,
@@ -414,7 +415,7 @@ const styles = StyleSheet.create({
         height: 40,
         lineHeight: 40,
         textAlignVertical: 'center',
-        fontSize: 18,
+        fontSize: Fs/18,
         textAlign: 'center',
     },
     echarts:{
@@ -428,7 +429,7 @@ const styles = StyleSheet.create({
         paddingTop: 25,
         paddingBottom: 25,
         textAlign: 'center',
-        fontSize: 18,
+        fontSize: Fs/18,
         color: '#999999',
         overflow: 'hidden',
     },
@@ -456,7 +457,7 @@ const styles = StyleSheet.create({
         paddingRight:3,
         paddingLeft:3,
         overflow: 'hidden',
-        fontSize: 18,
+        fontSize: Fs/18,
         color: '#666666',
         textAlign:'center'
 
@@ -468,7 +469,7 @@ const styles = StyleSheet.create({
         paddingRight:3,
         paddingLeft:3,
         overflow: 'hidden',
-        fontSize: 16,
+        fontSize: Fs/20,
         color: '#666666',
         textAlign:'center'
     },
@@ -492,7 +493,7 @@ const styles = StyleSheet.create({
         lineHeight: 30,
         textAlignVertical: 'center',
         paddingRight: 5,
-        fontSize: 16,
+        fontSize: Fs/20,
         color: '#666666',
         overflow: 'hidden',
     }

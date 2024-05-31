@@ -1,4 +1,4 @@
-import { DeviceEventEmitter, Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { DeviceEventEmitter, Dimensions, PixelRatio, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import React, { Component } from 'react'
 import store from '../../../redux/store'
 import { Register } from '../../../utils/app';
@@ -11,6 +11,8 @@ import Picker from '../../../component/Picker/Picker';
 const util = require('../../../utils/util.js');
 const api = require('../../../utils/api')
 const { plusReduceData } = require('../../../utils/util.js');
+const Fs = Dimensions.get('window').width*PixelRatio.getFontScale()
+
 export class PowerTest2 extends Component<any,any> {
     constructor(props:any){
         super(props)
@@ -305,7 +307,7 @@ export class PowerTest2 extends Component<any,any> {
     }
     render() {
         return (
-        <View>
+        <SafeAreaView style={{flex: 1}}>
              {/* 引入自定义导航栏 */}
              <Navbar 
                 pageName={'逐日极数据'}
@@ -366,7 +368,7 @@ export class PowerTest2 extends Component<any,any> {
                 visible={this.state.visible} 
                 LoadingMsg={this.state.LoadingMsg}>
             </Loading>
-        </View>
+        </SafeAreaView>
         )
     }
 }
@@ -394,7 +396,7 @@ const styles = StyleSheet.create({
         textAlignVertical: 'center',
         paddingLeft: 12,
         paddingRight: 12,
-        fontSize: 18,
+        fontSize: Fs/18,
         color: '#666666',
         borderStyle:'solid',
         borderWidth: 1,
@@ -425,7 +427,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 40,
         lineHeight: 40,
-        fontSize: 18,
+        fontSize: Fs/18,
         textAlign: 'center',
         borderColor: '#E5E5E5',
         borderBottomWidth: 1,
@@ -443,7 +445,7 @@ const styles = StyleSheet.create({
         paddingTop: 25,
         paddingBottom: 25,
         textAlign: 'center',
-        fontSize: 18,
+        fontSize: Fs/18,
         color: '#999999',
         overflow: 'hidden',
     },

@@ -1,4 +1,4 @@
-import { Dimensions, StyleSheet, Text, View, Image, TextInput, TouchableOpacity, Pressable } from 'react-native'
+import { Dimensions, StyleSheet, Text, View, Image, TextInput, TouchableOpacity, Pressable, PixelRatio, SafeAreaView } from 'react-native'
 import React, { Component,} from 'react'
 import {HttpService} from '../../utils/http'
 import LoginNavbar from '../../component/loginNavbar/loginNavbar'
@@ -7,6 +7,7 @@ import Loading from '../../component/Loading/Loading'
 import tool from '../../utils/tool'
 import store from '../../redux/store'
 import { Set_State } from '../../redux/actions/user'
+const Fs = Dimensions.get('window').width*PixelRatio.getFontScale()
 
 //全屏幕宽高
 const height = Dimensions.get('window').height
@@ -196,9 +197,13 @@ export class BindPhone extends Component<any,any> {
     }
     //请求登录
     getLogin = () => {
-        var that = this;
         var mobile = this.state.mobile;
         var code = this.state.code;
+        this.setState({
+            msgType: 1,
+            visible: true,
+            LoadingMsg: '登录中...'
+        })
         HttpService.Post(api.appVerifyCodeLogin,{
             userName:mobile,
             verifyCode:code
@@ -228,7 +233,7 @@ export class BindPhone extends Component<any,any> {
     }
     render() {
         return (
-            <View style={styles.view}>
+            <SafeAreaView style={styles.view}>
                 <LoginNavbar
                     props={this.props}
                     name={'短信登录'}   
@@ -269,10 +274,10 @@ export class BindPhone extends Component<any,any> {
                         </View>
                         <View style={styles.link}>
                             <TouchableOpacity style={styles.Url} onPress={()=>this.props.navigation.navigate('BindAccount')}>
-                                <Text style={{color: '#01AAED',fontSize:18}}>账号登入</Text>
+                                <Text style={{color: '#01AAED',fontSize:Fs/18}}>账号登入</Text>
                             </TouchableOpacity>
                             <TouchableOpacity style={styles.Url} onPress={()=>this.props.navigation.navigate('AccountRegister')}>
-                                <Text style={{color: '#01AAED',fontSize:18}}>注册账号</Text>
+                                <Text style={{color: '#01AAED',fontSize:Fs/18}}>注册账号</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -282,7 +287,7 @@ export class BindPhone extends Component<any,any> {
                     LoadingMsg={this.state.LoadingMsg}
                     visible={this.state.visible}
                 ></Loading>
-            </View>
+            </SafeAreaView>
         )
     }
 }
@@ -297,8 +302,7 @@ const styles = StyleSheet.create({
     },
     view:{
         position: 'relative',
-        height:height,
-        width:width,
+        flex: 1,
         backgroundColor: '#f4f4f4',
         overflow: 'hidden',
         flexDirection: 'column',
@@ -353,14 +357,14 @@ const styles = StyleSheet.create({
         height: 50,
         lineHeight: 50,
         color: '#333333',
-        fontSize: 18,
+        fontSize: Fs/18,
         paddingLeft: 80,
     },
     forget:{
         position: 'relative',
         display:'flex',
         alignItems:'flex-end',
-        fontSize: 18,
+        fontSize: Fs/18,
         marginTop: 15,
         marginBottom: 15,
         overflow: 'hidden',
@@ -378,7 +382,6 @@ const styles = StyleSheet.create({
         position: 'relative',
         width: '47.5%',
         height: 40,
-        fontSize: 28,
         color: '#333',
         backgroundColor: '#eee',
         borderRadius: 10,
@@ -389,14 +392,14 @@ const styles = StyleSheet.create({
         lineHeight: 40,
         textAlignVertical: 'center',
         textAlign: 'center',
-        fontSize:18,
+        fontSize: Fs/18,
     },
     buttonR:{
         height: 40,
         lineHeight: 40,
         textAlignVertical: 'center',
         textAlign: 'center',
-        fontSize:18,
+        fontSize: Fs/18,
         backgroundColor:'#2EA4FF',
         borderRadius: 10,
         color:'#fff'
@@ -444,7 +447,7 @@ const styles = StyleSheet.create({
         height: 50,
         lineHeight: 50,
         textAlign: 'right',
-        fontSize: 16,
+        fontSize: Fs/20,
         color: '#01AAED',
         zIndex: 99,
     },

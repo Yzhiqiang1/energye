@@ -1,7 +1,8 @@
-import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
+import { Dimensions, Image, PixelRatio, Pressable, StyleSheet, Text, View } from 'react-native'
 import * as React from 'react';
 import styleg from '../../indexCss'
 import { CheckBox, Dialog } from '@rneui/base';
+const Fs = Dimensions.get('window').width*PixelRatio.getFontScale()
 
 export class MyLegend extends React.Component<any,any> {
     constructor(props:any){
@@ -211,7 +212,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#fff',
         overflow: 'hidden',
-        fontSize: 16,
+        fontSize: Fs/20,
     },
     
     dial :{
@@ -232,7 +233,7 @@ const styles = StyleSheet.create({
         flex: 2.2,
     },
     dialText:{
-        fontSize: 16,
+        fontSize: Fs/20,
         color: '#666666',
         marginRight: 5,
     },
@@ -249,7 +250,7 @@ const styles = StyleSheet.create({
     
     /* 弹框 */
     popContainer :{
-        fontSize: 16,
+        fontSize: Fs/20,
     },
     
     dialogCont :{
@@ -279,7 +280,7 @@ const styles = StyleSheet.create({
         color: '#fff',
         backgroundColor: '#07c160',
         borderRadius: 5,
-        fontSize: 18,
+        fontSize: Fs/18,
         textAlign: 'center',
     },
     checkbox:{

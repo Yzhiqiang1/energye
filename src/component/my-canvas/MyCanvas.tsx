@@ -1,6 +1,6 @@
 
 import * as React from 'react';
-import { View, StyleSheet, Text, } from 'react-native';
+import { View, StyleSheet} from 'react-native';
 import RNEChartsPro from "react-native-echarts-pro";//echarts图
 
 let echarts: any

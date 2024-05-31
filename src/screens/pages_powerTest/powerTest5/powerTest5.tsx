@@ -1,4 +1,4 @@
-import { DeviceEventEmitter, Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { DeviceEventEmitter, Dimensions, Image, PixelRatio, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import React, { Component } from 'react'
 import Navbar from '../../../component/navbar/navbar'
 import util from '../../../utils/util'
@@ -12,6 +12,7 @@ import { getTransition } from '../../../utils/util';//时间戳转字符串
 import Loading from '../../../component/Loading/Loading'//加载组件
 import Picker from '../../../component/Picker/Picker'
 const api = require('../../../utils/api')
+const Fs = Dimensions.get('window').width*PixelRatio.getFontScale()
 
 export class PowerTest5 extends Component<any,any> {
     constructor(props:any){
@@ -416,7 +417,7 @@ export class PowerTest5 extends Component<any,any> {
     }
   render() {
     return (
-      <View>
+      <SafeAreaView style={{flex: 1}}>
         {/* 引入自定义导航栏 */}
         <Navbar
             pageName={'平均功率因数'}
@@ -475,7 +476,7 @@ export class PowerTest5 extends Component<any,any> {
             visible={this.state.visible} 
             LoadingMsg={this.state.LoadingMsg}>
         </Loading>
-      </View>
+      </SafeAreaView>
     )
   }
 }
@@ -505,7 +506,7 @@ const styles = StyleSheet.create({
         textAlignVertical: 'center',
         paddingLeft: 12,
         paddingRight: 12,
-        fontSize: 18,
+        fontSize: Fs/18,
         color: '#666666',
         borderStyle:'solid',
         borderWidth: 1,
@@ -531,7 +532,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 40,
         lineHeight: 40,
-        fontSize: 18,
+        fontSize: Fs/18,
         textAlign: 'center',
         borderColor: '#E5E5E5',
         borderBottomWidth: 1,
@@ -549,7 +550,7 @@ const styles = StyleSheet.create({
         paddingTop: 25,
         paddingBottom: 25,
         textAlign: 'center',
-        fontSize: 18,
+        fontSize: Fs/18,
         color: '#999999',
         overflow: 'hidden',
     },

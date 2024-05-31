@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { Dimensions, Image, PixelRatio, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import React, { Component } from 'react'
 import Navbar from '../../../component/navbar/navbar'
 import styleg from '../../../indexCss'
@@ -7,6 +7,7 @@ import store from '../../../redux/store'
 import { HttpService } from '../../../utils/http'
 import Loading from '../../../component/Loading/Loading'
 const api = require('../../../utils/api')
+const Fs = Dimensions.get('window').width*PixelRatio.getFontScale()
 
 export class Security4 extends Component<any,any> {
     constructor(props:any){
@@ -152,7 +153,7 @@ export class Security4 extends Component<any,any> {
     }
     render() {
         return (
-            <View>
+            <SafeAreaView style={{flex: 1}}>
                 {/* 引入自定义导航栏 */}
                 <Navbar 
                     pageName={'相电流'}
@@ -227,7 +228,7 @@ export class Security4 extends Component<any,any> {
                     visible={this.state.visible} 
                     LoadingMsg={this.state.LoadingMsg}>
                 </Loading>
-            </View>
+            </SafeAreaView>
         )
     }
 }
@@ -297,7 +298,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 40,
         lineHeight: 40,
-        fontSize: 16,
+        fontSize: Fs/20,
         color: '#333',
         overflow: 'hidden',
     },
@@ -351,7 +352,7 @@ const styles = StyleSheet.create({
         height: 20,
         lineHeight: 20,
         textAlign: 'center',
-        fontSize: 16,
+        fontSize: Fs/20,
         color: '#999',
         overflow: 'hidden',
     },
@@ -360,7 +361,7 @@ const styles = StyleSheet.create({
         width: '100%',
         // padding: 50rpx 0,
         textAlign: 'center',
-        fontSize: 18,
+        fontSize: Fs/18,
         color: '#999999',
         overflow: 'hidden',
     },

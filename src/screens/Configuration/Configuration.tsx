@@ -1,12 +1,4 @@
-import { 
-    Text, 
-    View, 
-    Image, 
-    TextInput, 
-    ScrollView, 
-    Dimensions, 
-    Pressable,
-} from 'react-native'
+import {Text, View, Image, TextInput, ScrollView, Dimensions, Pressable, PixelRatio, SafeAreaView, LayoutChangeEvent,} from 'react-native'
 
 import React, { Component } from 'react'
 import { StyleSheet } from 'react-native'
@@ -18,10 +10,8 @@ import store from '../../redux/store'
 import Loading from '../../component/Loading/Loading'
 import { Shadow } from 'react-native-shadow-2';
 const api = require('../../utils/api')
-const Overlay = require('rn-overlay') //信息提示框
-const Toast = Overlay.Toast
-
-const top = Dimensions.get('window').height-155-60//屏幕显示区域高度
+const Fs = Dimensions.get('window').width*PixelRatio.getFontScale()
+const ht = Dimensions.get('window').height*PixelRatio.getFontScale()
 
 export class Configuration extends Component<any,any> {
   constructor(props: any){
@@ -37,6 +27,7 @@ export class Configuration extends Component<any,any> {
         isLastPage: false, //是否加载最后一页
         scrollIs: true, //滚动中禁止重复滚动
         visible: false,
+        boxHeight: 0
     }
   }
   
@@ -56,6 +47,12 @@ export class Configuration extends Component<any,any> {
         }
     });
   }
+  boxH=(e: any)=>{
+    const { height: newHeight } = e.nativeEvent.layout;
+    this.setState({
+        boxHeight: newHeight
+    })
+  }
   /************************************
    *     校验登录通过
    * *****************************/
@@ -67,7 +64,9 @@ export class Configuration extends Component<any,any> {
     let that = this;
     //加载效果
     this.setState({
-      visible: true
+        type: 1,
+        visible: true,
+        LoadingMsg: '查询中...'
     })
     //查询数据
     that.setState({
@@ -90,7 +89,17 @@ export class Configuration extends Component<any,any> {
         this.getFirst();
     } else {
         //错误提示信息
-        Toast.show('关键字不能为空')
+        this.setState({
+          msgType: 2,
+          visible: true,
+          LoadingMsg: '关键字不能为空'
+        },()=>{
+            setTimeout(()=>{
+                this.setState({
+                    visible: false,
+                })
+            },2000)
+        })
     }
   }
   //重置关键字搜索
@@ -163,7 +172,17 @@ export class Configuration extends Component<any,any> {
             })
         }
       } else {
-        Toast.show(res.msg);
+        this.setState({
+          msgType: 2,
+          visible: true,
+          LoadingMsg: res.msg
+        },()=>{
+            setTimeout(()=>{
+                this.setState({
+                    visible: false,
+                })
+            },2000)
+        })
       }
     }).catch((res)=>{
       console.log(res);
@@ -172,7 +191,7 @@ export class Configuration extends Component<any,any> {
 
   render() {
     return (
-      <View style={styleg.containerMax}>
+      <SafeAreaView style={styleg.containerMax} onLayout={(event) => this.boxH(event)}>
         <View style={styles.nav}>
           <Pressable style={styles.navLeft} onPress={()=>{this.props.navigation.navigate('Index')}}>
             <Image style={styles.navImg} source={require('../../image/Home.png')}></Image>
@@ -211,22 +230,20 @@ export class Configuration extends Component<any,any> {
           </View>
         </View>
 
-        <ScrollView style={[styles.view,{height:top}]} onMomentumScrollEnd={this.downScroll}>
+        <ScrollView style={[styles.view,{height:this.state.boxHeight-ht/8*2-ht/10-5}]} onMomentumScrollEnd={this.downScroll}>
             {this.state.LoginStatus == 2?
               <View style={styles.box}>
               {this.state.objArr.map((data:any, index:any) => {
                 return (
                   <Shadow distance={2} style={[styles.row,styles.rowR]}  key={index}>
-                    {/* <View  key={index}> */}
                       <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': 'white'},styles.item]}
                         onPress={()=>{this.props.navigation.navigate('ConfigurationDetails',{url:data.url,name:data.appname})}}
                       >
                           <View style={styles.images}>
-                              <Image style={styles.img} source={require('../../image/Not.png')}></Image>
+                              <Image style={styles.img} source={{uri:'https://www.energye.cn/images/zutai/Not.png'}}></Image>
                           </View>
                           <Text style={styles.Scrollname}>{data.appname}</Text>
                       </Pressable>
-                    {/* </View> */}
                   </Shadow>
                 );
               })}
@@ -261,11 +278,12 @@ export class Configuration extends Component<any,any> {
         </ScrollView>
 
         <Loading
-          visible = {this.state.visible}
-          LoadingMsg = {'查询中...'}
+            type={this.state.type}
+            LoadingMsg={this.state.LoadingMsg}
+            visible={this.state.visible}
         ></Loading>
-        <Menu myMeun={'1002'} props={this.props} ></Menu>
-      </View>
+        <Menu myMeun={'1002'} props={this.props}></Menu>
+      </SafeAreaView>
     )
   }
 }
@@ -273,13 +291,14 @@ export class Configuration extends Component<any,any> {
 const styles = StyleSheet.create({
   nav:{
     position:'relative',
-    height:60,
+    height: ht/10,
     backgroundColor:'#2ea4ff',
   },
   navLeft:{
     position:'absolute',
-    left:10,
-    top:15,
+    left:15,
+    top: '50%',
+    marginTop: -15,
     zIndex:999,
     width: 30,
     height: 30,
@@ -294,19 +313,19 @@ const styles = StyleSheet.create({
     height:25,
   },
   navName:{
-    height:60,
-    lineHeight:60,
+    height:ht/10,
+    lineHeight:ht/10,
     textAlignVertical: 'center',
     textAlign:'center',
-    fontSize:20,
+    fontSize:Fs/16,
     color:'#fff'
   },
   head:{
     position: 'absolute',
-    top: 60,
+    top: ht/10,
     left: 0,
     width: '100%',
-    height: 90,
+    height: ht/8,
     paddingRight:10,
     paddingLeft:10,
     backgroundColor: '#fff',
@@ -330,11 +349,11 @@ const styles = StyleSheet.create({
   input:{
     position: 'relative',
     width: '100%',
-    height: 35,
+    height: 40,
     paddingLeft: 5,
     paddingRight: 5,
     color: '#333',
-    fontSize: 16,
+    fontSize: Fs/18,
     borderStyle: 'solid',
     borderWidth:1,
     borderColor: '#f2f2f2',
@@ -374,7 +393,7 @@ const styles = StyleSheet.create({
     lineHeight: 35,
     textAlignVertical: 'center',
     color:'#fff',
-    fontSize: 16,
+    fontSize: Fs/18,
   },
   ico:{
     position: 'absolute',
@@ -401,7 +420,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
     color: '#1890FF',
     fontWeight: '700',
-    fontSize: 16,
+    fontSize: Fs/18,
     overflow: 'hidden',
   },
   number:{
@@ -417,13 +436,13 @@ const styles = StyleSheet.create({
   Spot: {
     height: 30,
     color: '#333',
-    fontSize: 14,
+    fontSize: Fs/20,
     lineHeight: 30,
     textAlignVertical: 'center',
   },
   numberSpot1:{
     position:'absolute',
-    top:10,
+    top:12,
     left:0,
     width: 8,
     height: 8,
@@ -453,7 +472,7 @@ const styles = StyleSheet.create({
   },
   view:{
     position: 'absolute',
-    top: 155,
+    top: ht/8+ht/10+5,
     padding: 5,
     width: '100%',
     backgroundColor: '#fff',
@@ -489,7 +508,7 @@ const styles = StyleSheet.create({
   },
   img:{
     width: '100%',
-    height: 205,
+    height: '100%',
   },
   Scrollname:{
     position: 'relative',
@@ -497,7 +516,7 @@ const styles = StyleSheet.create({
     height: 40,
     lineHeight: 40,
     textAlign: 'center',
-    fontSize: 18,
+    fontSize: Fs/18,
     color: '#333333',
     overflow: 'hidden',
   },
@@ -507,7 +526,7 @@ const styles = StyleSheet.create({
     height: 40,
     lineHeight: 40,
     textAlign: 'center',
-    fontSize: 18,
+    fontSize: Fs/18,
     color: '#666',
     marginBottom: 10,
     overflow: 'hidden',
@@ -517,7 +536,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 35,
     lineHeight: 35,
-    fontSize: 18,
+    fontSize: Fs/18,
     color: '#999',
     textAlign: 'center',
     overflow: 'hidden',
@@ -533,7 +552,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 35,
     lineHeight: 35,
-    fontSize: 16,
+    fontSize: Fs/20,
     color: '#999',
     textAlign: 'center',
     overflow: 'hidden',
@@ -541,7 +560,7 @@ const styles = StyleSheet.create({
   url:{
     color: '#4395ff',
     textDecorationLine:'underline',
-    fontSize: 16,
+    fontSize: Fs/20,
   },
 }) 
 

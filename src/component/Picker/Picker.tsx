@@ -1,9 +1,10 @@
-import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
+import { Dimensions, Image, PixelRatio, Pressable, StyleSheet, Text, View } from 'react-native'
 import React, { Component } from 'react'
 import { DatePickerView, PickerValue, PickerView } from '@ant-design/react-native'
 import { Dialog } from '@rneui/themed';
 import styleg from '../../indexCss';
 import { getTransition } from '../../utils/util';
+const Fs = Dimensions.get('window').width*PixelRatio.getFontScale()
 
 export class Picker extends Component<any,any> {
     constructor(props:any){
@@ -391,7 +392,7 @@ const styles = StyleSheet.create({
         height: 30,
         lineHeight: 30,
         textAlignVertical: 'center',
-        fontSize: 18,
+        fontSize: Fs/18,
         borderStyle: 'solid',
         borderWidth: 1,
         borderColor: '#333',
@@ -411,7 +412,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     bot:{
-        fontSize:18,
+        fontSize: Fs/18,
     },
     right:{
         position: 'absolute',

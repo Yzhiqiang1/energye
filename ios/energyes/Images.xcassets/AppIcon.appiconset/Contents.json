@@ -49,5 +49,9 @@
   "info" : {
     "author" : "xcode",
     "version" : 1
+  },
+  "properties" :{
+    "pre-renderer": true,
+    "localizable" : true
   }
 }

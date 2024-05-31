@@ -1,6 +1,7 @@
 import { StackNavigationProp } from '@react-navigation/stack'
 import React from 'react'
-import { Text, View, StyleSheet, TouchableOpacity, ActivityIndicator, Image, Pressable, Dimensions, DeviceEventEmitter, ScrollView} from 'react-native'
+import { Text, View, StyleSheet, TouchableOpacity, ActivityIndicator, PixelRatio,
+Image, Pressable, Dimensions, DeviceEventEmitter, ScrollView} from 'react-native'
 import store from '../../redux/store'//全局数据管理
 import { HttpService } from '../../utils/http'//网络请求服务
 import { parameter_Group } from '../../redux/actions/user'
@@ -9,9 +10,9 @@ import { Icon } from '@rneui/themed';//ico图标
 import Tree from '../tree/Tree'
 import Loading from '../Loading/Loading'
 const api = require( '../../utils/api')//接口文件
+const ht = Dimensions.get('window').height*PixelRatio.getFontScale()
+const Fs = Dimensions.get('window').width*PixelRatio.getFontScale()
 
-const height = Dimensions.get('window').height
-const width = Dimensions.get('window').width
 
 export class Navbar extends React.Component<any,any> {
     
@@ -378,6 +379,7 @@ export class Navbar extends React.Component<any,any> {
                     that.setState({
                         treeLoading: false,
                         dataTree: res.data,
+                        treeName: that.state.arrGroup[that.state.isGroup].name
                     })
                 }
             } else {
@@ -385,7 +387,8 @@ export class Navbar extends React.Component<any,any> {
                 //更新数据
                 that.setState({
                     treeLoading: false,
-                    treeName: res.msg != '操作成功' ? res.msg : "该分组下无数据，请点击选择分组！",
+                    treeName: res.msg != '操作成功' ? res.msg : '该分组下无数据，请点击选择分组！',
+                    dataTree: []
                 })
             }
         }).catch((fail_message) => {
@@ -570,7 +573,7 @@ export class Navbar extends React.Component<any,any> {
     render() {
         const {navigation,}: {navigation?: StackNavigationProp<any, any>; } = this.props.props
         return (
-                <View style={[styles.navbar,{height:70}]}>
+                <View style={[styles.navbar,{height: ht/9}]}>
                     <View style={[styles.navbar_head]}>
                         {this.props.showBack?
                             <Pressable style={styles.navbar_left} onPress={this.navBack}>
@@ -595,7 +598,7 @@ export class Navbar extends React.Component<any,any> {
                         <Text style={styles.navbar_text}>{this.props.pageName}</Text>
                         {this.props.LoginStatus == 1?
                             <TouchableOpacity style={styles.treeSelect} onPress={()=>{navigation?.navigate('BindAccount')}}>
-                                <Text style={[styles.navbar_text,{fontSize:18,color:'#2EA4FF'}]}>您还未登录,点击登录</Text>
+                                <Text style={[styles.navbar_text,{fontSize:Fs/18,color:'#2EA4FF',fontWeight: '100'}]}>您还未登录,点击登录</Text>
                             </TouchableOpacity> : ''
                         }
                         {this.props.LoginStatus == 2?
@@ -710,7 +713,9 @@ const styles = StyleSheet.create({
     navbar_text:{
       width: '100%',
       textAlign:'center',
-      fontSize: 20
+      fontSize: Fs/17,
+      fontWeight: '600',
+      color: '#333'
     },
     treeSelect:{
         position: 'relative',
@@ -740,7 +745,7 @@ const styles = StyleSheet.create({
         maxWidth:150,
         height: 28,
         lineHeight: 28,
-        fontSize: 16,
+        fontSize: Fs/20,
         color:'#666',
         overflow: 'hidden',
     },
@@ -760,8 +765,8 @@ const styles = StyleSheet.create({
         top:70,
         display:'flex',
         alignItems:'center',
-        width: width,
-        height: height,
+        width: Dimensions.get('window').width,
+        height: Dimensions.get('window').height,
         backgroundColor: '#aaaaaa',
         zIndex:9999
     },
@@ -802,7 +807,7 @@ const styles = StyleSheet.create({
         textAlignVertical: 'center',
         paddingRight: 5,
         paddingLeft: 10,
-        fontSize: 18,
+        fontSize: Fs/18,
         color: '#666',
         overflow: 'hidden',
     },

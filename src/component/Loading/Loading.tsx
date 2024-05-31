@@ -1,6 +1,7 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { Dimensions, StyleSheet, Text, PixelRatio} from 'react-native'
 import React, { Component } from 'react'
 import { Dialog } from '@rneui/themed';
+const Fs = Dimensions.get('window').width*PixelRatio.getFontScale()
 
 
 export class Loading extends Component<any,any> {
@@ -49,12 +50,12 @@ const styles = StyleSheet.create({
         width:'auto'
     },
     text: {
-        fontSize:18,
+        fontSize: Fs/18,
         color: '#333',
     },
     showText: {
         maxWidth: 200,
-        fontSize:18,
+        fontSize: Fs/18,
         color: '#fff',
     },
 })

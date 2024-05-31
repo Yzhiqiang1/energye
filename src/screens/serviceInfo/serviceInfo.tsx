@@ -1,6 +1,8 @@
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Dimensions, PixelRatio, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import React, { Component } from 'react'
 import Navbar from '../../component/navbar/navbar'
+const Fs = Dimensions.get('window').width*PixelRatio.getFontScale()
+const ht = Dimensions.get('window').height*PixelRatio.getFontScale()
 
 export class ServiceInfo extends Component<any,any> {
     constructor(props: {}){
@@ -11,7 +13,7 @@ export class ServiceInfo extends Component<any,any> {
     }
   render() {
     return (
-      <View>
+      <SafeAreaView style={{flex: 1}}>
         {/* 引入自定义导航栏 */}
         <Navbar
             pageName={'《TLINK物联网平台服务条款》'}
@@ -147,14 +149,14 @@ export class ServiceInfo extends Component<any,any> {
                 
             </ScrollView>
         </View>
-      </View>
+      </SafeAreaView>
     )
   }
 }
 const styles = StyleSheet.create({
     box:{
         width: '100%',
-        marginTop: 70,
+        marginTop: ht/8,
         display:'flex',
         alignItems: 'center',
         backgroundColor: '#fff',
@@ -167,7 +169,7 @@ const styles = StyleSheet.create({
     title1:{
         color: '#333',
         fontWeight: '700',
-        fontSize: 20,
+        fontSize: Fs/16,
         marginTop: 10,
         marginBottom: 10,
     },
@@ -177,7 +179,7 @@ const styles = StyleSheet.create({
     title2:{
         color: '#333',
         fontWeight: '700',
-        fontSize: 18 ,
+        fontSize: Fs/18 ,
         marginTop: 7,
         marginBottom: 7,
     },
@@ -191,7 +193,7 @@ const styles = StyleSheet.create({
       alignItems: 'center',
     },
     deny:{
-      fontSize: 20,
+      fontSize: Fs/16,
       width: 120,
     },
     accept:{
@@ -199,7 +201,7 @@ const styles = StyleSheet.create({
         height: 40,
         lineHeight: 40,
         textAlign: 'center',
-        fontSize: 18,
+        fontSize: Fs/18,
         color: '#fff',
         backgroundColor: '#2EA4FF',
         borderRadius: 5,

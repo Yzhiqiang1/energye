@@ -1,7 +1,8 @@
-import { StyleSheet, Text, View} from 'react-native'
+import { Dimensions, PixelRatio, StyleSheet, View} from 'react-native'
 import React, { Component } from 'react'
-import {WebView} from 'react-native-webview'
+import { WebView } from 'react-native-webview'
 import LoginNavbar from '../../component/loginNavbar/loginNavbar'
+const ht = Dimensions.get('window').height*PixelRatio.getFontScale()
 
 export class ConfigurationDetails extends Component<any,any> {
     constructor(props:any){
@@ -13,7 +14,7 @@ export class ConfigurationDetails extends Component<any,any> {
     render() {        
         return (
             <View style={{ flex: 1 }}>
-                <View style={{height:60,backgroundColor:'#2ea4ff'}}>
+                <View style={{height:ht/10,backgroundColor:'#2ea4ff'}}>
                     <LoginNavbar 
                         props={this.props}
                         name={this.props.route.params.name}
@@ -30,7 +31,7 @@ export class ConfigurationDetails extends Component<any,any> {
     }
 }
 const styles = StyleSheet.create({
-    WebView:{
+    WebView:{   
         flex: 1,
     }
 })

@@ -13,7 +13,7 @@ export class Tabbar extends Component {
     count:0
   }
   componentDidMount(){
-    console.log('发送请求')
+    
   }
   render() {
     return (

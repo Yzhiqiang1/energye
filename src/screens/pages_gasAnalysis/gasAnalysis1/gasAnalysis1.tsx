@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, ScrollView } from 'react-native'
+import { StyleSheet, Text, View,  ScrollView, Dimensions, PixelRatio, SafeAreaView, } from 'react-native'
 import React, { Component } from 'react'
 import Navbar from '../../../component/navbar/navbar'
 import styleg from '../../../indexCss'
@@ -11,6 +11,7 @@ import { HttpService } from '../../../utils/http'
 import Loading from '../../../component/Loading/Loading'
 import Picker from '../../../component/Picker/Picker'
 const api = require('../../../utils/api')
+const Fs = Dimensions.get('window').width*PixelRatio.getFontScale()
 
 export class GasAnalysis1 extends Component<any,any> {
     _s = util.oneData(3) < 10 ? '0' + util.oneData(3) : util.oneData(3);
@@ -480,7 +481,7 @@ export class GasAnalysis1 extends Component<any,any> {
     }
     render() {
         return (
-            <View>
+            <SafeAreaView style={{flex: 1}}>
                 {/* 引入自定义导航栏 */}
                 <Navbar 
                     pageName={'用气报表'}
@@ -598,7 +599,7 @@ export class GasAnalysis1 extends Component<any,any> {
                     visible={this.state.visible} 
                     LoadingMsg={this.state.LoadingMsg}>
                 </Loading>
-            </View>
+            </SafeAreaView>
         )
     }
 }
@@ -652,7 +653,7 @@ const styles = StyleSheet.create({
     },
     tabflex:{
         flex: 1,
-        fontSize: 18,
+        fontSize: Fs/18,
         textAlign:'center',
         lineHeight:40,
         height: 40,
@@ -660,7 +661,7 @@ const styles = StyleSheet.create({
     },
     flex:{
         flex: 1,
-        fontSize: 18,
+        fontSize: Fs/18,
         paddingLeft: 10,
         textAlign:'center',
     },
@@ -678,7 +679,7 @@ const styles = StyleSheet.create({
         textAlignVertical: 'center',
         paddingLeft: 12,
         paddingRight: 12,
-        fontSize: 18,
+        fontSize: Fs/18,
         color: '#666666',
         borderStyle:'solid',
         borderWidth: 1,
@@ -706,7 +707,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 40,
         lineHeight: 40,
-        fontSize: 18,
+        fontSize: Fs/18,
         textAlign: 'center',
         borderColor: '#E5E5E5',
         borderBottomWidth: 1,
@@ -724,7 +725,7 @@ const styles = StyleSheet.create({
         paddingTop: 25,
         paddingBottom: 25,
         textAlign: 'center',
-        fontSize: 18,
+        fontSize: Fs/18,
         color: '#999999',
         overflow: 'hidden',
     },

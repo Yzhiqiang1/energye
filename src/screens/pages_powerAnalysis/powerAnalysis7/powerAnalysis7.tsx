@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Dimensions, PixelRatio, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import React, { Component } from 'react'
 import Navbar from '../../../component/navbar/navbar'
 import styleg from '../../../indexCss'
@@ -9,6 +9,7 @@ import { HttpService } from '../../../utils/http'
 import Loading from '../../../component/Loading/Loading'
 import Picker from '../../../component/Picker/Picker'
 const api = require('../../../utils/api')
+const Fs = Dimensions.get('window').width*PixelRatio.getFontScale()
 
 export class PowerAnalysis7 extends Component<any,any> {
     constructor(props:any){
@@ -223,7 +224,7 @@ export class PowerAnalysis7 extends Component<any,any> {
     }
     render() {
         return (
-        <View>
+        <SafeAreaView style={{flex: 1}}>
             {/* 引入自定义导航栏 */}
             <Navbar 
                 pageName={'最大需量'}
@@ -330,7 +331,7 @@ export class PowerAnalysis7 extends Component<any,any> {
                 visible={this.state.visible} 
                 LoadingMsg={this.state.LoadingMsg}>
             </Loading>
-        </View>
+        </SafeAreaView>
         )
     }
 }
@@ -355,7 +356,7 @@ const styles = StyleSheet.create({
         textAlignVertical: 'center',
         paddingLeft: 12,
         paddingRight: 12,
-        fontSize: 16,
+        fontSize: Fs/20,
         color: '#666666',
         borderWidth: 1,
         borderColor: '#d9d9d9',
@@ -373,7 +374,7 @@ const styles = StyleSheet.create({
         lineHeight: 30,
         textAlignVertical: 'center',
         paddingRight: 5,
-        fontSize: 16,
+        fontSize: Fs/20,
         color: '#666666',
         overflow: 'hidden',
     },
@@ -403,7 +404,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 40,
         lineHeight: 35,
-        fontSize: 18,
+        fontSize: Fs/18,
         paddingLeft: 10,
         paddingRight: 10,
         borderBottomWidth:1,
@@ -456,7 +457,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 40,
         lineHeight: 40,
-        fontSize: 18,
+        fontSize: Fs/18,
         color: '#333',
         textAlign: 'center',
         overflow: 'hidden',
@@ -482,12 +483,12 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        fontSize: 14,
+        fontSize: Fs/22,
     },
     value:{
         position: 'relative',
         width: '100%',
-        fontSize: 14,
+        fontSize: Fs/22,
         color: '#333',
         textAlign: 'center',
         overflow: 'hidden',
@@ -499,17 +500,16 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        fontSize: 14,
+        fontSize: Fs/22,
         overflow: 'hidden',
     },
     empty:{
         position: 'relative',
         width: '100%',
-        // padding: 50rpx 0,
         paddingTop: 25,
         paddingBottom: 25,
         textAlign: 'center',
-        fontSize: 18,
+        fontSize: Fs/18,
         color: '#999999',
         overflow: 'hidden',
     },
