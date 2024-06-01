@@ -1,4 +1,4 @@
-import { Dimensions, Image, PixelRatio, SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import { Dimensions, Image, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import React, { Component } from 'react'
 import Navbar from '../../../component/navbar/navbar'
 import styleg from '../../../indexCss'
@@ -7,7 +7,7 @@ import store from '../../../redux/store'
 import { HttpService } from '../../../utils/http'
 import Loading from '../../../component/Loading/Loading'
 const api = require('../../../utils/api')
-const Fs = Dimensions.get('window').width*PixelRatio.getFontScale()
+const Fs = Dimensions.get('window').width*0.8
 
 export class Security4 extends Component<any,any> {
     constructor(props:any){
@@ -153,82 +153,86 @@ export class Security4 extends Component<any,any> {
     }
     render() {
         return (
-            <SafeAreaView style={{flex: 1}}>
-                {/* 引入自定义导航栏 */}
-                <Navbar 
-                    pageName={'相电流'}
-                    showBack={true}
-                    showHome={false}
-                    isCheck={4}
-                    LoginStatus={this.state.LoginStatus}
-                    props={this.props}>
-                </Navbar>
-                {/* 内容区 */}
-                <View style={styleg.container}>
-                    <View  style={styles.device}>
-                        {this.state.dataArr.length == 0?
-                            <Text style={styles.empty}>暂无数据</Text>:''
-                        }
-                        {this.state.dataArr.map((item:any,index:number)=>{
-                            return(
-                                <View style={styles.item} key={index}>
-                                    <View style={styles.block}>
-                                        {/* <navigator 
-                                            url="../index4_dl/index4_dl?deviceId={{item.deviceid}}&deviceName={{item.deviceName}}"
-                                            class="url"
-                                            open-type="navigate"
-                                        > */}
-                                        <View style={styles.title}>
-                                                <View style={styles.image}>
-                                                    <Image style={styles.img} src='../../image/dianbiao.png'></Image>
-                                                </View>
-                                                <View style={styles.flex}>
-                                                    <Text style={styles.name}>
-                                                        {item.deviceName}
-                                                    </Text>
-                                                </View>
-                                            </View>
-                                            <View style={styles.ul}>
-                                                <Text style={styles.p1}>
-                                                    <View style={styles.t1c1}></View>
-                                                    A:
-                                                    <Text style={styles.t2}>
-                                                        {item.data.Ia.val}
-                                                        {item.data.Ia.dangwei}
-                                                    </Text>
-                                                </Text>
-                                                <Text style={styles.p1}>
-                                                    <View style={styles.t1c2}></View>
-                                                    B:
-                                                    <Text style={styles.t2}>
-                                                        {item.data.Ib.val}
-                                                        {item.data.Ib.dangwei}
-                                                    </Text>
-                                                </Text>
-                                                <Text style={styles.p1}>
-                                                    <View style={styles.t1c3}></View>
-                                                    C:
-                                                    <Text style={styles.t2}>
-                                                        {item.data.Ic.val}
-                                                        {item.data.Ic.dangwei}
-                                                    </Text>
-                                                </Text>
-                                                <Text style={styles.t2}>{item.lastDate}</Text>
-                                            </View>
-                                        {/* </navigator> */}
-                                    </View>
-                                </View>
-                            )
-                        })}
-                    </View>
+            <View style={{flex: 1}}>
+                <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
                 </View>
-                {/* 弹窗效果组件 */}
-                <Loading 
-                    type={this.state.msgType} 
-                    visible={this.state.visible} 
-                    LoadingMsg={this.state.LoadingMsg}>
-                </Loading>
-            </SafeAreaView>
+                <SafeAreaView style={{flex: 1}}>
+                    {/* 引入自定义导航栏 */}
+                    <Navbar 
+                        pageName={'相电流'}
+                        showBack={true}
+                        showHome={false}
+                        isCheck={4}
+                        LoginStatus={this.state.LoginStatus}
+                        props={this.props}>
+                    </Navbar>
+                    {/* 内容区 */}
+                    <View style={styleg.container}>
+                        <View  style={styles.device}>
+                            {this.state.dataArr.length == 0?
+                                <Text style={styles.empty}>暂无数据</Text>:''
+                            }
+                            {this.state.dataArr.map((item:any,index:number)=>{
+                                return(
+                                    <View style={styles.item} key={index}>
+                                        <View style={styles.block}>
+                                            {/* <navigator 
+                                                url="../index4_dl/index4_dl?deviceId={{item.deviceid}}&deviceName={{item.deviceName}}"
+                                                class="url"
+                                                open-type="navigate"
+                                            > */}
+                                            <View style={styles.title}>
+                                                    <View style={styles.image}>
+                                                        <Image style={styles.img} src='../../image/dianbiao.png'></Image>
+                                                    </View>
+                                                    <View style={styles.flex}>
+                                                        <Text style={styles.name}>
+                                                            {item.deviceName}
+                                                        </Text>
+                                                    </View>
+                                                </View>
+                                                <View style={styles.ul}>
+                                                    <Text style={styles.p1}>
+                                                        <View style={styles.t1c1}></View>
+                                                        A:
+                                                        <Text style={styles.t2}>
+                                                            {item.data.Ia.val}
+                                                            {item.data.Ia.dangwei}
+                                                        </Text>
+                                                    </Text>
+                                                    <Text style={styles.p1}>
+                                                        <View style={styles.t1c2}></View>
+                                                        B:
+                                                        <Text style={styles.t2}>
+                                                            {item.data.Ib.val}
+                                                            {item.data.Ib.dangwei}
+                                                        </Text>
+                                                    </Text>
+                                                    <Text style={styles.p1}>
+                                                        <View style={styles.t1c3}></View>
+                                                        C:
+                                                        <Text style={styles.t2}>
+                                                            {item.data.Ic.val}
+                                                            {item.data.Ic.dangwei}
+                                                        </Text>
+                                                    </Text>
+                                                    <Text style={styles.t2}>{item.lastDate}</Text>
+                                                </View>
+                                            {/* </navigator> */}
+                                        </View>
+                                    </View>
+                                )
+                            })}
+                        </View>
+                    </View>
+                    {/* 弹窗效果组件 */}
+                    <Loading 
+                        type={this.state.msgType} 
+                        visible={this.state.visible} 
+                        LoadingMsg={this.state.LoadingMsg}>
+                    </Loading>
+                </SafeAreaView>
+            </View>
         )
     }
 }

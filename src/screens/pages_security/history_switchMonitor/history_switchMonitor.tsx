@@ -1,4 +1,4 @@
-import { Dimensions, PixelRatio, SafeAreaView, ScrollView, ScrollViewBase, StyleSheet, Text, View } from 'react-native'
+import { Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import React, { Component } from 'react'
 import styleg from '../../../indexCss'
 import MyCanvas from '../../../component/my-canvas/MyCanvas'
@@ -9,7 +9,7 @@ import Loading from '../../../component/Loading/Loading'
 import Navbars from '../../../component/Navbars/Navbars'
 import Picker from '../../../component/Picker/Picker'
 const api = require('../../../utils/api')
-const Fs = Dimensions.get('window').width*PixelRatio.getFontScale()
+const Fs = Dimensions.get('window').width*0.8
 
 export class History_switchMonitor extends Component<any,any> {
     constructor(props:any){
@@ -175,66 +175,70 @@ export class History_switchMonitor extends Component<any,any> {
     }
     render() {
         return (
-            <SafeAreaView style={{flex: 1}}>
-                <Navbars
-                name={'历史记录'}
-                showBack={true}
-                showHome={false}
-                props={this.props}
-                ></Navbars>
-                {/* 内容区 */}
-                <View style={styleg.container10}>
-                    <View style={styles.query_head}>
-                        <View style={styles.flex}>
-                            <Picker
-                                pickerType={1}
-                                date={this.state.start}
-                                precisionType={1}
-                                click={this.clickStart}
-                            >
-                            </Picker>
-                        </View>
-                        <Text style={styles.text}>
-                            至
-                        </Text>
-                        <View style={styles.flex}>
-                            <Picker
-                                pickerType={1}
-                                date={this.state.end}
-                                precisionType={1}
-                                click={this.clickEnd}
-                            >
-                            </Picker>
-                        </View>
-                        <Text style={styles.button} onPress={this.clickSearch}>查询</Text>
-                    </View>
-                    
-                    <ScrollView style={styles.echartsCon}>
-                        {this.state.optionData.length == 0?
-                            <Text style={styles.empty}>暂无数据</Text>:''
-                        }
-                        {this.state.optionData.map((item:any,index:number)=>{
-                            return(
-                                item.state == true?
-                                <View style={styles.item} key={index}>
-                                    <Text style={styles.name}>
-                                        {item.name}
-                                    </Text>
-                                    <View style={styles.echarts}>
-                                        <MyCanvas objData={item}></MyCanvas>
-                                    </View>
-                                </View>:''
-                            )
-                        })}
-                    </ScrollView>
+            <View style={{flex: 1}}>
+                <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
                 </View>
-                {/* 弹窗效果组件 */}
-                <Loading 
-                    type={this.state.msgType} 
-                    visible={this.state.visible} 
-                    LoadingMsg={this.state.LoadingMsg}>
-                </Loading>
-            </SafeAreaView>
+                <SafeAreaView style={{flex: 1}}>
+                    <Navbars
+                    name={'历史记录'}
+                    showBack={true}
+                    showHome={false}
+                    props={this.props}
+                    ></Navbars>
+                    {/* 内容区 */}
+                    <View style={styleg.container10}>
+                        <View style={styles.query_head}>
+                            <View style={styles.flex}>
+                                <Picker
+                                    pickerType={1}
+                                    date={this.state.start}
+                                    precisionType={1}
+                                    click={this.clickStart}
+                                >
+                                </Picker>
+                            </View>
+                            <Text style={styles.text}>
+                                至
+                            </Text>
+                            <View style={styles.flex}>
+                                <Picker
+                                    pickerType={1}
+                                    date={this.state.end}
+                                    precisionType={1}
+                                    click={this.clickEnd}
+                                >
+                                </Picker>
+                            </View>
+                            <Text style={styles.button} onPress={this.clickSearch}>查询</Text>
+                        </View>
+                        
+                        <ScrollView style={styles.echartsCon}>
+                            {this.state.optionData.length == 0?
+                                <Text style={styles.empty}>暂无数据</Text>:''
+                            }
+                            {this.state.optionData.map((item:any,index:number)=>{
+                                return(
+                                    item.state == true?
+                                    <View style={styles.item} key={index}>
+                                        <Text style={styles.name}>
+                                            {item.name}
+                                        </Text>
+                                        <View style={styles.echarts}>
+                                            <MyCanvas objData={item}></MyCanvas>
+                                        </View>
+                                    </View>:''
+                                )
+                            })}
+                        </ScrollView>
+                    </View>
+                    {/* 弹窗效果组件 */}
+                    <Loading 
+                        type={this.state.msgType} 
+                        visible={this.state.visible} 
+                        LoadingMsg={this.state.LoadingMsg}>
+                    </Loading>
+                </SafeAreaView>
+            </View>
         )
     }
 }

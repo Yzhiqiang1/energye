@@ -1,13 +1,14 @@
-import { Dimensions, StyleSheet, Text, View, Image, TextInput, TouchableOpacity, Pressable, PixelRatio, SafeAreaView } from 'react-native'
+import { Dimensions, StyleSheet, Text, View, Image, TextInput, TouchableOpacity, SafeAreaView } from 'react-native'
 import React, { Component,} from 'react'
 import {HttpService} from '../../utils/http'
 import LoginNavbar from '../../component/loginNavbar/loginNavbar'
-let api = require('../../utils/api')
 import Loading from '../../component/Loading/Loading'
 import tool from '../../utils/tool'
 import store from '../../redux/store'
 import { Set_State } from '../../redux/actions/user'
-const Fs = Dimensions.get('window').width*PixelRatio.getFontScale()
+let api = require('../../utils/api')
+
+const Fs = Dimensions.get('window').width*0.8
 
 //全屏幕宽高
 const height = Dimensions.get('window').height
@@ -231,63 +232,72 @@ export class BindPhone extends Component<any,any> {
             console.log(res);
         })
     }
+    boxH=(e:any)=>{
+        const { height: newHeight } = e.nativeEvent.layout;
+        this.setState({
+            boxHeight: newHeight
+        })
+    }
     render() {
         return (
-            <SafeAreaView style={styles.view}>
-                <LoginNavbar
-                    props={this.props}
-                    name={'短信登录'}   
-                    showBack={true}
-                    showHome={false}
-                ></LoginNavbar>
-                <View style={styles.images}>
+            <View style={{flex: 1}}>
+                <View style={styles.images} onLayout={(event) => this.boxH(event)}>
                     <Image style={styles.loginBac} resizeMethod='auto' source={require('../../image/loginBac.png')}></Image>
                 </View>
-                <View style={styles.flex}>
-                    <View style={styles.con}>
-                        <View  style={styles.list}>
-                            <Image style={styles.Img} source={require('../../image/dl_user.png')}></Image>
-                            <TextInput 
-                            style={styles.Input} 
-                            placeholder='输入手机号' 
-                            onChangeText={this.mobileChangeSearch} 
-                            keyboardType='numeric'>
-                            </TextInput>
-                        </View>
-                        <View  style={styles.list}>
-                            <Image style={styles.Img} source={require('../../image/dl_password.png')}></Image>
-                            <TextInput style={styles.Input} placeholder='输入验证码' onChangeText={this.codeChangeSearch} secureTextEntry={true} ></TextInput>
-                            <Text  style={styles.Code} onPress={this.gainCode}>{this.state.mobiletitle}</Text>
-                        </View>
-                        <View style={styles.forget}>
-                            <TouchableOpacity >
-                                <Text style={{color:'#2EA4FF'}}>忘记密码?</Text>
-                            </TouchableOpacity>
-                        </View>
-                        <View  style={styles.butList}>
-                            <View style={styles.button}>
-                                <Text style={styles.buttonL} onPress={()=>this.props.navigation.navigate('Index')}>取消登录</Text>
+                <SafeAreaView style={styles.view}>
+                    <LoginNavbar
+                        props={this.props}
+                        name={'短信登录'}   
+                        showBack={true}
+                        showHome={false}
+                    ></LoginNavbar>
+
+                    <View style={[styles.flex,{top: this.state.boxHeight}]}>
+                        <View style={styles.con}>
+                            <View  style={styles.list}>
+                                <Image style={styles.Img} source={require('../../image/dl_user.png')}></Image>
+                                <TextInput 
+                                style={styles.Input} 
+                                placeholder='输入手机号' 
+                                onChangeText={this.mobileChangeSearch} 
+                                keyboardType='numeric'>
+                                </TextInput>
                             </View>
-                            <View style={styles.button}>
-                                <Text style={styles.buttonR} onPress={this.Login}>登录</Text>
+                            <View  style={styles.list}>
+                                <Image style={styles.Img} source={require('../../image/dl_password.png')}></Image>
+                                <TextInput style={styles.Input} placeholder='输入验证码' onChangeText={this.codeChangeSearch} secureTextEntry={true} ></TextInput>
+                                <Text  style={styles.Code} onPress={this.gainCode}>{this.state.mobiletitle}</Text>
                             </View>
-                        </View>
-                        <View style={styles.link}>
-                            <TouchableOpacity style={styles.Url} onPress={()=>this.props.navigation.navigate('BindAccount')}>
-                                <Text style={{color: '#01AAED',fontSize:Fs/18}}>账号登入</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity style={styles.Url} onPress={()=>this.props.navigation.navigate('AccountRegister')}>
-                                <Text style={{color: '#01AAED',fontSize:Fs/18}}>注册账号</Text>
-                            </TouchableOpacity>
+                            <View style={styles.forget}>
+                                <TouchableOpacity >
+                                    <Text style={{color:'#2EA4FF'}}>忘记密码?</Text>
+                                </TouchableOpacity>
+                            </View>
+                            <View  style={styles.butList}>
+                                <View style={styles.button}>
+                                    <Text style={styles.buttonL} onPress={()=>this.props.navigation.navigate('Index')}>取消登录</Text>
+                                </View>
+                                <View style={styles.button}>
+                                    <Text style={styles.buttonR} onPress={this.Login}>登录</Text>
+                                </View>
+                            </View>
+                            <View style={styles.link}>
+                                <TouchableOpacity style={styles.Url} onPress={()=>this.props.navigation.navigate('BindAccount')}>
+                                    <Text style={{color: '#01AAED',fontSize:Fs/18}}>账号登入</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity style={styles.Url} onPress={()=>this.props.navigation.navigate('AccountRegister')}>
+                                    <Text style={{color: '#01AAED',fontSize:Fs/18}}>注册账号</Text>
+                                </TouchableOpacity>
+                            </View>
                         </View>
                     </View>
-                </View>
-                <Loading
-                    type={this.state.type}
-                    LoadingMsg={this.state.LoadingMsg}
-                    visible={this.state.visible}
-                ></Loading>
-            </SafeAreaView>
+                    <Loading
+                        type={this.state.type}
+                        LoadingMsg={this.state.LoadingMsg}
+                        visible={this.state.visible}
+                    ></Loading>
+                </SafeAreaView>
+            </View>
         )
     }
 }
@@ -301,14 +311,12 @@ const styles = StyleSheet.create({
         height:60,
     },
     view:{
-        position: 'relative',
         flex: 1,
-        backgroundColor: '#f4f4f4',
-        overflow: 'hidden',
-        flexDirection: 'column',
+        display: 'flex',
+        alignItems: 'center'
     },
     images:{
-        position: 'relative',
+        position: 'absolute',
         width: '100%',
         overflow: 'hidden',
     },
@@ -317,8 +325,9 @@ const styles = StyleSheet.create({
         height:height/3.3
     },
     flex:{
-        position: 'relative',
-        flex: 1,
+        position: 'absolute',
+        width: '100%',
+        bottom: 10
     },
     con:{
         position: 'absolute',

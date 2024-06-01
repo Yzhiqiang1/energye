@@ -1,10 +1,10 @@
-import { Dimensions, Image, PixelRatio, Pressable, StyleSheet, Text, View } from 'react-native'
+import { Dimensions, Image, Pressable, StyleSheet, Text, View } from 'react-native'
 import React, { Component } from 'react'
 import { DatePickerView, PickerValue, PickerView } from '@ant-design/react-native'
 import { Dialog } from '@rneui/themed';
 import styleg from '../../indexCss';
 import { getTransition } from '../../utils/util';
-const Fs = Dimensions.get('window').width*PixelRatio.getFontScale()
+const Fs = Dimensions.get('window').width*0.8
 
 export class Picker extends Component<any,any> {
     constructor(props:any){

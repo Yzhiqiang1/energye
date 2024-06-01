@@ -1,4 +1,4 @@
-import { Dimensions, Image, PixelRatio, StyleSheet, Text, TextInput, TouchableOpacity, View,SafeAreaView } from 'react-native'
+import { Dimensions, Image, StyleSheet, Text, TextInput, TouchableOpacity, View,SafeAreaView } from 'react-native'
 import React, { Component } from 'react'
 import { CheckBox } from '@rneui/themed';
 import Navbar from '../../component/navbar/navbar'
@@ -6,7 +6,7 @@ import tool from '../../utils/tool';
 import { HttpService } from '../../utils/http';
 import Loading from '../../component/Loading/Loading';
 const api = require('../../utils/api')
-const Fs = Dimensions.get('window').width*PixelRatio.getFontScale()
+const Fs = Dimensions.get('window').width*0.8
 
 export class AccountRegister extends Component<any,any> {
     constructor(props: any){
@@ -342,68 +342,72 @@ export class AccountRegister extends Component<any,any> {
     }
     render() {
         return (
-        <SafeAreaView style={styles.box}>
-            <Navbar
-                props={this.props}
-                pageName={'注册账号'}   
-                showBack={true}
-                showHome={false}
-                LoginStatus={3}
-            ></Navbar>
-            <View style={styles.view}>
-                <View style={styles.con} >
-                    <View style={styles.list} >
-                        <Image style={styles.Img} source={require('../../image/zc_phone1x.png')}></Image>
-                        <TextInput style={styles.Input} placeholder='输入手机号' keyboardType='numeric' onChangeText={this.bindMobile}></TextInput>
-                    </View>
-                    <View style={styles.list} >
-                        <Image style={styles.Img} source={require('../../image/dl_password.png')}></Image>
-                        <TextInput style={styles.Input} placeholder='输入密码' onChangeText={this.bindPassword} secureTextEntry={true}></TextInput>
-                    </View>
-                    <View style={styles.list} >
-                        <Image style={styles.Img} source={require('../../image/dl_password.png')}></Image>
-                        <TextInput style={styles.Input} placeholder='确认密码' onChangeText={this.bindconfirmPsw} secureTextEntry={true}></TextInput>
-                    </View>
-                    <View style={styles.list} >
-                        <Image style={styles.Img} source={require('../../image/dl_code.png')}></Image>
-                        <TextInput style={styles.Input}  placeholder='获取验证码' onChangeText={this.bindCode}></TextInput>
-                        <Text style={styles.Code} >获取验证码</Text>
-                    </View>
-                    <View style={[styles.lists,{marginTop: 25,}]}>
-                        <CheckBox
-                        checked={this.state.agreeVal}
-                        onPress={()=>this.checkboxChange(!this.state.agreeVal)}
-                        iconType="material-community"
-                        checkedIcon="checkbox-outline"
-                        uncheckedIcon={'checkbox-blank-outline'}
-                        containerStyle={styles.CheckBox}
-                        />
-                        <Text style={styles.agree}>我已阅读并同意</Text>
-                        <Text style={styles.service}
-                            onPress={()=>this.props.navigation.navigate('ServiceInfo')}
-                        >《TLINK物联网平台服务条款》</Text>
-                    </View>
+        <View style={{flex: 1}}>
+            <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
+            </View>
+            <SafeAreaView style={styles.box}>
+                <Navbar
+                    props={this.props}
+                    pageName={'注册账号'}   
+                    showBack={true}
+                    showHome={false}
+                    LoginStatus={3}
+                ></Navbar>
+                <View style={styles.view}>
+                    <View style={styles.con} >
+                        <View style={styles.list} >
+                            <Image style={styles.Img} source={require('../../image/zc_phone1x.png')}></Image>
+                            <TextInput style={styles.Input} placeholder='输入手机号' keyboardType='numeric' onChangeText={this.bindMobile}></TextInput>
+                        </View>
+                        <View style={styles.list} >
+                            <Image style={styles.Img} source={require('../../image/dl_password.png')}></Image>
+                            <TextInput style={styles.Input} placeholder='输入密码' onChangeText={this.bindPassword} secureTextEntry={true}></TextInput>
+                        </View>
+                        <View style={styles.list} >
+                            <Image style={styles.Img} source={require('../../image/dl_password.png')}></Image>
+                            <TextInput style={styles.Input} placeholder='确认密码' onChangeText={this.bindconfirmPsw} secureTextEntry={true}></TextInput>
+                        </View>
+                        <View style={styles.list} >
+                            <Image style={styles.Img} source={require('../../image/dl_code.png')}></Image>
+                            <TextInput style={styles.Input}  placeholder='获取验证码' onChangeText={this.bindCode}></TextInput>
+                            <Text style={styles.Code} >获取验证码</Text>
+                        </View>
+                        <View style={[styles.lists,{marginTop: 25,}]}>
+                            <CheckBox
+                            checked={this.state.agreeVal}
+                            onPress={()=>this.checkboxChange(!this.state.agreeVal)}
+                            iconType="material-community"
+                            checkedIcon="checkbox-outline"
+                            uncheckedIcon={'checkbox-blank-outline'}
+                            containerStyle={styles.CheckBox}
+                            />
+                            <Text style={styles.agree}>我已阅读并同意</Text>
+                            <Text style={styles.service}
+                                onPress={()=>this.props.navigation.navigate('ServiceInfo')}
+                            >《TLINK物联网平台服务条款》</Text>
+                        </View>
 
-                    <View style={styles.butList} >
-                        <Text style={styles.buttonL}>取消注册</Text>
-                        <Text style={styles.buttonR} onPress={this.register} >注册</Text>
-                    </View>
-                    <View style={styles.link} >
-                        <TouchableOpacity>
-                            <Text style={styles.Url} onPress={()=>{this.props.navigation.navigate('BindPhone')}}>短信登录</Text> 
-                        </TouchableOpacity>
-                        <TouchableOpacity>
-                            <Text style={styles.Url} onPress={()=>{this.props.navigation.navigate('BindAccount')}}>账号登录</Text>
-                        </TouchableOpacity>
+                        <View style={styles.butList} >
+                            <Text style={styles.buttonL}>取消注册</Text>
+                            <Text style={styles.buttonR} onPress={this.register} >注册</Text>
+                        </View>
+                        <View style={styles.link} >
+                            <TouchableOpacity>
+                                <Text style={styles.Url} onPress={()=>{this.props.navigation.navigate('BindPhone')}}>短信登录</Text> 
+                            </TouchableOpacity>
+                            <TouchableOpacity>
+                                <Text style={styles.Url} onPress={()=>{this.props.navigation.navigate('BindAccount')}}>账号登录</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
                 </View>
-            </View>
-            <Loading
-                type={this.state.msgType}
-                LoadingMsg={this.state.LoadingMsg}
-                visible={this.state.visible}
-            ></Loading>
-        </SafeAreaView>
+                <Loading
+                    type={this.state.msgType}
+                    LoadingMsg={this.state.LoadingMsg}
+                    visible={this.state.visible}
+                ></Loading>
+            </SafeAreaView>
+        </View>
         )
     }
 }

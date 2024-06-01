@@ -1,12 +1,11 @@
-import { Dimensions, PixelRatio, StyleSheet } from 'react-native'
-const ht = Dimensions.get('window').height*PixelRatio.getFontScale()//屏幕高度
-const height = Dimensions.get('window').height-ht/9//屏幕显示区域高度
+import { Dimensions, StyleSheet } from 'react-native'
+const ht = Dimensions.get('window').height*0.8//屏幕高度
 const styleg = StyleSheet.create({
     containerMax:{
         flex:1,
         backgroundColor: '#f4f4f4',
         zIndex: 9,
-        overflow: 'scroll',
+        overflow: 'visible',
     },
     containerMini:{
         position: 'absolute',
@@ -20,16 +19,16 @@ const styleg = StyleSheet.create({
     container:{
         position: 'absolute',
         top: ht/9,
+        bottom: 0,
         width: '100%',
-        height: height,
         backgroundColor: '#f4f4f4',
         zIndex: 9,
     },
     container10:{
         position: 'absolute',
         top: ht/10,
+        bottom: 0,
         width: '100%',
-        height: height,
         backgroundColor: '#f4f4f4',
         zIndex: 9,
     },

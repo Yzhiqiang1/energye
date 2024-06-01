@@ -1,7 +1,7 @@
-import { StyleSheet, Text, View, Image, Pressable, Dimensions, PixelRatio } from 'react-native'
+import { StyleSheet, Text, View, Image, Pressable, Dimensions } from 'react-native'
 import React, { Component } from 'react'
 import { CheckBox } from '@rneui/themed';//复选框
-const Fs = Dimensions.get('window').width*PixelRatio.getFontScale()
+const Fs = Dimensions.get('window').width*0.8
 
 export class Tree extends Component<any,any> {
     constructor(props:any){

@@ -1,4 +1,4 @@
-import { Dimensions, Image, PixelRatio, SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import { Dimensions, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import React, { Component } from 'react'
 import Navbar from '../../../component/navbar/navbar'
 import styleg from '../../../indexCss'
@@ -9,7 +9,7 @@ import { HttpService } from '../../../utils/http'
 import Loading from '../../../component/Loading/Loading'
 import Picker from '../../../component/Picker/Picker'
 const api = require('../../../utils/api')
-const Fs = Dimensions.get('window').width*PixelRatio.getFontScale()
+const Fs = Dimensions.get('window').width*0.8
 
 let arrWeekTime = String(util.nowDate(1)).split('-');
 let getWeek = util.getWeek(arrWeekTime[0], arrWeekTime[1])
@@ -290,108 +290,112 @@ export class GasAnalysis3 extends Component<any,any> {
     }
     render() {
         return (
-            <SafeAreaView style={{flex: 1}}>
-                {/* 引入自定义导航栏 */}
-                <Navbar 
-                    pageName={'环比分析'}
-                    showBack={true}
-                    showHome={false}
-                    isCheck={3}
-                    LoginStatus={this.state.LoginStatus}
-                    props={this.props}
-                    handleSelect={this.handleSelect}>
-                </Navbar>
-                 {/* 内容区 */}
-                <View style={styleg.container}>
-                    {/* 查询框 */}
-                    <View style={styles.query_head}>
-                        <View style={styles.tab}>
-                            <Text style={[styles.tabFlex,this.state.dataSwitchIn == 0 ? styles.flexIs : null]} onPress={()=>this.clickDataSwitch(0)}>日</Text>
-                            <Text style={[styles.tabFlex,this.state.dataSwitchIn == 1 ? styles.flexIs : null]} onPress={()=>this.clickDataSwitch(1)}>周</Text>
-                            <Text style={[styles.tabFlex,this.state.dataSwitchIn == 2 ? styles.flexIs : null]} onPress={()=>this.clickDataSwitch(2)}>月</Text>
-                        </View>
-                        {/* 日报处理 */}
-                        {this.state.dataSwitchIn == 0?
-                            <View style={styles.flex}>
-                                <Picker
-                                    pickerType={1}
-                                    date={this.state._day}
-                                    precisionType={1}
-                                    click={this._dayClick}
-                                ></Picker>
-                            </View>:''
-                        }
-                        {/* 周报处理 */}
-                        {this.state.dataSwitchIn == 1?
-                            <View style={[styles.flex,styles.week]}>
-                                <Picker
-                                    pickerType={1}
-                                    date={this.state._week}
-                                    precisionType={2}
-                                    click={this._weekClick}
-                                ></Picker>
-                                {/* 多列选择器 */}
-                                <Picker
-                                    pickerType={3}
-                                    monthTime={this.state._weekTime}
-                                    monthTimeIn={this.state._weekTimeIn}
-                                    precisionType={2}
-                                    click={this._weekTimeClick}
-                                ></Picker>
-                            </View>:''
-                        }
-                        {/* 月报处理 */}
-                            {this.state.dataSwitchIn == 2?
+            <View style={{flex: 1}}>
+                <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
+                </View>
+                <SafeAreaView style={{flex: 1}}>
+                    {/* 引入自定义导航栏 */}
+                    <Navbar 
+                        pageName={'环比分析'}
+                        showBack={true}
+                        showHome={false}
+                        isCheck={3}
+                        LoginStatus={this.state.LoginStatus}
+                        props={this.props}
+                        handleSelect={this.handleSelect}>
+                    </Navbar>
+                    {/* 内容区 */}
+                    <View style={styleg.container}>
+                        {/* 查询框 */}
+                        <View style={styles.query_head}>
+                            <View style={styles.tab}>
+                                <Text style={[styles.tabFlex,this.state.dataSwitchIn == 0 ? styles.flexIs : null]} onPress={()=>this.clickDataSwitch(0)}>日</Text>
+                                <Text style={[styles.tabFlex,this.state.dataSwitchIn == 1 ? styles.flexIs : null]} onPress={()=>this.clickDataSwitch(1)}>周</Text>
+                                <Text style={[styles.tabFlex,this.state.dataSwitchIn == 2 ? styles.flexIs : null]} onPress={()=>this.clickDataSwitch(2)}>月</Text>
+                            </View>
+                            {/* 日报处理 */}
+                            {this.state.dataSwitchIn == 0?
                                 <View style={styles.flex}>
                                     <Picker
                                         pickerType={1}
-                                        date={this.state._month}
-                                        precisionType={2}
-                                        click={this._monthClick}
+                                        date={this.state._day}
+                                        precisionType={1}
+                                        click={this._dayClick}
                                     ></Picker>
                                 </View>:''
                             }
-                        <Text style={styles.button} onPress={this.clickSearch}>查询</Text>
-                    </View>
+                            {/* 周报处理 */}
+                            {this.state.dataSwitchIn == 1?
+                                <View style={[styles.flex,styles.week]}>
+                                    <Picker
+                                        pickerType={1}
+                                        date={this.state._week}
+                                        precisionType={2}
+                                        click={this._weekClick}
+                                    ></Picker>
+                                    {/* 多列选择器 */}
+                                    <Picker
+                                        pickerType={3}
+                                        monthTime={this.state._weekTime}
+                                        monthTimeIn={this.state._weekTimeIn}
+                                        precisionType={2}
+                                        click={this._weekTimeClick}
+                                    ></Picker>
+                                </View>:''
+                            }
+                            {/* 月报处理 */}
+                                {this.state.dataSwitchIn == 2?
+                                    <View style={styles.flex}>
+                                        <Picker
+                                            pickerType={1}
+                                            date={this.state._month}
+                                            precisionType={2}
+                                            click={this._monthClick}
+                                        ></Picker>
+                                    </View>:''
+                                }
+                            <Text style={styles.button} onPress={this.clickSearch}>查询</Text>
+                        </View>
 
-                    <View style={styles.echarts_con}>
-                        {this.state.optionData.length == 0?
-                            <Text style={styles.empty}>暂无数据</Text>:
-                            <View style={styles.item}>
-                                <Text style={styles.name}>
-                                    环比分析数据
-                                </Text>
-                                <View style={styles.table}>
-                                    <View style={styles.row}>
-                                        <Text style={styles.th}>{this.state.titleData[0]}</Text>
-                                        <Text style={styles.th}>{this.state.titleData[1]}</Text>
-                                        <Text style={styles.th}>{this.state.titleData[2]}</Text>
-                                        <Text style={styles.th}>{this.state.titleData[3]}</Text>
-                                        <Text style={styles.th}>{this.state.titleData[4]}</Text>
+                        <View style={styles.echarts_con}>
+                            {this.state.optionData.length == 0?
+                                <Text style={styles.empty}>暂无数据</Text>:
+                                <View style={styles.item}>
+                                    <Text style={styles.name}>
+                                        环比分析数据
+                                    </Text>
+                                    <View style={styles.table}>
+                                        <View style={styles.row}>
+                                            <Text style={styles.th}>{this.state.titleData[0]}</Text>
+                                            <Text style={styles.th}>{this.state.titleData[1]}</Text>
+                                            <Text style={styles.th}>{this.state.titleData[2]}</Text>
+                                            <Text style={styles.th}>{this.state.titleData[3]}</Text>
+                                            <Text style={styles.th}>{this.state.titleData[4]}</Text>
+                                        </View>
+                                        {this.state.optionData.map((item:any,index:number)=>{
+                                            return(
+                                                <View key={index} style={[styles.row,index%2 == 0? styles.b1 : null]}>
+                                                    <Text style={[styles.td,styles.c1]}>{item.name}</Text>
+                                                    <Text style={styles.td}>{item.vala}</Text>
+                                                    <Text style={styles.td}>{item.valb}</Text>
+                                                    <Text style={styles.td}>{item.vald}</Text>
+                                                    <Text style={styles.td}>{item.valc}</Text>
+                                                </View>
+                                            )
+                                        })}
                                     </View>
-                                    {this.state.optionData.map((item:any,index:number)=>{
-                                        return(
-                                            <View key={index} style={[styles.row,index%2 == 0? styles.b1 : null]}>
-                                                <Text style={[styles.td,styles.c1]}>{item.name}</Text>
-                                                <Text style={styles.td}>{item.vala}</Text>
-                                                <Text style={styles.td}>{item.valb}</Text>
-                                                <Text style={styles.td}>{item.vald}</Text>
-                                                <Text style={styles.td}>{item.valc}</Text>
-                                            </View>
-                                        )
-                                    })}
                                 </View>
-                            </View>
-                        }
+                            }
+                        </View>
                     </View>
-                </View>
-                 {/* 弹窗效果 */}
-                 <Loading 
-                    type={this.state.msgType} 
-                    visible={this.state.visible} 
-                    LoadingMsg={this.state.LoadingMsg}>
-                </Loading>
-            </SafeAreaView>
+                    {/* 弹窗效果 */}
+                    <Loading 
+                        type={this.state.msgType} 
+                        visible={this.state.visible} 
+                        LoadingMsg={this.state.LoadingMsg}>
+                    </Loading>
+                </SafeAreaView>
+            </View>
         )
     }
 }

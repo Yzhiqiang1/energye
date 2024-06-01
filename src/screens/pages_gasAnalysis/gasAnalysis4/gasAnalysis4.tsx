@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, DeviceEventEmitter, Dimensions, PixelRatio, SafeAreaView } from 'react-native'
+import { StyleSheet, Text, View, Image, DeviceEventEmitter, Dimensions, SafeAreaView } from 'react-native'
 import React, { Component } from 'react'
 import { Register } from '../../../utils/app'
 import Navbar from '../../../component/navbar/navbar'
@@ -9,7 +9,7 @@ import { HttpService } from '../../../utils/http'
 import Loading from '../../../component/Loading/Loading'
 import Picker from '../../../component/Picker/Picker'
 const api = require('../../../utils/api')
-const Fs = Dimensions.get('window').width*PixelRatio.getFontScale()
+const Fs = Dimensions.get('window').width*0.8
 
 export class GasAnalysis4 extends Component<any,any> {
     constructor(props:any){
@@ -219,80 +219,84 @@ export class GasAnalysis4 extends Component<any,any> {
 
     render() {
         return (
-            <SafeAreaView style={{flex: 1}}>
-                {/* 引入自定义导航栏 */}
-                <Navbar 
-                    pageName={"损耗分析"}
-                    showBack={true}
-                    showHome={false}
-                    isCheck={2}
-                    LoginStatus={this.state.LoginStatus}
-                    props={this.props}
-                    handleSelect={this.handleSelect}>
-                </Navbar>
-                {/* 内容区 */}
-                <View style={styleg.container}>
-                    <View style={styles.query_head}>
-                        <View style={styles.flex}>
-                            <Picker
-                                pickerType={1}
-                                date={this.state.start}
-                                precisionType={1}
-                                click={this.clickStart}
-                            ></Picker>
-                        </View>
-                        <Text style={styles.text}>
-                            至
-                        </Text>
-                        <View style={styles.flex}>
-                            <Picker
-                                pickerType={1}
-                                date={this.state.end}
-                                precisionType={1}
-                                click={this.clickEnd}
-                            ></Picker>
-                        </View>
-                        <Text style={styles.button} onPress={this.clickSearch}>查询</Text>
-                    </View>
-                    
-                    <View style={styles.echarts_con}>
-                        {this.state.optionData.length == 0?
-                             <Text style={styles.empty}>暂无数据</Text>:
-                             <View style={styles.item}>
-                                <Text style={styles.name}>
-                                    损耗分析数据统计
-                                </Text>
-                                <View style={styles.table}>
-                                    <View style={styles.row}>
-                                        <Text style={styles.th}>回柜名称</Text>
-                                        <Text style={styles.th}>当前支路能耗</Text>
-                                        <Text style={styles.th}>下级支路能耗合计</Text>
-                                        <Text style={styles.th}>当前和下级差值</Text>
-                                        <Text style={styles.th}>相差百分比</Text>
-                                    </View>
-                                    {this.state.optionData.map((item:any,index:number)=>{
-                                        return(
-                                            <View key={index} style={[styles.row,index%2 == 0? styles.b1 : null]}>
-                                                <Text style={[styles.td,styles.c1]}>{item.name}</Text>
-                                                <View style={styles.td}>{item.energy}</View>
-                                                <View style={styles.td}>{item.total}</View>
-                                                <View style={styles.td}>{item.residue}</View>
-                                                <View style={styles.td}>{item.percentage}</View>
-                                            </View>
-                                        )
-                                    })}
-                                </View>
-                            </View>
-                        }
-                    </View>
+            <View style={{flex: 1}}>
+                <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
                 </View>
-                {/* 弹窗效果 */}
-                <Loading 
-                    type={this.state.msgType} 
-                    visible={this.state.visible} 
-                    LoadingMsg={this.state.LoadingMsg}>
-                </Loading>
-            </SafeAreaView>
+                <SafeAreaView style={{flex: 1}}>
+                    {/* 引入自定义导航栏 */}
+                    <Navbar 
+                        pageName={"损耗分析"}
+                        showBack={true}
+                        showHome={false}
+                        isCheck={2}
+                        LoginStatus={this.state.LoginStatus}
+                        props={this.props}
+                        handleSelect={this.handleSelect}>
+                    </Navbar>
+                    {/* 内容区 */}
+                    <View style={styleg.container}>
+                        <View style={styles.query_head}>
+                            <View style={styles.flex}>
+                                <Picker
+                                    pickerType={1}
+                                    date={this.state.start}
+                                    precisionType={1}
+                                    click={this.clickStart}
+                                ></Picker>
+                            </View>
+                            <Text style={styles.text}>
+                                至
+                            </Text>
+                            <View style={styles.flex}>
+                                <Picker
+                                    pickerType={1}
+                                    date={this.state.end}
+                                    precisionType={1}
+                                    click={this.clickEnd}
+                                ></Picker>
+                            </View>
+                            <Text style={styles.button} onPress={this.clickSearch}>查询</Text>
+                        </View>
+                        
+                        <View style={styles.echarts_con}>
+                            {this.state.optionData.length == 0?
+                                <Text style={styles.empty}>暂无数据</Text>:
+                                <View style={styles.item}>
+                                    <Text style={styles.name}>
+                                        损耗分析数据统计
+                                    </Text>
+                                    <View style={styles.table}>
+                                        <View style={styles.row}>
+                                            <Text style={styles.th}>回柜名称</Text>
+                                            <Text style={styles.th}>当前支路能耗</Text>
+                                            <Text style={styles.th}>下级支路能耗合计</Text>
+                                            <Text style={styles.th}>当前和下级差值</Text>
+                                            <Text style={styles.th}>相差百分比</Text>
+                                        </View>
+                                        {this.state.optionData.map((item:any,index:number)=>{
+                                            return(
+                                                <View key={index} style={[styles.row,index%2 == 0? styles.b1 : null]}>
+                                                    <Text style={[styles.td,styles.c1]}>{item.name}</Text>
+                                                    <View style={styles.td}>{item.energy}</View>
+                                                    <View style={styles.td}>{item.total}</View>
+                                                    <View style={styles.td}>{item.residue}</View>
+                                                    <View style={styles.td}>{item.percentage}</View>
+                                                </View>
+                                            )
+                                        })}
+                                    </View>
+                                </View>
+                            }
+                        </View>
+                    </View>
+                    {/* 弹窗效果 */}
+                    <Loading 
+                        type={this.state.msgType} 
+                        visible={this.state.visible} 
+                        LoadingMsg={this.state.LoadingMsg}>
+                    </Loading>
+                </SafeAreaView>
+            </View>
         )
     }
 }

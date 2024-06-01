@@ -1,11 +1,11 @@
-import { Dimensions, PixelRatio, StyleSheet} from 'react-native'
-const Fs = Dimensions.get('window').width*PixelRatio.getFontScale() //屏幕宽比   对比字体大小比例
-const ht = Dimensions.get('window').height*PixelRatio.getFontScale()
+import { Dimensions, StyleSheet} from 'react-native'
+const Fs = Dimensions.get('window').width*0.8//屏幕宽比   对比字体大小比例
+const ht = Dimensions.get('window').height*0.8
 
 const styles = StyleSheet.create({
     containerMini: { 
         position: 'absolute',
-        top: ht/8,
+        top: ht/9,
         bottom:75,
         left: 0,
         width: '100%',

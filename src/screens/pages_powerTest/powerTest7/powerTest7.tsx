@@ -1,4 +1,4 @@
-import { DeviceEventEmitter, Dimensions, PixelRatio, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { DeviceEventEmitter, Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import React, { Component } from 'react'
 //方法
 import styleg from '../../../indexCss'
@@ -13,7 +13,7 @@ import MyLegend from '../../../component/my-legend/MyLegend'
 import Loading from '../../../component/Loading/Loading'//加载动画组件
 import Picker from '../../../component/Picker/Picker'//选择器
 const api = require('../../../utils/api')
-const Fs = Dimensions.get('window').width*PixelRatio.getFontScale()
+const Fs = Dimensions.get('window').width*0.8
 
 export class PowerTest7 extends Component<any,any> {
     constructor(props:any){
@@ -395,67 +395,71 @@ export class PowerTest7 extends Component<any,any> {
     }
     render() {
         return (
-        <SafeAreaView style={{flex: 1}}>
-            {/* 引入自定义导航栏 */}
-            <Navbar
-                pageName={'谐波检测'}
-                showBack={true}
-                showHome={false}
-                isCheck={2}
-                LoginStatus={this.state.LoginStatus}
-                props={this.props}
-                handleSelect={this.handleSelect}>
-            </Navbar>
-            {/* 内容区 */}
-            <View style={styleg.container}>
-                <View style={styles.query_head}>
-                    <View style={styles.flex}>
-                        <Picker
-                            pickerType={1}
-                            date={this.state.start}
-                            precisionType={1}
-                            click={this.clickStart}
-                        ></Picker>
-                    </View>
-                    <Text style={styles.text}>
-                        至
-                    </Text>
-                    <View style={styles.flex}>
-                         <Picker
-                            pickerType={1}
-                            date={this.state.end}
-                            precisionType={1}
-                            click={this.clickEnd}
-                        ></Picker>
-                    </View>
-                    <Text style={styles.button} onPress={this.clickSearch}>查询</Text>
+            <View style={{flex: 1}}>
+                <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
                 </View>
+                <SafeAreaView style={{flex: 1}}>
+                    {/* 引入自定义导航栏 */}
+                    <Navbar
+                        pageName={'谐波检测'}
+                        showBack={true}
+                        showHome={false}
+                        isCheck={2}
+                        LoginStatus={this.state.LoginStatus}
+                        props={this.props}
+                        handleSelect={this.handleSelect}>
+                    </Navbar>
+                    {/* 内容区 */}
+                    <View style={styleg.container}>
+                        <View style={styles.query_head}>
+                            <View style={styles.flex}>
+                                <Picker
+                                    pickerType={1}
+                                    date={this.state.start}
+                                    precisionType={1}
+                                    click={this.clickStart}
+                                ></Picker>
+                            </View>
+                            <Text style={styles.text}>
+                                至
+                            </Text>
+                            <View style={styles.flex}>
+                                <Picker
+                                    pickerType={1}
+                                    date={this.state.end}
+                                    precisionType={1}
+                                    click={this.clickEnd}
+                                ></Picker>
+                            </View>
+                            <Text style={styles.button} onPress={this.clickSearch}>查询</Text>
+                        </View>
 
-                
-                <ScrollView style={styles.echarts_con}>
-                    {this.state.optionData.map((item:any,index:number)=>{
-                        return(
-                            item.state == true?
-                            <View style={styles.item} key={index}>
-                                <Text style={styles.name}>
-                                    {item.name}
-                                </Text>
-                                <MyLegend objData={this.state.params[index]} dataIndex={index} myevent={this.myevent} myevent2={this.myevent2}></MyLegend>
-                                <View style={styles.echarts}>
-                                    <MyCanvas objData={item}></MyCanvas>
-                                </View>
-                            </View>:''
-                        )
-                    })}
-                </ScrollView>
+                        
+                        <ScrollView style={styles.echarts_con}>
+                            {this.state.optionData.map((item:any,index:number)=>{
+                                return(
+                                    item.state == true?
+                                    <View style={styles.item} key={index}>
+                                        <Text style={styles.name}>
+                                            {item.name}
+                                        </Text>
+                                        <MyLegend objData={this.state.params[index]} dataIndex={index} myevent={this.myevent} myevent2={this.myevent2}></MyLegend>
+                                        <View style={styles.echarts}>
+                                            <MyCanvas objData={item}></MyCanvas>
+                                        </View>
+                                    </View>:''
+                                )
+                            })}
+                        </ScrollView>
+                    </View>
+                    {/* 弹窗效果 */}
+                    <Loading 
+                        type={this.state.msgType} 
+                        visible={this.state.visible} 
+                        LoadingMsg={this.state.LoadingMsg}>
+                    </Loading>
+                </SafeAreaView>
             </View>
-            {/* 弹窗效果 */}
-            <Loading 
-                type={this.state.msgType} 
-                visible={this.state.visible} 
-                LoadingMsg={this.state.LoadingMsg}>
-            </Loading>
-        </SafeAreaView>
         )
     }
 }

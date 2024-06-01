@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View,  ScrollView, Dimensions, PixelRatio, SafeAreaView, } from 'react-native'
+import { StyleSheet, Text, View,  ScrollView, Dimensions, SafeAreaView, } from 'react-native'
 import React, { Component } from 'react'
 import Navbar from '../../../component/navbar/navbar'
 import styleg from '../../../indexCss'
@@ -11,7 +11,7 @@ import { HttpService } from '../../../utils/http'
 import Loading from '../../../component/Loading/Loading'
 import Picker from '../../../component/Picker/Picker'
 const api = require('../../../utils/api')
-const Fs = Dimensions.get('window').width*PixelRatio.getFontScale()
+const Fs = Dimensions.get('window').width*0.8
 
 export class GasAnalysis1 extends Component<any,any> {
     _s = util.oneData(3) < 10 ? '0' + util.oneData(3) : util.oneData(3);
@@ -481,125 +481,129 @@ export class GasAnalysis1 extends Component<any,any> {
     }
     render() {
         return (
-            <SafeAreaView style={{flex: 1}}>
-                {/* 引入自定义导航栏 */}
-                <Navbar 
-                    pageName={'用气报表'}
-                    showBack={true}
-                    showHome={false}
-                    isCheck={3}
-                    LoginStatus={this.state.LoginStatus}
-                    props={this.props}
-                    handleSelect={this.handleSelect}>
-                </Navbar>
-                {/* 内容区 */}
-                <View style={styleg.container}>
-                    {/* 选项卡 */}
-                    <View style={styles.tab}>
-                        <Text style={[styles.tabflex,this.state.dataSwitchIn == 0 ? styles.flexIs : null]} onPress={()=>this.clickDataSwitch(0)}>日报</Text>
-                        <Text style={[styles.tabflex,this.state.dataSwitchIn == 1 ? styles.flexIs : null]} onPress={()=>this.clickDataSwitch(1)}>月报</Text>
-                        <Text style={[styles.tabflex,this.state.dataSwitchIn == 2 ? styles.flexIs : null]} onPress={()=>this.clickDataSwitch(2)}>年报</Text>
-                    </View>
-                    {/* 查询框 */}
-                    <View style={styles.query_head}>
-                    {/* 年月日 */}
-                    {this.state.dataSwitchIn == 0?
-                        <View style={styles.flexs}>
-                            <View style={styles.flex}>
-                                <Picker
-                                    pickerType={1}
-                                    date={[this.state.start,this.state.start_HH]}
-                                    precisionType={3}
-                                    click={this.startConfirm}
-                                ></Picker>
-                            </View>
-                            <View style={styles.flex}>
-                                <Picker
-                                    pickerType={1}
-                                    date={[this.state.end,this.state.end_HH]}
-                                    precisionType={3}
-                                    click={this.endConfirm}
-                                ></Picker>
-                            </View>
-                        </View>:''
-                    }
-
-                    {/* 年月 */}
-                    {this.state.dataSwitchIn == 1?
-                        <View style={styles.flexs}>
-                            <View style={styles.flex}>
-                                 <Picker
-                                    pickerType={1}
-                                    date={this.state._month}
-                                    precisionType={2}
-                                    click={this._monthClick}
-                                ></Picker>
-                            </View>
-                            {/* 多列选择器 */}
-                            <View style={styles.flex}>
-                                <Picker
-                                    pickerType={2}
-                                    monthTime={this.state._monthTime}
-                                    monthTimeIn={this.state._monthTimeIn}
-                                    precisionType={2}
-                                    text = '日'
-                                    click={this._monthTimeClick}
-                                ></Picker>
-                            </View>
-                        </View>:''
-                    }
-                    {/* 年 */}
-                    {this.state.dataSwitchIn == 2?
-                        <View style={styles.flexs}>
-                            <View style={styles.flex}>
-                                <Picker
-                                    pickerType={1}
-                                    date={this.state._year}
-                                    precisionType={4}
-                                    click={this._yearClick}
-                                ></Picker>
-                            </View>
-                            {/* 多列选择器 */}
-                            <View style={styles.flex}>
-                                <Picker
-                                    pickerType={2}
-                                    monthTime={this.state._yearTime}
-                                    monthTimeIn={this.state._yearTimeIn}
-                                    precisionType={2}
-                                    text = '月'
-                                    click={this._yearTimeClick}
-                                ></Picker>
-                            </View>
-                        </View>:''
-                    }
-                    <Text style={styles.button} onPress={this.clickSearch}>查询</Text>
-                    </View>
-                    <ScrollView style={styles.echarts_con}>
-                        {this.state.optionData.length == 0?
-                            <Text style={styles.empty}>暂无数据</Text>:''
-                        }
-                        {this.state.optionData.map((item: any,index: number)=>{
-                            return(
-                                item.state == true?
-                                <View style={styles.item} key={index}>
-                                    <Text style={styles.name}>
-                                        {item.name}
-                                    </Text>
-                                    <View style={styles.echarts}>
-                                        <MyCanvas objData={item} objType={item.type == 1 ? 1 : 4}></MyCanvas>
-                                    </View>
-                                </View>:''
-                            )
-                        })}
-                    </ScrollView>
+            <View style={{flex: 1}}>
+                <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
                 </View>
-                {/* 弹窗效果 */}
-                <Loading 
-                    type={this.state.msgType} 
-                    visible={this.state.visible} 
-                    LoadingMsg={this.state.LoadingMsg}>
-                </Loading>
-            </SafeAreaView>
+                <SafeAreaView style={{flex: 1}}>
+                    {/* 引入自定义导航栏 */}
+                    <Navbar 
+                        pageName={'用气报表'}
+                        showBack={true}
+                        showHome={false}
+                        isCheck={3}
+                        LoginStatus={this.state.LoginStatus}
+                        props={this.props}
+                        handleSelect={this.handleSelect}>
+                    </Navbar>
+                    {/* 内容区 */}
+                    <View style={styleg.container}>
+                        {/* 选项卡 */}
+                        <View style={styles.tab}>
+                            <Text style={[styles.tabflex,this.state.dataSwitchIn == 0 ? styles.flexIs : null]} onPress={()=>this.clickDataSwitch(0)}>日报</Text>
+                            <Text style={[styles.tabflex,this.state.dataSwitchIn == 1 ? styles.flexIs : null]} onPress={()=>this.clickDataSwitch(1)}>月报</Text>
+                            <Text style={[styles.tabflex,this.state.dataSwitchIn == 2 ? styles.flexIs : null]} onPress={()=>this.clickDataSwitch(2)}>年报</Text>
+                        </View>
+                        {/* 查询框 */}
+                        <View style={styles.query_head}>
+                        {/* 年月日 */}
+                        {this.state.dataSwitchIn == 0?
+                            <View style={styles.flexs}>
+                                <View style={styles.flex}>
+                                    <Picker
+                                        pickerType={1}
+                                        date={[this.state.start,this.state.start_HH]}
+                                        precisionType={3}
+                                        click={this.startConfirm}
+                                    ></Picker>
+                                </View>
+                                <View style={styles.flex}>
+                                    <Picker
+                                        pickerType={1}
+                                        date={[this.state.end,this.state.end_HH]}
+                                        precisionType={3}
+                                        click={this.endConfirm}
+                                    ></Picker>
+                                </View>
+                            </View>:''
+                        }
+
+                        {/* 年月 */}
+                        {this.state.dataSwitchIn == 1?
+                            <View style={styles.flexs}>
+                                <View style={styles.flex}>
+                                    <Picker
+                                        pickerType={1}
+                                        date={this.state._month}
+                                        precisionType={2}
+                                        click={this._monthClick}
+                                    ></Picker>
+                                </View>
+                                {/* 多列选择器 */}
+                                <View style={styles.flex}>
+                                    <Picker
+                                        pickerType={2}
+                                        monthTime={this.state._monthTime}
+                                        monthTimeIn={this.state._monthTimeIn}
+                                        precisionType={2}
+                                        text = '日'
+                                        click={this._monthTimeClick}
+                                    ></Picker>
+                                </View>
+                            </View>:''
+                        }
+                        {/* 年 */}
+                        {this.state.dataSwitchIn == 2?
+                            <View style={styles.flexs}>
+                                <View style={styles.flex}>
+                                    <Picker
+                                        pickerType={1}
+                                        date={this.state._year}
+                                        precisionType={4}
+                                        click={this._yearClick}
+                                    ></Picker>
+                                </View>
+                                {/* 多列选择器 */}
+                                <View style={styles.flex}>
+                                    <Picker
+                                        pickerType={2}
+                                        monthTime={this.state._yearTime}
+                                        monthTimeIn={this.state._yearTimeIn}
+                                        precisionType={2}
+                                        text = '月'
+                                        click={this._yearTimeClick}
+                                    ></Picker>
+                                </View>
+                            </View>:''
+                        }
+                        <Text style={styles.button} onPress={this.clickSearch}>查询</Text>
+                        </View>
+                        <ScrollView style={styles.echarts_con}>
+                            {this.state.optionData.length == 0?
+                                <Text style={styles.empty}>暂无数据</Text>:''
+                            }
+                            {this.state.optionData.map((item: any,index: number)=>{
+                                return(
+                                    item.state == true?
+                                    <View style={styles.item} key={index}>
+                                        <Text style={styles.name}>
+                                            {item.name}
+                                        </Text>
+                                        <View style={styles.echarts}>
+                                            <MyCanvas objData={item} objType={item.type == 1 ? 1 : 4}></MyCanvas>
+                                        </View>
+                                    </View>:''
+                                )
+                            })}
+                        </ScrollView>
+                    </View>
+                    {/* 弹窗效果 */}
+                    <Loading 
+                        type={this.state.msgType} 
+                        visible={this.state.visible} 
+                        LoadingMsg={this.state.LoadingMsg}>
+                    </Loading>
+                </SafeAreaView>
+            </View>
         )
     }
 }

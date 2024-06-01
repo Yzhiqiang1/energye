@@ -9,7 +9,6 @@ import {
     Animated,
     Dimensions,
     Platform,
-    PixelRatio,
     SafeAreaView,
 } from 'react-native'
 import React, { Component, useEffect } from 'react'
@@ -33,8 +32,8 @@ const api = require('../../utils/api')//引入接口文件
 import { MapView, Overlay, BaiduMapManager } from 'react-native-baidu-map'
 BaiduMapManager.initSDK('acZPZPjtmwZVe9RJ2fz3KzNDEGnV3Pp8');//ios 使用 BaiduMapManager.initSDK 方法设置 api key(百度地图)
 
-const Fs = Dimensions.get('window').width*PixelRatio.getFontScale()
-const ht = Dimensions.get('window').height*PixelRatio.getFontScale()
+const Fs = Dimensions.get('window').width*0.8
+const ht = Dimensions.get('window').height*0.8
 /****
     扫码组件 
 ****/
@@ -155,12 +154,6 @@ function MyComponent(props: any) {
                 <Pressable style={styles.xc} onPress={()=>choosePic()}>
                     <Image style={styles.image} source={require('../../image/xc.png')}></Image>
                 </Pressable>
-
-                <Animated.View>
-                    <LinearGradient colors={['rgba(0, 172, 84, 0.1)','rgba(0, 172, 84, 0.3)', 'rgba(0, 172, 84, 0.8)']}
-                    style={styles.ScanningStrip}>
-                    </LinearGradient>
-                </Animated.View>
             </View>
 }
 
@@ -791,133 +784,139 @@ export class Scanqr extends Component<any,any> {
     }
     render() {
         return (
-            <SafeAreaView style={{flex: 1}} onLayout={(event) => this.boxH(event)}>
-                <Navbars
-                    name={'扫码创建设备'}
-                    showHome={false}
-                    showBack={true}
-                    props={this.props}
-                ></Navbars>
-                {!this.state.camera?
-                    <View style={[styles.container,{height: this.state.boxHeight-ht/10}]}>
-                        {/* 地图 */}
-                        <MapView 
-                            style={{width:'100%',height:'100%'}}
-                            center={{ longitude: this.state.longitude, latitude: this.state.latitude }}
-                            showsUserLocation={true}
-                            locationData={{ longitude: this.state.userLongitude, latitude: this.state.userLatitude }}
-                            zoom={18}
-                            onMapClick={this._view}
-                            onMapLoaded={this.onLoad}
-                        >
-                            <Overlay.Marker 
-                                location={{ 
-                                    longitude: this.state.longitude,
-                                    latitude: this.state.latitude 
-                                }} 
-                            />
-                        </MapView>
-                        {/* 搜索框 */}
-                        <View style={styles.search}>
-                            <View style={styles.input}>
-                                <Pressable style={styles.mapMenu} onPress={this._mapMenu}>
-                                    <Image style={styles.img} source={require('../../image/mapMenu.png')}></Image>
-                                </Pressable>
-                                <TextInput style={styles.in} value={this.state.positionVal} onChangeText={e=>this.bindKeywordsName(e)} placeholder={'输入关键字搜索或点击地图选址'}></TextInput>
-                                <Pressable style={styles.but} onPress={this._search}>
-                                    <Image style={styles.ico} source={require('../../image/se.png')} ></Image>
-                                </Pressable>
+            <View style={{flex: 1}}>
+                <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
+                </View>
+                <SafeAreaView style={{flex: 1}} onLayout={(event) => this.boxH(event)}>
+                    {!this.state.camera?
+                        <Navbars
+                            name={'扫码创建设备'}
+                            showHome={false}
+                            showBack={true}
+                            props={this.props}
+                        ></Navbars>:''
+                    }
+                    {!this.state.camera?
+                        <View style={[styles.container,{height: this.state.boxHeight-ht/10}]}>
+                            {/* 地图 */}
+                            <MapView 
+                                style={{width:'100%',height:'100%'}}
+                                center={{ longitude: this.state.longitude, latitude: this.state.latitude }}
+                                showsUserLocation={true}
+                                locationData={{ longitude: this.state.userLongitude, latitude: this.state.userLatitude }}
+                                zoom={18}
+                                onMapClick={this._view}
+                                onMapLoaded={this.onLoad}
+                            >
+                                <Overlay.Marker 
+                                    location={{ 
+                                        longitude: this.state.longitude,
+                                        latitude: this.state.latitude 
+                                    }} 
+                                />
+                            </MapView>
+                            {/* 搜索框 */}
+                            <View style={styles.search}>
+                                <View style={styles.input}>
+                                    <Pressable style={styles.mapMenu} onPress={this._mapMenu}>
+                                        <Image style={styles.img} source={require('../../image/mapMenu.png')}></Image>
+                                    </Pressable>
+                                    <TextInput style={styles.in} value={this.state.positionVal} onChangeText={e=>this.bindKeywordsName(e)} placeholder={'输入关键字搜索或点击地图选址'}></TextInput>
+                                    <Pressable style={styles.but} onPress={this._search}>
+                                        <Image style={styles.ico} source={require('../../image/se.png')} ></Image>
+                                    </Pressable>
+                                </View>
                             </View>
-                        </View>
-                        {/* 扫码创建 */}
-                        <Pressable style={styles.scanCode} onPress={this.openCamera}>
-                            <Image style={styles.img} source={require('../../image/scanCode.png')}></Image>
-                        </Pressable>
-                        {/* 摄像头权限拒绝后询问弹窗 */}
-                        <Dialog
-                            isVisible={this.state.power}
-                            backdropStyle={{height:'120%'}}
-                        >
-                            <Text style={styles.hint}>当前摄像头权限已拒绝，无法使用扫码创建设备功能，是否去设置开启</Text>
-                            <View style={styles.hintBox}>
-                                <Text 
-                                    style={styles.butL} 
-                                    onPress={()=>this.setState({ power: false})}
-                                >取消</Text>
-                                <Text 
-                                    style={styles.butR}
-                                    onPress={this.install}
-                                >去设置</Text>
-                            </View>
-                        </Dialog>
-                        {/* 底部弹窗 */}
-                        <Animated.View style={[styles.btmDialog,{transform:[{translateY:this.translateY}]}]}>
-                            <View style={styles.popupHead}>
-                                <Text style={styles.text}>选择位置</Text>
-                                <Pressable style={styles.popupClose} onPress={this.onClose}>
-                                    <Image style={styles.ico} source={require('../../image/search-close.png')}></Image>
-                                </Pressable>
-                            </View>
+                            {/* 扫码创建 */}
+                            <Pressable style={styles.scanCode} onPress={this.openCamera}>
+                                <Image style={styles.img} source={require('../../image/scanCode.png')}></Image>
+                            </Pressable>
+                            {/* 摄像头权限拒绝后询问弹窗 */}
+                            <Dialog
+                                isVisible={this.state.power}
+                                backdropStyle={{height:'120%'}}
+                            >
+                                <Text style={styles.hint}>当前摄像头权限已拒绝，无法使用扫码创建设备功能，是否去设置开启</Text>
+                                <View style={styles.hintBox}>
+                                    <Text 
+                                        style={styles.butL} 
+                                        onPress={()=>this.setState({ power: false})}
+                                    >取消</Text>
+                                    <Text 
+                                        style={styles.butR}
+                                        onPress={this.install}
+                                    >去设置</Text>
+                                </View>
+                            </Dialog>
+                            {/* 底部弹窗 */}
+                            <Animated.View style={[styles.btmDialog,{transform:[{translateY:this.translateY}]}]}>
+                                <View style={styles.popupHead}>
+                                    <Text style={styles.text}>选择位置</Text>
+                                    <Pressable style={styles.popupClose} onPress={this.onClose}>
+                                        <Image style={styles.ico} source={require('../../image/search-close.png')}></Image>
+                                    </Pressable>
+                                </View>
 
-                            <View style={styles.popup}>
-                                {this.state.manualAddress!=''?
-                                    <Text style={styles.manualAddress}>
-                                        {this.state.manualAddress}
-                                    </Text>:''
-                                }
-                                <ScrollView style={styles.popupCon}>
-                                    {this.state.addressArr.length > 0?
-                                        this.state.addressArr.map((item:any,index:number)=>{
-                                            return(
-                                                <Pressable 
-                                                    key={index}
-                                                    style={[styles.list,index == this.state.positionIndex ? styles.on:null]}
-                                                    onPress={()=>this._select(index)}
-                                                >
-                                                    <View>
-                                                        <Text style={[styles.name,index == this.state.positionIndex ? styles.on:null]}>
-                                                            {item.name}
-                                                        </Text>
-                                                        <Text style={[styles.address,index == this.state.positionIndex ? styles.on:null]}>
-                                                            {item.province}{item.city}{item.county}{item.address}
-                                                        </Text>
-                                                    </View>
-                                                </Pressable>
-                                            )
-                                        })
-                                        :
-                                        <Text style={styles.empty}>暂无查询内容.</Text>
+                                <View style={styles.popup}>
+                                    {this.state.manualAddress!=''?
+                                        <Text style={styles.manualAddress}>
+                                            {this.state.manualAddress}
+                                        </Text>:''
                                     }
-                                </ScrollView>
-                            </View>
-                        </Animated.View>
-                    </View>
-                    :<MyComponent close={this.closeCamera} scanCode={this._scanCode}></MyComponent>
-                }
-                <Loading 
-                    type={this.state.msgType} 
-                    visible={this.state.visible} 
-                    LoadingMsg={this.state.LoadingMsg}>
-                </Loading>
-                <Dialog 
-                    overlayStyle={styles.overlayStyle} 
-                    isVisible={this.state.show}
-                    backdropStyle={{height:'120%'}}
-                    >
-                    <Dialog.Title titleStyle={styles.titleStyle} title="未登录"/>
-                    <Text style={styles.warn}>你还未登录点击去登录按钮登,请录后进行创建设备,点击取消放弃创建</Text>
-                    <View style={styles.bottom}>
-                        <Text 
-                        style={styles.bottomBut} 
-                        onPress={()=>this.setState({show: false})}
-                        >取消</Text>
-                        <Text 
-                        style={[styles.bottomBut,styles.bottomButR]}
-                        onPress={()=>this.GoLogIn()}
-                        >去登录</Text>
-                    </View>
-                </Dialog>
-            </SafeAreaView>
+                                    <ScrollView style={styles.popupCon}>
+                                        {this.state.addressArr.length > 0?
+                                            this.state.addressArr.map((item:any,index:number)=>{
+                                                return(
+                                                    <Pressable 
+                                                        key={index}
+                                                        style={[styles.list,index == this.state.positionIndex ? styles.on:null]}
+                                                        onPress={()=>this._select(index)}
+                                                    >
+                                                        <View>
+                                                            <Text style={[styles.name,index == this.state.positionIndex ? styles.on:null]}>
+                                                                {item.name}
+                                                            </Text>
+                                                            <Text style={[styles.address,index == this.state.positionIndex ? styles.on:null]}>
+                                                                {item.province}{item.city}{item.county}{item.address}
+                                                            </Text>
+                                                        </View>
+                                                    </Pressable>
+                                                )
+                                            })
+                                            :
+                                            <Text style={styles.empty}>暂无查询内容.</Text>
+                                        }
+                                    </ScrollView>
+                                </View>
+                            </Animated.View>
+                        </View>
+                        :<MyComponent close={this.closeCamera} scanCode={this._scanCode}></MyComponent>
+                    }
+                    <Loading 
+                        type={this.state.msgType} 
+                        visible={this.state.visible} 
+                        LoadingMsg={this.state.LoadingMsg}>
+                    </Loading>
+                    <Dialog 
+                        overlayStyle={styles.overlayStyle} 
+                        isVisible={this.state.show}
+                        backdropStyle={{height:'120%'}}
+                        >
+                        <Dialog.Title titleStyle={styles.titleStyle} title="未登录"/>
+                        <Text style={styles.warn}>你还未登录点击去登录按钮登,请录后进行创建设备,点击取消放弃创建</Text>
+                        <View style={styles.bottom}>
+                            <Text 
+                            style={styles.bottomBut} 
+                            onPress={()=>this.setState({show: false})}
+                            >取消</Text>
+                            <Text 
+                            style={[styles.bottomBut,styles.bottomButR]}
+                            onPress={()=>this.GoLogIn()}
+                            >去登录</Text>
+                        </View>
+                    </Dialog>
+                </SafeAreaView>
+            </View>
         )
     }
 }
@@ -992,11 +991,11 @@ const styles = StyleSheet.create({
     },
     scanCode:{
         position: 'absolute',
-        bottom: 30,
+        bottom: ht/10,
         left: '50%',
-        marginLeft: -20,
-        width: 60,
-        height: 60,
+        marginLeft: -ht/10/2,
+        width: ht/10,
+        height: ht/10,
         backgroundColor: '#fff',
         borderRadius: 5,
         zIndex: 99,

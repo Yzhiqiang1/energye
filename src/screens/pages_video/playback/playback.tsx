@@ -1,4 +1,4 @@
-import { Image, ImageBackground, StyleSheet, View, Platform, Pressable, NativeModules, StatusBar, Text, PixelRatio, SafeAreaView, } from 'react-native'
+import { Image, ImageBackground, StyleSheet, View, Platform, Pressable, NativeModules, StatusBar, Text, SafeAreaView, } from 'react-native'
 import React, { Component } from 'react'
 import Picker from '../../../component/Picker/Picker'
 import { Register } from '../../../utils/app'
@@ -13,8 +13,8 @@ const api = require('../../../utils/api')
 const { StatusBarManager } = NativeModules;
 const STATUS_BAR_HEIGHT = Platform.OS === 'android' ? StatusBar.currentHeight : StatusBarManager.HEIGHT;//状态栏高度
 let size = Dimensions.get('window')
-const Fs = size.width*PixelRatio.getFontScale()
-const ht = size.height*PixelRatio.getFontScale()
+const Fs = size.width*0.8
+const ht = size.height*0.8
 
 let autoHideTimer: any = undefined
 let livePlayerContext: any
@@ -811,136 +811,140 @@ export class Playback extends Component<any,any> {
     
     render() {
         return (
-        <SafeAreaView style={{flex: 1}}>
-            {!this.state.fullScreen?
-                <Navbars
-                name={this.state.title}
-                showHome={false}
-                showBack={true}
-                props={this.props}
-                ></Navbars>:''
-            }
-            
-            <View style={styles.pageLive}>
-                {/* 视频 */}
-                <View style={this.state.fullScreen?styles.videoContainerFull:styles.videoContainer}>
-                    {this.state.videoSrc && this.state.Internet?
-                        <Video
-                            ref={(ref: any) => {livePlayerContext = ref}}
-                            source={{ uri: this.state.videoSrc }}
-                            // source={{ uri: 'http://devimages.apple.com/iphone/samples/bipbop/gear1/prog_index.m3u8'}}
-                            style={{position: 'absolute', width: '100%', height: '100%',zIndex:99}}
-                            resizeMode="cover"
-                            paused={!this.state.playVideo}
-                            repeat={this.state.repeat}
-                            muted={!this.state.openSound}
-                            onProgress={(data: any)=>this.Progress(data)}
-                            onError={(e: any)=>this.videoError(e)} // 视频播放出错
-                            onBuffer={(data: any) => this.onBuffer(data)} // 视频播放缓冲
-                            onLoad={(data: any) => this.onLoad(data)}
-                            onPress={(data: any) => this.handleStop(data)}
-                        >
-                        </Video>
-                    :''}
-                    <ImageBackground 
-                        style={{ position: 'absolute', width: '100%',height: '100%' }} 
-                        source={require('../image/live/live_loading_bg.png')}>
-                    </ImageBackground>
-                    {/* loading状态 */}
-                    {this.state.videoLoadingStatus === 100 ?
-                        '':
-                       <View style={{width:'100%',height:'100%'}}>
-                            {this.state.videoLoadingStatus !== 0 ?
+            <View style={{flex: 1}}>
+                <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
+                </View>
+                <SafeAreaView style={{flex: 1}}>
+                    {!this.state.fullScreen?
+                        <Navbars
+                        name={this.state.title}
+                        showHome={false}
+                        showBack={true}
+                        props={this.props}
+                        ></Navbars>:''
+                    }
+                    
+                    <View style={styles.pageLive}>
+                        {/* 视频 */}
+                        <View style={this.state.fullScreen?styles.videoContainerFull:styles.videoContainer}>
+                            {this.state.videoSrc && this.state.Internet?
+                                <Video
+                                    ref={(ref: any) => {livePlayerContext = ref}}
+                                    source={{ uri: this.state.videoSrc }}
+                                    // source={{ uri: 'http://devimages.apple.com/iphone/samples/bipbop/gear1/prog_index.m3u8'}}
+                                    style={{position: 'absolute', width: '100%', height: '100%',zIndex:99}}
+                                    resizeMode="cover"
+                                    paused={!this.state.playVideo}
+                                    repeat={this.state.repeat}
+                                    muted={!this.state.openSound}
+                                    onProgress={(data: any)=>this.Progress(data)}
+                                    onError={(e: any)=>this.videoError(e)} // 视频播放出错
+                                    onBuffer={(data: any) => this.onBuffer(data)} // 视频播放缓冲
+                                    onLoad={(data: any) => this.onLoad(data)}
+                                    onPress={(data: any) => this.handleStop(data)}
+                                >
+                                </Video>
+                            :''}
+                            <ImageBackground 
+                                style={{ position: 'absolute', width: '100%',height: '100%' }} 
+                                source={require('../image/live/live_loading_bg.png')}>
+                            </ImageBackground>
+                            {/* loading状态 */}
+                            {this.state.videoLoadingStatus === 100 ?
                                 '':
-                                <Pressable style={styles.play} onPress={this.handlePlay}>
-                                    <Image style={{width:46,height:46}} source={require('../image/live/landscape_play.png')}></Image>
-                                </Pressable>}
-                            
-                            {this.state.videoLoadingStatus === 0 || this.state.videoNetWorkError?
+                            <View style={{width:'100%',height:'100%'}}>
+                                    {this.state.videoLoadingStatus !== 0 ?
+                                        '':
+                                        <Pressable style={styles.play} onPress={this.handlePlay}>
+                                            <Image style={{width:46,height:46}} source={require('../image/live/landscape_play.png')}></Image>
+                                        </Pressable>}
+                                    
+                                    {this.state.videoLoadingStatus === 0 || this.state.videoNetWorkError?
+                                        '':
+                                        <View style={styles.videoLoaing}>
+                                            <Image style={styles.loadingGif} source={require('../image/live/loading_grey.gif')}></Image>
+                                            <Text style={styles.videoLoadingText} >视频安全传输中...</Text>
+                                        </View>
+                                    }
+                            </View>
+                            }
+                            {!this.state.videoNetWorkError?
                                 '':
-                                <View style={styles.videoLoaing}>
-                                    <Image style={styles.loadingGif} source={require('../image/live/loading_grey.gif')}></Image>
-                                    <Text style={styles.videoLoadingText} >视频安全传输中...</Text>
+                                <View style={styles.mesh}>
+                                    <Image style={{width:36,height:36}} source={require('../image/live/preview_fail.png')}></Image>
+                                    <Text style={styles.meshHint}>网络不稳定，加载失败</Text>
+                                    <Text style={styles.meshBut} onPress={this.reconnect}>重试</Text>
                                 </View>
                             }
-                       </View>
-                    }
-                    {!this.state.videoNetWorkError?
-                        '':
-                        <View style={styles.mesh}>
-                            <Image style={{width:36,height:36}} source={require('../image/live/preview_fail.png')}></Image>
-                            <Text style={styles.meshHint}>网络不稳定，加载失败</Text>
-                            <Text style={styles.meshBut} onPress={this.reconnect}>重试</Text>
-                        </View>
-                    }
-                    {/* 设备不在线 */}
-                    {this.state.deviceOffline?'':
-                        <View style={styles.videoLoaing}>
-                            <Image style={[styles.loadingGif,{marginBottom:10}]} source={require('../image/live/preview_fail_offline.png')}></Image>
-                            <Text style={styles.videoLoadingText}>设备不在线</Text>
-                        </View>
-                    }
-                    <View style={styles.videoPlay} >
-                        {this.state.playVideo?
-                            <Pressable onPress={this.handleStop}>
-                                <Image style={{width:34,height:34}} source={require('../image/video_icon_stop.png')}></Image>
-                            </Pressable>:
-                            <Pressable onPress={this.handlePlay}>
-                                <Image style={{width:34,height:34}} source={require('../image/video_icon_play.png')}></Image>
+                            {/* 设备不在线 */}
+                            {this.state.deviceOffline?'':
+                                <View style={styles.videoLoaing}>
+                                    <Image style={[styles.loadingGif,{marginBottom:10}]} source={require('../image/live/preview_fail_offline.png')}></Image>
+                                    <Text style={styles.videoLoadingText}>设备不在线</Text>
+                                </View>
+                            }
+                            <View style={styles.videoPlay} >
+                                {this.state.playVideo?
+                                    <Pressable onPress={this.handleStop}>
+                                        <Image style={{width:34,height:34}} source={require('../image/video_icon_stop.png')}></Image>
+                                    </Pressable>:
+                                    <Pressable onPress={this.handlePlay}>
+                                        <Image style={{width:34,height:34}} source={require('../image/video_icon_play.png')}></Image>
+                                    </Pressable>
+                                }
+                            </View>
+                            <Pressable style={styles.opensound} onPress={this.handleSound}>
+                                {this.state.openSound?
+                                    <Image style={{width:34,height:34}} source={require('../image/video_icon_opensound.png')}></Image>
+                                    :
+                                    <Image style={{width:34,height:34}} source={require('../image/video_icon_closesound.png')}></Image>
+                                }
                             </Pressable>
-                        }
-                    </View>
-                    <Pressable style={styles.opensound} onPress={this.handleSound}>
-                        {this.state.openSound?
-                            <Image style={{width:34,height:34}} source={require('../image/video_icon_opensound.png')}></Image>
-                            :
-                            <Image style={{width:34,height:34}} source={require('../image/video_icon_closesound.png')}></Image>
-                        }
-                    </Pressable>
-                    {!this.state.fullScreen?
-                        <Pressable style={styles.full} onPress={this.fullScreen}>
-                            <Image style={{width:34,height:34}} source={require('../image/video_icon_full.png')}></Image>
-                        </Pressable>:
-                        <Pressable style={styles.full} onPress={this.unfullScreen}>
-                            <Image style={{width:34,height:34}} source={require('../image/video_icon_full.png')}></Image>
-                        </Pressable>
-                    }
-                </View>
+                            {!this.state.fullScreen?
+                                <Pressable style={styles.full} onPress={this.fullScreen}>
+                                    <Image style={{width:34,height:34}} source={require('../image/video_icon_full.png')}></Image>
+                                </Pressable>:
+                                <Pressable style={styles.full} onPress={this.unfullScreen}>
+                                    <Image style={{width:34,height:34}} source={require('../image/video_icon_full.png')}></Image>
+                                </Pressable>
+                            }
+                        </View>
 
-                <View style={styles.controlArea}>
-                    <View style={styles.cloudSwitch}>
-                        {/* 选择日期 */}
-                        <Picker
-                            pickerType={1}
-                            date={this.state.date}
-                            precisionType={1}
-                            click={this.bindDateChange}
-                        ></Picker>
-                        <Picker
-                            pickerType={4}
-                            dataSwitch={this.state.storageType}
-                            dataSwitchIn={this.state.storageIn}
-                            click={this.storageChange}
-                        >
-                        </Picker>
+                        <View style={styles.controlArea}>
+                            <View style={styles.cloudSwitch}>
+                                {/* 选择日期 */}
+                                <Picker
+                                    pickerType={1}
+                                    date={this.state.date}
+                                    precisionType={1}
+                                    click={this.bindDateChange}
+                                ></Picker>
+                                <Picker
+                                    pickerType={4}
+                                    dataSwitch={this.state.storageType}
+                                    dataSwitchIn={this.state.storageIn}
+                                    click={this.storageChange}
+                                >
+                                </Picker>
+                            </View>
+                            {/* 时间轴 */}
+                            <View style={styles.timeAxis}>
+                                <TimeLine 
+                                    getPalyParam={this.getPalyParam}
+                                    playCode={this.state.playCode}
+                                    dateLine={this.state.dateLine}>
+                                </TimeLine>
+                            </View>
+                        </View>
                     </View>
-                    {/* 时间轴 */}
-                    <View style={styles.timeAxis}>
-                        <TimeLine 
-                            getPalyParam={this.getPalyParam}
-                            playCode={this.state.playCode}
-                            dateLine={this.state.dateLine}>
-                        </TimeLine>
-                    </View>
-                </View>
+                    {/* 弹窗效果 */}
+                    <Loading 
+                        type={this.state.msgType} 
+                        visible={this.state.visible} 
+                        LoadingMsg={this.state.LoadingMsg}>
+                    </Loading>
+                </SafeAreaView>
             </View>
-            {/* 弹窗效果 */}
-            <Loading 
-                type={this.state.msgType} 
-                visible={this.state.visible} 
-                LoadingMsg={this.state.LoadingMsg}>
-            </Loading>
-        </SafeAreaView>
         )
     }
 }

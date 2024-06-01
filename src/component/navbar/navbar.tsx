@@ -1,6 +1,6 @@
 import { StackNavigationProp } from '@react-navigation/stack'
 import React from 'react'
-import { Text, View, StyleSheet, TouchableOpacity, ActivityIndicator, PixelRatio,
+import { Text, View, StyleSheet, TouchableOpacity, ActivityIndicator,
 Image, Pressable, Dimensions, DeviceEventEmitter, ScrollView} from 'react-native'
 import store from '../../redux/store'//全局数据管理
 import { HttpService } from '../../utils/http'//网络请求服务
@@ -10,8 +10,8 @@ import { Icon } from '@rneui/themed';//ico图标
 import Tree from '../tree/Tree'
 import Loading from '../Loading/Loading'
 const api = require( '../../utils/api')//接口文件
-const ht = Dimensions.get('window').height*PixelRatio.getFontScale()
-const Fs = Dimensions.get('window').width*PixelRatio.getFontScale()
+const ht = Dimensions.get('window').height*0.8
+const Fs = Dimensions.get('window').width*0.8
 
 
 export class Navbar extends React.Component<any,any> {

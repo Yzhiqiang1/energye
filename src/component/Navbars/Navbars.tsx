@@ -1,8 +1,8 @@
-import { Dimensions, Image, PixelRatio, Pressable, StyleSheet, Text, View } from 'react-native'
+import { Dimensions, Pressable, StyleSheet, Text, View } from 'react-native'
 import React, { Component } from 'react'
 import { Icon } from '@rneui/themed';
-const Fs = Dimensions.get('window').width*PixelRatio.getFontScale()
-const ht = Dimensions.get('window').height*PixelRatio.getFontScale()
+const Fs = Dimensions.get('window').width*0.8
+const ht = Dimensions.get('window').height*0.8
 
 export class Navbars extends Component<any,any> {
   render() {

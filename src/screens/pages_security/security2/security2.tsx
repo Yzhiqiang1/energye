@@ -1,4 +1,4 @@
-import { AppState, DeviceEventEmitter, Dimensions, Image, PixelRatio, SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import { AppState, DeviceEventEmitter, Dimensions, Image, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import {Shadow} from 'react-native-shadow-2'
 import React, { Component } from 'react'
 import Navbar from '../../../component/navbar/navbar'
@@ -11,7 +11,7 @@ import { Dialog } from '@rneui/themed';
 import Loading from '../../../component/Loading/Loading'
 import { localSocket } from '../../../redux/actions/user'
 const api = require('../../../utils/api')
-const Fs = Dimensions.get('window').width*PixelRatio.getFontScale()
+const Fs = Dimensions.get('window').width*0.8
 
 let dataPos:any = {}; //dataPOS:{a:{},b:{}}
 let eventListener:any = {}
@@ -306,87 +306,91 @@ export class Security1 extends Component<any,any> {
     }
     render() {
         return (
-            <SafeAreaView style={{flex: 1}}>
-                {/* 引入自定义导航栏 */}
-                <Navbar 
-                    pageName={'开关控制'}
-                    showBack={true}
-                    showHome={false}
-                    isCheck={5}
-                    LoginStatus={this.state.LoginStatus}
-                    props={this.props}
-                    handleSelect={this.handleSelect}>
-                </Navbar>
+            <View style={{flex: 1}}>
+                <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
+                </View>
+                <SafeAreaView style={{flex: 1}}>
+                    {/* 引入自定义导航栏 */}
+                    <Navbar 
+                        pageName={'开关控制'}
+                        showBack={true}
+                        showHome={false}
+                        isCheck={5}
+                        LoginStatus={this.state.LoginStatus}
+                        props={this.props}
+                        handleSelect={this.handleSelect}>
+                    </Navbar>
 
-                {/* 内容区 */}
-                <View style={styleg.containerMini}>
-                    <View style={styles.containerMini}>
-                        {this.state.sensorArr.length==0?
-                            <Text style={styles.empty}>没有对应传感器</Text>:''
-                        }
-                        {/* 面板item */}
-                        {this.state.sensorArr.map((top_item:any,top_index:number)=>{
-                            return(
-                                <Shadow distance={4} style={styles.indexMini} key={top_index}>
-                                    {/* 设备信息行 */}
-                                    <View style={[styles.deviece,styles.tr]}>
-                                        <Image source={require('../../../image/switch1.png')} resizeMode='contain' style={styles.devieceImg}></Image>
-                                        <View style={styles.devieceInfo}>
-                                            <Text style={styles.devieceName}>{top_item.deviceName}</Text>
-                                            <Text>更新时间: 
-                                                <Text style={styles.lastTime}>{top_item.updateTime ? top_item.updateTime :'暂无数据'}</Text>
+                    {/* 内容区 */}
+                    <View style={styleg.containerMini}>
+                        <View style={styles.containerMini}>
+                            {this.state.sensorArr.length==0?
+                                <Text style={styles.empty}>没有对应传感器</Text>:''
+                            }
+                            {/* 面板item */}
+                            {this.state.sensorArr.map((top_item:any,top_index:number)=>{
+                                return(
+                                    <Shadow distance={4} style={styles.indexMini} key={top_index}>
+                                        {/* 设备信息行 */}
+                                        <View style={[styles.deviece,styles.tr]}>
+                                            <Image source={require('../../../image/switch1.png')} resizeMode='contain' style={styles.devieceImg}></Image>
+                                            <View style={styles.devieceInfo}>
+                                                <Text style={styles.devieceName}>{top_item.deviceName}</Text>
+                                                <Text>更新时间: 
+                                                    <Text style={styles.lastTime}>{top_item.updateTime ? top_item.updateTime :'暂无数据'}</Text>
+                                                </Text>
+                                            </View>
+                                            <Text 
+                                                style={styles.search}
+                                                onPress={()=>this.historySearch(top_index)}
+                                            >
+                                            查询
                                             </Text>
                                         </View>
-                                        <Text 
-                                            style={styles.search}
-                                            onPress={()=>this.historySearch(top_index)}
-                                        >
-                                        查询
-                                        </Text>
+                                        {/* 传感器信息行 */}
+                                        {top_item.sensorList.length==0?
+                                            <Text>暂无数据</Text>:''
+                                        }
+                                        {top_item.sensorList.map((item:any,index:number)=>{
+                                            return(
+                                                <View style={[styles.sensor,styles.tr]} key={index}>
+                                                    <Text style={styles.sensorName}>{item.sensorname}</Text>
+                                                    {/* 开关 */}
+                                                    <Switch
+                                                    value={item.switch == 1}
+                                                    onValueChange={() => this.showPopup(top_index,index,item.switch==1 ?  0 : 1,top_item.devieceNo,item.sensorid)}
+                                                    style={styles.btn}
+                                                    color={'#1989fa'}/>
+                                                </View>
+                                            )
+                                        })}
+                                    </Shadow>
+                                )
+                            })}
+                            {/* 对话框 */}
+                            <Dialog
+                                isVisible={this.state.visibleM}
+                                overlayStyle={styles.overlay}
+                                backdropStyle={{height:'120%'}}
+                                >
+                                <Text style={styles.SwitchText}>确定操作设备开关吗？</Text>
+                                <Dialog.Actions>
+                                    <View style={styles.actions}>
+                                        <Text style={[styles.Dialog,styles.cancel]} onPress={this.cancel}>取消</Text>
+                                        <Text style={[styles.Dialog,styles.confirm]} onPress={this.confirm}>确定</Text>
                                     </View>
-                                    {/* 传感器信息行 */}
-                                    {top_item.sensorList.length==0?
-                                        <Text>暂无数据</Text>:''
-                                    }
-                                    {top_item.sensorList.map((item:any,index:number)=>{
-                                        return(
-                                            <View style={[styles.sensor,styles.tr]} key={index}>
-                                                <Text style={styles.sensorName}>{item.sensorname}</Text>
-                                                {/* 开关 */}
-                                                <Switch
-                                                value={item.switch == 1}
-                                                onValueChange={() => this.showPopup(top_index,index,item.switch==1 ?  0 : 1,top_item.devieceNo,item.sensorid)}
-                                                style={styles.btn}
-                                                color={'#1989fa'}/>
-                                            </View>
-                                        )
-                                    })}
-                                </Shadow>
-                            )
-                        })}
-                         {/* 对话框 */}
-                         <Dialog
-                            isVisible={this.state.visibleM}
-                            overlayStyle={styles.overlay}
-                            backdropStyle={{height:'120%'}}
-                            >
-                            <Text style={styles.SwitchText}>确定操作设备开关吗？</Text>
-                            <Dialog.Actions>
-                                <View style={styles.actions}>
-                                    <Text style={[styles.Dialog,styles.cancel]} onPress={this.cancel}>取消</Text>
-                                    <Text style={[styles.Dialog,styles.confirm]} onPress={this.confirm}>确定</Text>
-                                </View>
-                            </Dialog.Actions>
-                        </Dialog>
+                                </Dialog.Actions>
+                            </Dialog>
+                        </View>
                     </View>
-                </View>
-                {/* 弹窗效果组件 */}
-                <Loading 
-                    type={this.state.msgType} 
-                    visible={this.state.visible} 
-                    LoadingMsg={this.state.LoadingMsg}>
-                </Loading>
-            </SafeAreaView>
+                    {/* 弹窗效果组件 */}
+                    <Loading 
+                        type={this.state.msgType} 
+                        visible={this.state.visible} 
+                        LoadingMsg={this.state.LoadingMsg}>
+                    </Loading>
+                </SafeAreaView>
+            </View>
         )
     }
 }

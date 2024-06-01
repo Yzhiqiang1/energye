@@ -1,4 +1,4 @@
-import { Text, View, Pressable, ScrollView, Dimensions, PixelRatio, SafeAreaView} from 'react-native'
+import { Text, View, Pressable, Dimensions, SafeAreaView} from 'react-native'
 import React, { Component } from 'react'
 import { Menu } from '../../component/menu/menu'//底部导航组件
 import styleg from '../../indexCss'//公共scc
@@ -10,8 +10,8 @@ import { Image } from '@rneui/themed';
 import { HttpService } from '../../utils/http'
 import Loading from '../../component/Loading/Loading'//加载窗口组件
 const api = require('../..//utils/api')
-const Fs = Dimensions.get('window').width*PixelRatio.getFontScale()
-const ht = Dimensions.get('window').height*PixelRatio.getFontScale()
+const Fs = Dimensions.get('window').width*0.8
+const ht = Dimensions.get('window').height*0.8
 
 export class User extends Component<any,any> {
   constructor(props: {}){

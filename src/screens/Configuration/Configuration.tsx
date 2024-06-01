@@ -1,4 +1,4 @@
-import {Text, View, Image, TextInput, ScrollView, Dimensions, Pressable, PixelRatio, SafeAreaView, LayoutChangeEvent,} from 'react-native'
+import {Text, View, Image, TextInput, ScrollView, Dimensions, Pressable, SafeAreaView, LayoutChangeEvent,} from 'react-native'
 
 import React, { Component } from 'react'
 import { StyleSheet } from 'react-native'
@@ -10,8 +10,8 @@ import store from '../../redux/store'
 import Loading from '../../component/Loading/Loading'
 import { Shadow } from 'react-native-shadow-2';
 const api = require('../../utils/api')
-const Fs = Dimensions.get('window').width*PixelRatio.getFontScale()
-const ht = Dimensions.get('window').height*PixelRatio.getFontScale()
+const Fs = Dimensions.get('window').width*0.8
+const ht = Dimensions.get('window').height*0.8
 
 export class Configuration extends Component<any,any> {
   constructor(props: any){
@@ -191,99 +191,105 @@ export class Configuration extends Component<any,any> {
 
   render() {
     return (
-      <SafeAreaView style={styleg.containerMax} onLayout={(event) => this.boxH(event)}>
-        <View style={styles.nav}>
-          <Pressable style={styles.navLeft} onPress={()=>{this.props.navigation.navigate('Index')}}>
-            <Image style={styles.navImg} source={require('../../image/Home.png')}></Image>
-          </Pressable>
-          <Text style={styles.navName}>云组态</Text>
+      <View style={{flex: 1}}>
+        <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#2da2fe'}}>
         </View>
-        <View style={styles.head}>
-          <View style={styles.search}>
-              <View style={styles.flex}>
-                  <TextInput style={styles.input} value={this.state.searchVal} placeholder='关键字搜索' onChangeText={this._search} ></TextInput>
-                  {this.state.searchVal!=''?
-                    <Pressable style={styles.close} onPress={this.searchClose}>
-                        <Image style={styles.closeimg} source={require('../../image/search-close.png')}></Image>
-                    </Pressable>:''
-                  }
-              </View>
-              <Pressable style={styles.button} onPress={this.searchSubmit}>
-                  <Image style={styles.ico} source={require('../../image/searcha.png')} ></Image>
-                  <Text style={styles.searchT}>搜索</Text>
+        <SafeAreaView style={{flex: 1}}>
+          <View style={styleg.containerMax} onLayout={(event) => this.boxH(event)}>
+            <View style={styles.nav}>
+              <Pressable style={styles.navLeft} onPress={()=>{this.props.navigation.navigate('Index')}}>
+                <Image style={styles.navImg} source={require('../../image/Home.png')}></Image>
               </Pressable>
-          </View>
-          <View style={styles.allowance}>
-              <Text style={styles.name}>我的组态</Text>
-              <View style={styles.number}>
-                <View style={styles.numberSpot1}></View>
-                <Text style={styles.Spot}>总计 {this.state.objList.cfgnum}</Text>
+              <Text style={styles.navName}>云组态</Text>
+            </View>
+            <View style={styles.head}>
+              <View style={styles.search}>
+                  <View style={styles.flex}>
+                      <TextInput style={styles.input} value={this.state.searchVal} placeholder='关键字搜索' onChangeText={this._search} ></TextInput>
+                      {this.state.searchVal!=''?
+                        <Pressable style={styles.close} onPress={this.searchClose}>
+                            <Image style={styles.closeimg} source={require('../../image/search-close.png')}></Image>
+                        </Pressable>:''
+                      }
+                  </View>
+                  <Pressable style={styles.button} onPress={this.searchSubmit}>
+                      <Image style={styles.ico} source={require('../../image/searcha.png')} ></Image>
+                      <Text style={styles.searchT}>搜索</Text>
+                  </Pressable>
               </View>
-              <View style={styles.number}>
-                <View style={styles.numberSpot2}></View>
-                <Text style={styles.Spot}>已用 {this.state.objList.count}</Text>
+              <View style={styles.allowance}>
+                  <Text style={styles.name}>我的组态</Text>
+                  <View style={styles.number}>
+                    <View style={styles.numberSpot1}></View>
+                    <Text style={styles.Spot}>总计 {this.state.objList.cfgnum}</Text>
+                  </View>
+                  <View style={styles.number}>
+                    <View style={styles.numberSpot2}></View>
+                    <Text style={styles.Spot}>已用 {this.state.objList.count}</Text>
+                  </View>
+                  <View style={styles.number}>
+                    <View style={styles.numberSpot3}></View>
+                    <Text style={styles.Spot}>剩余 {this.state.objList ? this.state.objList.cfgnum - this.state.objList.count:''}</Text>
+                  </View>
               </View>
-              <View style={styles.number}>
-                <View style={styles.numberSpot3}></View>
-                <Text style={styles.Spot}>剩余 {this.state.objList ? this.state.objList.cfgnum - this.state.objList.count:''}</Text>
-              </View>
-          </View>
-        </View>
+            </View>
 
-        <ScrollView style={[styles.view,{height:this.state.boxHeight-ht/8*2-ht/10-5}]} onMomentumScrollEnd={this.downScroll}>
-            {this.state.LoginStatus == 2?
-              <View style={styles.box}>
-              {this.state.objArr.map((data:any, index:any) => {
-                return (
-                  <Shadow distance={2} style={[styles.row,styles.rowR]}  key={index}>
-                      <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': 'white'},styles.item]}
-                        onPress={()=>{this.props.navigation.navigate('ConfigurationDetails',{url:data.url,name:data.appname})}}
-                      >
-                          <View style={styles.images}>
-                              <Image style={styles.img} source={{uri:'https://www.energye.cn/images/zutai/Not.png'}}></Image>
-                          </View>
-                          <Text style={styles.Scrollname}>{data.appname}</Text>
-                      </Pressable>
-                  </Shadow>
-                );
-              })}
-              </View> : ''  
-            }
-            {this.state.LoginStatus == 2?
-              <View>
-                {this.state.objArr.length > 0 && this.state.isLastPage == true?
-                  <Text style={styles.isPageTxt}>
-                      已加载所有数据
-                  </Text> : ''
+            <ScrollView style={[styles.view,{height:this.state.boxHeight-ht/8*2-ht/10-5}]} onMomentumScrollEnd={this.downScroll}>
+                {this.state.LoginStatus == 2?
+                  <View style={styles.box}>
+                  {this.state.objArr.map((data:any, index:any) => {
+                    return (
+                      <Shadow distance={2} style={[styles.row,styles.rowR]}  key={index}>
+                          <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': 'white'},styles.item]}
+                            onPress={()=>{this.props.navigation.navigate('ConfigurationDetails',{url:data.url,name:data.appname})}}
+                          >
+                              <View style={styles.images}>
+                                  <Image style={styles.img} source={{uri:'https://www.energye.cn/images/zutai/Not.png'}}></Image>
+                              </View>
+                              <Text style={styles.Scrollname}>{data.appname}</Text>
+                          </Pressable>
+                      </Shadow>
+                    );
+                  })}
+                  </View> : ''  
                 }
-              
-                {this.state.objArr.length == 0 && this.state.isPageLoad == true?
-                  <Text style={styles.nothing}>
-                    未查询到数据
-                  </Text>:''
+                {this.state.LoginStatus == 2?
+                  <View>
+                    {this.state.objArr.length > 0 && this.state.isLastPage == true?
+                      <Text style={styles.isPageTxt}>
+                          已加载所有数据
+                      </Text> : ''
+                    }
+                  
+                    {this.state.objArr.length == 0 && this.state.isPageLoad == true?
+                      <Text style={styles.nothing}>
+                        未查询到数据
+                      </Text>:''
+                    }
+                    
+                    {this.state.isPageLoad?
+                      <View style={styles.isPageLoad}>
+                        <View style={styles.load}></View>
+                      </View>:''
+                    }
+                  </View> :
+                    <Text style={styles.notLoggedIn}>
+                      您还未登录，
+                      {/*  */}
+                        <Text style={styles.url} onPress={()=>this.props.navigation.navigate('BindAccount')}>点击登录</Text>
+                    </Text> 
                 }
-                
-                {this.state.isPageLoad?
-                  <View style={styles.isPageLoad}>
-                    <View style={styles.load}></View>
-                  </View>:''
-                }
-              </View> :
-                <Text style={styles.notLoggedIn}>
-                  您还未登录，
-                  {/*  */}
-                    <Text style={styles.url} onPress={()=>this.props.navigation.navigate('BindAccount')}>点击登录</Text>
-                </Text> 
-            }
-        </ScrollView>
+            </ScrollView>
 
-        <Loading
-            type={this.state.type}
-            LoadingMsg={this.state.LoadingMsg}
-            visible={this.state.visible}
-        ></Loading>
-        <Menu myMeun={'1002'} props={this.props}></Menu>
-      </SafeAreaView>
+            <Loading
+                type={this.state.type}
+                LoadingMsg={this.state.LoadingMsg}
+                visible={this.state.visible}
+            ></Loading>
+            <Menu myMeun={'1002'} props={this.props}></Menu>
+          </View>
+        </SafeAreaView>
+      </View>
     )
   }
 }

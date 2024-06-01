@@ -8,7 +8,7 @@ import { HttpService } from '../../../utils/http'
 import Loading from '../../../component/Loading/Loading'
 import VideoPlayer from 'react-native-video-controls';
 const api = require('../../../utils/api')
-const Fs = Dimensions.get('window').width*PixelRatio.getFontScale()
+const Fs = Dimensions.get('window').width*0.8
 
 export class Security3 extends Component<any,any> {
     constructor(props:any){
@@ -294,105 +294,109 @@ export class Security3 extends Component<any,any> {
     }
     render() {
         return (
-            <SafeAreaView style={{flex: 1}}>
-                {/* 引入自定义导航栏 */}
-                <Navbar 
-                    pageName={'摄像头'}
-                    showBack={true}
-                    showHome={false}
-                    isCheck={6}
-                    LoginStatus={this.state.LoginStatus}
-                    props={this.props}
-                    handleSelect={this.handleSelect}>
-                </Navbar>
-                {/* 内容区 */}
-                <View style={styleg.container}>
-                    <View style={styles.casePage}>
-                        <View style={styles.listMasonry}>
-                            {/* 判断下所选设备有无传感器数据 */}
-                            {this.state.sensorArr.length == 0?
-                                <Text style={styles.empty}>当前设备下没有传感器</Text>:''
-                            }
-                            {/* 循环传感器 */}
-                            {this.state.sensorArr.map((top_item:any,top_index:number)=>{
-                                return(
-                                    <View style={[styles.itemMasonry,top_item.stateCss]} key={top_index}>
-                                        {/* 头部可直接进入历史查询 */}
-                                        { top_item.type == 7?
-                                            //视频类型 
-                                            <Pressable style={styles.itemHead} onPress={()=>{
-                                                this.props.navigation.navigate('Playback',{
-                                                    sensorName: top_item.name,
-                                                    accessToken: top_item.accesstoken,
-                                                    deviceSerial: top_item.deviceSerial,
-                                                    appkey: top_item.appkey,
-                                                    secret: top_item.secret,
-                                            })}}>
-                                                <View style={styles.ico}>
-                                                </View>
-                                                <Text style={styles.name}>
-                                                    {top_item.name}
-                                                </Text>
-                                                <View style={styles.state}>
-                                                </View>
-                                            </Pressable>:''
-                                        }
-                                            
-                                        {/* 传感器内容区 */}
-                                        <View style={styles.itemCon} >
-                                            <View style={styles.itemValue}>
-                                                {/* 视频型 */}
-                                                {top_item.type == 7?
-                                                    <View style={styles.Video}>
-                                                      {top_item.value?
-                                                        <VideoPlayer
-                                                        resizeMode="cover"
-                                                        style={styles.Video}
-                                                        source={{ uri: top_item.value}}
-                                                        onBuffer={(data:any)=>this.onBuffer(data)}
-                                                        disableVolume={true}
-                                                        disableBack={true}
-                                                        disableFullscreen={true}
-                                                        >
-                                                        </VideoPlayer>
-                                                      :''} 
-                                                      {top_item.value == ''?
-                                                        <Text style={styles.videoNone}>小程序仅支持直播地址HLS</Text>:''
-                                                      }
-                                                    </View>:''
-                                                }
-                                            </View>
-                                            <Text style={styles.itemTime}>
-                                                {/* {item.time} */}
-                                            </Text>
-                                        </View>
-                                  </View>
-                                )
-                            })}
-                        </View>
-                    </View>
-                    {/* 下拉加载中动画 */}
-                    {this.state.isPage_Load?
-                        <View style={styles.isPageLoad}>
-                            <View style={styles.load}>
-                            </View>
-                        </View>
-                    :''}
-                    
-                    {/* 加载所有数据文字提示 */}
-                    {this.state.isPage_test?
-                      <Text style={styles.isPageTxt} onPress={()=>console.log(this.state.isPage_test)}>
-                          已加载所有数据
-                      </Text>:''
-                    }
-                </View>
-                {/* 弹窗效果组件 */}
-                <Loading 
-                    type={this.state.msgType} 
-                    visible={this.state.visible} 
-                    LoadingMsg={this.state.LoadingMsg}>
-                </Loading>
-            </SafeAreaView>
+          <View style={{flex: 1}}>
+              <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
+              </View>
+              <SafeAreaView style={{flex: 1}}>
+                  {/* 引入自定义导航栏 */}
+                  <Navbar 
+                      pageName={'摄像头'}
+                      showBack={true}
+                      showHome={false}
+                      isCheck={6}
+                      LoginStatus={this.state.LoginStatus}
+                      props={this.props}
+                      handleSelect={this.handleSelect}>
+                  </Navbar>
+                  {/* 内容区 */}
+                  <View style={styleg.container}>
+                      <View style={styles.casePage}>
+                          <View style={styles.listMasonry}>
+                              {/* 判断下所选设备有无传感器数据 */}
+                              {this.state.sensorArr.length == 0?
+                                  <Text style={styles.empty}>当前设备下没有传感器</Text>:''
+                              }
+                              {/* 循环传感器 */}
+                              {this.state.sensorArr.map((top_item:any,top_index:number)=>{
+                                  return(
+                                      <View style={[styles.itemMasonry,top_item.stateCss]} key={top_index}>
+                                          {/* 头部可直接进入历史查询 */}
+                                          { top_item.type == 7?
+                                              //视频类型 
+                                              <Pressable style={styles.itemHead} onPress={()=>{
+                                                  this.props.navigation.navigate('Playback',{
+                                                      sensorName: top_item.name,
+                                                      accessToken: top_item.accesstoken,
+                                                      deviceSerial: top_item.deviceSerial,
+                                                      appkey: top_item.appkey,
+                                                      secret: top_item.secret,
+                                              })}}>
+                                                  <View style={styles.ico}>
+                                                  </View>
+                                                  <Text style={styles.name}>
+                                                      {top_item.name}
+                                                  </Text>
+                                                  <View style={styles.state}>
+                                                  </View>
+                                              </Pressable>:''
+                                          }
+                                              
+                                          {/* 传感器内容区 */}
+                                          <View style={styles.itemCon} >
+                                              <View style={styles.itemValue}>
+                                                  {/* 视频型 */}
+                                                  {top_item.type == 7?
+                                                      <View style={styles.Video}>
+                                                        {top_item.value?
+                                                          <VideoPlayer
+                                                          resizeMode="cover"
+                                                          style={styles.Video}
+                                                          source={{ uri: top_item.value}}
+                                                          onBuffer={(data:any)=>this.onBuffer(data)}
+                                                          disableVolume={true}
+                                                          disableBack={true}
+                                                          disableFullscreen={true}
+                                                          >
+                                                          </VideoPlayer>
+                                                        :''} 
+                                                        {top_item.value == ''?
+                                                          <Text style={styles.videoNone}>小程序仅支持直播地址HLS</Text>:''
+                                                        }
+                                                      </View>:''
+                                                  }
+                                              </View>
+                                              <Text style={styles.itemTime}>
+                                                  {/* {item.time} */}
+                                              </Text>
+                                          </View>
+                                    </View>
+                                  )
+                              })}
+                          </View>
+                      </View>
+                      {/* 下拉加载中动画 */}
+                      {this.state.isPage_Load?
+                          <View style={styles.isPageLoad}>
+                              <View style={styles.load}>
+                              </View>
+                          </View>
+                      :''}
+                      
+                      {/* 加载所有数据文字提示 */}
+                      {this.state.isPage_test?
+                        <Text style={styles.isPageTxt} onPress={()=>console.log(this.state.isPage_test)}>
+                            已加载所有数据
+                        </Text>:''
+                      }
+                  </View>
+                  {/* 弹窗效果组件 */}
+                  <Loading 
+                      type={this.state.msgType} 
+                      visible={this.state.visible} 
+                      LoadingMsg={this.state.LoadingMsg}>
+                  </Loading>
+              </SafeAreaView>
+          </View>
         )
     }
 }

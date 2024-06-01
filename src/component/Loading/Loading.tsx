@@ -1,7 +1,7 @@
-import { Dimensions, StyleSheet, Text, PixelRatio} from 'react-native'
+import { Dimensions, StyleSheet, Text} from 'react-native'
 import React, { Component } from 'react'
 import { Dialog } from '@rneui/themed';
-const Fs = Dimensions.get('window').width*PixelRatio.getFontScale()
+const Fs = Dimensions.get('window').width*0.8
 
 
 export class Loading extends Component<any,any> {

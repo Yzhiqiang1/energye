@@ -1,4 +1,4 @@
-import { Dimensions, PixelRatio, StyleSheet, Text, View } from 'react-native'
+import { Dimensions, StyleSheet, Text, View } from 'react-native'
 import React, { Component } from 'react'
 import styleg from '../../../indexCss'
 import util from '../../../utils/util'
@@ -7,7 +7,7 @@ import store from '../../../redux/store'
 import { HttpService } from '../../../utils/http'
 import Loading from '../../../component/Loading/Loading'
 const api = require('../../../utils/api')
-const Fs = Dimensions.get('window').width*PixelRatio.getFontScale()
+const Fs = Dimensions.get('window').width*0.8
 
 export class Security4_dl extends Component<any,any> {
     constructor(props:any){

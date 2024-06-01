@@ -1,8 +1,8 @@
-import { Text, View, Image, TouchableOpacity, Dimensions, PixelRatio} from 'react-native'
+import { Text, View, Image, TouchableOpacity, Dimensions } from 'react-native'
 import React, { Component } from 'react'
 import { StyleSheet } from 'react-native'
-const Fs = Dimensions.get('window').width*PixelRatio.getFontScale()
-const ht = Dimensions.get('window').height*PixelRatio.getFontScale()
+const Fs = Dimensions.get('window').width*0.8
+const ht = Dimensions.get('window').height*0.8
 
 export class Menu extends Component<any,any> {
     constructor(props:any){
@@ -58,7 +58,7 @@ export class Menu extends Component<any,any> {
                     </View>
                 );
             })}
-    </View>
+        </View>
     )
   }
 }

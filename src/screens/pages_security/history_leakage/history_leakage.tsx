@@ -1,16 +1,15 @@
-import { Dimensions, Image, PixelRatio, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
-import React, { Component, useLayoutEffect } from 'react'
+import { Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
+import React, { Component } from 'react'
 import styleg from '../../../indexCss'
 import MyCanvas from '../../../component/my-canvas/MyCanvas'
-import util, { getTransition } from '../../../utils/util'
+import util from '../../../utils/util'
 import Picker from '../../../component/Picker/Picker'//选择器
 import store from '../../../redux/store'
 import { HttpService } from '../../../utils/http'
 import Navbars from '../../../component/Navbars/Navbars'
-import DateTimePicker from '@react-native-community/datetimepicker';
 import Loading from '../../../component/Loading/Loading'
 const api = require('../../../utils/api')
-const Fs = Dimensions.get('window').width*PixelRatio.getFontScale()
+const Fs = Dimensions.get('window').width*0.8
 
 export class History_leakage extends Component<any,any> {
     constructor(props:any){
@@ -277,55 +276,59 @@ export class History_leakage extends Component<any,any> {
 
     render() {
         return (
-            <SafeAreaView style={{flex: 1}}>
-                <Navbars
-                    name={'历史查询'}
-                    showHome={false}
-                    showBack={true}
-                    props={this.props}>
-                </Navbars>
-                {/* 内容区 */}
-                <View style={styleg.container10}>
-                    <View style={styles.query_head}>
-                        <View style={styles.flex}>
-                            <Picker
-                                pickerType={1}
-                                date={this.state._date}
-                                precisionType={1}
-                                click={this.clickDate}
-                            >
-                            </Picker>
-                        </View>
-                        <Text style={styles.button} onPress={this.clickSearch}>查询</Text>
-                        <Text style={[styles.button,styles.buttonC1]} onPress={this.preDate}>上一日</Text>
-                        <Text style={styles.button} onPress={this.nextData}>下一日</Text>
-                    </View>
-                    
-                    <ScrollView style={styles.echartsCon}>
-                        {this.state.optionData.length == 0?
-                            <Text style={styles.empty}>暂无漏电信息数据</Text> : ''
-                        }
-                        {this.state.optionData.map((item:any,index:number)=>{
-                            return(
-                                <View style={styles.item} key={index}>
-                                    <Text style={styles.name}>
-                                        {item.name}
-                                    </Text>
-                                    <View style={styles.echarts}>
-                                        <MyCanvas objData={item} name={item.name}></MyCanvas>
-                                    </View>
-                                </View>
-                            )
-                        })}
-                    </ScrollView>
+            <View style={{flex: 1}}>
+                <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
                 </View>
-                {/* 弹窗效果组件 */}
-                <Loading 
-                    type={this.state.msgType} 
-                    visible={this.state.visible} 
-                    LoadingMsg={this.state.LoadingMsg}>
-                </Loading>
-            </SafeAreaView>
+                <SafeAreaView style={{flex: 1}}>
+                    <Navbars
+                        name={'历史查询'}
+                        showHome={false}
+                        showBack={true}
+                        props={this.props}>
+                    </Navbars>
+                    {/* 内容区 */}
+                    <View style={styleg.container10}>
+                        <View style={styles.query_head}>
+                            <View style={styles.flex}>
+                                <Picker
+                                    pickerType={1}
+                                    date={this.state._date}
+                                    precisionType={1}
+                                    click={this.clickDate}
+                                >
+                                </Picker>
+                            </View>
+                            <Text style={styles.button} onPress={this.clickSearch}>查询</Text>
+                            <Text style={[styles.button,styles.buttonC1]} onPress={this.preDate}>上一日</Text>
+                            <Text style={styles.button} onPress={this.nextData}>下一日</Text>
+                        </View>
+                        
+                        <ScrollView style={styles.echartsCon}>
+                            {this.state.optionData.length == 0?
+                                <Text style={styles.empty}>暂无漏电信息数据</Text> : ''
+                            }
+                            {this.state.optionData.map((item:any,index:number)=>{
+                                return(
+                                    <View style={styles.item} key={index}>
+                                        <Text style={styles.name}>
+                                            {item.name}
+                                        </Text>
+                                        <View style={styles.echarts}>
+                                            <MyCanvas objData={item} name={item.name}></MyCanvas>
+                                        </View>
+                                    </View>
+                                )
+                            })}
+                        </ScrollView>
+                    </View>
+                    {/* 弹窗效果组件 */}
+                    <Loading 
+                        type={this.state.msgType} 
+                        visible={this.state.visible} 
+                        LoadingMsg={this.state.LoadingMsg}>
+                    </Loading>
+                </SafeAreaView>
+            </View>
         )
     }
 }

@@ -1,16 +1,15 @@
-import { Dimensions, StyleSheet, Text, View, Image, TextInput, TouchableOpacity, Pressable, PixelRatio, SafeAreaView } from 'react-native'
+import { Dimensions, StyleSheet, Text, View, Image, TextInput, TouchableOpacity, Pressable, SafeAreaView } from 'react-native'
 import React, { Component,} from 'react'
 import {HttpService} from '../../utils/http'
 import LoginNavbar from '../../component/loginNavbar/loginNavbar'
 import { Set_State } from '../../redux/actions/user';
 import store from '../../redux/store'//全局管理
 import Loading from '../../component/Loading/Loading';
-const Fs = Dimensions.get('window').width*PixelRatio.getFontScale()
+const Fs = Dimensions.get('window').width*0.8
 let api = require('../../utils/api')
 
-//全屏幕宽高
+//屏幕高
 const height = Dimensions.get('window').height
-const width = Dimensions.get('window').width
 export class BindAccount extends Component<any,any> {
     constructor(props: any) {
         super(props);
@@ -126,70 +125,83 @@ export class BindAccount extends Component<any,any> {
             that.getLogin(); //登录
         })
     }
+    boxH=(e:any)=>{
+        const { height: newHeight } = e.nativeEvent.layout;
+        this.setState({
+            boxHeight: newHeight
+        })
+    }
   render() {
     return (
-        <SafeAreaView style={styles.view}>
-            <LoginNavbar
-                props={this.props}
-                name={'账号登入'}   
-                showBack={false}
-                showHome={true}
-            ></LoginNavbar>
-            <View style={styles.images}>
+        <View style={{flex: 1}}>
+            <View style={styles.images} onLayout={(event) => this.boxH(event)}>
                 <Image style={styles.loginBac} resizeMethod='auto' source={require('../../image/loginBac.png')}></Image>
             </View>
-            <View style={styles.flex}>
-                <View style={styles.con}>
-                    <View  style={styles.list}>
-                        <Image style={styles.Img} source={require('../../image/dl_user.png')}></Image>
-                        <TextInput style={styles.Input} placeholder='输入用户名' onChangeText={this.userNameChangeSearch} ></TextInput>
-                    </View>
-                    <View  style={styles.list}>
-                        <Image style={styles.Img} source={require('../../image/dl_password.png')}></Image>
-                        <TextInput style={styles.Input} placeholder='输入密码' onChangeText={this.passwordChangeSearch} secureTextEntry={true} ></TextInput>
-                    </View>
-                    <View style={styles.forget}>
-                        <TouchableOpacity >
-                            <Text style={{color:'#2EA4FF'}}>忘记密码?</Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View  style={styles.butList}>
-                        <View style={styles.button}>
-                            <Text style={styles.buttonL} onPress={()=>this.props.navigation.navigate('Index')}>取消登录</Text>
+            <SafeAreaView style={styles.view}>
+                <LoginNavbar
+                    props={this.props}
+                    name={'账号登入'}   
+                    showBack={false}
+                    showHome={true}
+                ></LoginNavbar>
+                <View style={[styles.flex,{top: this.state.boxHeight}]}>
+                    <View style={styles.con}>
+                        <View  style={styles.list}>
+                            <Image style={styles.Img} source={require('../../image/dl_user.png')}></Image>
+                            <TextInput style={styles.Input} placeholder='输入用户名' onChangeText={this.userNameChangeSearch} ></TextInput>
                         </View>
-                        <View style={styles.button}>
-                            <Text style={styles.buttonR} onPress={this.Login}>登录</Text>
+                        <View  style={styles.list}>
+                            <Image style={styles.Img} source={require('../../image/dl_password.png')}></Image>
+                            <TextInput style={styles.Input} placeholder='输入密码' onChangeText={this.passwordChangeSearch} secureTextEntry={true} ></TextInput>
                         </View>
-                    </View>
-                    <View style={styles.link}>
-                        <TouchableOpacity style={styles.Url}  onPress={()=>this.props.navigation.navigate('BindPhone')}>
-                            <Text style={{color: '#01AAED',fontSize:Fs/18}}>短信登录</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.Url} onPress={()=>this.props.navigation.navigate('AccountRegister')}>
-                            <Text style={{color: '#01AAED',fontSize:Fs/18}}>注册账号</Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={styles.Tourist}>
-                        <Pressable style={styles.experience} onPress={this.touristLongin}>
-                            <Image style={{width:30,height:30}} source={require('../../image/Tourist.png')}></Image>
-                            <Text style={styles.Text}>体验账号登录</Text>
-                        </Pressable> 
+                        <View style={styles.forget}>
+                            <TouchableOpacity >
+                                <Text style={{color:'#2EA4FF'}}>忘记密码?</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View  style={styles.butList}>
+                            <View style={styles.button}>
+                                <Text style={styles.buttonL} onPress={()=>this.props.navigation.navigate('Index')}>取消登录</Text>
+                            </View>
+                            <View style={styles.button}>
+                                <Text style={styles.buttonR} onPress={this.Login}>登录</Text>
+                            </View>
+                        </View>
+                        <View style={styles.link}>
+                            <TouchableOpacity style={styles.Url}  onPress={()=>this.props.navigation.navigate('BindPhone')}>
+                                <Text style={{color: '#01AAED',fontSize:Fs/18}}>短信登录</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.Url} onPress={()=>this.props.navigation.navigate('AccountRegister')}>
+                                <Text style={{color: '#01AAED',fontSize:Fs/18}}>注册账号</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={styles.Tourist}>
+                            <Pressable style={styles.experience} onPress={this.touristLongin}>
+                                <Image style={{width:30,height:30}} source={require('../../image/Tourist.png')}></Image>
+                                <Text style={styles.Text}>体验账号登录</Text>
+                            </Pressable> 
+                        </View>
                     </View>
                 </View>
-            </View>
-            {/* 弹窗效果组件 */}
-            <Loading 
-                type={this.state.msgType} 
-                visible={this.state.visible} 
-                LoadingMsg={this.state.LoadingMsg}>
-            </Loading>
-        </SafeAreaView>
+                {/* 弹窗效果组件 */}
+                <Loading 
+                    type={this.state.msgType} 
+                    visible={this.state.visible} 
+                    LoadingMsg={this.state.LoadingMsg}>
+                </Loading>
+            </SafeAreaView>
+        </View>
     )
   }
 }
 
 
 const styles = StyleSheet.create({
+    view:{
+        flex: 1,
+        display: 'flex',
+        alignItems: 'center'
+    },
     nav:{
         position:'absolute',
         top: 0,
@@ -222,15 +234,8 @@ const styles = StyleSheet.create({
         fontSize:Fs/16,
         color:'#fff'
       },
-    view:{
-        position: 'relative',
-        flex: 1,
-        backgroundColor: '#f4f4f4',
-        overflow: 'hidden',
-        flexDirection: 'column',
-    },
     images:{
-        position: 'relative',
+        position: 'absolute',
         width: '100%',
         overflow: 'hidden',
     },
@@ -239,8 +244,9 @@ const styles = StyleSheet.create({
         height:height/3.3
     },
     flex:{
-        position: 'relative',
-        flex: 1,
+        position: 'absolute',
+        width: '100%',
+        bottom: 10
     },
     con:{
         position: 'absolute',

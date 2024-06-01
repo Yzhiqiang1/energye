@@ -1,4 +1,4 @@
-import { Dimensions, Image, PixelRatio, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import React, { Component } from 'react'
 import Navbar from '../../../component/navbar/navbar'
 import styleg from '../../../indexCss'
@@ -9,7 +9,7 @@ import { HttpService } from '../../../utils/http'
 import Loading from '../../../component/Loading/Loading'
 import Picker from '../../../component/Picker/Picker'
 const api = require('../../../utils/api')
-const Fs = Dimensions.get('window').width*PixelRatio.getFontScale()
+const Fs = Dimensions.get('window').width*0.8
 
 export class PowerAnalysis6 extends Component<any,any> {
     constructor(props:any){
@@ -221,196 +221,200 @@ export class PowerAnalysis6 extends Component<any,any> {
     }
     render() {
         return (
-        <SafeAreaView style={{flex: 1}}>
-            {/* 引入自定义导航栏 */}
-            <Navbar 
-                pageName={'尖峰平谷'}
-                showBack={true}
-                showHome={false}
-                isCheck={3}
-                LoginStatus={this.state.LoginStatus}
-                props={this.props}
-                handleSelect={this.handleSelect}>
-            </Navbar>
-            {/* 内容区 */}
-            <View style={styleg.container}>
-                <View style={styles.query_head}>
-                    <View style={styles.flex1}>
-                        <Picker
-                            pickerType={1}
-                            date={this.state.start}
-                            precisionType={1}
-                            click={this.clickStart}
-                        ></Picker>
-                    </View>
-                    <Text style={styles.text}>
-                        至
-                    </Text>
-                    <View style={styles.flex1}>
-                        <Picker
-                            pickerType={1}
-                            date={this.state.end}
-                            precisionType={1}
-                            click={this.clickEnd}
-                        ></Picker>
-                    </View>
-                    <Text style={styles.button} onPress={this.clickSearch}>查询</Text>
+            <View style={{flex: 1}}>
+                <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
                 </View>
-                
-                <View style={styles.echarts_con}>
-                    {this.state.optionData.length == 0?
-                        <Text style={styles.empty}>暂无数据</Text>:
-                        <ScrollView style={styles.item}>
-                            <View style={styles.name}>
-                                <Text style={styles.nameText}>尖峰平谷数据统计</Text>
+                <SafeAreaView style={{flex: 1}}>
+                    {/* 引入自定义导航栏 */}
+                    <Navbar 
+                        pageName={'尖峰平谷'}
+                        showBack={true}
+                        showHome={false}
+                        isCheck={3}
+                        LoginStatus={this.state.LoginStatus}
+                        props={this.props}
+                        handleSelect={this.handleSelect}>
+                    </Navbar>
+                    {/* 内容区 */}
+                    <View style={styleg.container}>
+                        <View style={styles.query_head}>
+                            <View style={styles.flex1}>
+                                <Picker
+                                    pickerType={1}
+                                    date={this.state.start}
+                                    precisionType={1}
+                                    click={this.clickStart}
+                                ></Picker>
                             </View>
-                            <View style={styles.table}>
-                                {this.state.optionData.map((item:any,index:number)=>{
-                                    return(
-                                        
-                                        <View key={index}>
-                                            <View style={[styles.cell,index == 0?styles.cellLinTo:null]} >
-                                                <Text style={styles.title}>
-                                                    {item.name}
-                                                </Text>
-                                            </View>
-
-                                            <View style={styles.cell}>
-                                                <View style={styles.label}></View>
-                                                <View style={styles.flex}>
-                                                    <View style={styles.cellCen}>
-                                                        <Text style={styles.value}>尖</Text>
-                                                    </View>
-                                                </View>
-                                                <View style={styles.flex}>
-                                                    <View style={styles.cellCen}>
-                                                        <Text style={styles.value}>峰</Text>
-                                                    </View>
-                                                </View>
-                                                <View style={styles.flex}>
-                                                    <View style={styles.cellCen}>
-                                                        <Text style={styles.value}>平</Text>
-                                                    </View>
-                                                </View>
-                                                <View style={styles.flex}>
-                                                    <View style={styles.cellCen}>
-                                                        <Text style={styles.value}>谷</Text>
-                                                    </View>
-                                                </View>
-                                            </View>
-
-                                            <View style={styles.cell}>
-                                                <View style={styles.label}>
-                                                    <View style={styles.cellCen}>
-                                                        <Text style={styles.value}>电量</Text>
-                                                    </View>
-                                                </View>
-                                                <View style={styles.flex}>
-                                                    <View style={styles.cellCen}>
-                                                        <Text style={styles.value}>{item.sharp}</Text>
-                                                    </View>
-                                                </View>
-                                                <View style={styles.flex}>
-                                                    <View style={styles.cellCen}>
-                                                        <Text style={styles.value}>{item.peak}</Text>
-                                                    </View>
-                                                </View>
-                                                <View style={styles.flex}>
-                                                    <View style={styles.cellCen}>
-                                                        <Text style={styles.value}>{item.flat}</Text>
-                                                    </View>
-                                                </View>
-                                                <View style={styles.flex}>
-                                                    <View style={styles.cellCen}>
-                                                        <Text style={styles.value}>{item.valley}</Text>
-                                                    </View>
-                                                </View>
-                                            </View>
-
-                                            <View style={styles.cell}>
-                                            
-                                                <View style={styles.label}>
-                                                    <View style={styles.cellCen}>
-                                                        <Text style={styles.value}>单价</Text>
-                                                    </View>
-                                                </View>
-                                                <View style={styles.flex}>
-                                                    <View style={styles.cellCen}>
-                                                        <Text style={styles.value}>{item.sharpDJ}</Text>
-                                                    </View>
-                                                </View>
-                                                <View style={styles.flex}>
-                                                    <View style={styles.cellCen}>
-                                                        <Text style={styles.value}>{item.peakDJ}</Text>
-                                                    </View>
-                                                </View>
-                                                <View style={styles.flex}>
-                                                    <View style={styles.cellCen}>
-                                                        <Text style={styles.value}>{item.flatDJ}</Text>
-                                                    </View>
-                                                </View>
-                                                <View style={styles.flex}>
-                                                    <View style={styles.cellCen}>
-                                                        <Text style={styles.value}>{item.valleyDJ}</Text>
-                                                    </View>
-                                                </View>
-                                            </View>
-
-                                            <View style={styles.cell}>
-                                                <View style={styles.label}>
-                                                    <View style={styles.cellCen}>
-                                                        <Text style={styles.value}>金额</Text>
-                                                    </View>
-                                                </View>
-                                                <View style={styles.flex}>
-                                                    <View style={styles.cellCen}>
-                                                        <Text style={styles.value}>{item.sharpJE}</Text>
-                                                    </View>
-                                                </View>
-                                                <View style={styles.flex}>
-                                                    <View style={styles.cellCen}>
-                                                        <Text style={styles.value}>{item.peakJE}</Text>
-                                                    </View>
-                                                </View>
-                                                <View style={styles.flex}>
-                                                    <View style={styles.cellCen}>
-                                                        <Text style={styles.value}>{item.flatJE}</Text>
-                                                    </View>
-                                                </View>
-                                                <View style={styles.flex}>
-                                                    <View style={styles.cellCen}>
-                                                        <Text style={styles.value}>{item.valleyJE}</Text>
-                                                    </View>
-                                                </View>
-                                            </View>
-
-                                            <View style={styles.cell}>
-                                                <View style={styles.label}>
-                                                    <View style={styles.cellCen}>
-                                                        <Text style={styles.value}>合计</Text>
-                                                    </View>
-                                                </View>
-                                                <View style={styles.flex}>
-                                                    <View style={styles.cellCen}>
-                                                    <Text style={styles.value}>电量:{item.DL}  金额:{item.ZJE}</Text>
-                                                    </View>
-                                                </View>
-                                            </View>
-                                        </View>
-                                    )
-                                })}
+                            <Text style={styles.text}>
+                                至
+                            </Text>
+                            <View style={styles.flex1}>
+                                <Picker
+                                    pickerType={1}
+                                    date={this.state.end}
+                                    precisionType={1}
+                                    click={this.clickEnd}
+                                ></Picker>
                             </View>
-                        </ScrollView>
-                    }
-                </View>
+                            <Text style={styles.button} onPress={this.clickSearch}>查询</Text>
+                        </View>
+                        
+                        <View style={styles.echarts_con}>
+                            {this.state.optionData.length == 0?
+                                <Text style={styles.empty}>暂无数据</Text>:
+                                <ScrollView style={styles.item}>
+                                    <View style={styles.name}>
+                                        <Text style={styles.nameText}>尖峰平谷数据统计</Text>
+                                    </View>
+                                    <View style={styles.table}>
+                                        {this.state.optionData.map((item:any,index:number)=>{
+                                            return(
+                                                
+                                                <View key={index}>
+                                                    <View style={[styles.cell,index == 0?styles.cellLinTo:null]} >
+                                                        <Text style={styles.title}>
+                                                            {item.name}
+                                                        </Text>
+                                                    </View>
+
+                                                    <View style={styles.cell}>
+                                                        <View style={styles.label}></View>
+                                                        <View style={styles.flex}>
+                                                            <View style={styles.cellCen}>
+                                                                <Text style={styles.value}>尖</Text>
+                                                            </View>
+                                                        </View>
+                                                        <View style={styles.flex}>
+                                                            <View style={styles.cellCen}>
+                                                                <Text style={styles.value}>峰</Text>
+                                                            </View>
+                                                        </View>
+                                                        <View style={styles.flex}>
+                                                            <View style={styles.cellCen}>
+                                                                <Text style={styles.value}>平</Text>
+                                                            </View>
+                                                        </View>
+                                                        <View style={styles.flex}>
+                                                            <View style={styles.cellCen}>
+                                                                <Text style={styles.value}>谷</Text>
+                                                            </View>
+                                                        </View>
+                                                    </View>
+
+                                                    <View style={styles.cell}>
+                                                        <View style={styles.label}>
+                                                            <View style={styles.cellCen}>
+                                                                <Text style={styles.value}>电量</Text>
+                                                            </View>
+                                                        </View>
+                                                        <View style={styles.flex}>
+                                                            <View style={styles.cellCen}>
+                                                                <Text style={styles.value}>{item.sharp}</Text>
+                                                            </View>
+                                                        </View>
+                                                        <View style={styles.flex}>
+                                                            <View style={styles.cellCen}>
+                                                                <Text style={styles.value}>{item.peak}</Text>
+                                                            </View>
+                                                        </View>
+                                                        <View style={styles.flex}>
+                                                            <View style={styles.cellCen}>
+                                                                <Text style={styles.value}>{item.flat}</Text>
+                                                            </View>
+                                                        </View>
+                                                        <View style={styles.flex}>
+                                                            <View style={styles.cellCen}>
+                                                                <Text style={styles.value}>{item.valley}</Text>
+                                                            </View>
+                                                        </View>
+                                                    </View>
+
+                                                    <View style={styles.cell}>
+                                                    
+                                                        <View style={styles.label}>
+                                                            <View style={styles.cellCen}>
+                                                                <Text style={styles.value}>单价</Text>
+                                                            </View>
+                                                        </View>
+                                                        <View style={styles.flex}>
+                                                            <View style={styles.cellCen}>
+                                                                <Text style={styles.value}>{item.sharpDJ}</Text>
+                                                            </View>
+                                                        </View>
+                                                        <View style={styles.flex}>
+                                                            <View style={styles.cellCen}>
+                                                                <Text style={styles.value}>{item.peakDJ}</Text>
+                                                            </View>
+                                                        </View>
+                                                        <View style={styles.flex}>
+                                                            <View style={styles.cellCen}>
+                                                                <Text style={styles.value}>{item.flatDJ}</Text>
+                                                            </View>
+                                                        </View>
+                                                        <View style={styles.flex}>
+                                                            <View style={styles.cellCen}>
+                                                                <Text style={styles.value}>{item.valleyDJ}</Text>
+                                                            </View>
+                                                        </View>
+                                                    </View>
+
+                                                    <View style={styles.cell}>
+                                                        <View style={styles.label}>
+                                                            <View style={styles.cellCen}>
+                                                                <Text style={styles.value}>金额</Text>
+                                                            </View>
+                                                        </View>
+                                                        <View style={styles.flex}>
+                                                            <View style={styles.cellCen}>
+                                                                <Text style={styles.value}>{item.sharpJE}</Text>
+                                                            </View>
+                                                        </View>
+                                                        <View style={styles.flex}>
+                                                            <View style={styles.cellCen}>
+                                                                <Text style={styles.value}>{item.peakJE}</Text>
+                                                            </View>
+                                                        </View>
+                                                        <View style={styles.flex}>
+                                                            <View style={styles.cellCen}>
+                                                                <Text style={styles.value}>{item.flatJE}</Text>
+                                                            </View>
+                                                        </View>
+                                                        <View style={styles.flex}>
+                                                            <View style={styles.cellCen}>
+                                                                <Text style={styles.value}>{item.valleyJE}</Text>
+                                                            </View>
+                                                        </View>
+                                                    </View>
+
+                                                    <View style={styles.cell}>
+                                                        <View style={styles.label}>
+                                                            <View style={styles.cellCen}>
+                                                                <Text style={styles.value}>合计</Text>
+                                                            </View>
+                                                        </View>
+                                                        <View style={styles.flex}>
+                                                            <View style={styles.cellCen}>
+                                                            <Text style={styles.value}>电量:{item.DL}  金额:{item.ZJE}</Text>
+                                                            </View>
+                                                        </View>
+                                                    </View>
+                                                </View>
+                                            )
+                                        })}
+                                    </View>
+                                </ScrollView>
+                            }
+                        </View>
+                    </View>
+                    {/* 弹窗效果组件 */}
+                    <Loading 
+                        type={this.state.msgType} 
+                        visible={this.state.visible} 
+                        LoadingMsg={this.state.LoadingMsg}>
+                    </Loading>
+                </SafeAreaView>
             </View>
-            {/* 弹窗效果组件 */}
-            <Loading 
-                type={this.state.msgType} 
-                visible={this.state.visible} 
-                LoadingMsg={this.state.LoadingMsg}>
-            </Loading>
-        </SafeAreaView>
         )
     }
 }

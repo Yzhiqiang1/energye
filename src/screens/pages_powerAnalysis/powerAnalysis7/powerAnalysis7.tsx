@@ -1,4 +1,4 @@
-import { Dimensions, PixelRatio, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import React, { Component } from 'react'
 import Navbar from '../../../component/navbar/navbar'
 import styleg from '../../../indexCss'
@@ -9,7 +9,7 @@ import { HttpService } from '../../../utils/http'
 import Loading from '../../../component/Loading/Loading'
 import Picker from '../../../component/Picker/Picker'
 const api = require('../../../utils/api')
-const Fs = Dimensions.get('window').width*PixelRatio.getFontScale()
+const Fs = Dimensions.get('window').width*0.8
 
 export class PowerAnalysis7 extends Component<any,any> {
     constructor(props:any){
@@ -224,114 +224,118 @@ export class PowerAnalysis7 extends Component<any,any> {
     }
     render() {
         return (
-        <SafeAreaView style={{flex: 1}}>
-            {/* 引入自定义导航栏 */}
-            <Navbar 
-                pageName={'最大需量'}
-                showBack={true}
-                showHome={false}
-                isCheck={3}
-                LoginStatus={this.state.LoginStatus}
-                props={this.props}
-                handleSelect={this.handleSelect}>
-            </Navbar>
-            {/* 内容区 */}
-            <View style={styleg.container}>
-                <View style={styles.query_head}>
-                    <View style={styles.flex}>
-                        <Picker
-                            pickerType={1}
-                            date={this.state.start}
-                            precisionType={2}
-                            click={this.clickStart}
-                        ></Picker>
-                    </View>
-                    <Text style={styles.text}>
-                        至
-                    </Text>
-                    <View style={styles.flex}>
-                        <Picker
-                            pickerType={1}
-                            date={this.state.end}
-                            precisionType={2}
-                            click={this.clickEnd}
-                        ></Picker>
-                    </View>
-                    <Text style={styles.button} onPress={this.clickSearch}>查询</Text>
+            <View style={{flex: 1}}>
+                <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
                 </View>
-                
-                <ScrollView style={styles.echarts_con}>
-                    {this.state.optionData.length == 0?
-                        <Text style={styles.empty}>暂无数据</Text>:
-                        <View style={styles.item}>
-                            <Text style={styles.name}>
-                                最大需量数据统计
-                                <View style={styles.down}>
-                                </View>
+                <SafeAreaView style={{flex: 1}}>
+                    {/* 引入自定义导航栏 */}
+                    <Navbar 
+                        pageName={'最大需量'}
+                        showBack={true}
+                        showHome={false}
+                        isCheck={3}
+                        LoginStatus={this.state.LoginStatus}
+                        props={this.props}
+                        handleSelect={this.handleSelect}>
+                    </Navbar>
+                    {/* 内容区 */}
+                    <View style={styleg.container}>
+                        <View style={styles.query_head}>
+                            <View style={styles.flex}>
+                                <Picker
+                                    pickerType={1}
+                                    date={this.state.start}
+                                    precisionType={2}
+                                    click={this.clickStart}
+                                ></Picker>
+                            </View>
+                            <Text style={styles.text}>
+                                至
                             </Text>
-                            <View style={styles.table}>
-                                {this.state.optionData.map((top_item: any,top_index: number)=>{
-                                    return(
-                                        <View key={top_index}>
-                                        {/* // 标题 1行 */}
-                                        <View style={[styles.cell,top_index == 0?styles.cellLinTo : null]}>
-                                            <Text style={styles.title}>
-                                                {top_item.deviceName}
-                                            </Text>
+                            <View style={styles.flex}>
+                                <Picker
+                                    pickerType={1}
+                                    date={this.state.end}
+                                    precisionType={2}
+                                    click={this.clickEnd}
+                                ></Picker>
+                            </View>
+                            <Text style={styles.button} onPress={this.clickSearch}>查询</Text>
+                        </View>
+                        
+                        <ScrollView style={styles.echarts_con}>
+                            {this.state.optionData.length == 0?
+                                <Text style={styles.empty}>暂无数据</Text>:
+                                <View style={styles.item}>
+                                    <Text style={styles.name}>
+                                        最大需量数据统计
+                                        <View style={styles.down}>
                                         </View>
-                                        {/* //  数值，时间标题 2行 */}
-                                        <View style={styles.cell}>
-                                            <View style={styles.label}></View>
-                                            <View style={styles.cellflex}>
-                                                <View style={styles.cellCen}>
-                                                    <Text style={styles.value}>数值</Text>
-                                                </View>
-                                            </View>
-                                            <View style={styles.cellflex}>
-                                                <View style={styles.cellCen}>
-                                                    <Text style={styles.value}>时间</Text>
-                                                </View>
-                                            </View>
-                                        </View>
-                                        {/* // 循环行 */}
-                                        {top_item.dataList.map((top_item2:any,top_index2:number)=>{
+                                    </Text>
+                                    <View style={styles.table}>
+                                        {this.state.optionData.map((top_item: any,top_index: number)=>{
                                             return(
-                                                <View key={top_index2}>
-                                                    <View style={styles.cell}>
-                                                        <View style={styles.label}>
-                                                            <View style={styles.cellCen}>
-                                                                <Text style={styles.value}>{top_item2.month+'月'}</Text>
-                                                            </View>
+                                                <View key={top_index}>
+                                                {/* // 标题 1行 */}
+                                                <View style={[styles.cell,top_index == 0?styles.cellLinTo : null]}>
+                                                    <Text style={styles.title}>
+                                                        {top_item.deviceName}
+                                                    </Text>
+                                                </View>
+                                                {/* //  数值，时间标题 2行 */}
+                                                <View style={styles.cell}>
+                                                    <View style={styles.label}></View>
+                                                    <View style={styles.cellflex}>
+                                                        <View style={styles.cellCen}>
+                                                            <Text style={styles.value}>数值</Text>
                                                         </View>
-                                                        <View style={styles.cellflex}>
-                                                            <View style={styles.cellCen}>
-                                                                <Text style={styles.value}>{top_item2.val}</Text>
-                                                            </View>
-                                                        </View>
-                                                        <View style={styles.cellflex}>
-                                                            <View style={styles.cellCen}>
-                                                                <Text style={styles.value}>{top_item2.date}</Text>
-                                                            </View>
+                                                    </View>
+                                                    <View style={styles.cellflex}>
+                                                        <View style={styles.cellCen}>
+                                                            <Text style={styles.value}>时间</Text>
                                                         </View>
                                                     </View>
                                                 </View>
+                                                {/* // 循环行 */}
+                                                {top_item.dataList.map((top_item2:any,top_index2:number)=>{
+                                                    return(
+                                                        <View key={top_index2}>
+                                                            <View style={styles.cell}>
+                                                                <View style={styles.label}>
+                                                                    <View style={styles.cellCen}>
+                                                                        <Text style={styles.value}>{top_item2.month+'月'}</Text>
+                                                                    </View>
+                                                                </View>
+                                                                <View style={styles.cellflex}>
+                                                                    <View style={styles.cellCen}>
+                                                                        <Text style={styles.value}>{top_item2.val}</Text>
+                                                                    </View>
+                                                                </View>
+                                                                <View style={styles.cellflex}>
+                                                                    <View style={styles.cellCen}>
+                                                                        <Text style={styles.value}>{top_item2.date}</Text>
+                                                                    </View>
+                                                                </View>
+                                                            </View>
+                                                        </View>
+                                                    )
+                                                })}
+                                                </View>
                                             )
                                         })}
-                                        </View>
-                                    )
-                                })}
-                            </View>
-                        </View>
-                    }
-                </ScrollView>
+                                    </View>
+                                </View>
+                            }
+                        </ScrollView>
+                    </View>
+                    {/* 弹窗效果组件 */}
+                    <Loading 
+                        type={this.state.msgType} 
+                        visible={this.state.visible} 
+                        LoadingMsg={this.state.LoadingMsg}>
+                    </Loading>
+                </SafeAreaView>
             </View>
-            {/* 弹窗效果组件 */}
-            <Loading 
-                type={this.state.msgType} 
-                visible={this.state.visible} 
-                LoadingMsg={this.state.LoadingMsg}>
-            </Loading>
-        </SafeAreaView>
         )
     }
 }

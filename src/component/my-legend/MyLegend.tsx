@@ -1,8 +1,8 @@
-import { Dimensions, Image, PixelRatio, Pressable, StyleSheet, Text, View } from 'react-native'
+import { Dimensions, Image, Pressable, StyleSheet, Text, View } from 'react-native'
 import * as React from 'react';
 import styleg from '../../indexCss'
 import { CheckBox, Dialog } from '@rneui/base';
-const Fs = Dimensions.get('window').width*PixelRatio.getFontScale()
+const Fs = Dimensions.get('window').width*0.8
 
 export class MyLegend extends React.Component<any,any> {
     constructor(props:any){

@@ -1,4 +1,4 @@
-import { Dimensions, Image, PixelRatio, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import React, { Component } from 'react'
 import Navbar from '../../../component/navbar/navbar'
 import util from '../../../utils/util'
@@ -7,13 +7,11 @@ import { Register } from '../../../utils/app'
 import store from '../../../redux/store'
 import { HttpService } from '../../../utils/http'
 import MyCanvas from '../../../component/my-canvas/MyCanvas'
-import DateTimePicker from '@react-native-community/datetimepicker';
-import { getTransition } from '../../../utils/util';//时间戳转字符串
 import Loading from '../../../component/Loading/Loading'//加载组件
 import { Picker } from '../../../component/Picker/Picker'
 const api = require('../../../utils/api')
 const tool = require('../../../utils/tool.js');
-const Fs = Dimensions.get('window').width*PixelRatio.getFontScale()
+const Fs = Dimensions.get('window').width*0.8
 
 export class PowerTest6 extends Component<any,any> {
     constructor(props:any){
@@ -484,66 +482,70 @@ export class PowerTest6 extends Component<any,any> {
     }
   render() {
     return (
-      <SafeAreaView style={{flex: 1}}>
-        {/* 引入自定义导航栏 */}
-        <Navbar 
-            pageName={'电力运行日报'}
-            showBack={true}
-            showHome={false}
-            isCheck={2}
-            LoginStatus={this.state.LoginStatus}
-            props={this.props}
-            handleSelect={this.handleSelect}
-        >
-        </Navbar>
-        {/* 内容区 */}
-        <View style={styleg.container}>
-            <View style={styles.query_head}>
-                <View style={{flex:2}}>
-                    <Picker
-                        pickerType={1}
-                        date={this.state._date}
-                        precisionType={1}
-                        click={this.clickDate}
-                    ></Picker>
-                </View>
-                <View style={styles.flex}>
-                    <Picker
-                        pickerType={4}
-                        dataSwitch={this.state._typeArr}
-                        dataSwitchIn={this.state._typeIn}
-                        click={this.clickType}
-                        >
-                    </Picker>
-                </View>
-                <Text style={styles.button} onPress={this.clickSearch}>查询</Text>
+        <View style={{flex: 1}}>
+            <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
             </View>
-            <ScrollView style={styles.echarts_con}>
-                {this.state.optionData.length == 0?
-                    <Text style={styles.empty}>暂无数据</Text>:''
-                }
-                {this.state.optionData.map((item:any,index:any)=>{
-                    return(
-                        item.state == true?
-                        <View style={styles.item} key={index}>
-                            <Text style={styles.name} >
-                                {item.name}
-                            </Text>
-                            <View style={styles.echarts}>
-                                <MyCanvas objData={item}></MyCanvas>
-                            </View>
-                        </View>:''
-                    )
-                })}
-            </ScrollView>
+            <SafeAreaView style={{flex: 1}}>
+                {/* 引入自定义导航栏 */}
+                <Navbar 
+                    pageName={'电力运行日报'}
+                    showBack={true}
+                    showHome={false}
+                    isCheck={2}
+                    LoginStatus={this.state.LoginStatus}
+                    props={this.props}
+                    handleSelect={this.handleSelect}
+                >
+                </Navbar>
+                {/* 内容区 */}
+                <View style={styleg.container}>
+                    <View style={styles.query_head}>
+                        <View style={{flex:2}}>
+                            <Picker
+                                pickerType={1}
+                                date={this.state._date}
+                                precisionType={1}
+                                click={this.clickDate}
+                            ></Picker>
+                        </View>
+                        <View style={styles.flex}>
+                            <Picker
+                                pickerType={4}
+                                dataSwitch={this.state._typeArr}
+                                dataSwitchIn={this.state._typeIn}
+                                click={this.clickType}
+                                >
+                            </Picker>
+                        </View>
+                        <Text style={styles.button} onPress={this.clickSearch}>查询</Text>
+                    </View>
+                    <ScrollView style={styles.echarts_con}>
+                        {this.state.optionData.length == 0?
+                            <Text style={styles.empty}>暂无数据</Text>:''
+                        }
+                        {this.state.optionData.map((item:any,index:any)=>{
+                            return(
+                                item.state == true?
+                                <View style={styles.item} key={index}>
+                                    <Text style={styles.name} >
+                                        {item.name}
+                                    </Text>
+                                    <View style={styles.echarts}>
+                                        <MyCanvas objData={item}></MyCanvas>
+                                    </View>
+                                </View>:''
+                            )
+                        })}
+                    </ScrollView>
+                </View>
+                {/* 弹窗效果 */}
+                <Loading 
+                    type={this.state.msgType} 
+                    visible={this.state.visible} 
+                    LoadingMsg={this.state.LoadingMsg}>
+                </Loading>
+            </SafeAreaView>
         </View>
-        {/* 弹窗效果 */}
-        <Loading 
-            type={this.state.msgType} 
-            visible={this.state.visible} 
-            LoadingMsg={this.state.LoadingMsg}>
-        </Loading>
-    </SafeAreaView>
     )
   }
 }

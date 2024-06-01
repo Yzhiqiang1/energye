@@ -1,8 +1,8 @@
-import { Dimensions, Image, PixelRatio, Pressable, StyleSheet, Text, View } from 'react-native'
+import { Dimensions, Image, Pressable, StyleSheet, Text, View } from 'react-native'
 import React, { Component } from 'react'
 import { Icon } from '@rneui/themed';//ico图标
-const Fs = Dimensions.get('window').width*PixelRatio.getFontScale()
-const ht = Dimensions.get('window').height*PixelRatio.getFontScale()
+const Fs = Dimensions.get('window').width*0.8
+const ht = Dimensions.get('window').height*0.8
 
 
 export class LoginNavbar extends Component<any,any> {

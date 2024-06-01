@@ -1,4 +1,4 @@
-import { Dimensions, PixelRatio, ScrollView, StyleSheet, Text, View, SafeAreaView} from 'react-native'
+import { Dimensions, ScrollView, StyleSheet, Text, View, SafeAreaView} from 'react-native'
 import React, { Component } from 'react'
 import { Register } from '../../utils/app'
 import Navbar from '../../component/navbar/navbar'
@@ -10,7 +10,7 @@ import { CheckBox } from '@rneui/themed';
 import MyCanvas from '../../component/my-canvas/MyCanvas'
 import Loading from '../../component/Loading/Loading'
 const api = require('../../utils/api')
-const Fs = Dimensions.get('window').width*PixelRatio.getFontScale()
+const Fs = Dimensions.get('window').width*0.8
 let cs: any
 
 export class Survey extends Component<any,any> {

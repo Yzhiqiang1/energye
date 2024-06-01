@@ -10,7 +10,7 @@ import tool from '../../../utils/tool'
 import Loading from '../../../component/Loading/Loading'
 import Picker from '../../../component/Picker/Picker'
 const api = require('../../../utils/api')
-const Fs = Dimensions.get('window').width*PixelRatio.getFontScale()
+const Fs = Dimensions.get('window').width*0.8
 
 export class GasAnalysis5 extends Component<any,any> {
     
@@ -230,81 +230,85 @@ export class GasAnalysis5 extends Component<any,any> {
     }
     render() {
         return (
-            <SafeAreaView style={{flex: 1}}>
-                {/* 引入自定义导航栏 */}
-                <Navbar 
-                    pageName={'气能集抄'}
-                    showBack={true}
-                    showHome={false}
-                    isCheck={3}
-                    LoginStatus={this.state.LoginStatus}
-                    props={this.props}
-                    handleSelect={this.handleSelectk}>
-                </Navbar>
-                {/* 内容区 */}
-                <View style={styleg.container}>
-                    <View style={styles.query_head}>
-                        <View style={styles.flex}>
-                            <Picker
-                                pickerType={1}
-                                date={this.state.start}
-                                precisionType={5}
-                                click={this.startConfirm}
-                            ></Picker>
-                        </View>
-                        <Text style={styles.text}>
-                            至
-                        </Text>
-                        <View style={styles.flex}>
-                            <Picker
-                                pickerType={1}
-                                date={this.state.end}
-                                precisionType={5}
-                                click={this.endConfirm}
-                            ></Picker>
-                        </View>
-                        <Text style={styles.button} onPress={this.clickSearch}>查询</Text>
-                    </View>
-                    
-                    <View style={styles.echarts_con}>
-                        {this.state.optionData.length == 0?
-                            <Text style={styles.empty}>暂无数据</Text>:
-                            <View style={styles.item}>
-                            <Text style={styles.name}>
-                                电能集抄统计数据
-                            </Text>
-                            <View style={styles.table}>
-                                <View style={styles.row}>
-                                    <Text style={styles.th}>回柜名称</Text>
-                                    <Text style={styles.th}>起始数据</Text>
-                                    <Text style={styles.th}>截止数据</Text>
-                                    <Text style={styles.th}>差值</Text>
-                                </View>
-                                {this.state.optionData.map((item:any,index:number)=>{
-                                    return(
-                                        <View key={index} style={[styles.row,index%2 == 0? styles.b1 : null]}>
-                                            <Text style={[styles.td,styles.c1]}>{item.deviceName}</Text>
-                                            <Text style={styles.td}>{item.startVal}</Text>
-                                            <Text style={styles.td}>{item.endVal}</Text>
-                                            <Text style={styles.td}>{item.cha}</Text>
-                                        </View>
-                                    )
-                                })}
-                                
-
-                            </View>
-                        </View>
-                        }
-                    </View>
-
-                    {/* 弹窗效果 */}
-                    <Loading 
-                        type={this.state.msgType} 
-                        visible={this.state.visible} 
-                        LoadingMsg={this.state.LoadingMsg}>
-                    </Loading>
+            <View style={{flex: 1}}>
+                <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
                 </View>
-            </SafeAreaView>
+                <SafeAreaView style={{flex: 1}}>
+                    {/* 引入自定义导航栏 */}
+                    <Navbar 
+                        pageName={'气能集抄'}
+                        showBack={true}
+                        showHome={false}
+                        isCheck={3}
+                        LoginStatus={this.state.LoginStatus}
+                        props={this.props}
+                        handleSelect={this.handleSelectk}>
+                    </Navbar>
+                    {/* 内容区 */}
+                    <View style={styleg.container}>
+                        <View style={styles.query_head}>
+                            <View style={styles.flex}>
+                                <Picker
+                                    pickerType={1}
+                                    date={this.state.start}
+                                    precisionType={5}
+                                    click={this.startConfirm}
+                                ></Picker>
+                            </View>
+                            <Text style={styles.text}>
+                                至
+                            </Text>
+                            <View style={styles.flex}>
+                                <Picker
+                                    pickerType={1}
+                                    date={this.state.end}
+                                    precisionType={5}
+                                    click={this.endConfirm}
+                                ></Picker>
+                            </View>
+                            <Text style={styles.button} onPress={this.clickSearch}>查询</Text>
+                        </View>
+                        
+                        <View style={styles.echarts_con}>
+                            {this.state.optionData.length == 0?
+                                <Text style={styles.empty}>暂无数据</Text>:
+                                <View style={styles.item}>
+                                <Text style={styles.name}>
+                                    电能集抄统计数据
+                                </Text>
+                                <View style={styles.table}>
+                                    <View style={styles.row}>
+                                        <Text style={styles.th}>回柜名称</Text>
+                                        <Text style={styles.th}>起始数据</Text>
+                                        <Text style={styles.th}>截止数据</Text>
+                                        <Text style={styles.th}>差值</Text>
+                                    </View>
+                                    {this.state.optionData.map((item:any,index:number)=>{
+                                        return(
+                                            <View key={index} style={[styles.row,index%2 == 0? styles.b1 : null]}>
+                                                <Text style={[styles.td,styles.c1]}>{item.deviceName}</Text>
+                                                <Text style={styles.td}>{item.startVal}</Text>
+                                                <Text style={styles.td}>{item.endVal}</Text>
+                                                <Text style={styles.td}>{item.cha}</Text>
+                                            </View>
+                                        )
+                                    })}
+                                    
+
+                                </View>
+                            </View>
+                            }
+                        </View>
+
+                        {/* 弹窗效果 */}
+                        <Loading 
+                            type={this.state.msgType} 
+                            visible={this.state.visible} 
+                            LoadingMsg={this.state.LoadingMsg}>
+                        </Loading>
+                    </View>
+                </SafeAreaView>
+            </View>
         )
     }
 }
