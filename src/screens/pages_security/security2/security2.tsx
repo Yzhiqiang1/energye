@@ -270,8 +270,10 @@ export class Security1 extends Component<any,any> {
                         })
                     },2000)
                 })
+                let sensorArr = this.state.sensorArr
+                sensorArr[top_index].sensorList[index].loading = true
                 this.setState({
-                    ['sensorArr[' + top_index + '].sensorList[' + index + '].loading']: true,
+                    sensorArr: sensorArr,
                 })
             } else {
                 this.setState({
@@ -307,9 +309,9 @@ export class Security1 extends Component<any,any> {
     render() {
         return (
             <View style={{flex: 1}}>
-                <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
+                <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",}}>
                 </View>
-                <SafeAreaView style={{flex: 1}}>
+                <SafeAreaView style={{flex: 1,backgroundColor: '#f4f4f4'}}>
                     {/* 引入自定义导航栏 */}
                     <Navbar 
                         pageName={'开关控制'}

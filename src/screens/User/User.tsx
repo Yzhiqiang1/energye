@@ -131,55 +131,58 @@ export class User extends Component<any,any> {
   }
   render() {
     return (
-      <SafeAreaView style={styleg.containerMax}>
-
-        <View style={styles.nav}>
-          <Pressable style={styles.navLeft} onPress={()=>{this.props.navigation.navigate('Index')}}>
-            <Image style={styles.navImg} source={require('../../image/Home.png')}></Image>
-          </Pressable>
-          <Text style={styles.navName}>我的</Text>
+      <View style={{flex: 1}}>
+        <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#2da2fe'}}>
         </View>
-
-        <Pressable style={styles.user}>
-          <Image style={styles.logo} source={this.state.userImg}></Image>
-
-            {this.state.logonStatus?
-              <View style={styles.text}>
-                  <Text style={styles.name}>
-                      {this.state.userName}
-                  </Text>
-                  <Text style={styles.id}>
-                      账号ID：{this.state.userId}
-                  </Text>
-              </View>
-                :
-              <Pressable style={styles.text} onPress={()=>this.props.navigation.navigate('BindAccount')}>
-                <Text style={styles.name}>
-                    您还没有登录
-                </Text>
-                <Text style={styles.id}>
-                    点击登录或注册账号
-                </Text>
+        <SafeAreaView style={{flex: 1}}>
+          <View style={styleg.containerMax}>
+            <View style={styles.nav}>
+              <Pressable style={styles.navLeft} onPress={()=>{this.props.navigation.navigate('Index')}}>
+                <Image style={styles.navImg} source={require('../../image/Home.png')}></Image>
               </Pressable>
+              <Text style={styles.navName}>我的</Text>
+            </View>
+
+            <Pressable style={styles.user}>
+              <Image style={styles.logo} source={this.state.userImg}></Image>
+                {this.state.logonStatus?
+                  <View style={styles.text}>
+                      <Text style={styles.name}>
+                          {this.state.userName}
+                      </Text>
+                      <Text style={styles.id}>
+                          账号ID：{this.state.userId}
+                      </Text>
+                  </View>
+                    :
+                  <Pressable style={styles.text} onPress={()=>this.props.navigation.navigate('BindAccount')}>
+                    <Text style={styles.name}>
+                        您还没有登录
+                    </Text>
+                    <Text style={styles.id}>
+                        点击登录或注册账号
+                    </Text>
+                  </Pressable>
+                  }
+              <Image style={styles.rightIco} source={require('../../image/right.png')}></Image>
+            </Pressable>
+            <View style={styles.con}>
+              {this.state.logonStatus?
+                <Text style={styles.signOut} onPress={this.signOut}>
+                  退出登录
+                </Text> : ''
               }
-          <Image style={styles.rightIco} source={require('../../image/right.png')}></Image>
-        </Pressable>
-        <View style={styles.con}>
-          {this.state.logonStatus?
-            <Text style={styles.signOut} onPress={this.signOut}>
-              退出登录
-            </Text> : ''
-          }
-        </View>
-        {/* 弹窗效果组件 */}
-          
-        <Loading 
-            type={this.state.msgType} 
-            visible={this.state.visible} 
-            LoadingMsg={this.state.LoadingMsg}>
-        </Loading>
-        <Menu myMeun={'1004'} props = {this.props}></Menu>
-      </SafeAreaView>
+            </View>
+            {/* 弹窗效果组件 */}
+            <Loading 
+                type={this.state.msgType} 
+                visible={this.state.visible} 
+                LoadingMsg={this.state.LoadingMsg}>
+            </Loading>
+            <Menu myMeun={'1004'} props = {this.props}></Menu>
+          </View>
+        </SafeAreaView>
+      </View>
     )
   }
 }
@@ -218,7 +221,7 @@ const styles = StyleSheet.create({
   },
   user:{
     position: 'absolute',
-    top: 60,
+    top: ht/10,
     left: 0,
     width: '100%',
     height: 90,

@@ -1,8 +1,8 @@
-import { Dimensions, StyleSheet, Text} from 'react-native'
+import { Dimensions, StyleSheet, Text, Platform, StatusBar} from 'react-native'
 import React, { Component } from 'react'
 import { Dialog } from '@rneui/themed';
 const Fs = Dimensions.get('window').width*0.8
-
+const screenHeight = Dimensions.get('screen').height-Number(StatusBar.currentHeight);
 
 export class Loading extends Component<any,any> {
     static defaultProps = {
@@ -10,14 +10,14 @@ export class Loading extends Component<any,any> {
         LoadingMsg: '加载中...',
         visible: false
     }
-
+    
     render() {
         return (
             this.props.type == 1 ?
             <Dialog 
                 overlayStyle={styles.Loading} 
                 isVisible={this.props.visible}
-                backdropStyle={{height:'120%'}}
+                backdropStyle={{height: screenHeight}}
                 >
                 <Dialog.Loading />
                 <Text style={styles.text}>{this.props.LoadingMsg}</Text>

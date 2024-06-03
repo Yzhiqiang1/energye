@@ -49,6 +49,8 @@ export class Configuration extends Component<any,any> {
   }
   boxH=(e: any)=>{
     const { height: newHeight } = e.nativeEvent.layout;
+    console.log(newHeight);
+    
     this.setState({
         boxHeight: newHeight
     })
@@ -280,11 +282,10 @@ export class Configuration extends Component<any,any> {
                     </Text> 
                 }
             </ScrollView>
-
             <Loading
-                type={this.state.type}
-                LoadingMsg={this.state.LoadingMsg}
-                visible={this.state.visible}
+              type={this.state.type}
+              LoadingMsg={this.state.LoadingMsg}
+              visible={this.state.visible}
             ></Loading>
             <Menu myMeun={'1002'} props={this.props}></Menu>
           </View>

@@ -804,7 +804,7 @@ export class Scanqr extends Component<any,any> {
                                 center={{ longitude: this.state.longitude, latitude: this.state.latitude }}
                                 showsUserLocation={true}
                                 locationData={{ longitude: this.state.userLongitude, latitude: this.state.userLatitude }}
-                                zoom={18}
+                                zoom={16}
                                 onMapClick={this._view}
                                 onMapLoaded={this.onLoad}
                             >
@@ -943,8 +943,8 @@ const styles = StyleSheet.create({
         width: '100%',
         height: ht/14,
         backgroundColor: '#fff',
-        paddingLeft: 45,
-        paddingRight: 45,
+        paddingLeft: ht/14,
+        paddingRight: ht/14,
         overflow: 'hidden',
     },
     mapMenu:{

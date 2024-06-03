@@ -1,4 +1,4 @@
-import { Text, View, Dimensions, Image, ScrollView, Pressable, SafeAreaView } from 'react-native'
+import { Text, View, Dimensions, Image, ScrollView, Pressable, SafeAreaView, StatusBar} from 'react-native'
 import React, { Component } from 'react'
 import styles from './HomeCss'
 import Navbar from '../../component/navbar/navbar'
@@ -43,7 +43,7 @@ export class Index extends Component<any,any> {
                 <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
                 </View>
                 <SafeAreaView 
-                    style={{flex: 1}}
+                    style={{flex: 1,top: StatusBar.currentHeight,marginBottom: StatusBar.currentHeight}}
                     onLayout={(event) => this.boxH(event)}>
                         
                     {/* 引入自定义导航栏 */}
@@ -399,8 +399,8 @@ export class Index extends Component<any,any> {
                             </View>
                         </View>
                     </ScrollView >
-                    <Menu myMeun={'1001'} props={this.props} ></Menu>
                 </SafeAreaView>
+                <Menu myMeun={'1001'} props={this.props} ></Menu>
             </View>
         )
     }

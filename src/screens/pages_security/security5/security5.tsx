@@ -61,8 +61,8 @@ export class Security5 extends Component<any,any> {
         eventListener = AppState.addEventListener('change', this._handleAppStateChange);
     }
 
-     //监听运行状态
-     _handleAppStateChange=(nextappState: any)=>{
+    //监听运行状态
+    _handleAppStateChange=(nextappState: any)=>{
         if(nextappState == 'background'){//进入后台禁止数据更新
             this.setState({
                 socketTask: false,
@@ -154,11 +154,11 @@ export class Security5 extends Component<any,any> {
                                 if (dataPos[deviceNo][sensorsDates[a].sensorsId] != undefined) {
                                     //过滤心跳包 
                                     if (sensorsDates[a].switcher != '') {
-                                        var swt=sensorsDates[a].switcher==1  ? 1 : 0
-                                        var f1=that.state.sensorArr[dataPos[deviceNo].index].sensorList[dataPos[deviceNo][sensorsDates[a].sensorsId]].field1;
-                                        var f2=that.state.sensorArr[dataPos[deviceNo].index].sensorList[dataPos[deviceNo][sensorsDates[a].sensorsId]].field2;
-                                        var f3=that.state.sensorArr[dataPos[deviceNo].index].sensorList[dataPos[deviceNo][sensorsDates[a].sensorsId]].field3;
-                                        var f4=that.state.sensorArr[dataPos[deviceNo].index].sensorList[dataPos[deviceNo][sensorsDates[a].sensorsId]].field4;
+                                        var swt = sensorsDates[a].switcher==1  ? 1 : 0
+                                        var f1 = that.state.sensorArr[dataPos[deviceNo].index].sensorList[dataPos[deviceNo][sensorsDates[a].sensorsId]].field1;
+                                        var f2 = that.state.sensorArr[dataPos[deviceNo].index].sensorList[dataPos[deviceNo][sensorsDates[a].sensorsId]].field2;
+                                        var f3 = that.state.sensorArr[dataPos[deviceNo].index].sensorList[dataPos[deviceNo][sensorsDates[a].sensorsId]].field3;
+                                        var f4 = that.state.sensorArr[dataPos[deviceNo].index].sensorList[dataPos[deviceNo][sensorsDates[a].sensorsId]].field4;
 
                                         f1= f1==1 ? 1 : 0;
                                         f3= f3==1 ? 1 : 0;
@@ -263,7 +263,7 @@ export class Security5 extends Component<any,any> {
             <View style={{flex: 1}}>
                 <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
                 </View>
-                <SafeAreaView style={{flex: 1}}>
+                <SafeAreaView style={{flex: 1,backgroundColor: '#f4f4f4'}}>
                     {/* 引入自定义导航栏 */}
                     <Navbar 
                         pageName={'开关监测'}
