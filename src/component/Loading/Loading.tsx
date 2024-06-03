@@ -34,12 +34,16 @@ export class Loading extends Component<any,any> {
 }
 const styles = StyleSheet.create({
     Loading: {
+        position: 'absolute',
+        zIndex: 99999999,
         display:'flex',
         alignItems:'center',
         width:'33%',
         borderRadius:10,
     },
     showLoading:{
+        position: 'absolute',
+        zIndex: 99999999,
         display:'flex',
         alignItems:'center',
         borderRadius:10,

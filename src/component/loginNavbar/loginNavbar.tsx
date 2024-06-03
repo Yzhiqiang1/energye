@@ -10,7 +10,7 @@ export class LoginNavbar extends Component<any,any> {
     return (
         <View style={styles.nav}>
             {this.props.showHome ?
-              <Pressable style={styles.navLeft} onPress={()=>{this.props.props.navigation.navigate('Index')}}>
+              <Pressable style={styles.navLeft} onPress={()=>{this.props.props.navigation.navigate('Tabbar')}}>
                 <Image style={styles.navImg} source={require('../../image/Home.png')}></Image>
               </Pressable> : ''
             }

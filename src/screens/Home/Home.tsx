@@ -1,8 +1,7 @@
-import { Text, View, Dimensions, Image, ScrollView, Pressable, SafeAreaView, StatusBar} from 'react-native'
+import { Text, View, Dimensions, Image, ScrollView, Pressable, SafeAreaView} from 'react-native'
 import React, { Component } from 'react'
 import styles from './HomeCss'
 import Navbar from '../../component/navbar/navbar'
-import Menu from '../../component/menu/menu'
 import { Register } from '../../utils/app'
 const ht = Dimensions.get('window').height*0.8
 export class Index extends Component<any,any> {
@@ -43,9 +42,8 @@ export class Index extends Component<any,any> {
                 <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
                 </View>
                 <SafeAreaView 
-                    style={{flex: 1,top: StatusBar.currentHeight,marginBottom: StatusBar.currentHeight}}
+                    style={{flex: 1}}
                     onLayout={(event) => this.boxH(event)}>
-                        
                     {/* 引入自定义导航栏 */}
                     <Navbar 
                     showBack={false} 
@@ -55,7 +53,7 @@ export class Index extends Component<any,any> {
                     props={this.props}
                     ></Navbar>
                     {/* 内容 */}
-                    <ScrollView style={[styles.containerMini,{height:this.state.boxHeight-ht/8-ht/9}]}>
+                    <ScrollView style={[styles.containerMini,{height:this.state.boxHeight-ht/9}]}>
                         <View style={styles.indexMini}>
                             {/* 设备概括 */}
                             <View style={styles.indexUl}>
@@ -400,7 +398,6 @@ export class Index extends Component<any,any> {
                         </View>
                     </ScrollView >
                 </SafeAreaView>
-                <Menu myMeun={'1001'} props={this.props} ></Menu>
             </View>
         )
     }

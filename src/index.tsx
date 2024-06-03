@@ -43,6 +43,7 @@ import history_switchMonitor from './screens/pages_security/history_switchMonito
 import security3 from './screens/pages_security/security3/security3';
 import ServiceInfo from './screens/serviceInfo/serviceInfo';
 import Playback from './screens/pages_video/playback/playback'
+import Tabbar from './routes/Tabbar';
 
 const Stack = createStackNavigator();
 
@@ -53,6 +54,7 @@ export class Index extends Component {
         <Stack.Navigator
           screenOptions={{headerShown:false}}
         >
+            <Stack.Screen name="Tabbar" component={Tabbar}></Stack.Screen>
             <Stack.Screen name="Index" component={Home}></Stack.Screen>
             <Stack.Screen name="Configuration" component={Configuration}></Stack.Screen>
             <Stack.Screen name="User" component={User}></Stack.Screen>

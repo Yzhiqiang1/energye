@@ -9,7 +9,7 @@ export class Navbars extends Component<any,any> {
     return (
         <View style={styles.nav}>
             {this.props.showHome ?
-            <Pressable style={styles.navLeft} onPress={()=>{this.props.props.navigation.navigate('Index')}}>
+            <Pressable style={styles.navLeft} onPress={()=>{this.props.props.navigation.navigate('Tabbar')}}>
                 <Icon 
                 name='home'
                 type='antdesign'
@@ -26,16 +26,17 @@ export class Navbars extends Component<any,any> {
                 size={22}/>
             </Pressable> : ''
             }
-        <Text style={styles.navName}>{this.props.name}</Text>
-    </View>
+          <Text style={styles.navName}>{this.props.name}</Text>
+        </View>
     )
   }
 }
 
 const styles = StyleSheet.create({
     nav:{
-        position:'absolute',
+        position:'relative',
         top: 0,
+        left: 0,
         zIndex: 999,
         width:'100%',
         height: ht/10,

@@ -82,7 +82,7 @@ export class BindAccount extends Component<any,any> {
                     //保存登录信息到全局
                     store.dispatch(Set_State('Set_State',res))
                     //跳转首页关闭之前的所有页面
-                    this.props.navigation.reset({index: 0,routes: [{ name: 'Index' }]})
+                    this.props.navigation.reset({index: 0,routes: [{ name: 'Tabbar' }]})
                 }else{
                     this.setState({
                         msgType: 2,

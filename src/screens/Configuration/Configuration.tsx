@@ -1,4 +1,4 @@
-import {Text, View, Image, TextInput, ScrollView, Dimensions, Pressable, SafeAreaView, LayoutChangeEvent,} from 'react-native'
+import {Text, View, Image, TextInput, ScrollView, Dimensions, Pressable, SafeAreaView } from 'react-native'
 
 import React, { Component } from 'react'
 import { StyleSheet } from 'react-native'
@@ -49,8 +49,6 @@ export class Configuration extends Component<any,any> {
   }
   boxH=(e: any)=>{
     const { height: newHeight } = e.nativeEvent.layout;
-    console.log(newHeight);
-    
     this.setState({
         boxHeight: newHeight
     })
@@ -199,11 +197,12 @@ export class Configuration extends Component<any,any> {
         <SafeAreaView style={{flex: 1}}>
           <View style={styleg.containerMax} onLayout={(event) => this.boxH(event)}>
             <View style={styles.nav}>
-              <Pressable style={styles.navLeft} onPress={()=>{this.props.navigation.navigate('Index')}}>
+              <Pressable style={styles.navLeft} onPress={()=>{this.props.navigation.navigate('Tabbar')}}>
                 <Image style={styles.navImg} source={require('../../image/Home.png')}></Image>
               </Pressable>
               <Text style={styles.navName}>云组态</Text>
             </View>
+
             <View style={styles.head}>
               <View style={styles.search}>
                   <View style={styles.flex}>
@@ -236,7 +235,7 @@ export class Configuration extends Component<any,any> {
               </View>
             </View>
 
-            <ScrollView style={[styles.view,{height:this.state.boxHeight-ht/8*2-ht/10-5}]} onMomentumScrollEnd={this.downScroll}>
+            <ScrollView style={[styles.view,{height:this.state.boxHeight-ht/6-ht/10-5}]} onMomentumScrollEnd={this.downScroll}>
                 {this.state.LoginStatus == 2?
                   <View style={styles.box}>
                   {this.state.objArr.map((data:any, index:any) => {
@@ -281,13 +280,12 @@ export class Configuration extends Component<any,any> {
                         <Text style={styles.url} onPress={()=>this.props.navigation.navigate('BindAccount')}>点击登录</Text>
                     </Text> 
                 }
-            </ScrollView>
+            </ScrollView>   
             <Loading
               type={this.state.type}
               LoadingMsg={this.state.LoadingMsg}
               visible={this.state.visible}
             ></Loading>
-            <Menu myMeun={'1002'} props={this.props}></Menu>
           </View>
         </SafeAreaView>
       </View>
@@ -332,7 +330,7 @@ const styles = StyleSheet.create({
     top: ht/10,
     left: 0,
     width: '100%',
-    height: ht/8,
+    height: ht/6,
     paddingRight:10,
     paddingLeft:10,
     backgroundColor: '#fff',
@@ -414,7 +412,7 @@ const styles = StyleSheet.create({
   allowance:{
     position: 'relative',
     width: '100%',
-    height: 35,
+    height: ht/12,
     display: 'flex',
     flexDirection:'row',
     alignItems: 'center',
@@ -479,7 +477,7 @@ const styles = StyleSheet.create({
   },
   view:{
     position: 'absolute',
-    top: ht/8+ht/10+5,
+    top: ht/6+ht/10+5,
     padding: 5,
     width: '100%',
     backgroundColor: '#fff',

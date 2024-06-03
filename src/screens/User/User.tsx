@@ -9,6 +9,7 @@ import { Register } from '../../utils/app'
 import { Image } from '@rneui/themed';
 import { HttpService } from '../../utils/http'
 import Loading from '../../component/Loading/Loading'//加载窗口组件
+import { DatePickerView } from '@ant-design/react-native'
 const api = require('../..//utils/api')
 const Fs = Dimensions.get('window').width*0.8
 const ht = Dimensions.get('window').height*0.8
@@ -129,6 +130,9 @@ export class User extends Component<any,any> {
       visible: !this.state.visible
     })
   }
+  onChange=(value: Date)=>{
+    console.log(value);
+  }
   render() {
     return (
       <View style={{flex: 1}}>
@@ -137,7 +141,7 @@ export class User extends Component<any,any> {
         <SafeAreaView style={{flex: 1}}>
           <View style={styleg.containerMax}>
             <View style={styles.nav}>
-              <Pressable style={styles.navLeft} onPress={()=>{this.props.navigation.navigate('Index')}}>
+              <Pressable style={styles.navLeft} onPress={()=>{this.props.navigation.navigate('Tabbar')}}>
                 <Image style={styles.navImg} source={require('../../image/Home.png')}></Image>
               </Pressable>
               <Text style={styles.navName}>我的</Text>
@@ -173,13 +177,20 @@ export class User extends Component<any,any> {
                 </Text> : ''
               }
             </View>
+           <View style={{position: 'absolute',bottom: 30,zIndex:99999,width: '100%',height: 400}}>
+              <DatePickerView
+                    precision={'day'}
+                    defaultValue={new Date('2024-1-1')}
+                    onChange={(value: Date)=>this.onChange(value)}
+                >
+                </DatePickerView>
+           </View>
             {/* 弹窗效果组件 */}
             <Loading 
                 type={this.state.msgType} 
                 visible={this.state.visible} 
                 LoadingMsg={this.state.LoadingMsg}>
             </Loading>
-            <Menu myMeun={'1004'} props = {this.props}></Menu>
           </View>
         </SafeAreaView>
       </View>
@@ -278,7 +289,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 75,
-    zIndex: 909999,
+    zIndex: 99999,
     display:'flex',
     alignItems:'center',
   },
