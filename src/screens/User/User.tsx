@@ -6,7 +6,7 @@ import { StyleSheet } from 'react-native'
 import store from '../../redux/store'
 import { Log_Out } from '../../redux/actions/user'
 import { Register } from '../../utils/app'
-import { Image } from '@rneui/themed';
+import { Dialog, Image } from '@rneui/themed';
 import { HttpService } from '../../utils/http'
 import Loading from '../../component/Loading/Loading'//加载窗口组件
 import { DatePickerView } from '@ant-design/react-native'
@@ -178,11 +178,17 @@ export class User extends Component<any,any> {
               }
             </View>
             {/* 弹窗效果组件 */}
-            <Loading 
+            <Dialog 
+                isVisible={!this.state.visible}
+                >
+                <Dialog.Loading />
+                <Text onPress={()=>this.setState({visible: true})}>对话框</Text>
+            </Dialog>
+            {/* <Loading 
                 type={this.state.msgType} 
                 visible={this.state.visible} 
                 LoadingMsg={this.state.LoadingMsg}>
-            </Loading>
+            </Loading> */}
           </View>
         </SafeAreaView>
       </View>

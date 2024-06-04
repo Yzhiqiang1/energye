@@ -18,10 +18,10 @@ export class Loading extends Component<any,any> {
                 overlayStyle={[
                     styles.Loading,
                     Platform.OS === 'ios' ? { transform: [{ translateY: 1 }] } : {},
-                    {pointerEvents: 'box-none'}
+                    {pointerEvents: 'none'}
                 ]} 
                 isVisible={this.props.visible}
-                backdropStyle={{height: screenHeight}}
+                backdropStyle={{position: 'absolute',height: screenHeight}}
                 >
                 <Dialog.Loading />
                 <Text style={styles.text}>{this.props.LoadingMsg}</Text>
@@ -40,7 +40,7 @@ export class Loading extends Component<any,any> {
 const styles = StyleSheet.create({
     Loading: {
         position: 'absolute',
-        zIndex: 99999999,
+        zIndex: 999999,
         display:'flex',
         alignItems:'center',
         width:'33%',
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     },
     showLoading:{
         position: 'absolute',
-        zIndex: 99999999,
+        zIndex: 9999999,
         display:'flex',
         alignItems:'center',
         borderRadius:10,

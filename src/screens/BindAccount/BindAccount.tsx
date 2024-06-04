@@ -16,6 +16,7 @@ export class BindAccount extends Component<any,any> {
         this.state = {  
             password: '',
             userName: '',
+            boxHeight: 0
          };
     };
     //输入用户名
@@ -111,6 +112,17 @@ export class BindAccount extends Component<any,any> {
             }
         }).catch(res=>{
             console.log(res);
+            this.setState({
+                msgType: 2,
+                visible: true,
+                LoadingMsg: '登录异常，检查网络是否连接'
+            },()=>{
+                setTimeout(()=>{
+                    this.setState({
+                        visible: false,
+                    })
+                },3000)
+            })
         })
     }
     //游客模式登陆
@@ -144,7 +156,7 @@ export class BindAccount extends Component<any,any> {
                     showBack={false}
                     showHome={true}
                 ></LoginNavbar>
-                <View style={[styles.flex,{top: this.state.boxHeight}]}>
+                <View style={[styles.flex,{top: this.state.boxHeight,height: Dimensions.get('window').height-this.state.boxHeight}]}>
                     <View style={styles.con}>
                         <View  style={styles.list}>
                             <Image style={styles.Img} source={require('../../image/dl_user.png')}></Image>
@@ -161,7 +173,7 @@ export class BindAccount extends Component<any,any> {
                         </View>
                         <View  style={styles.butList}>
                             <View style={styles.button}>
-                                <Text style={styles.buttonL} onPress={()=>this.props.navigation.navigate('Index')}>取消登录</Text>
+                                <Text style={styles.buttonL} onPress={()=>this.props.navigation.navigate('Tabbar')}>取消登录</Text>
                             </View>
                             <View style={styles.button}>
                                 <Text style={styles.buttonR} onPress={this.Login}>登录</Text>
@@ -175,6 +187,7 @@ export class BindAccount extends Component<any,any> {
                                 <Text style={{color: '#01AAED',fontSize:Fs/18}}>注册账号</Text>
                             </TouchableOpacity>
                         </View>
+                        
                         <View style={styles.Tourist}>
                             <Pressable style={styles.experience} onPress={this.touristLongin}>
                                 <Image style={{width:30,height:30}} source={require('../../image/Tourist.png')}></Image>

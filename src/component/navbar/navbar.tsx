@@ -1,8 +1,9 @@
 import { StackNavigationProp } from '@react-navigation/stack'
 import React from 'react'
 import { Text, View, StyleSheet, TouchableOpacity, ActivityIndicator,
-Image, Pressable, Dimensions, DeviceEventEmitter, ScrollView,
-NativeModules, Platform, StatusBar } from 'react-native'
+Image, Pressable, Dimensions, DeviceEventEmitter, ScrollView, 
+Button,
+Platform} from 'react-native'
 import store from '../../redux/store'//全局数据管理
 import { HttpService } from '../../utils/http'//网络请求服务
 import { parameter_Group } from '../../redux/actions/user'
@@ -10,7 +11,6 @@ import { Overlay, Icon } from '@rneui/themed';//遮罩层
 import Tree from '../tree/Tree'
 import Loading from '../Loading/Loading'
 const api = require( '../../utils/api')//接口文件
-const { StatusBarManager } = NativeModules;
 const ht = Dimensions.get('window').height*0.8
 const Fs = Dimensions.get('window').width*0.8
 
@@ -622,11 +622,10 @@ export class Navbar extends React.Component<any,any> {
                     { this.state.showTree ?
                         <Overlay 
                             isVisible={true} 
-                            backdropStyle={{position:'absolute', top:70}} 
+                            backdropStyle={{position:'absolute', top: ht/9, }} 
                             overlayStyle={[
                                 styles.con,
                                 Platform.OS === 'ios' ? { transform: [{ translateY: 1 }] } : {},
-                                {pointerEvents: 'box-none'}
                             ]}
                             onBackdropPress={this.treeSelectClick}
                             >
@@ -635,14 +634,13 @@ export class Navbar extends React.Component<any,any> {
                                 top:-40,
                                 left:'50%',
                                 marginLeft:-90,
-                                zIndex: 9999,
+                                zIndex: 99999,
                                 width:180,
                                 height:26,
                             }}
                                 onPress={this.treeSelectClick}
                             ></Pressable>
                             <View style={styles.boxs}>
-                                
                                 {this.state.isCheck != 6?
                                         <View style={[styles.left,this.props.isCheck==4?styles.leftW100:null]}>
                                             <ScrollView>
@@ -679,11 +677,11 @@ export class Navbar extends React.Component<any,any> {
                         :''
                     }
                     {/* 弹窗效果组件 */}
-                <Loading 
-                    type={this.state.msgType} 
-                    visible={this.state.visible} 
-                    LoadingMsg={this.state.LoadingMsg}>
-                </Loading>
+                    <Loading 
+                        type={this.state.msgType} 
+                        visible={this.state.visible} 
+                        LoadingMsg={this.state.LoadingMsg}>
+                    </Loading>
                 </View>
                 )
             }
@@ -778,8 +776,8 @@ const styles = StyleSheet.create({
     },
     con:{
         position: 'absolute',
-        zIndex: 99999,
-        top: 75,
+        zIndex: 9999,
+        top: ht/9+5,
         width: '96%', 
         minHeight: 300,
         backgroundColor: '#ffffff',
@@ -835,7 +833,7 @@ const styles = StyleSheet.create({
         width:'100%',
         maxHeight: 550,
         borderRadius: 5,
-        zIndex: 1,
+        zIndex: 9999,
         overflow: 'hidden',
     }, 
 })

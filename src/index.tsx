@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';//引入导航
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import Home from './screens/Home/Home';//首页
-import Configuration from './screens/Configuration/Configuration';//云组态
-import User from "./screens/User/User";//用户页面
+import { NativeBaseProvider } from "native-base";
+
+import Tabbar from './routes/Tabbar';//底部导航
 import BindAccount from "./screens/BindAccount/BindAccount";//登入页面
 import ConfigurationDetails from "./screens/configurationDetails/configurationDetails"//云组态详情
 import BindPhone from './screens/BindPhone/BindPhone';
@@ -43,62 +43,58 @@ import history_switchMonitor from './screens/pages_security/history_switchMonito
 import security3 from './screens/pages_security/security3/security3';
 import ServiceInfo from './screens/serviceInfo/serviceInfo';
 import Playback from './screens/pages_video/playback/playback'
-import Tabbar from './routes/Tabbar';
 
 const Stack = createStackNavigator();
 
 export class Index extends Component {
   render() {
     return (
-      <SafeAreaProvider>
-        <Stack.Navigator
-          screenOptions={{headerShown:false}}
-        >
-            <Stack.Screen name="Tabbar" component={Tabbar}></Stack.Screen>
-            <Stack.Screen name="Index" component={Home}></Stack.Screen>
-            <Stack.Screen name="Configuration" component={Configuration}></Stack.Screen>
-            <Stack.Screen name="User" component={User}></Stack.Screen>
-            <Stack.Screen name="BindAccount" component={BindAccount}></Stack.Screen>
-            <Stack.Screen name="ConfigurationDetails" component={ConfigurationDetails}></Stack.Screen>
-            <Stack.Screen name="BindPhone" component={BindPhone}></Stack.Screen>
-            <Stack.Screen name="AccountRegister" component={AccountRegister}></Stack.Screen>
-            <Stack.Screen name="Survey" component={Survey}></Stack.Screen>
-            <Stack.Screen name="Scanqr" component={Scanqr}></Stack.Screen>
-            <Stack.Screen name="PowerTest1" component={PowerTest1}></Stack.Screen>
-            <Stack.Screen name="PowerTest2" component={PowerTest2}></Stack.Screen>
-            <Stack.Screen name="PowerTest3" component={PowerTest3}></Stack.Screen>
-            <Stack.Screen name="PowerTest4" component={PowerTest4}></Stack.Screen>
-            <Stack.Screen name="PowerTest5" component={PowerTest5}></Stack.Screen>
-            <Stack.Screen name="PowerTest6" component={PowerTest6}></Stack.Screen>
-            <Stack.Screen name="PowerTest7" component={PowerTest7}></Stack.Screen>
-            <Stack.Screen name="powerAnalysis1" component={powerAnalysis1}></Stack.Screen>
-            <Stack.Screen name="powerAnalysis2" component={PowerAnalysis2}></Stack.Screen>
-            <Stack.Screen name="powerAnalysis3" component={PowerAnalysis3}></Stack.Screen>
-            <Stack.Screen name="powerAnalysis4" component={PowerAnalysis4}></Stack.Screen>
-            <Stack.Screen name="powerAnalysis5" component={PowerAnalysis5}></Stack.Screen>
-            <Stack.Screen name="powerAnalysis6" component={PowerAnalysis6}></Stack.Screen>
-            <Stack.Screen name="powerAnalysis7" component={PowerAnalysis7}></Stack.Screen>
-            <Stack.Screen name="waterAnalysis1" component={waterAnalysis1}></Stack.Screen>
-            <Stack.Screen name="waterAnalysis2" component={waterAnalysis2}></Stack.Screen>
-            <Stack.Screen name="waterAnalysis3" component={WaterAnalysis3}></Stack.Screen>
-            <Stack.Screen name="waterAnalysis4" component={waterAnalysis4}></Stack.Screen>
-            <Stack.Screen name="waterAnalysis5" component={WaterAnalysis5}></Stack.Screen>
-            <Stack.Screen name="gasAnalysis1" component={GasAnalysis1}></Stack.Screen>
-            <Stack.Screen name="gasAnalysis2" component={GasAnalysis2}></Stack.Screen>
-            <Stack.Screen name="gasAnalysis3" component={GasAnalysis3}></Stack.Screen>
-            <Stack.Screen name="gasAnalysis4" component={GasAnalysis4}></Stack.Screen>
-            <Stack.Screen name="gasAnalysis5" component={GasAnalysis5}></Stack.Screen>
-            <Stack.Screen name="security1" component={security1}></Stack.Screen>
-            <Stack.Screen name="security2" component={security2}></Stack.Screen>
-            <Stack.Screen name="security3" component={security3}></Stack.Screen>
-            <Stack.Screen name="security5" component={Security5}></Stack.Screen>
-            <Stack.Screen name="History_leakage" component={History_leakage}></Stack.Screen>
-            <Stack.Screen name="History" component={History}></Stack.Screen>
-            <Stack.Screen name="history_switchMonitor" component={history_switchMonitor}></Stack.Screen>
-            <Stack.Screen name="ServiceInfo" component={ServiceInfo}></Stack.Screen>
-            <Stack.Screen name="Playback" component={Playback}></Stack.Screen>
-        </Stack.Navigator>
-      </SafeAreaProvider>
+      <NativeBaseProvider>
+        <SafeAreaProvider>
+          <Stack.Navigator screenOptions={{headerShown:false}}>
+              <Stack.Screen name="Tabbar" component={Tabbar}></Stack.Screen>
+              <Stack.Screen name="BindAccount" component={BindAccount}></Stack.Screen>
+              <Stack.Screen name="ConfigurationDetails" component={ConfigurationDetails}></Stack.Screen>
+              <Stack.Screen name="BindPhone" component={BindPhone}></Stack.Screen>
+              <Stack.Screen name="AccountRegister" component={AccountRegister}></Stack.Screen>
+              <Stack.Screen name="Survey" component={Survey}></Stack.Screen>
+              <Stack.Screen name="Scanqr" component={Scanqr}></Stack.Screen>
+              <Stack.Screen name="PowerTest1" component={PowerTest1}></Stack.Screen>
+              <Stack.Screen name="PowerTest2" component={PowerTest2}></Stack.Screen>
+              <Stack.Screen name="PowerTest3" component={PowerTest3}></Stack.Screen>
+              <Stack.Screen name="PowerTest4" component={PowerTest4}></Stack.Screen>
+              <Stack.Screen name="PowerTest5" component={PowerTest5}></Stack.Screen>
+              <Stack.Screen name="PowerTest6" component={PowerTest6}></Stack.Screen>
+              <Stack.Screen name="PowerTest7" component={PowerTest7}></Stack.Screen>
+              <Stack.Screen name="powerAnalysis1" component={powerAnalysis1}></Stack.Screen>
+              <Stack.Screen name="powerAnalysis2" component={PowerAnalysis2}></Stack.Screen>
+              <Stack.Screen name="powerAnalysis3" component={PowerAnalysis3}></Stack.Screen>
+              <Stack.Screen name="powerAnalysis4" component={PowerAnalysis4}></Stack.Screen>
+              <Stack.Screen name="powerAnalysis5" component={PowerAnalysis5}></Stack.Screen>
+              <Stack.Screen name="powerAnalysis6" component={PowerAnalysis6}></Stack.Screen>
+              <Stack.Screen name="powerAnalysis7" component={PowerAnalysis7}></Stack.Screen>
+              <Stack.Screen name="waterAnalysis1" component={waterAnalysis1}></Stack.Screen>
+              <Stack.Screen name="waterAnalysis2" component={waterAnalysis2}></Stack.Screen>
+              <Stack.Screen name="waterAnalysis3" component={WaterAnalysis3}></Stack.Screen>
+              <Stack.Screen name="waterAnalysis4" component={waterAnalysis4}></Stack.Screen>
+              <Stack.Screen name="waterAnalysis5" component={WaterAnalysis5}></Stack.Screen>
+              <Stack.Screen name="gasAnalysis1" component={GasAnalysis1}></Stack.Screen>
+              <Stack.Screen name="gasAnalysis2" component={GasAnalysis2}></Stack.Screen>
+              <Stack.Screen name="gasAnalysis3" component={GasAnalysis3}></Stack.Screen>
+              <Stack.Screen name="gasAnalysis4" component={GasAnalysis4}></Stack.Screen>
+              <Stack.Screen name="gasAnalysis5" component={GasAnalysis5}></Stack.Screen>
+              <Stack.Screen name="security1" component={security1}></Stack.Screen>
+              <Stack.Screen name="security2" component={security2}></Stack.Screen>
+              <Stack.Screen name="security3" component={security3}></Stack.Screen>
+              <Stack.Screen name="security5" component={Security5}></Stack.Screen>
+              <Stack.Screen name="History_leakage" component={History_leakage}></Stack.Screen>
+              <Stack.Screen name="History" component={History}></Stack.Screen>
+              <Stack.Screen name="history_switchMonitor" component={history_switchMonitor}></Stack.Screen>
+              <Stack.Screen name="ServiceInfo" component={ServiceInfo}></Stack.Screen>
+              <Stack.Screen name="Playback" component={Playback}></Stack.Screen>
+          </Stack.Navigator>
+        </SafeAreaProvider>
+      </NativeBaseProvider>
     )
   }
 }

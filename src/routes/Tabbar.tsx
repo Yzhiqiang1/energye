@@ -35,7 +35,7 @@ export class Tabbar extends Component {
             }
           },
           headerShown: false,
-          tabBarStyle: { 
+          tabBarStyle: {
             height: ht/10,
             paddingBottom: 10,
           },

@@ -26,6 +26,7 @@ export class BindPhone extends Component<any,any> {
             type: 2,
             LoadingMsg: '',
             visible: false,
+            boxHeight: 0,
          };
     };
     //输入手机号
@@ -252,7 +253,7 @@ export class BindPhone extends Component<any,any> {
                         showHome={false}
                     ></LoginNavbar>
 
-                    <View style={[styles.flex,{top: this.state.boxHeight}]}>
+                    <View style={[styles.flex,{top: this.state.boxHeight,height: Dimensions.get('window').height-this.state.boxHeight}]}>
                         <View style={styles.con}>
                             <View  style={styles.list}>
                                 <Image style={styles.Img} source={require('../../image/dl_user.png')}></Image>
@@ -265,7 +266,7 @@ export class BindPhone extends Component<any,any> {
                             </View>
                             <View  style={styles.list}>
                                 <Image style={styles.Img} source={require('../../image/dl_password.png')}></Image>
-                                <TextInput style={styles.Input} placeholder='输入验证码' onChangeText={this.codeChangeSearch} secureTextEntry={true} ></TextInput>
+                                <TextInput style={styles.Input} placeholder='输入验证码' onChangeText={this.codeChangeSearch}></TextInput>
                                 <Text  style={styles.Code} onPress={this.gainCode}>{this.state.mobiletitle}</Text>
                             </View>
                             <View style={styles.forget}>

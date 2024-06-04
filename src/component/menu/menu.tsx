@@ -1,6 +1,7 @@
 import { Text, View, Image, TouchableOpacity, Dimensions } from 'react-native'
 import React, { Component } from 'react'
 import { StyleSheet } from 'react-native'
+import { Index }from '../../screens/Home/Home'
 const Fs = Dimensions.get('window').width*0.8
 const ht = Dimensions.get('window').height*0.8
 
@@ -47,17 +48,20 @@ export class Menu extends Component<any,any> {
     }
   render() {
     return (
-        <View style={styles.menuBar}>
-            {this.state.list.map((item:any, index:any) => {
-                return (
-                    <View key={index} style={styles.urlFlex}>
-                        <TouchableOpacity  style={styles.urlBar} onPress={()=> this._onPress(item.id)}>
-                            <Image style={styles.imgBar} source={item.id == this.state.myMeun ? item.selectedIconPath : item.iconPath}></Image>
-                            <Text style={[styles.txtBar,item.id == this.state.myMeun ? styles.txtBarSe : null]}>{item.text}</Text>
-                        </TouchableOpacity>
-                    </View>
-                );
-            })}
+        <View style={{flex: 1}}>
+            <Index></Index>
+             <View style={styles.menuBar}>
+                {this.state.list.map((item:any, index:any) => {
+                    return (
+                        <View key={index} style={styles.urlFlex}>
+                            <TouchableOpacity  style={styles.urlBar} onPress={()=> this._onPress(item.id)}>
+                                <Image style={styles.imgBar} source={item.id == this.state.myMeun ? item.selectedIconPath : item.iconPath}></Image>
+                                <Text style={[styles.txtBar,item.id == this.state.myMeun ? styles.txtBarSe : null]}>{item.text}</Text>
+                            </TouchableOpacity>
+                        </View>
+                    );
+                })}
+            </View>
         </View>
     )
   }

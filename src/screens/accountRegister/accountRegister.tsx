@@ -369,8 +369,8 @@ export class AccountRegister extends Component<any,any> {
                         </View>
                         <View style={styles.list} >
                             <Image style={styles.Img} source={require('../../image/dl_code.png')}></Image>
-                            <TextInput style={styles.Input}  placeholder='获取验证码' onChangeText={this.bindCode}></TextInput>
-                            <Text style={styles.Code} >获取验证码</Text>
+                            <TextInput style={styles.Input}  placeholder='输入验证码' onChangeText={this.bindCode}></TextInput>
+                            <Text style={styles.Code}>获取验证码</Text>
                         </View>
                         <View style={[styles.lists,{marginTop: 25,}]}>
                             <CheckBox

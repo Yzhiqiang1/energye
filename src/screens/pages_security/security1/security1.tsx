@@ -269,7 +269,7 @@ export class Security2 extends Component<any,any> {
             <View style={{flex: 1}}>
                 <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
                 </View>
-                <SafeAreaView style={{flex: 1,backgroundColor: '#f4f4f4'}}>
+                <SafeAreaView style={{flex: 1}}>
                     {/* 引入自定义导航栏 */}
                     <Navbar 
                         pageName={'漏电检测'}
@@ -282,7 +282,7 @@ export class Security2 extends Component<any,any> {
                     </Navbar>
 
                     {/* 内容区 */}
-                    <View style={styleg.containerMini} >
+                    <View style={styleg.containerMini}>
                         <View style={styles.containerMini}>
                             {/* 面板item */}
                             {this.state.leakageArr.length == 0?
