@@ -1,4 +1,4 @@
-import { Dimensions, StyleSheet, Text, Platform, StatusBar} from 'react-native'
+import { Dimensions, StyleSheet, Text, StatusBar, View, Platform} from 'react-native'
 import React, { Component } from 'react'
 import { Dialog } from '@rneui/themed';
 const Fs = Dimensions.get('window').width*0.8
@@ -15,15 +15,20 @@ export class Loading extends Component<any,any> {
         return (
             this.props.type == 1 ?
             <Dialog 
-                overlayStyle={styles.Loading} 
+                overlayStyle={[
+                    styles.Loading,
+                    Platform.OS === 'ios' ? { transform: [{ translateY: 1 }] } : {},
+                    {pointerEvents: 'box-none'}
+                ]} 
                 isVisible={this.props.visible}
                 backdropStyle={{height: screenHeight}}
                 >
                 <Dialog.Loading />
                 <Text style={styles.text}>{this.props.LoadingMsg}</Text>
-            </Dialog>:
+            </Dialog>
+            :
             <Dialog 
-                overlayStyle={styles.showLoading} 
+                overlayStyle={[styles.showLoading,Platform.OS === 'ios' ? { transform: [{ translateY: 1 }] } : {},]} 
                 isVisible={this.props.visible}
                 backdropStyle={{height: 0}}
                 >

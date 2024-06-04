@@ -32,7 +32,7 @@ export class LoginNavbar extends Component<any,any> {
 
 const styles = StyleSheet.create({
     nav:{
-        position:'absolute',
+        position: 'relative',
         top: 0,
         zIndex: 9999,
         width:'100%',

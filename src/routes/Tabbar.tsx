@@ -14,19 +14,19 @@ export class Tabbar extends Component {
       <Tab.Navigator
         screenOptions={({route})=>({
           tabBarIcon: ({ focused }) =>{
-            if(route.name == '首页'){
+            if(route.name == 'HomeBar'){
               if(focused){
                 return (<Image style={{width: ht/24}}  resizeMode='contain' source={require('../image/index_se.png')} />)
               }else{
                 return (<Image style={{width: ht/24}}  resizeMode='contain' source={require('../image/index.png')} />)
               }
-            }else if(route.name == '云组态'){
+            }else if(route.name == 'Configuration'){
               if(focused){
                 return (<Image style={{width: ht/24}}  resizeMode='contain' source={require('../image/configuration_se.png')} />)
               }else{
                 return (<Image style={{width: ht/24}}  resizeMode='contain' source={require('../image/configuration.png')} />)
               }
-            }else if(route.name == '我的'){
+            }else if(route.name == 'User'){
               if(focused){
                 return (<Image style={{width: ht/24}}  resizeMode='contain' source={require('../image/user_se.png')} />)
               }else{
@@ -43,19 +43,22 @@ export class Tabbar extends Component {
       >
         <Tab.Screen
         options={{
+          title: '首页',
           tabBarLabelStyle: [{ fontSize: 17,fontWeight: '700', marginTop: -10, marginBottom: 10}],
         }}
-        name="首页" component={HomeBar} />
+        name="HomeBar" component={HomeBar} />
         <Tab.Screen
         options={{
+          title: '云组态',
           tabBarLabelStyle: [{ fontSize: 17,fontWeight: '700', marginTop: -10, marginBottom: 10 }],
         }}
-        name="云组态" component={Configuration} />
+        name="Configuration" component={Configuration} />
         <Tab.Screen
         options={{
+          title: '我的',
           tabBarLabelStyle: [{ fontSize: 17,fontWeight: '700', marginTop: -10, marginBottom: 10 }],
         }}
-        name="我的" component={User} />
+        name="User" component={User} />
       </Tab.Navigator>
     )
   }

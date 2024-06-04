@@ -4,10 +4,11 @@ const ht = Dimensions.get('window').height*0.8
 
 const styles = StyleSheet.create({
     containerMini: { 
-        position: 'absolute',
-        top: ht/9,
-        bottom:75,
-        left: 0,
+        // position: 'absolute',
+        // top: ht/9,
+        // bottom: 0,
+        // left: 0,
+        flex: 1,
         width: '100%',
         backgroundColor: '#f4f4f4',
         zIndex: 9,

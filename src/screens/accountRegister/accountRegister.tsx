@@ -477,15 +477,11 @@ const styles = StyleSheet.create({
         paddingLeft: 40,
     },
     agree:{
-        position: 'absolute',
-        left: 40,
     },
     CheckBox:{
         padding: 0,
     },
     service:{
-        position: 'absolute',
-        left: 119,
         color: '#01AAED',
     },
     butList:{

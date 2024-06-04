@@ -281,7 +281,7 @@ export class Picker extends Component<any,any> {
                 <Dialog 
                     isVisible={this.state.open}
                     backdropStyle={{height:'120%',padding:0,margin:0}}
-                    overlayStyle={styles.dialogBox}
+                    overlayStyle={[styles.dialogBox,{pointerEvents: 'box-none'}]}
                     onBackdropPress={this.pressable}
                 >
                     <View style={styles.butTop}>

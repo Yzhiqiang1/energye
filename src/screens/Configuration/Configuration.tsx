@@ -197,7 +197,7 @@ export class Configuration extends Component<any,any> {
         <SafeAreaView style={{flex: 1}}>
           <View style={styleg.containerMax} onLayout={(event) => this.boxH(event)}>
             <View style={styles.nav}>
-              <Pressable style={styles.navLeft} onPress={()=>{this.props.navigation.navigate('Tabbar')}}>
+              <Pressable style={styles.navLeft} onPress={()=>{this.props.navigation.navigate('HomeBar')}}>
                 <Image style={styles.navImg} source={require('../../image/Home.png')}></Image>
               </Pressable>
               <Text style={styles.navName}>云组态</Text>

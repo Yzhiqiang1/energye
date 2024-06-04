@@ -11,7 +11,6 @@ import Tree from '../tree/Tree'
 import Loading from '../Loading/Loading'
 const api = require( '../../utils/api')//接口文件
 const { StatusBarManager } = NativeModules;
-const STATUS_BAR_HEIGHT = Platform.OS === 'android' ? StatusBar.currentHeight : StatusBarManager.HEIGHT;//状态栏高度
 const ht = Dimensions.get('window').height*0.8
 const Fs = Dimensions.get('window').width*0.8
 
@@ -576,7 +575,7 @@ export class Navbar extends React.Component<any,any> {
     render() {
         const {navigation,}: {navigation?: StackNavigationProp<any, any>; } = this.props.props
         return (
-                <View style={[styles.navbar,{height: ht/9}]}>
+                <View style={[styles.navbar,{height: ht/9,pointerEvents: 'auto'}]}>
                     <View style={[styles.navbar_head]}>
                         {this.props.showBack?
                             <Pressable style={styles.navbar_left} onPress={this.navBack}>
@@ -624,9 +623,13 @@ export class Navbar extends React.Component<any,any> {
                         <Overlay 
                             isVisible={true} 
                             backdropStyle={{position:'absolute', top:70}} 
-                            overlayStyle={styles.con}
+                            overlayStyle={[
+                                styles.con,
+                                Platform.OS === 'ios' ? { transform: [{ translateY: 1 }] } : {},
+                                {pointerEvents: 'box-none'}
+                            ]}
                             onBackdropPress={this.treeSelectClick}
-                        >
+                            >
                             <Pressable style={{
                                 position:'absolute',
                                 top:-40,

@@ -15,7 +15,7 @@ const Fs = Dimensions.get('window').width*0.8
 const ht = Dimensions.get('window').height*0.8
 
 export class User extends Component<any,any> {
-  constructor(props: {}){
+  constructor(props: any,){
     super(props)
     this.state = {
         /**
@@ -141,7 +141,7 @@ export class User extends Component<any,any> {
         <SafeAreaView style={{flex: 1}}>
           <View style={styleg.containerMax}>
             <View style={styles.nav}>
-              <Pressable style={styles.navLeft} onPress={()=>{this.props.navigation.navigate('Tabbar')}}>
+              <Pressable style={styles.navLeft} onPress={()=>{this.props.navigation.navigate('HomeBar')}}>
                 <Image style={styles.navImg} source={require('../../image/Home.png')}></Image>
               </Pressable>
               <Text style={styles.navName}>我的</Text>
@@ -177,14 +177,6 @@ export class User extends Component<any,any> {
                 </Text> : ''
               }
             </View>
-           <View style={{position: 'absolute',bottom: 30,zIndex:99999,width: '100%',height: 400}}>
-              <DatePickerView
-                    precision={'day'}
-                    defaultValue={new Date('2024-1-1')}
-                    onChange={(value: Date)=>this.onChange(value)}
-                >
-                </DatePickerView>
-           </View>
             {/* 弹窗效果组件 */}
             <Loading 
                 type={this.state.msgType} 

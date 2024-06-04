@@ -53,7 +53,7 @@ export class Index extends Component<any,any> {
                     props={this.props}
                     ></Navbar>
                     {/* 内容 */}
-                    <ScrollView style={[styles.containerMini,{height:this.state.boxHeight-ht/9}]}>
+                    <ScrollView style={styles.containerMini}>
                         <View style={styles.indexMini}>
                             {/* 设备概括 */}
                             <View style={styles.indexUl}>

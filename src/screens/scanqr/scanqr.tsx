@@ -924,7 +924,7 @@ export class Scanqr extends Component<any,any> {
 const styles = StyleSheet.create({
     container:{
         position: 'absolute',
-        top: ht/10,
+        bottom: 0,
         width: '100%',
         backgroundColor: '#f4f4f4',
         zIndex: 9,
