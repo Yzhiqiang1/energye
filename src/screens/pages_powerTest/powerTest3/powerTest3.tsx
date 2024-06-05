@@ -279,17 +279,17 @@ export class PowerTest3 extends Component<any,any> {
                                 click={this.clickTime}
                                 >
                             </Picker>
-                            <Text style={styles.button} onPress={this.clickSearch}>查询</Text>
+                            <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>查询</Text>
                         </View>
                         <ScrollView style={styles.echarts_con}>
                             {this.state.optionData == 0?
-                                <Text style={styles.empty}>暂无数据</Text>:""
+                                <Text allowFontScaling={false} style={styles.empty}>暂无数据</Text>:""
                             }
                             {this.state.optionData.map((data:any,index:number)=>{
                                 return(
                                     data.state == true ? 
                                     <View key={index} style={styles.item}>
-                                        <Text style={styles.name}>
+                                        <Text allowFontScaling={false} style={styles.name}>
                                             {data.name}
                                         </Text>
                                         <View style={styles.echarts}>
@@ -336,7 +336,7 @@ const styles = StyleSheet.create({
         textAlignVertical: 'center',
         paddingLeft: 12,
         paddingRight: 12,
-        fontSize: Fs/18,
+        fontSize: Fs/22,
         color: '#666666',
         borderStyle:'solid',
         borderWidth: 1,
@@ -363,7 +363,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 40,
         lineHeight: 40,
-        fontSize: Fs/18,
+        fontSize: Fs/22,
         textAlign: 'center',
         borderColor: '#E5E5E5',
         borderBottomWidth: 1,
@@ -381,7 +381,7 @@ const styles = StyleSheet.create({
         paddingTop: 25,
         paddingBottom: 25,
         textAlign: 'center',
-        fontSize: Fs/18,
+        fontSize: Fs/22,
         color: '#999999',
         overflow: 'hidden',
     },

@@ -257,7 +257,7 @@ export class PowerAnalysis5 extends Component<any,any> {
                                 click={this.startConfirm}
                             ></Picker>
                         </View>
-                        <Text style={styles.text}>
+                        <Text allowFontScaling={false} style={styles.text}>
                             至
                         </Text>
                         <View style={styles.flex}>
@@ -268,30 +268,30 @@ export class PowerAnalysis5 extends Component<any,any> {
                                 click={this.endConfirm}
                             ></Picker>
                         </View>
-                        <Text style={styles.button} onPress={this.clickSearch}>查询</Text>
+                        <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>查询</Text>
                     </View>
                     
                     <View style={styles.echarts_con}>
                         {this.state.optionData.length == 0 ?
-                            <Text style={styles.empty}>暂无数据</Text>:
+                            <Text allowFontScaling={false} style={styles.empty}>暂无数据</Text>:
                             <ScrollView style={styles.item}>
-                                <Text style={styles.name}>
-                                    <Text style={styles.nameText}>电能集抄统计数据</Text>
+                                <Text allowFontScaling={false} style={styles.name}>
+                                    <Text allowFontScaling={false} style={styles.nameText}>电能集抄统计数据</Text>
                                 </Text>
                                 <View style={styles.table}>
                                     <View style={styles.row}>
-                                        <Text style={styles.th}>回柜名称</Text>
-                                        <Text style={styles.th}>起始数据</Text>
-                                        <Text style={styles.th}>截止数据</Text>
-                                        <Text style={styles.th}>差值</Text>
+                                        <Text allowFontScaling={false} style={styles.th}>回柜名称</Text>
+                                        <Text allowFontScaling={false} style={styles.th}>起始数据</Text>
+                                        <Text allowFontScaling={false} style={styles.th}>截止数据</Text>
+                                        <Text allowFontScaling={false} style={styles.th}>差值</Text>
                                     </View>
                                     {this.state.optionData.map((item:any,index:number)=>{
                                         return(
                                             <View key={index} style={[styles.row,index%2 == 0? styles.b1 : null]}>
-                                                <Text style={[styles.td,styles.c1]}>{item.deviceName}</Text>
-                                                <Text style={styles.td}>{item.startVal}</Text>
-                                                <Text style={styles.td}>{item.endVal}</Text>
-                                                <Text style={styles.td}>{item.cha}</Text>
+                                                <Text allowFontScaling={false} style={[styles.td,styles.c1]}>{item.deviceName}</Text>
+                                                <Text allowFontScaling={false} style={styles.td}>{item.startVal}</Text>
+                                                <Text allowFontScaling={false} style={styles.td}>{item.endVal}</Text>
+                                                <Text allowFontScaling={false} style={styles.td}>{item.cha}</Text>
                                             </View>
                                         )
                                     })}
@@ -370,7 +370,7 @@ const styles = StyleSheet.create({
         textAlignVertical: 'center',
         paddingLeft: 12,
         paddingRight: 12,
-        fontSize: Fs/18,
+        fontSize: Fs/22,
         color: '#666666',
         borderStyle:'solid',
         borderWidth: 1,
@@ -419,7 +419,7 @@ const styles = StyleSheet.create({
         height: 40,
         lineHeight: 40,
         textAlignVertical: 'center',
-        fontSize: Fs/18,
+        fontSize: Fs/22,
         textAlign: 'center',
     },
     echarts:{
@@ -433,7 +433,7 @@ const styles = StyleSheet.create({
         paddingTop: 25,
         paddingBottom: 25,
         textAlign: 'center',
-        fontSize: Fs/18,
+        fontSize: Fs/22,
         color: '#999999',
         overflow: 'hidden',
     },
@@ -461,7 +461,7 @@ const styles = StyleSheet.create({
         paddingRight:3,
         paddingLeft:3,
         overflow: 'hidden',
-        fontSize: Fs/18,
+        fontSize: Fs/22,
         color: '#666666',
         textAlign:'center'
 
@@ -473,7 +473,7 @@ const styles = StyleSheet.create({
         paddingRight:3,
         paddingLeft:3,
         overflow: 'hidden',
-        fontSize: Fs/20,
+        fontSize: Fs/24,
         color: '#666666',
         textAlign:'center'
     },
@@ -497,7 +497,7 @@ const styles = StyleSheet.create({
         lineHeight: 30,
         textAlignVertical: 'center',
         paddingRight: 5,
-        fontSize: Fs/20,
+        fontSize: Fs/24,
         color: '#666666',
         overflow: 'hidden',
     }

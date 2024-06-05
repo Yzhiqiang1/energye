@@ -863,7 +863,7 @@ export class Playback extends Component<any,any> {
                                         '':
                                         <View style={styles.videoLoaing}>
                                             <Image style={styles.loadingGif} source={require('../image/live/loading_grey.gif')}></Image>
-                                            <Text style={styles.videoLoadingText} >视频安全传输中...</Text>
+                                            <Text allowFontScaling={false} style={styles.videoLoadingText} >视频安全传输中...</Text>
                                         </View>
                                     }
                             </View>
@@ -872,15 +872,15 @@ export class Playback extends Component<any,any> {
                                 '':
                                 <View style={styles.mesh}>
                                     <Image style={{width:36,height:36}} source={require('../image/live/preview_fail.png')}></Image>
-                                    <Text style={styles.meshHint}>网络不稳定，加载失败</Text>
-                                    <Text style={styles.meshBut} onPress={this.reconnect}>重试</Text>
+                                    <Text allowFontScaling={false} style={styles.meshHint}>网络不稳定，加载失败</Text>
+                                    <Text allowFontScaling={false} style={styles.meshBut} onPress={this.reconnect}>重试</Text>
                                 </View>
                             }
                             {/* 设备不在线 */}
                             {this.state.deviceOffline?'':
                                 <View style={styles.videoLoaing}>
                                     <Image style={[styles.loadingGif,{marginBottom:10}]} source={require('../image/live/preview_fail_offline.png')}></Image>
-                                    <Text style={styles.videoLoadingText}>设备不在线</Text>
+                                    <Text allowFontScaling={false} style={styles.videoLoadingText}>设备不在线</Text>
                                 </View>
                             }
                             <View style={styles.videoPlay} >
@@ -1050,7 +1050,7 @@ const styles = StyleSheet.create({
     },
     videoLoadingText :{
         color: '#fff',
-        fontSize: Fs/18,
+        fontSize: Fs/22,
         textAlign: 'center',
         width: '100%',
         lineHeight: 20,
@@ -1126,7 +1126,7 @@ const styles = StyleSheet.create({
         padding: 5,
     },
     hdOption :{
-        fontSize: Fs/18,
+        fontSize: Fs/22,
         color: '#fff',
         letterSpacing: 0,
         height: 20,
@@ -1177,7 +1177,7 @@ const styles = StyleSheet.create({
         marginTop: 20,
     },
     panelName :{
-        fontSize: Fs/20,
+        fontSize: Fs/24,
         // color: rgba(0, 0, 0, 0.65),
     },
     ptzContainer :{

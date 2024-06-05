@@ -309,9 +309,9 @@ export class GasAnalysis3 extends Component<any,any> {
                         {/* 查询框 */}
                         <View style={styles.query_head}>
                             <View style={styles.tab}>
-                                <Text style={[styles.tabFlex,this.state.dataSwitchIn == 0 ? styles.flexIs : null]} onPress={()=>this.clickDataSwitch(0)}>日</Text>
-                                <Text style={[styles.tabFlex,this.state.dataSwitchIn == 1 ? styles.flexIs : null]} onPress={()=>this.clickDataSwitch(1)}>周</Text>
-                                <Text style={[styles.tabFlex,this.state.dataSwitchIn == 2 ? styles.flexIs : null]} onPress={()=>this.clickDataSwitch(2)}>月</Text>
+                                <Text allowFontScaling={false} style={[styles.tabFlex,this.state.dataSwitchIn == 0 ? styles.flexIs : null]} onPress={()=>this.clickDataSwitch(0)}>日</Text>
+                                <Text allowFontScaling={false} style={[styles.tabFlex,this.state.dataSwitchIn == 1 ? styles.flexIs : null]} onPress={()=>this.clickDataSwitch(1)}>周</Text>
+                                <Text allowFontScaling={false} style={[styles.tabFlex,this.state.dataSwitchIn == 2 ? styles.flexIs : null]} onPress={()=>this.clickDataSwitch(2)}>月</Text>
                             </View>
                             {/* 日报处理 */}
                             {this.state.dataSwitchIn == 0?
@@ -354,32 +354,32 @@ export class GasAnalysis3 extends Component<any,any> {
                                         ></Picker>
                                     </View>:''
                                 }
-                            <Text style={styles.button} onPress={this.clickSearch}>查询</Text>
+                            <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>查询</Text>
                         </View>
 
                         <View style={styles.echarts_con}>
                             {this.state.optionData.length == 0?
-                                <Text style={styles.empty}>暂无数据</Text>:
+                                <Text allowFontScaling={false} style={styles.empty}>暂无数据</Text>:
                                 <View style={styles.item}>
-                                    <Text style={styles.name}>
+                                    <Text allowFontScaling={false} style={styles.name}>
                                         环比分析数据
                                     </Text>
                                     <View style={styles.table}>
                                         <View style={styles.row}>
-                                            <Text style={styles.th}>{this.state.titleData[0]}</Text>
-                                            <Text style={styles.th}>{this.state.titleData[1]}</Text>
-                                            <Text style={styles.th}>{this.state.titleData[2]}</Text>
-                                            <Text style={styles.th}>{this.state.titleData[3]}</Text>
-                                            <Text style={styles.th}>{this.state.titleData[4]}</Text>
+                                            <Text allowFontScaling={false} style={styles.th}>{this.state.titleData[0]}</Text>
+                                            <Text allowFontScaling={false} style={styles.th}>{this.state.titleData[1]}</Text>
+                                            <Text allowFontScaling={false} style={styles.th}>{this.state.titleData[2]}</Text>
+                                            <Text allowFontScaling={false} style={styles.th}>{this.state.titleData[3]}</Text>
+                                            <Text allowFontScaling={false} style={styles.th}>{this.state.titleData[4]}</Text>
                                         </View>
                                         {this.state.optionData.map((item:any,index:number)=>{
                                             return(
                                                 <View key={index} style={[styles.row,index%2 == 0? styles.b1 : null]}>
-                                                    <Text style={[styles.td,styles.c1]}>{item.name}</Text>
-                                                    <Text style={styles.td}>{item.vala}</Text>
-                                                    <Text style={styles.td}>{item.valb}</Text>
-                                                    <Text style={styles.td}>{item.vald}</Text>
-                                                    <Text style={styles.td}>{item.valc}</Text>
+                                                    <Text allowFontScaling={false} style={[styles.td,styles.c1]}>{item.name}</Text>
+                                                    <Text allowFontScaling={false} style={styles.td}>{item.vala}</Text>
+                                                    <Text allowFontScaling={false} style={styles.td}>{item.valb}</Text>
+                                                    <Text allowFontScaling={false} style={styles.td}>{item.vald}</Text>
+                                                    <Text allowFontScaling={false} style={styles.td}>{item.valc}</Text>
                                                 </View>
                                             )
                                         })}
@@ -425,7 +425,7 @@ const styles = StyleSheet.create({
         lineHeight: 30,
         textAlignVertical: 'center',
         textAlign: 'center',
-        fontSize: Fs/18,
+        fontSize: Fs/22,
         color: '#333',
     },
     ico:{
@@ -470,7 +470,7 @@ const styles = StyleSheet.create({
         textAlignVertical: 'center',
         paddingLeft: 12,
         paddingRight: 12,
-        fontSize: Fs/18,
+        fontSize: Fs/22,
         color: '#666666',
         borderStyle:'solid',
         borderWidth: 1,
@@ -508,7 +508,7 @@ const styles = StyleSheet.create({
         height: 40,
         lineHeight: 40,
         textAlignVertical: 'center',
-        fontSize: Fs/18,
+        fontSize: Fs/22,
         paddingLeft: 15,
         borderColor: '#E5E5E5',
         borderBottomWidth: 1,
@@ -526,7 +526,7 @@ const styles = StyleSheet.create({
         paddingTop: 25,
         paddingBottom: 25,
         textAlign: 'center',
-        fontSize: Fs/18,
+        fontSize: Fs/22,
         color: '#999999',
         overflow: 'hidden',
     },
@@ -554,7 +554,7 @@ const styles = StyleSheet.create({
         paddingRight:3,
         paddingLeft:3,
         overflow: 'hidden',
-        fontSize: Fs/18,
+        fontSize: Fs/22,
         color: '#666666',
         textAlign:'center'
 
@@ -566,7 +566,7 @@ const styles = StyleSheet.create({
         paddingRight:3,
         paddingLeft:3,
         overflow: 'hidden',
-        fontSize: Fs/20,
+        fontSize: Fs/24,
         color: '#666666',
         textAlign:'center'
     },

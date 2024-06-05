@@ -56,7 +56,7 @@ export class Menu extends Component<any,any> {
                         <View key={index} style={styles.urlFlex}>
                             <TouchableOpacity  style={styles.urlBar} onPress={()=> this._onPress(item.id)}>
                                 <Image style={styles.imgBar} source={item.id == this.state.myMeun ? item.selectedIconPath : item.iconPath}></Image>
-                                <Text style={[styles.txtBar,item.id == this.state.myMeun ? styles.txtBarSe : null]}>{item.text}</Text>
+                                <Text allowFontScaling={false} style={[styles.txtBar,item.id == this.state.myMeun ? styles.txtBarSe : null]}>{item.text}</Text>
                             </TouchableOpacity>
                         </View>
                     );
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
         width: '100%',
         textAlign: 'center',
         color: '#707070',
-        fontSize: Fs/18,
+        fontSize: Fs/22,
     },
     txtBarSe:{
         color: '#00b4e6'

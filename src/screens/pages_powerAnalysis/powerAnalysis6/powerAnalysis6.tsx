@@ -246,7 +246,7 @@ export class PowerAnalysis6 extends Component<any,any> {
                                     click={this.clickStart}
                                 ></Picker>
                             </View>
-                            <Text style={styles.text}>
+                            <Text allowFontScaling={false} style={styles.text}>
                                 至
                             </Text>
                             <View style={styles.flex1}>
@@ -257,15 +257,15 @@ export class PowerAnalysis6 extends Component<any,any> {
                                     click={this.clickEnd}
                                 ></Picker>
                             </View>
-                            <Text style={styles.button} onPress={this.clickSearch}>查询</Text>
+                            <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>查询</Text>
                         </View>
                         
                         <View style={styles.echarts_con}>
                             {this.state.optionData.length == 0?
-                                <Text style={styles.empty}>暂无数据</Text>:
+                                <Text allowFontScaling={false} style={styles.empty}>暂无数据</Text>:
                                 <ScrollView style={styles.item}>
                                     <View style={styles.name}>
-                                        <Text style={styles.nameText}>尖峰平谷数据统计</Text>
+                                        <Text allowFontScaling={false} style={styles.nameText}>尖峰平谷数据统计</Text>
                                     </View>
                                     <View style={styles.table}>
                                         {this.state.optionData.map((item:any,index:number)=>{
@@ -273,7 +273,7 @@ export class PowerAnalysis6 extends Component<any,any> {
                                                 
                                                 <View key={index}>
                                                     <View style={[styles.cell,index == 0?styles.cellLinTo:null]} >
-                                                        <Text style={styles.title}>
+                                                        <Text allowFontScaling={false} style={styles.title}>
                                                             {item.name}
                                                         </Text>
                                                     </View>
@@ -282,22 +282,22 @@ export class PowerAnalysis6 extends Component<any,any> {
                                                         <View style={styles.label}></View>
                                                         <View style={styles.flex}>
                                                             <View style={styles.cellCen}>
-                                                                <Text style={styles.value}>尖</Text>
+                                                                <Text allowFontScaling={false} style={styles.value}>尖</Text>
                                                             </View>
                                                         </View>
                                                         <View style={styles.flex}>
                                                             <View style={styles.cellCen}>
-                                                                <Text style={styles.value}>峰</Text>
+                                                                <Text allowFontScaling={false} style={styles.value}>峰</Text>
                                                             </View>
                                                         </View>
                                                         <View style={styles.flex}>
                                                             <View style={styles.cellCen}>
-                                                                <Text style={styles.value}>平</Text>
+                                                                <Text allowFontScaling={false} style={styles.value}>平</Text>
                                                             </View>
                                                         </View>
                                                         <View style={styles.flex}>
                                                             <View style={styles.cellCen}>
-                                                                <Text style={styles.value}>谷</Text>
+                                                                <Text allowFontScaling={false} style={styles.value}>谷</Text>
                                                             </View>
                                                         </View>
                                                     </View>
@@ -305,27 +305,27 @@ export class PowerAnalysis6 extends Component<any,any> {
                                                     <View style={styles.cell}>
                                                         <View style={styles.label}>
                                                             <View style={styles.cellCen}>
-                                                                <Text style={styles.value}>电量</Text>
+                                                                <Text allowFontScaling={false} style={styles.value}>电量</Text>
                                                             </View>
                                                         </View>
                                                         <View style={styles.flex}>
                                                             <View style={styles.cellCen}>
-                                                                <Text style={styles.value}>{item.sharp}</Text>
+                                                                <Text allowFontScaling={false} style={styles.value}>{item.sharp}</Text>
                                                             </View>
                                                         </View>
                                                         <View style={styles.flex}>
                                                             <View style={styles.cellCen}>
-                                                                <Text style={styles.value}>{item.peak}</Text>
+                                                                <Text allowFontScaling={false} style={styles.value}>{item.peak}</Text>
                                                             </View>
                                                         </View>
                                                         <View style={styles.flex}>
                                                             <View style={styles.cellCen}>
-                                                                <Text style={styles.value}>{item.flat}</Text>
+                                                                <Text allowFontScaling={false} style={styles.value}>{item.flat}</Text>
                                                             </View>
                                                         </View>
                                                         <View style={styles.flex}>
                                                             <View style={styles.cellCen}>
-                                                                <Text style={styles.value}>{item.valley}</Text>
+                                                                <Text allowFontScaling={false} style={styles.value}>{item.valley}</Text>
                                                             </View>
                                                         </View>
                                                     </View>
@@ -334,27 +334,27 @@ export class PowerAnalysis6 extends Component<any,any> {
                                                     
                                                         <View style={styles.label}>
                                                             <View style={styles.cellCen}>
-                                                                <Text style={styles.value}>单价</Text>
+                                                                <Text allowFontScaling={false} style={styles.value}>单价</Text>
                                                             </View>
                                                         </View>
                                                         <View style={styles.flex}>
                                                             <View style={styles.cellCen}>
-                                                                <Text style={styles.value}>{item.sharpDJ}</Text>
+                                                                <Text allowFontScaling={false} style={styles.value}>{item.sharpDJ}</Text>
                                                             </View>
                                                         </View>
                                                         <View style={styles.flex}>
                                                             <View style={styles.cellCen}>
-                                                                <Text style={styles.value}>{item.peakDJ}</Text>
+                                                                <Text allowFontScaling={false} style={styles.value}>{item.peakDJ}</Text>
                                                             </View>
                                                         </View>
                                                         <View style={styles.flex}>
                                                             <View style={styles.cellCen}>
-                                                                <Text style={styles.value}>{item.flatDJ}</Text>
+                                                                <Text allowFontScaling={false} style={styles.value}>{item.flatDJ}</Text>
                                                             </View>
                                                         </View>
                                                         <View style={styles.flex}>
                                                             <View style={styles.cellCen}>
-                                                                <Text style={styles.value}>{item.valleyDJ}</Text>
+                                                                <Text allowFontScaling={false} style={styles.value}>{item.valleyDJ}</Text>
                                                             </View>
                                                         </View>
                                                     </View>
@@ -362,27 +362,27 @@ export class PowerAnalysis6 extends Component<any,any> {
                                                     <View style={styles.cell}>
                                                         <View style={styles.label}>
                                                             <View style={styles.cellCen}>
-                                                                <Text style={styles.value}>金额</Text>
+                                                                <Text allowFontScaling={false} style={styles.value}>金额</Text>
                                                             </View>
                                                         </View>
                                                         <View style={styles.flex}>
                                                             <View style={styles.cellCen}>
-                                                                <Text style={styles.value}>{item.sharpJE}</Text>
+                                                                <Text allowFontScaling={false} style={styles.value}>{item.sharpJE}</Text>
                                                             </View>
                                                         </View>
                                                         <View style={styles.flex}>
                                                             <View style={styles.cellCen}>
-                                                                <Text style={styles.value}>{item.peakJE}</Text>
+                                                                <Text allowFontScaling={false} style={styles.value}>{item.peakJE}</Text>
                                                             </View>
                                                         </View>
                                                         <View style={styles.flex}>
                                                             <View style={styles.cellCen}>
-                                                                <Text style={styles.value}>{item.flatJE}</Text>
+                                                                <Text allowFontScaling={false} style={styles.value}>{item.flatJE}</Text>
                                                             </View>
                                                         </View>
                                                         <View style={styles.flex}>
                                                             <View style={styles.cellCen}>
-                                                                <Text style={styles.value}>{item.valleyJE}</Text>
+                                                                <Text allowFontScaling={false} style={styles.value}>{item.valleyJE}</Text>
                                                             </View>
                                                         </View>
                                                     </View>
@@ -390,12 +390,12 @@ export class PowerAnalysis6 extends Component<any,any> {
                                                     <View style={styles.cell}>
                                                         <View style={styles.label}>
                                                             <View style={styles.cellCen}>
-                                                                <Text style={styles.value}>合计</Text>
+                                                                <Text allowFontScaling={false} style={styles.value}>合计</Text>
                                                             </View>
                                                         </View>
                                                         <View style={styles.flex}>
                                                             <View style={styles.cellCen}>
-                                                            <Text style={styles.value}>电量:{item.DL}  金额:{item.ZJE}</Text>
+                                                            <Text allowFontScaling={false} style={styles.value}>电量:{item.DL}  金额:{item.ZJE}</Text>
                                                             </View>
                                                         </View>
                                                     </View>
@@ -465,7 +465,7 @@ const styles = StyleSheet.create({
         textAlignVertical: 'center',
         paddingLeft: 12,
         paddingRight: 12,
-        fontSize: Fs/18,
+        fontSize: Fs/22,
         color: '#666666',
         borderStyle:'solid',
         borderWidth: 1,
@@ -504,7 +504,7 @@ const styles = StyleSheet.create({
         height: 40,
         lineHeight: 40,
         textAlignVertical: 'center',
-        fontSize: Fs/18,
+        fontSize: Fs/22,
         textAlign: 'center',
     },
     echarts:{
@@ -518,7 +518,7 @@ const styles = StyleSheet.create({
         paddingTop: 25,
         paddingBottom: 25,
         textAlign: 'center',
-        fontSize: Fs/18,
+        fontSize: Fs/22,
         color: '#999999',
         overflow: 'hidden',
     },
@@ -537,7 +537,7 @@ const styles = StyleSheet.create({
         lineHeight: 30,
         textAlignVertical: 'center',
         paddingRight: 5,
-        fontSize: Fs/20,
+        fontSize: Fs/24,
         color: '#666666',
         overflow: 'hidden',
     },
@@ -565,7 +565,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 40,
         lineHeight: 40,
-        fontSize: Fs/18,
+        fontSize: Fs/22,
         color: '#333',
         textAlign: 'center',
         overflow: 'hidden',
@@ -581,13 +581,13 @@ const styles = StyleSheet.create({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        fontSize: Fs/20,
+        fontSize: Fs/24,
         overflow: 'hidden',
     },
     value:{
         position: 'relative',
         width: '100%',
-        fontSize: Fs/20,
+        fontSize: Fs/24,
         color: '#333',
         textAlign: 'center',
         overflow: 'hidden',

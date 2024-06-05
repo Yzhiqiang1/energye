@@ -26,7 +26,7 @@ export class Navbars extends Component<any,any> {
                 size={22}/>
             </Pressable> : ''
             }
-          <Text style={styles.navName}>{this.props.name}</Text>
+          <Text allowFontScaling={false} style={styles.navName}>{this.props.name}</Text>
         </View>
     )
   }
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
         lineHeight: ht/10,
         textAlignVertical: 'center',
         textAlign:'center',
-        fontSize: Fs/16,
+        fontSize: Fs/18,
         color:'#333'
       },
 })

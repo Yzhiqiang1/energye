@@ -249,7 +249,7 @@ export class PowerAnalysis7 extends Component<any,any> {
                                     click={this.clickStart}
                                 ></Picker>
                             </View>
-                            <Text style={styles.text}>
+                            <Text allowFontScaling={false} style={styles.text}>
                                 至
                             </Text>
                             <View style={styles.flex}>
@@ -260,17 +260,15 @@ export class PowerAnalysis7 extends Component<any,any> {
                                     click={this.clickEnd}
                                 ></Picker>
                             </View>
-                            <Text style={styles.button} onPress={this.clickSearch}>查询</Text>
+                            <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>查询</Text>
                         </View>
                         
                         <ScrollView style={styles.echarts_con}>
                             {this.state.optionData.length == 0?
-                                <Text style={styles.empty}>暂无数据</Text>:
+                                <Text allowFontScaling={false} style={styles.empty}>暂无数据</Text>:
                                 <View style={styles.item}>
-                                    <Text style={styles.name}>
+                                    <Text allowFontScaling={false} style={styles.name}>
                                         最大需量数据统计
-                                        <View style={styles.down}>
-                                        </View>
                                     </Text>
                                     <View style={styles.table}>
                                         {this.state.optionData.map((top_item: any,top_index: number)=>{
@@ -278,7 +276,7 @@ export class PowerAnalysis7 extends Component<any,any> {
                                                 <View key={top_index}>
                                                 {/* // 标题 1行 */}
                                                 <View style={[styles.cell,top_index == 0?styles.cellLinTo : null]}>
-                                                    <Text style={styles.title}>
+                                                    <Text allowFontScaling={false} style={styles.title}>
                                                         {top_item.deviceName}
                                                     </Text>
                                                 </View>
@@ -287,12 +285,12 @@ export class PowerAnalysis7 extends Component<any,any> {
                                                     <View style={styles.label}></View>
                                                     <View style={styles.cellflex}>
                                                         <View style={styles.cellCen}>
-                                                            <Text style={styles.value}>数值</Text>
+                                                            <Text allowFontScaling={false} style={styles.value}>数值</Text>
                                                         </View>
                                                     </View>
                                                     <View style={styles.cellflex}>
                                                         <View style={styles.cellCen}>
-                                                            <Text style={styles.value}>时间</Text>
+                                                            <Text allowFontScaling={false} style={styles.value}>时间</Text>
                                                         </View>
                                                     </View>
                                                 </View>
@@ -303,17 +301,17 @@ export class PowerAnalysis7 extends Component<any,any> {
                                                             <View style={styles.cell}>
                                                                 <View style={styles.label}>
                                                                     <View style={styles.cellCen}>
-                                                                        <Text style={styles.value}>{top_item2.month+'月'}</Text>
+                                                                        <Text allowFontScaling={false} style={styles.value}>{top_item2.month+'月'}</Text>
                                                                     </View>
                                                                 </View>
                                                                 <View style={styles.cellflex}>
                                                                     <View style={styles.cellCen}>
-                                                                        <Text style={styles.value}>{top_item2.val}</Text>
+                                                                        <Text allowFontScaling={false} style={styles.value}>{top_item2.val}</Text>
                                                                     </View>
                                                                 </View>
                                                                 <View style={styles.cellflex}>
                                                                     <View style={styles.cellCen}>
-                                                                        <Text style={styles.value}>{top_item2.date}</Text>
+                                                                        <Text allowFontScaling={false} style={styles.value}>{top_item2.date}</Text>
                                                                     </View>
                                                                 </View>
                                                             </View>
@@ -360,7 +358,7 @@ const styles = StyleSheet.create({
         textAlignVertical: 'center',
         paddingLeft: 12,
         paddingRight: 12,
-        fontSize: Fs/20,
+        fontSize: Fs/24,
         color: '#666666',
         borderWidth: 1,
         borderColor: '#d9d9d9',
@@ -378,7 +376,7 @@ const styles = StyleSheet.create({
         lineHeight: 30,
         textAlignVertical: 'center',
         paddingRight: 5,
-        fontSize: Fs/20,
+        fontSize: Fs/24,
         color: '#666666',
         overflow: 'hidden',
     },
@@ -407,8 +405,9 @@ const styles = StyleSheet.create({
         position: 'relative',
         width: '100%',
         height: 40,
-        lineHeight: 35,
-        fontSize: Fs/18,
+        lineHeight: 40,
+        textAlignVertical: 'center',
+        fontSize: Fs/22,
         paddingLeft: 10,
         paddingRight: 10,
         borderBottomWidth:1,
@@ -461,7 +460,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 40,
         lineHeight: 40,
-        fontSize: Fs/18,
+        fontSize: Fs/22,
         color: '#333',
         textAlign: 'center',
         overflow: 'hidden',
@@ -492,7 +491,7 @@ const styles = StyleSheet.create({
     value:{
         position: 'relative',
         width: '100%',
-        fontSize: Fs/22,
+        fontSize: Fs/26,
         color: '#333',
         textAlign: 'center',
         overflow: 'hidden',
@@ -504,7 +503,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        fontSize: Fs/22,
+        fontSize: Fs/26,
         overflow: 'hidden',
     },
     empty:{
@@ -513,7 +512,7 @@ const styles = StyleSheet.create({
         paddingTop: 25,
         paddingBottom: 25,
         textAlign: 'center',
-        fontSize: Fs/18,
+        fontSize: Fs/22,
         color: '#999999',
         overflow: 'hidden',
     },

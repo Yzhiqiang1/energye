@@ -125,7 +125,7 @@ export class Tree extends Component<any,any> {
                                 </View>
                                 <View style={styles.treeItemName}>
                                     {/*  内容  */}
-                                    <Text style={styles.name}>
+                                    <Text allowFontScaling={false} style={styles.name}>
                                         {data.title}{this.props.isOpenAll}
                                     </Text>
                                 </View>
@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
         height: 26,
     },
     name:{
-        fontSize: Fs/22,
+        fontSize: Fs/25,
         paddingRight: 5,
         paddingLeft: 5,
         color: '#333',

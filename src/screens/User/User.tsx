@@ -144,26 +144,26 @@ export class User extends Component<any,any> {
               <Pressable style={styles.navLeft} onPress={()=>{this.props.navigation.navigate('HomeBar')}}>
                 <Image style={styles.navImg} source={require('../../image/Home.png')}></Image>
               </Pressable>
-              <Text style={styles.navName}>我的</Text>
+              <Text allowFontScaling={false}style={styles.navName}>我的</Text>
             </View>
 
             <Pressable style={styles.user}>
               <Image style={styles.logo} source={this.state.userImg}></Image>
                 {this.state.logonStatus?
                   <View style={styles.text}>
-                      <Text style={styles.name}>
+                      <Text allowFontScaling={false}style={styles.name}>
                           {this.state.userName}
                       </Text>
-                      <Text style={styles.id}>
+                      <Text allowFontScaling={false}style={styles.id}>
                           账号ID：{this.state.userId}
                       </Text>
                   </View>
                     :
                   <Pressable style={styles.text} onPress={()=>this.props.navigation.navigate('BindAccount')}>
-                    <Text style={styles.name}>
+                    <Text allowFontScaling={false}style={styles.name}>
                         您还没有登录
                     </Text>
-                    <Text style={styles.id}>
+                    <Text allowFontScaling={false}style={styles.id}>
                         点击登录或注册账号
                     </Text>
                   </Pressable>
@@ -173,7 +173,7 @@ export class User extends Component<any,any> {
             <View style={styles.con}>
               {this.state.logonStatus?
                 <Pressable style={styles.signOut} onPress={this.signOut}>
-                  <Text style={styles.signOutText}>
+                  <Text allowFontScaling={false}style={styles.signOutText}>
                     退出登录
                   </Text>
                 </Pressable>
@@ -222,7 +222,7 @@ const styles = StyleSheet.create({
     lineHeight:ht/10,
     textAlignVertical: 'center',
     textAlign:'center',
-    fontSize:Fs/16,
+    fontSize:Fs/18,
     color:'#fff'
   },
   user:{
@@ -257,7 +257,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 25,
     lineHeight: 25,
-    fontSize: Fs/14,
+    fontSize: Fs/16,
     color: '#000',
     fontWeight: '700',
   },
@@ -266,7 +266,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 25,
     lineHeight: 25,
-    fontSize: Fs/20,
+    fontSize: Fs/24,
     fontWeight: '400',
     color: '#666',
   },
@@ -297,7 +297,7 @@ const styles = StyleSheet.create({
     margin:40
   },
   signOutText:{
-    fontSize: Fs/18,
+    fontSize: Fs/22,
     textAlign: 'center',
     color: '#fff',
     height: 40,

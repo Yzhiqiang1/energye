@@ -836,13 +836,13 @@ export class Scanqr extends Component<any,any> {
                                 isVisible={this.state.power}
                                 backdropStyle={{height:'120%'}}
                             >
-                                <Text style={styles.hint}>当前摄像头权限已拒绝，无法使用扫码创建设备功能，是否去设置开启</Text>
+                                <Text allowFontScaling={false} style={styles.hint}>当前摄像头权限已拒绝，无法使用扫码创建设备功能，是否去设置开启</Text>
                                 <View style={styles.hintBox}>
-                                    <Text 
+                                    <Text allowFontScaling={false} 
                                         style={styles.butL} 
                                         onPress={()=>this.setState({ power: false})}
                                     >取消</Text>
-                                    <Text 
+                                    <Text allowFontScaling={false} 
                                         style={styles.butR}
                                         onPress={this.install}
                                     >去设置</Text>
@@ -851,7 +851,7 @@ export class Scanqr extends Component<any,any> {
                             {/* 底部弹窗 */}
                             <Animated.View style={[styles.btmDialog,{transform:[{translateY:this.translateY}]}]}>
                                 <View style={styles.popupHead}>
-                                    <Text style={styles.text}>选择位置</Text>
+                                    <Text allowFontScaling={false} style={styles.text}>选择位置</Text>
                                     <Pressable style={styles.popupClose} onPress={this.onClose}>
                                         <Image style={styles.ico} source={require('../../image/search-close.png')}></Image>
                                     </Pressable>
@@ -859,7 +859,7 @@ export class Scanqr extends Component<any,any> {
 
                                 <View style={styles.popup}>
                                     {this.state.manualAddress!=''?
-                                        <Text style={styles.manualAddress}>
+                                        <Text allowFontScaling={false} style={styles.manualAddress}>
                                             {this.state.manualAddress}
                                         </Text>:''
                                     }
@@ -873,10 +873,10 @@ export class Scanqr extends Component<any,any> {
                                                         onPress={()=>this._select(index)}
                                                     >
                                                         <View>
-                                                            <Text style={[styles.name,index == this.state.positionIndex ? styles.on:null]}>
+                                                            <Text allowFontScaling={false} style={[styles.name,index == this.state.positionIndex ? styles.on:null]}>
                                                                 {item.name}
                                                             </Text>
-                                                            <Text style={[styles.address,index == this.state.positionIndex ? styles.on:null]}>
+                                                            <Text allowFontScaling={false} style={[styles.address,index == this.state.positionIndex ? styles.on:null]}>
                                                                 {item.province}{item.city}{item.county}{item.address}
                                                             </Text>
                                                         </View>
@@ -884,7 +884,7 @@ export class Scanqr extends Component<any,any> {
                                                 )
                                             })
                                             :
-                                            <Text style={styles.empty}>暂无查询内容.</Text>
+                                            <Text allowFontScaling={false} style={styles.empty}>暂无查询内容.</Text>
                                         }
                                     </ScrollView>
                                 </View>
@@ -903,13 +903,13 @@ export class Scanqr extends Component<any,any> {
                         backdropStyle={{height:'120%'}}
                         >
                         <Dialog.Title titleStyle={styles.titleStyle} title="未登录"/>
-                        <Text style={styles.warn}>你还未登录点击去登录按钮登,请录后进行创建设备,点击取消放弃创建</Text>
+                        <Text allowFontScaling={false} style={styles.warn}>你还未登录点击去登录按钮登,请录后进行创建设备,点击取消放弃创建</Text>
                         <View style={styles.bottom}>
-                            <Text 
+                            <Text allowFontScaling={false} 
                             style={styles.bottomBut} 
                             onPress={()=>this.setState({show: false})}
                             >取消</Text>
-                            <Text 
+                            <Text allowFontScaling={false} 
                             style={[styles.bottomBut,styles.bottomButR]}
                             onPress={()=>this.GoLogIn()}
                             >去登录</Text>
@@ -965,7 +965,7 @@ const styles = StyleSheet.create({
         position: 'relative',
         width: '100%',
         height: ht/14,
-        fontSize: Fs/20,
+        fontSize: Fs/24,
         color: '#333',
         backgroundColor: '#fff',
         zIndex: 9,
@@ -1014,7 +1014,7 @@ const styles = StyleSheet.create({
         right:0,
         height: 40,
         lineHeight: 40,
-        fontSize: Fs/18,
+        fontSize: Fs/22,
         color: '#333333',
         borderBottomColor:'#f2f2f2',
         borderBottomWidth:1,
@@ -1039,7 +1039,7 @@ const styles = StyleSheet.create({
         lineHeight: 40,
         textAlignVertical: 'center',
         fontWeight: '700',
-        fontSize: Fs/18,
+        fontSize: Fs/22,
     },
     popup:{
         position: 'absolute',
@@ -1052,7 +1052,7 @@ const styles = StyleSheet.create({
         position: 'relative',
         width: '100%',
         padding: 10,
-        fontSize: Fs/20,
+        fontSize: Fs/24,
         color:'#1989fa',
         backgroundColor: '#ecf9ff',
         overflow: 'hidden',
@@ -1081,7 +1081,7 @@ const styles = StyleSheet.create({
         width: "100%",
         height: 20,
         lineHeight: 20,
-        fontSize: Fs/20,
+        fontSize: Fs/24,
         color: '#333',
         overflow: 'hidden',
     },
@@ -1097,7 +1097,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 40,
         lineHeight: 40,
-        fontSize: Fs/20,
+        fontSize: Fs/24,
         color: '#999',
         textAlign: 'center',
         overflow: 'hidden',
@@ -1141,7 +1141,7 @@ const styles = StyleSheet.create({
         marginTop:20,
         textAlign:'center',
         width:'100%',
-        fontSize: Fs/15,
+        fontSize: Fs/17,
         fontWeight: '800',
         color: '#191919'
     },
@@ -1174,7 +1174,7 @@ const styles = StyleSheet.create({
         textAlignVertical: 'center',
         flex:1,
         textAlign:'center',
-        fontSize: Fs/15,
+        fontSize: Fs/17,
         fontWeight: '800',
         color: '#191919'
     },
@@ -1186,7 +1186,7 @@ const styles = StyleSheet.create({
     },
     hint:{
         color: '#333',
-        fontSize: Fs/18,
+        fontSize: Fs/22,
     },
     hintBox:{
         position: 'relative',
@@ -1200,14 +1200,14 @@ const styles = StyleSheet.create({
         position:'absolute',
         right: 10,
         top: 10,
-        fontSize: Fs/20,
+        fontSize: Fs/24,
         color: '#6dabdf'
     },
     butL:{
         position:'absolute',
         left: 10,
         top: 10,
-        fontSize: Fs/20,
+        fontSize: Fs/24,
     },
     btmDialog: {
         position:'absolute',

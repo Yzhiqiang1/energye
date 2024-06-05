@@ -160,23 +160,23 @@ export class BindAccount extends Component<any,any> {
                     <View style={styles.con}>
                         <View  style={styles.list}>
                             <Image style={styles.Img} source={require('../../image/dl_user.png')}></Image>
-                            <TextInput style={styles.Input} placeholder='输入用户名' onChangeText={this.userNameChangeSearch} ></TextInput>
+                            <TextInput style={styles.Input} allowFontScaling={false} placeholder='输入用户名' onChangeText={this.userNameChangeSearch} ></TextInput>
                         </View>
                         <View  style={styles.list}>
                             <Image style={styles.Img} source={require('../../image/dl_password.png')}></Image>
-                            <TextInput style={styles.Input} placeholder='输入密码' onChangeText={this.passwordChangeSearch} secureTextEntry={true} ></TextInput>
+                            <TextInput style={styles.Input} allowFontScaling={false} placeholder='输入密码' onChangeText={this.passwordChangeSearch} secureTextEntry={true} ></TextInput>
                         </View>
                         <View style={styles.forget}>
                             <TouchableOpacity >
-                                <Text style={{color:'#2EA4FF'}}>忘记密码?</Text>
+                                <Text style={{color:'#2EA4FF'}} allowFontScaling={false}>忘记密码?</Text>
                             </TouchableOpacity>
                         </View>
                         <View  style={styles.butList}>
                             <View style={styles.button}>
-                                <Text style={styles.buttonL} onPress={()=>this.props.navigation.navigate('Tabbar')}>取消登录</Text>
+                                <Text style={styles.buttonL} allowFontScaling={false} onPress={()=>this.props.navigation.navigate('Tabbar')}>取消登录</Text>
                             </View>
                             <View style={styles.button}>
-                                <Text style={styles.buttonR} onPress={this.Login}>登录</Text>
+                                <Text style={styles.buttonR} allowFontScaling={false} onPress={this.Login}>登录</Text>
                             </View>
                         </View>
                         <View style={styles.link}>
@@ -191,7 +191,7 @@ export class BindAccount extends Component<any,any> {
                         <View style={styles.Tourist}>
                             <Pressable style={styles.experience} onPress={this.touristLongin}>
                                 <Image style={{width:30,height:30}} source={require('../../image/Tourist.png')}></Image>
-                                <Text style={styles.Text}>体验账号登录</Text>
+                                <Text style={styles.Text} allowFontScaling={false} >体验账号登录</Text>
                             </Pressable> 
                         </View>
                     </View>
@@ -298,7 +298,7 @@ const styles = StyleSheet.create({
         height: 50,
         lineHeight: 50,
         color: '#333333',
-        fontSize: Fs/18,
+        fontSize: Fs/22,
         paddingLeft: 80,
     },
     forget:{
@@ -333,14 +333,14 @@ const styles = StyleSheet.create({
         lineHeight: 40,
         textAlignVertical: 'center',
         textAlign: 'center',
-        fontSize: Fs/18,
+        fontSize: Fs/22,
     },
     buttonR:{
         height: 40,
         lineHeight: 40,
         textAlignVertical: 'center',
         textAlign: 'center',
-        fontSize: Fs/18,
+        fontSize: Fs/22,
         backgroundColor:'#2EA4FF',
         borderRadius: 10,
         color:'#fff'
@@ -379,6 +379,7 @@ const styles = StyleSheet.create({
     Text:{
         color:'#333',
         fontWeight: '400',
+        fontSize: Fs/24,
     },
 })
 

@@ -2,6 +2,7 @@ import { Dimensions, StatusBar, StyleSheet, Platform, NativeModules } from 'reac
 const ht = Dimensions.get('window').height*0.8//屏幕高度
 const { StatusBarManager } = NativeModules;
 const STATUS_BAR_HEIGHT = Platform.OS === 'ios' ? StatusBar.currentHeight : StatusBarManager.HEIGHT;//状态栏高度
+const Fs = Dimensions.get('window').width*0.8
 const styleg = StyleSheet.create({
     statusBar: {
         top: STATUS_BAR_HEIGHT,
@@ -52,7 +53,7 @@ const styleg = StyleSheet.create({
         overflow: 'hidden',
     },
     TextButton:{
-        fontSize: 16,
+        fontSize: Fs/22,
         color: '#666666',
     },
     ico:{

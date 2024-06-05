@@ -197,7 +197,7 @@ export class History_switchMonitor extends Component<any,any> {
                                 >
                                 </Picker>
                             </View>
-                            <Text style={styles.text}>
+                            <Text allowFontScaling={false} style={styles.text}>
                                 至
                             </Text>
                             <View style={styles.flex}>
@@ -209,18 +209,18 @@ export class History_switchMonitor extends Component<any,any> {
                                 >
                                 </Picker>
                             </View>
-                            <Text style={styles.button} onPress={this.clickSearch}>查询</Text>
+                            <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>查询</Text>
                         </View>
                         
                         <ScrollView style={styles.echartsCon}>
                             {this.state.optionData.length == 0?
-                                <Text style={styles.empty}>暂无数据</Text>:''
+                                <Text allowFontScaling={false} style={styles.empty}>暂无数据</Text>:''
                             }
                             {this.state.optionData.map((item:any,index:number)=>{
                                 return(
                                     item.state == true?
                                     <View style={styles.item} key={index}>
-                                        <Text style={styles.name}>
+                                        <Text allowFontScaling={false} style={styles.name}>
                                             {item.name}
                                         </Text>
                                         <View style={styles.echarts}>
@@ -264,7 +264,7 @@ const styles = StyleSheet.create({
         textAlignVertical: 'center',
         paddingLeft: 12,
         paddingRight: 12,
-        fontSize: Fs/20,
+        fontSize: Fs/24,
         color: '#666666',
         borderStyle: 'solid',
         borderWidth: 1,
@@ -287,7 +287,7 @@ const styles = StyleSheet.create({
         lineHeight: 30,
         paddingLeft: 10,
         paddingRight: 10,
-        fontSize: Fs/20,
+        fontSize: Fs/24,
         color: '#666666',
         overflow: 'hidden',
     },
@@ -323,7 +323,7 @@ const styles = StyleSheet.create({
         height: 40,
         lineHeight: 40,
         textAlignVertical: 'center',
-        fontSize: Fs/18,
+        fontSize: Fs/22,
         fontWeight: '600',
         textAlign: 'center',
         borderStyle: 'solid',
@@ -342,7 +342,7 @@ const styles = StyleSheet.create({
         paddingTop:25,
         paddingBottom:25,
         textAlign: 'center',
-        fontSize: Fs/18,
+        fontSize: Fs/22,
         color: '#999999',
         overflow: 'hidden',
     },

@@ -286,7 +286,7 @@ export class Security2 extends Component<any,any> {
                         <View style={styles.containerMini}>
                             {/* 面板item */}
                             {this.state.leakageArr.length == 0?
-                                <Text style={styles.empty}>没有对应传感器</Text>:
+                                <Text allowFontScaling={false} style={styles.empty}>没有对应传感器</Text>:
                                 this.state.leakageArr.map((top_item:any,top_index:number)=>{
                                     return(
                                         <Shadow distance={4} style={styles.indexMini} key={top_index}>
@@ -298,12 +298,12 @@ export class Security2 extends Component<any,any> {
                                                     resizeMode='contain'>
                                                 </Image>
                                                 <View style={styles.devieceInfo}>
-                                                    <Text style={styles.devieceName}>{top_item.deviceName}</Text>
-                                                    <Text style={styles.lastTime}>更新时间:
-                                                        <Text style={styles.lastTime}>{top_item.time ? top_item.time :'暂无数据'}</Text>
+                                                    <Text allowFontScaling={false} style={styles.devieceName}>{top_item.deviceName}</Text>
+                                                    <Text allowFontScaling={false} style={styles.lastTime}>更新时间:
+                                                        <Text allowFontScaling={false} style={styles.lastTime}>{top_item.time ? top_item.time :'暂无数据'}</Text>
                                                     </Text>
                                                 </View>
-                                                <Text style={styles.search} onPress={()=>this.historySearch(top_index)}>
+                                                <Text allowFontScaling={false} style={styles.search} onPress={()=>this.historySearch(top_index)}>
                                                     查询
                                                 </Text>
                                             </View>
@@ -314,43 +314,43 @@ export class Security2 extends Component<any,any> {
                                                 <View style={styles.current}>
                                                     <View style={styles.currentUp}>
                                                         <Image style={styles.img} resizeMode='contain' source={require('../../../image/ld_2.png')}></Image>
-                                                        <Text style={styles.name}>漏电流</Text>
+                                                        <Text allowFontScaling={false} style={styles.name}>漏电流</Text>
                                                     </View>
                                                     <View style={styles.currentDown}>
-                                                        <Text style={styles.DownText}>{top_item.In.value}</Text>
-                                                        <Text style={styles.DownText}>0.mA</Text>
+                                                        <Text allowFontScaling={false} style={styles.DownText}>{top_item.In.value}</Text>
+                                                        <Text allowFontScaling={false} style={styles.DownText}>0.mA</Text>
                                                     </View>
                                                 </View>
                                                 {/* 线缆温度 */}
                                                 <View style={styles.cable}>
                                                     <View style={styles.cableUp}>
                                                         <Image style={styles.img} resizeMode='contain' source={require('../../../image/ld_3.png')}></Image>
-                                                        <Text style={styles.name}>线缆温度</Text>
+                                                        <Text allowFontScaling={false} style={styles.name}>线缆温度</Text>
                                                     </View>
                                                     <View style={styles.cableDown}>
                                                         <View style={styles.temperature}>
-                                                            <Text style={[styles.name,styles.dian,{backgroundColor: '#00abd5'}]}></Text>
-                                                            <Text style={styles.name}>&nbsp;A:</Text>
-                                                            <Text style={styles.name}>{top_item.T1!=undefined?top_item.T1.value:''}</Text>
-                                                            <Text style={styles.name}>℃</Text>
+                                                            <Text allowFontScaling={false} style={[styles.name,styles.dian,{backgroundColor: '#00abd5'}]}></Text>
+                                                            <Text allowFontScaling={false} style={styles.name}>&nbsp;A:</Text>
+                                                            <Text allowFontScaling={false} style={styles.name}>{top_item.T1!=undefined?top_item.T1.value:''}</Text>
+                                                            <Text allowFontScaling={false} style={styles.name}>℃</Text>
                                                         </View>
                                                         <View style={styles.temperature}>
-                                                            <Text style={[styles.name,styles.dian,{backgroundColor: '#46e3d0'}]}></Text>
-                                                            <Text style={styles.name} >&nbsp;B:</Text>
-                                                            <Text style={styles.name}>{top_item.T2!=undefined?top_item.T2.value:''}</Text>
-                                                            <Text style={styles.name}>℃</Text>
+                                                            <Text allowFontScaling={false} style={[styles.name,styles.dian,{backgroundColor: '#46e3d0'}]}></Text>
+                                                            <Text allowFontScaling={false} style={styles.name} >&nbsp;B:</Text>
+                                                            <Text allowFontScaling={false} style={styles.name}>{top_item.T2!=undefined?top_item.T2.value:''}</Text>
+                                                            <Text allowFontScaling={false} style={styles.name}>℃</Text>
                                                         </View>
                                                         <View style={styles.temperature}>
-                                                            <Text style={[styles.name,styles.dian,{backgroundColor: '#ff6893'}]}></Text>
-                                                            <Text style={styles.name} >&nbsp;C:</Text>
-                                                            <Text style={styles.name}>{top_item.T3!=undefined?top_item.T3.value:''}</Text>
-                                                            <Text style={styles.name}>℃</Text>
+                                                            <Text allowFontScaling={false} style={[styles.name,styles.dian,{backgroundColor: '#ff6893'}]}></Text>
+                                                            <Text allowFontScaling={false} style={styles.name} >&nbsp;C:</Text>
+                                                            <Text allowFontScaling={false} style={styles.name}>{top_item.T3!=undefined?top_item.T3.value:''}</Text>
+                                                            <Text allowFontScaling={false} style={styles.name}>℃</Text>
                                                         </View>
                                                         <View style={styles.temperature}>
-                                                            <Text style={[styles.name,styles.dian,{backgroundColor: '#ffcf05'}]}></Text>
-                                                            <Text style={styles.name}>&nbsp;N:</Text>
-                                                            <Text style={styles.name}>{top_item.T4!=undefined?top_item.T4.value:''}</Text>
-                                                            <Text style={styles.name}>℃</Text>
+                                                            <Text allowFontScaling={false} style={[styles.name,styles.dian,{backgroundColor: '#ffcf05'}]}></Text>
+                                                            <Text allowFontScaling={false} style={styles.name}>&nbsp;N:</Text>
+                                                            <Text allowFontScaling={false} style={styles.name}>{top_item.T4!=undefined?top_item.T4.value:''}</Text>
+                                                            <Text allowFontScaling={false} style={styles.name}>℃</Text>
                                                         </View>
                                                     </View>
                                                 </View>
@@ -386,7 +386,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         opacity: 1,
         marginBottom:11,
-        fontSize: Fs/18,
+        fontSize: Fs/22,
     },
     tr :{
         borderStyle: 'solid',
@@ -413,19 +413,19 @@ const styles = StyleSheet.create({
         left: 60,
     },
     devieceName:{
-        fontSize: Fs/18,
+        fontSize: Fs/22,
         fontWeight: '900',
         color: '#333'
     },
     lastTime:{
-        fontSize: Fs/20,
+        fontSize: Fs/24,
     },
     search:{
         position: 'absolute',
         top: 7,
         right: 0,
         color: 'steelblue',
-        fontSize: Fs/18
+        fontSize: Fs/22
     },
     
     
@@ -465,7 +465,7 @@ const styles = StyleSheet.create({
         left: 3,
     },
     name:{
-        fontSize: Fs/18,
+        fontSize: Fs/22,
         fontWeight: '700'
     },
     currentDown:{
@@ -475,7 +475,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     DownText:{
-        fontSize: Fs/10,   
+        fontSize: Fs/12,   
         fontWeight: '700',
         color: '#333'
     },

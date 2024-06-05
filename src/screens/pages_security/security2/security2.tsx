@@ -327,7 +327,7 @@ export class Security1 extends Component<any,any> {
                     <View style={styleg.containerMini}>
                         <View style={styles.containerMini}>
                             {this.state.sensorArr.length==0?
-                                <Text style={styles.empty}>没有对应传感器</Text>:''
+                                <Text allowFontScaling={false} style={styles.empty}>没有对应传感器</Text>:''
                             }
                             {/* 面板item */}
                             {this.state.sensorArr.map((top_item:any,top_index:number)=>{
@@ -337,12 +337,12 @@ export class Security1 extends Component<any,any> {
                                         <View style={[styles.deviece,styles.tr]}>
                                             <Image source={require('../../../image/switch1.png')} resizeMode='contain' style={styles.devieceImg}></Image>
                                             <View style={styles.devieceInfo}>
-                                                <Text style={styles.devieceName}>{top_item.deviceName}</Text>
-                                                <Text>更新时间: 
-                                                    <Text style={styles.lastTime}>{top_item.updateTime ? top_item.updateTime :'暂无数据'}</Text>
+                                                <Text allowFontScaling={false} style={styles.devieceName}>{top_item.deviceName}</Text>
+                                                <Text allowFontScaling={false}>更新时间: 
+                                                    <Text allowFontScaling={false} style={styles.lastTime}>{top_item.updateTime ? top_item.updateTime :'暂无数据'}</Text>
                                                 </Text>
                                             </View>
-                                            <Text 
+                                            <Text allowFontScaling={false} 
                                                 style={styles.search}
                                                 onPress={()=>this.historySearch(top_index)}
                                             >
@@ -351,12 +351,12 @@ export class Security1 extends Component<any,any> {
                                         </View>
                                         {/* 传感器信息行 */}
                                         {top_item.sensorList.length==0?
-                                            <Text>暂无数据</Text>:''
+                                            <Text allowFontScaling={false}>暂无数据</Text>:''
                                         }
                                         {top_item.sensorList.map((item:any,index:number)=>{
                                             return(
                                                 <View style={[styles.sensor,styles.tr]} key={index}>
-                                                    <Text style={styles.sensorName}>{item.sensorname}</Text>
+                                                    <Text allowFontScaling={false} style={styles.sensorName}>{item.sensorname}</Text>
                                                     {/* 开关 */}
                                                     <Switch
                                                     value={item.switch == 1}
@@ -375,11 +375,11 @@ export class Security1 extends Component<any,any> {
                                 overlayStyle={styles.overlay}
                                 backdropStyle={{height:'120%'}}
                                 >
-                                <Text style={styles.SwitchText}>确定操作设备开关吗？</Text>
+                                <Text allowFontScaling={false} style={styles.SwitchText}>确定操作设备开关吗？</Text>
                                 <Dialog.Actions>
                                     <View style={styles.actions}>
-                                        <Text style={[styles.Dialog,styles.cancel]} onPress={this.cancel}>取消</Text>
-                                        <Text style={[styles.Dialog,styles.confirm]} onPress={this.confirm}>确定</Text>
+                                        <Text allowFontScaling={false} style={[styles.Dialog,styles.cancel]} onPress={this.cancel}>取消</Text>
+                                        <Text allowFontScaling={false} style={[styles.Dialog,styles.confirm]} onPress={this.confirm}>确定</Text>
                                     </View>
                                 </Dialog.Actions>
                             </Dialog>
@@ -412,7 +412,7 @@ const styles = StyleSheet.create({
         alignItems:'center',
         opacity: 1,
         marginBottom:11,
-        fontSize: Fs/18,
+        fontSize: Fs/22,
     },
     
     tr :{
@@ -440,19 +440,19 @@ const styles = StyleSheet.create({
         left: 60,
     },
     devieceName:{
-        fontSize: Fs/18,
+        fontSize: Fs/22,
         fontWeight: '900',
         color: '#333'
     },
     lastTime:{
-        fontSize: Fs/20,
+        fontSize: Fs/24,
     },
     search:{
         position: 'absolute',
         top: 7,
         right: 0,
         color: 'steelblue',
-        fontSize: Fs/18
+        fontSize: Fs/22
     },
     sensor:{
         height: 50,
@@ -462,7 +462,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: 13,
         left: 18,
-        fontSize: Fs/20,
+        fontSize: Fs/24,
         color: '#333'
     },
     btn:{
@@ -495,7 +495,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         height: 80,
         lineHeight: 80,
-        fontSize: Fs/18,
+        fontSize: Fs/22,
         color: '#333',
         fontWeight: '700',
         borderBottomWidth: 1,
@@ -514,7 +514,7 @@ const styles = StyleSheet.create({
     Dialog:{
         width: '50%',
         height: '100%',
-        fontSize: Fs/18,
+        fontSize: Fs/22,
         fontWeight: '600',
         textAlign: 'center',
     },

@@ -279,7 +279,7 @@ export class Security5 extends Component<any,any> {
                     <View style={styleg.containerMini}>
                         <View style={styles.containerMini}>
                             {this.state.sensorArr.length==0?
-                                <Text style={styles.empty}>没有对应传感器</Text>:''
+                                <Text allowFontScaling={false} style={styles.empty}>没有对应传感器</Text>:''
                             }
                             {/* 面板item */}
                             {this.state.sensorArr.map((top_item:any,top_index:number)=>{
@@ -289,13 +289,13 @@ export class Security5 extends Component<any,any> {
                                         <View style={[styles.deviece,styles.tr]}>
                                             <Image source={require('../../../image/switch1.png')} style={styles.devieceImg}></Image>
                                             <View style={styles.devieceInfo}>
-                                                <Text style={styles.devieceName} onPress={()=>this.setState({dateShow: !this.state.dateShow})}>{top_item.deviceName}</Text>
-                                                <Text>更新时间: 
-                                                    <Text style={styles.lastTime}>{top_item.updateTime ? top_item.updateTime :'暂无数据'}</Text>
+                                                <Text allowFontScaling={false} style={styles.devieceName} onPress={()=>this.setState({dateShow: !this.state.dateShow})}>{top_item.deviceName}</Text>
+                                                <Text allowFontScaling={false}>更新时间: 
+                                                    <Text allowFontScaling={false} style={styles.lastTime}>{top_item.updateTime ? top_item.updateTime :'暂无数据'}</Text>
                                                 </Text>
                                             </View>
                                             
-                                            <Text 
+                                            <Text allowFontScaling={false} 
                                                 style={styles.search}
                                                 onPress={()=>this.historySearch(top_index)}
                                             >
@@ -304,14 +304,14 @@ export class Security5 extends Component<any,any> {
                                         </View>
                                         {/* 传感器信息行 */}
                                         {top_item.sensorList.length==0?
-                                            <Text>暂无数据</Text>:''
+                                            <Text allowFontScaling={false}>暂无数据</Text>:''
                                         }
                                         {top_item.sensorList.map((item:any,index:number)=>{
                                             return(
                                                 <View style={[styles.sensor,styles.tr]} key={index}>
-                                                    <Text style={styles.sensorName}>{item.sensorname}</Text>
+                                                    <Text allowFontScaling={false} style={styles.sensorName}>{item.sensorname}</Text>
                                                     {item.isMapping == 1?
-                                                        <Text style={styles.sensorVal}>{item.sorVal}</Text>:
+                                                        <Text allowFontScaling={false} style={styles.sensorVal}>{item.sorVal}</Text>:
                                                         <Switch
                                                         value={item.switch == 1}
                                                         style={styles.btn}
@@ -367,7 +367,7 @@ const styles = StyleSheet.create({
         alignItems:'center',
         opacity: 1,
         marginBottom:11,
-        fontSize: Fs/18,
+        fontSize: Fs/22,
         height: 268,
 
     },
@@ -397,19 +397,19 @@ const styles = StyleSheet.create({
         left: 60,
     },
     devieceName:{
-        fontSize: Fs/18,
+        fontSize: Fs/22,
         fontWeight: '900',
         color: '#333'
     },
     lastTime:{
-        fontSize: Fs/20,
+        fontSize: Fs/24,
     },
     search:{
         position: 'absolute',
         top: 7,
         right: 0,
         color: 'steelblue',
-        fontSize: Fs/18
+        fontSize: Fs/22
     },
     sensor:{
         height: 50,
@@ -419,7 +419,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: 13,
         left: 18,
-        fontSize: Fs/20,
+        fontSize: Fs/24,
         color: '#333'
     },
     sensorVal:{
@@ -460,7 +460,7 @@ const styles = StyleSheet.create({
     Dialog:{
         width: '50%',
         height: '100%',
-        fontSize: Fs/18,
+        fontSize: Fs/22,
         fontWeight: '600',
         textAlign: 'center',
     },
@@ -475,7 +475,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         height: 80,
         lineHeight: 80,
-        fontSize: Fs/18,
+        fontSize: Fs/22,
         color: '#333',
         fontWeight: '700',
         borderBottomWidth: 1,

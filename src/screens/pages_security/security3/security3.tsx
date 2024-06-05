@@ -314,7 +314,7 @@ export class Security3 extends Component<any,any> {
                           <View style={styles.listMasonry}>
                               {/* 判断下所选设备有无传感器数据 */}
                               {this.state.sensorArr.length == 0?
-                                  <Text style={styles.empty}>当前设备下没有传感器</Text>:''
+                                  <Text allowFontScaling={false} style={styles.empty}>当前设备下没有传感器</Text>:''
                               }
                               {/* 循环传感器 */}
                               {this.state.sensorArr.map((top_item:any,top_index:number)=>{
@@ -333,7 +333,7 @@ export class Security3 extends Component<any,any> {
                                               })}}>
                                                   <View style={styles.ico}>
                                                   </View>
-                                                  <Text style={styles.name}>
+                                                  <Text allowFontScaling={false} style={styles.name}>
                                                       {top_item.name}
                                                   </Text>
                                                   <View style={styles.state}>
@@ -360,12 +360,12 @@ export class Security3 extends Component<any,any> {
                                                           </VideoPlayer>
                                                         :''} 
                                                         {top_item.value == ''?
-                                                          <Text style={styles.videoNone}>小程序仅支持直播地址HLS</Text>:''
+                                                          <Text allowFontScaling={false} style={styles.videoNone}>小程序仅支持直播地址HLS</Text>:''
                                                         }
                                                       </View>:''
                                                   }
                                               </View>
-                                              <Text style={styles.itemTime}>
+                                              <Text allowFontScaling={false} style={styles.itemTime}>
                                                   {/* {item.time} */}
                                               </Text>
                                           </View>
@@ -384,7 +384,7 @@ export class Security3 extends Component<any,any> {
                       
                       {/* 加载所有数据文字提示 */}
                       {this.state.isPage_test?
-                        <Text style={styles.isPageTxt} onPress={()=>console.log(this.state.isPage_test)}>
+                        <Text allowFontScaling={false} style={styles.isPageTxt} onPress={()=>console.log(this.state.isPage_test)}>
                             已加载所有数据
                         </Text>:''
                       }
@@ -455,7 +455,7 @@ const styles = StyleSheet.create({
         height: 40,
         lineHeight: 40,
         textAlignVertical: 'center',
-        fontSize: Fs/20,
+        fontSize: Fs/24,
         color: '#333',
         verticalAlign: 'middle',
         overflow: 'hidden',
@@ -513,7 +513,7 @@ const styles = StyleSheet.create({
         width: '100%',
       },
       unit:{
-        fontSize: Fs/18,
+        fontSize: Fs/22,
         color: 'red',
       },
       video:{
@@ -523,14 +523,14 @@ const styles = StyleSheet.create({
       },
       videoErr:{
         color:' red',
-        fontSize: Fs/20,
+        fontSize: Fs/24,
       },
       itemTime:{
         position: 'relative',
         width: '100%',
         lineHeight: 15,
         textAlign: 'center',
-        fontSize: Fs/20,
+        fontSize: Fs/24,
         color:' rgb(255, 255, 255)',
         marginTop: 5,
         overflow: 'hidden',
@@ -569,7 +569,7 @@ const styles = StyleSheet.create({
         height: 50,
         lineHeight: 50,
         textAlign: 'center',
-        fontSize: Fs/20,
+        fontSize: Fs/24,
         color: 'rgb(255, 255, 255)',
         overflow: 'hidden',
       },
@@ -580,7 +580,7 @@ const styles = StyleSheet.create({
         height: 40,
         lineHeight: 40,
         textAlign: 'center',
-        fontSize: Fs/20,
+        fontSize: Fs/24,
         color: 'rgb(255, 255, 255)',
         overflow: 'hidden',
       },
@@ -610,7 +610,7 @@ const styles = StyleSheet.create({
         width: '100%',
         textAlign: 'center',
         color: '#f2f2f2',
-        fontSize: Fs/22,
+        fontSize: Fs/26,
         zIndex: 99999,
       },
       empty:{

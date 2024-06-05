@@ -258,6 +258,7 @@ export class BindPhone extends Component<any,any> {
                             <View  style={styles.list}>
                                 <Image style={styles.Img} source={require('../../image/dl_user.png')}></Image>
                                 <TextInput 
+                                allowFontScaling={false}
                                 style={styles.Input} 
                                 placeholder='输入手机号' 
                                 onChangeText={this.mobileChangeSearch} 
@@ -266,28 +267,28 @@ export class BindPhone extends Component<any,any> {
                             </View>
                             <View  style={styles.list}>
                                 <Image style={styles.Img} source={require('../../image/dl_password.png')}></Image>
-                                <TextInput style={styles.Input} placeholder='输入验证码' onChangeText={this.codeChangeSearch}></TextInput>
-                                <Text  style={styles.Code} onPress={this.gainCode}>{this.state.mobiletitle}</Text>
+                                <TextInput allowFontScaling={false} style={styles.Input} placeholder='输入验证码' onChangeText={this.codeChangeSearch}></TextInput>
+                                <Text allowFontScaling={false} style={styles.Code} onPress={this.gainCode}>{this.state.mobiletitle}</Text>
                             </View>
                             <View style={styles.forget}>
                                 <TouchableOpacity >
-                                    <Text style={{color:'#2EA4FF'}}>忘记密码?</Text>
+                                    <Text allowFontScaling={false} style={{color:'#2EA4FF',fontSize:Fs/24}}>忘记密码?</Text>
                                 </TouchableOpacity>
                             </View>
                             <View  style={styles.butList}>
                                 <View style={styles.button}>
-                                    <Text style={styles.buttonL} onPress={()=>this.props.navigation.navigate('Index')}>取消登录</Text>
+                                    <Text allowFontScaling={false} style={styles.buttonL} onPress={()=>this.props.navigation.navigate('Index')}>取消登录</Text>
                                 </View>
                                 <View style={styles.button}>
-                                    <Text style={styles.buttonR} onPress={this.Login}>登录</Text>
+                                    <Text allowFontScaling={false} style={styles.buttonR} onPress={this.Login}>登录</Text>
                                 </View>
                             </View>
                             <View style={styles.link}>
                                 <TouchableOpacity style={styles.Url} onPress={()=>this.props.navigation.navigate('BindAccount')}>
-                                    <Text style={{color: '#01AAED',fontSize:Fs/18}}>账号登入</Text>
+                                    <Text allowFontScaling={false} style={{color: '#01AAED',fontSize:Fs/22}}>账号登入</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity style={styles.Url} onPress={()=>this.props.navigation.navigate('AccountRegister')}>
-                                    <Text style={{color: '#01AAED',fontSize:Fs/18}}>注册账号</Text>
+                                    <Text allowFontScaling={false} style={{color: '#01AAED',fontSize:Fs/22}}>注册账号</Text>
                                 </TouchableOpacity>
                             </View>
                         </View>
@@ -367,7 +368,7 @@ const styles = StyleSheet.create({
         height: 50,
         lineHeight: 50,
         color: '#333333',
-        fontSize: Fs/18,
+        fontSize: Fs/22,
         paddingLeft: 80,
     },
     forget:{
@@ -402,14 +403,14 @@ const styles = StyleSheet.create({
         lineHeight: 40,
         textAlignVertical: 'center',
         textAlign: 'center',
-        fontSize: Fs/18,
+        fontSize: Fs/22,
     },
     buttonR:{
         height: 40,
         lineHeight: 40,
         textAlignVertical: 'center',
         textAlign: 'center',
-        fontSize: Fs/18,
+        fontSize: Fs/22,
         backgroundColor:'#2EA4FF',
         borderRadius: 10,
         color:'#fff'
@@ -457,7 +458,7 @@ const styles = StyleSheet.create({
         height: 50,
         lineHeight: 50,
         textAlign: 'right',
-        fontSize: Fs/20,
+        fontSize: Fs/24,
         color: '#01AAED',
         zIndex: 99,
     },

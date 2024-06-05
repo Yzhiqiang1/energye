@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
         height: 22,
         lineHeight: 22,
         textAlignVertical: 'center',
-        fontSize: Fs/17,
+        fontSize: Fs/19,
         fontWeight: '700',
         color: '#333',
         paddingLeft: 15,
@@ -99,12 +99,12 @@ const styles = StyleSheet.create({
     imgMini: {
         width:45
     },
-    size17: {
-        fontSize: Fs/17,
-        color: '#333',
-    },
     size19: {
         fontSize: Fs/19,
+        color: '#333',
+    },
+    size22: {
+        fontSize: Fs/22,
         color: '#333',
     } 
 })

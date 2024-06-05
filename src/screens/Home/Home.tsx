@@ -57,7 +57,7 @@ export class Index extends Component<any,any> {
                         <View style={styles.indexMini}>
                             {/* 设备概括 */}
                             <View style={styles.indexUl}>
-                                <Text style={styles.title}>
+                                <Text allowFontScaling={false} style={styles.title}>
                                     设备概况
                                 </Text>
                                 <View style={styles.con}>
@@ -65,21 +65,21 @@ export class Index extends Component<any,any> {
                                         <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'},styles.overview]}
                                             onPress={()=>this.props.navigation.navigate('Survey')}>
                                             <Image style={styles.img} resizeMode='contain' source={require('../../image/overview_1.png')} />
-                                            <Text style={styles.size17}>用能概况</Text>
+                                            <Text allowFontScaling={false} style={styles.size19}>用能概况</Text>
                                         </Pressable>
                                     </View>
                                     <View style={[styles.list,styles.row33]}>
                                         <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'},styles.overview]}
                                             onPress={()=>this.props.navigation.navigate('Scanqr')}>
                                             <Image style={styles.img} resizeMode='contain' source={require('../../image/scanqr.png')} />
-                                            <Text style={styles.size17}>创建设备</Text>
+                                            <Text allowFontScaling={false} style={styles.size19}>创建设备</Text>
                                         </Pressable>
                                     </View>
                                 </View>
                             </View>
                             {/* 电力测试 */}
                             <View style={styles.indexUl}>
-                                <Text style={styles.title}>
+                                <Text allowFontScaling={false} style={styles.title}>
                                     电力测试
                                 </Text>
                             <View style={[styles.con,styles.bac]}>
@@ -89,7 +89,7 @@ export class Index extends Component<any,any> {
                                                 onPress={()=>this.props.navigation.navigate('PowerTest1')}>
                                                 <View style={styles.box}>
                                                     <Image style={styles.img} resizeMode='contain' source={require('../../image/dl_1.png')}></Image>
-                                                    <Text style={styles.size19}>日原数据</Text>
+                                                    <Text allowFontScaling={false} style={styles.size22}>日原数据</Text>
                                                 </View>
                                             </Pressable>
                                         </View>
@@ -98,7 +98,7 @@ export class Index extends Component<any,any> {
                                                 onPress={()=>this.props.navigation.navigate('PowerTest2')}>
                                                 <View style={styles.box}>
                                                     <Image style={styles.img} resizeMode='contain' source={require('../../image/dl_2.png')}></Image>
-                                                    <Text style={styles.size19}>逐日极值数据</Text>
+                                                    <Text allowFontScaling={false} style={styles.size22}>逐日极值数据</Text>
                                                 </View>
                                             </Pressable>
                                         </View>
@@ -107,7 +107,7 @@ export class Index extends Component<any,any> {
                                                 onPress={()=>this.props.navigation.navigate('PowerTest3')}>
                                                 <View style={styles.box}>
                                                     <Image style={styles.img} resizeMode='contain' source={require('../../image/dl_3.png')}></Image>
-                                                    <Text style={styles.size19}>电力运行报表</Text>
+                                                    <Text allowFontScaling={false} style={styles.size22}>电力运行报表</Text>
                                                 </View>
                                             </Pressable>
                                         </View>
@@ -118,7 +118,7 @@ export class Index extends Component<any,any> {
                                                 onPress={()=>this.props.navigation.navigate('PowerTest4')}>
                                                 <View style={styles.box}>
                                                     <Image style={styles.img} resizeMode='contain' source={require('../../image/dl_4.png')}></Image>
-                                                    <Text style={styles.size19}>电力极值报表</Text>
+                                                    <Text allowFontScaling={false} style={styles.size22}>电力极值报表</Text>
                                                 </View>
                                             </Pressable>
                                         </View>
@@ -128,7 +128,7 @@ export class Index extends Component<any,any> {
                                                 onPress={()=>this.props.navigation.navigate('PowerTest5')}>
                                                     <View style={styles.box}>
                                                         <Image style={styles.img} resizeMode='contain' source={require('../../image/dl_5.png')}></Image>
-                                                        <Text style={styles.size19}>平均功率因数</Text>
+                                                        <Text allowFontScaling={false} style={styles.size22}>平均功率因数</Text>
                                                     </View>
                                             </Pressable>
                                         </View>
@@ -137,7 +137,7 @@ export class Index extends Component<any,any> {
                                                 onPress={()=>this.props.navigation.navigate('PowerTest6')}>
                                                     <View style={styles.box}>
                                                         <Image style={styles.img} resizeMode='contain' source={require('../../image/dl_6.png')} ></Image>
-                                                        <Text style={styles.size19}>电力运行日报</Text>
+                                                        <Text allowFontScaling={false} style={styles.size22}>电力运行日报</Text>
                                                     </View>
                                             </Pressable>
                                         </View>
@@ -148,7 +148,7 @@ export class Index extends Component<any,any> {
                                                 onPress={()=>this.props.navigation.navigate('PowerTest7')}>
                                                     <View style={styles.box}>
                                                         <Image style={styles.img} resizeMode='contain' source={require('../../image/dl_7.png')}></Image>
-                                                        <Text style={styles.size19}>谐波检测</Text>
+                                                        <Text allowFontScaling={false} style={styles.size22}>谐波检测</Text>
                                                     </View>
                                             </Pressable>
                                         </View>
@@ -157,7 +157,7 @@ export class Index extends Component<any,any> {
                             </View>
                             {/* 用电分析 */}
                             <View style={styles.indexUl}>
-                                <Text style={styles.title}>
+                                <Text allowFontScaling={false} style={styles.title}>
                                     用电分析
                                 </Text>
                                 <View style={[styles.con,styles.bac]}>
@@ -167,7 +167,7 @@ export class Index extends Component<any,any> {
                                                 onPress={()=>this.props.navigation.navigate('powerAnalysis1')}>
                                                     <View style={styles.box}>
                                                         <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_1.png')}></Image>
-                                                        <Text style={styles.size19}>用能报表</Text>
+                                                        <Text allowFontScaling={false} style={styles.size22}>用能报表</Text>
                                                     </View>
                                             </Pressable>
                                         </View>
@@ -176,7 +176,7 @@ export class Index extends Component<any,any> {
                                                 onPress={()=>this.props.navigation.navigate('powerAnalysis2')}>
                                                     <View style={styles.box}>
                                                         <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_2.png')}></Image>
-                                                        <Text style={styles.size19}>同比分析</Text>
+                                                        <Text allowFontScaling={false} style={styles.size22}>同比分析</Text>
                                                     </View>
                                             </Pressable>
                                         </View>
@@ -185,7 +185,7 @@ export class Index extends Component<any,any> {
                                                 onPress={()=>this.props.navigation.navigate('powerAnalysis3')}>
                                                 <View style={styles.box}>
                                                     <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_3.png')}></Image>
-                                                    <Text style={styles.size19}>环比分析</Text>
+                                                    <Text allowFontScaling={false} style={styles.size22}>环比分析</Text>
                                                 </View>
                                             </Pressable>
                                         </View>
@@ -194,7 +194,7 @@ export class Index extends Component<any,any> {
                                                 onPress={()=>this.props.navigation.navigate('powerAnalysis4')}>
                                                 <View style={styles.box}>
                                                     <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_4.png')}></Image>
-                                                    <Text style={styles.size19}>损耗分析</Text>
+                                                    <Text allowFontScaling={false} style={styles.size22}>损耗分析</Text>
                                                 </View>
                                             </Pressable>
                                         </View>
@@ -205,7 +205,7 @@ export class Index extends Component<any,any> {
                                             onPress={()=>this.props.navigation.navigate('powerAnalysis5')}>
                                                 <View style={styles.box}>
                                                     <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_5.png')}></Image>
-                                                    <Text style={styles.size19}>电能集抄</Text>
+                                                    <Text allowFontScaling={false} style={styles.size22}>电能集抄</Text>
                                                 </View>
                                             </Pressable>
                                         </View>
@@ -214,7 +214,7 @@ export class Index extends Component<any,any> {
                                                 onPress={()=>this.props.navigation.navigate('powerAnalysis6')}>
                                                 <View style={styles.box}>
                                                     <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_6.png')}></Image>
-                                                    <Text style={styles.size19}>尖峰平谷</Text>
+                                                    <Text allowFontScaling={false} style={styles.size22}>尖峰平谷</Text>
                                                 </View>
                                             </Pressable>
                                         </View>
@@ -224,7 +224,7 @@ export class Index extends Component<any,any> {
                                                 onPress={()=>this.props.navigation.navigate('powerAnalysis7')}>
                                                 <View style={styles.box}>
                                                     <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_8.png')}></Image>
-                                                    <Text style={styles.size19}>最大需量</Text>
+                                                    <Text allowFontScaling={false} style={styles.size22}>最大需量</Text>
                                                 </View>
                                             </Pressable>
                                         </View>
@@ -233,7 +233,7 @@ export class Index extends Component<any,any> {
                             </View>
                             {/* 用水分析 */}
                             <View style={styles.indexUl}>
-                                <Text style={styles.title}>
+                                <Text allowFontScaling={false} style={styles.title}>
                                     用水分析
                                 </Text>
                                 <View style={[styles.con,styles.bac]}>
@@ -243,7 +243,7 @@ export class Index extends Component<any,any> {
                                                 onPress={()=>this.props.navigation.navigate('waterAnalysis1')}>
                                                 <View style={styles.box}>
                                                     <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_1.png')}></Image>
-                                                    <Text style={styles.size19}>用水报表</Text>
+                                                    <Text allowFontScaling={false} style={styles.size22}>用水报表</Text>
                                                 </View>
                                             </Pressable>
                                         </View>
@@ -252,7 +252,7 @@ export class Index extends Component<any,any> {
                                                 onPress={()=>this.props.navigation.navigate('waterAnalysis2')}>
                                                 <View style={styles.box}>
                                                     <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_2.png')}></Image>
-                                                    <Text style={styles.size19}>同比分析</Text>
+                                                    <Text allowFontScaling={false} style={styles.size22}>同比分析</Text>
                                                 </View>
                                             </Pressable>
                                         </View>
@@ -261,7 +261,7 @@ export class Index extends Component<any,any> {
                                                 onPress={()=>this.props.navigation.navigate('waterAnalysis3')}>
                                                 <View style={styles.box}>
                                                     <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_3.png')}></Image>
-                                                    <Text style={styles.size19}>环比分析</Text>
+                                                    <Text allowFontScaling={false} style={styles.size22}>环比分析</Text>
                                                 </View>
                                             </Pressable>
                                         </View>
@@ -270,7 +270,7 @@ export class Index extends Component<any,any> {
                                                 onPress={()=>this.props.navigation.navigate('waterAnalysis4')}>
                                                 <View style={styles.box}>
                                                     <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_4.png')}></Image>
-                                                    <Text style={styles.size19}>损耗分析</Text>
+                                                    <Text allowFontScaling={false} style={styles.size22}>损耗分析</Text>
                                                 </View>
                                             </Pressable>
                                         </View>
@@ -281,7 +281,7 @@ export class Index extends Component<any,any> {
                                                 onPress={()=>this.props.navigation.navigate('waterAnalysis5')}>
                                                 <View style={styles.box}>
                                                     <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_5.png')}></Image>
-                                                    <Text style={styles.size19}>水能集抄</Text>
+                                                    <Text allowFontScaling={false} style={styles.size22}>水能集抄</Text>
                                                 </View>
                                             </Pressable>
                                         </View>
@@ -291,7 +291,7 @@ export class Index extends Component<any,any> {
                             </View>
                             {/* 用气分析 */}
                             <View style={styles.indexUl}>
-                                <Text style={styles.title}>
+                                <Text allowFontScaling={false} style={styles.title}>
                                     用气分析
                                 </Text>
                                 <View style={[styles.con,styles.bac]}>
@@ -301,7 +301,7 @@ export class Index extends Component<any,any> {
                                                 onPress={()=>this.props.navigation.navigate('gasAnalysis1')}>
                                                 <View style={styles.box}>
                                                     <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_1.png')}></Image>
-                                                    <Text style={styles.size19}>用气报表</Text>
+                                                    <Text allowFontScaling={false} style={styles.size22}>用气报表</Text>
                                                 </View>
                                             </Pressable>
                                         </View>
@@ -310,7 +310,7 @@ export class Index extends Component<any,any> {
                                                 onPress={()=>this.props.navigation.navigate('gasAnalysis2')}>
                                                 <View style={styles.box}>
                                                     <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_2.png')}></Image>
-                                                    <Text style={styles.size19}>同比分析</Text>
+                                                    <Text allowFontScaling={false} style={styles.size22}>同比分析</Text>
                                                 </View>
                                             </Pressable>
                                         </View>
@@ -319,7 +319,7 @@ export class Index extends Component<any,any> {
                                                 onPress={()=>this.props.navigation.navigate('gasAnalysis3')}>
                                                 <View style={styles.box}>
                                                     <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_3.png')}></Image>
-                                                    <Text style={styles.size19}>环比分析</Text>
+                                                    <Text allowFontScaling={false} style={styles.size22}>环比分析</Text>
                                                 </View>
                                             </Pressable>
                                         </View>
@@ -328,7 +328,7 @@ export class Index extends Component<any,any> {
                                                 onPress={()=>this.props.navigation.navigate('gasAnalysis4')}>
                                                 <View style={styles.box}>
                                                     <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_4.png')}></Image>
-                                                    <Text style={styles.size19}>损耗分析</Text>
+                                                    <Text allowFontScaling={false} style={styles.size22}>损耗分析</Text>
                                                 </View>
                                             </Pressable>
                                         </View>
@@ -339,7 +339,7 @@ export class Index extends Component<any,any> {
                                                 onPress={()=>this.props.navigation.navigate('gasAnalysis5')}>
                                                 <View style={styles.box}>
                                                     <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_5.png')}></Image>
-                                                    <Text style={styles.size19}>气能集抄</Text>
+                                                    <Text allowFontScaling={false} style={styles.size22}>气能集抄</Text>
                                                 </View>
                                             </Pressable>
                                         </View>
@@ -348,7 +348,7 @@ export class Index extends Component<any,any> {
                             </View>
                             {/* 安全分析 */}
                             <View style={styles.indexUl}>
-                                <Text style={styles.title}>
+                                <Text allowFontScaling={false} style={styles.title}>
                                     安全用电
                                 </Text>
                                 <View style={[styles.con,styles.bac]}>
@@ -358,7 +358,7 @@ export class Index extends Component<any,any> {
                                                 onPress={()=>this.props.navigation.navigate('security1')}>
                                                     <View style={styles.box}>
                                                         <Image style={styles.imgMini}  resizeMode='contain' source={require('../../image/aq1.png')}></Image>
-                                                        <Text style={styles.size19}>漏电/温度监测</Text>
+                                                        <Text allowFontScaling={false} style={styles.size22}>漏电/温度监测</Text>
                                                     </View>
                                             </Pressable>
                                         </View>
@@ -367,7 +367,7 @@ export class Index extends Component<any,any> {
                                                 onPress={()=>this.props.navigation.navigate('security2')}>
                                                 <View style={styles.box}>
                                                     <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/aq2.png')} ></Image>
-                                                    <Text style={styles.size19}>开关控制</Text>
+                                                    <Text allowFontScaling={false} style={styles.size22}>开关控制</Text>
                                                 </View>
                                             </Pressable>
                                         </View>
@@ -376,7 +376,7 @@ export class Index extends Component<any,any> {
                                                 onPress={()=>this.props.navigation.navigate('security5')}>
                                                 <View style={styles.box}>
                                                     <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/switch-monitor.png')} ></Image>
-                                                    <Text style={styles.size19}>开关监测</Text>
+                                                    <Text allowFontScaling={false} style={styles.size22}>开关监测</Text>
                                                 </View>
                                             </Pressable>
                                         </View>
@@ -386,7 +386,7 @@ export class Index extends Component<any,any> {
                                                 onPress={()=>this.props.navigation.navigate('security3')}>
                                                 <View style={styles.box}>
                                                     <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/aq3.png')}></Image>
-                                                    <Text style={styles.size19}>摄像头</Text>
+                                                    <Text allowFontScaling={false} style={styles.size22}>摄像头</Text>
                                                 </View>
                                             </Pressable>
                                         </View>

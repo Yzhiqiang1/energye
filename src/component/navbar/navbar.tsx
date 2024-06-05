@@ -596,10 +596,10 @@ export class Navbar extends React.Component<any,any> {
                                 />
                             </Pressable>:''
                         }
-                        <Text style={styles.navbar_text}>{this.props.pageName}</Text>
+                        <Text allowFontScaling={false} style={styles.navbar_text}>{this.props.pageName}</Text>
                         {this.props.LoginStatus == 1?
                             <TouchableOpacity style={styles.treeSelect} onPress={()=>{navigation?.navigate('BindAccount')}}>
-                                <Text style={[styles.navbar_text,{fontSize:Fs/18,color:'#2EA4FF',fontWeight: '100'}]}>您还未登录,点击登录</Text>
+                                <Text allowFontScaling={false} style={[styles.navbar_text,{fontSize:Fs/22,color:'#2EA4FF',fontWeight: '100'}]}>您还未登录,点击登录</Text>
                             </TouchableOpacity> : ''
                         }
                         {this.props.LoginStatus == 2?
@@ -608,7 +608,7 @@ export class Navbar extends React.Component<any,any> {
                                     <ActivityIndicator color="#1989fa" /> :
                                     <View style={styles.test}>
                                         <View style={styles.test}>
-                                            <Text numberOfLines={1} ellipsizeMode="tail" style={styles.testName}>{this.state.treeName}</Text>
+                                            <Text allowFontScaling={false} numberOfLines={1} ellipsizeMode="tail" style={styles.testName}>{this.state.treeName}</Text>
                                             <View style={styles.ico}>
                                                 <Image style={[styles.img,this.state.showTree?styles.spin:null]} source={require("../../image/down.png")}></Image>
                                             </View>
@@ -644,7 +644,7 @@ export class Navbar extends React.Component<any,any> {
                                         <ScrollView>
                                             {this.state.arrGroup.map((data:any, index:any) => {
                                                 return(
-                                                    <Text key={index} 
+                                                    <Text allowFontScaling={false} key={index} 
                                                         style={[styles.list,index == this.state.isGroup?styles.listIs:null]}
                                                         onPress={()=>this.choiceGroup(index)}
                                                     >{data.name}</Text>
@@ -689,7 +689,7 @@ export class Navbar extends React.Component<any,any> {
                                             <ScrollView>
                                                 {this.state.arrGroup.map((data:any, index:any) => {
                                                     return(
-                                                        <Text key={index} 
+                                                        <Text allowFontScaling={false} key={index} 
                                                             style={[styles.list,index == this.state.isGroup?styles.listIs:null]}
                                                             onPress={()=>this.choiceGroup(index)}
                                                         >{data.name}</Text>
@@ -760,7 +760,7 @@ const styles = StyleSheet.create({
     navbar_text:{
       width: '100%',
       textAlign:'center',
-      fontSize: Fs/17,
+      fontSize: Fs/20,
       fontWeight: '600',
       color: '#333'
     },
@@ -792,7 +792,7 @@ const styles = StyleSheet.create({
         maxWidth:150,
         height: 28,
         lineHeight: 28,
-        fontSize: Fs/20,
+        fontSize: Fs/24,
         color:'#666',
         overflow: 'hidden',
     },
@@ -845,7 +845,7 @@ const styles = StyleSheet.create({
         textAlignVertical: 'center',
         paddingRight: 5,
         paddingLeft: 10,
-        fontSize: Fs/18,
+        fontSize: Fs/22,
         color: '#666',
         overflow: 'hidden',
     },

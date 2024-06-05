@@ -170,7 +170,7 @@ export class Security4 extends Component<any,any> {
                     <View style={styleg.container}>
                         <View  style={styles.device}>
                             {this.state.dataArr.length == 0?
-                                <Text style={styles.empty}>暂无数据</Text>:''
+                                <Text allowFontScaling={false} style={styles.empty}>暂无数据</Text>:''
                             }
                             {this.state.dataArr.map((item:any,index:number)=>{
                                 return(
@@ -186,37 +186,37 @@ export class Security4 extends Component<any,any> {
                                                         <Image style={styles.img} src='../../image/dianbiao.png'></Image>
                                                     </View>
                                                     <View style={styles.flex}>
-                                                        <Text style={styles.name}>
+                                                        <Text allowFontScaling={false} style={styles.name}>
                                                             {item.deviceName}
                                                         </Text>
                                                     </View>
                                                 </View>
                                                 <View style={styles.ul}>
-                                                    <Text style={styles.p1}>
+                                                    <Text allowFontScaling={false} style={styles.p1}>
                                                         <View style={styles.t1c1}></View>
                                                         A:
-                                                        <Text style={styles.t2}>
+                                                        <Text allowFontScaling={false} style={styles.t2}>
                                                             {item.data.Ia.val}
                                                             {item.data.Ia.dangwei}
                                                         </Text>
                                                     </Text>
-                                                    <Text style={styles.p1}>
+                                                    <Text allowFontScaling={false} style={styles.p1}>
                                                         <View style={styles.t1c2}></View>
                                                         B:
-                                                        <Text style={styles.t2}>
+                                                        <Text allowFontScaling={false} style={styles.t2}>
                                                             {item.data.Ib.val}
                                                             {item.data.Ib.dangwei}
                                                         </Text>
                                                     </Text>
-                                                    <Text style={styles.p1}>
+                                                    <Text allowFontScaling={false} style={styles.p1}>
                                                         <View style={styles.t1c3}></View>
                                                         C:
-                                                        <Text style={styles.t2}>
+                                                        <Text allowFontScaling={false} style={styles.t2}>
                                                             {item.data.Ic.val}
                                                             {item.data.Ic.dangwei}
                                                         </Text>
                                                     </Text>
-                                                    <Text style={styles.t2}>{item.lastDate}</Text>
+                                                    <Text allowFontScaling={false} style={styles.t2}>{item.lastDate}</Text>
                                                 </View>
                                             {/* </navigator> */}
                                         </View>
@@ -302,7 +302,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 40,
         lineHeight: 40,
-        fontSize: Fs/20,
+        fontSize: Fs/24,
         color: '#333',
         overflow: 'hidden',
     },
@@ -356,7 +356,7 @@ const styles = StyleSheet.create({
         height: 20,
         lineHeight: 20,
         textAlign: 'center',
-        fontSize: Fs/20,
+        fontSize: Fs/24,
         color: '#999',
         overflow: 'hidden',
     },
@@ -365,7 +365,7 @@ const styles = StyleSheet.create({
         width: '100%',
         // padding: 50rpx 0,
         textAlign: 'center',
-        fontSize: Fs/18,
+        fontSize: Fs/22,
         color: '#999999',
         overflow: 'hidden',
     },

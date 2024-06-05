@@ -26,7 +26,7 @@ export class Loading extends Component<any,any> {
                     backdropStyle={{position: 'absolute',height: screenHeight}}
                     >
                     <Dialog.Loading />
-                    <Text style={styles.text}>{this.props.LoadingMsg}</Text>
+                    <Text allowFontScaling={false} style={styles.text}>{this.props.LoadingMsg}</Text>
                 </Dialog> */}
 
                 <Modal
@@ -40,7 +40,7 @@ export class Loading extends Component<any,any> {
                     >
                         <View style={styles.modal}>
                             <ActivityIndicator size="large" color="#2da2fe"/>
-                            <Text style={styles.text}>{this.props.LoadingMsg}</Text>
+                            <Text allowFontScaling={false} style={styles.text}>{this.props.LoadingMsg}</Text>
                         </View>
                 </Modal>
             </View>
@@ -51,7 +51,7 @@ export class Loading extends Component<any,any> {
                     isVisible={this.props.visible}
                     backdropStyle={{height: 0}}
                     >
-                    <Text style={styles.showText}>{this.props.LoadingMsg}</Text>
+                    <Text allowFontScaling={false} style={styles.showText}>{this.props.LoadingMsg}</Text>
                 </Dialog> */}
                  <Modal
                     isVisible={this.props.visible}
@@ -62,7 +62,7 @@ export class Loading extends Component<any,any> {
                     animationOutTiming={100}
                     >
                         <View style={styles.showLoading}>
-                            <Text style={styles.showText}>{this.props.LoadingMsg}</Text>
+                            <Text allowFontScaling={false} style={styles.showText}>{this.props.LoadingMsg}</Text>
                         </View>
                 </Modal>
             </View>
@@ -90,12 +90,12 @@ const styles = StyleSheet.create({
         backgroundColor:'#333',
     },
     text: {
-        fontSize: Fs/18,
+        fontSize: Fs/22,
         color: '#333',
     },
     showText: {
         maxWidth: 200,
-        fontSize: Fs/18,
+        fontSize: Fs/22,
         color: '#fff',
     },
     modal: {

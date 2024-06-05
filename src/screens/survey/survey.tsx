@@ -360,17 +360,17 @@ export class Survey extends Component<any,any> {
           {/* 内容区 */}
           <ScrollView style={styleg.container}>
               <View style={styles.list}>
-                  <Text  style={[styles.title]}>环比(单位：kW·h)</Text>
+                  <Text allowFontScaling={false} style={[styles.title]}>环比(单位：kW·h)</Text>
                   <View style={styles.con}>
                       <View style={styles.row}>
                           <View style={[styles.row33,styles.pl]}>
                               <View style={styles.item}>
                                   <View style={styles.name}>
                                       <Image style={styles.img} source={require('../../image/survey_ico1.png')}></Image>
-                                      <Text style={styles.test}>当日用能</Text>
+                                      <Text allowFontScaling={false}style={styles.test}>当日用能</Text>
                                   </View>
                                   <View style={styles.value}>
-                                      <Text style={styles.test}>{this.state.toDay}</Text>
+                                      <Text allowFontScaling={false}style={styles.test}>{this.state.toDay}</Text>
                                       <Image style={styles.imgline} source={require('../../image/survey_line1.png')}></Image>
                                   </View>
                               </View>
@@ -379,10 +379,10 @@ export class Survey extends Component<any,any> {
                               <View style={styles.item}>
                                   <View style={styles.name}>
                                       <Image style={styles.img} source={require('../../image/survey_ico2.png')}></Image>
-                                      <Text style={styles.test}>昨日同期</Text>
+                                      <Text allowFontScaling={false}style={styles.test}>昨日同期</Text>
                                   </View>
                                   <View style={styles.value}>
-                                      <Text style={styles.test}>{this.state.lastDay}</Text>
+                                      <Text allowFontScaling={false}style={styles.test}>{this.state.lastDay}</Text>
                                       <Image style={styles.imgline} source={require('../../image/survey_line2.png')}></Image>
                                   </View>
                               </View>
@@ -391,10 +391,10 @@ export class Survey extends Component<any,any> {
                               <View style={styles.item}>
                                   <View style={styles.name}>
                                       <Image style={styles.img} source={require('../../image/survey_ico3.png')}></Image>
-                                      <Text style={styles.test}>日趋势</Text>
+                                      <Text allowFontScaling={false}style={styles.test}>日趋势</Text>
                                   </View>
                                   <View style={styles.value}>
-                                      <Text style={styles.test}>{this.state.dayTendency}%</Text>
+                                      <Text allowFontScaling={false}style={styles.test}>{this.state.dayTendency}%</Text>
                                       <Image style={styles.imgline} source={require('../../image/survey_line3.png')}></Image>
                                   </View>
                                   {this.state.dayTendency!= ''?
@@ -421,10 +421,10 @@ export class Survey extends Component<any,any> {
                               <View style={styles.item}>
                                   <View style={styles.name}>
                                       <Image style={styles.img} source={require('../../image/survey_ico1.png')}></Image>
-                                      <Text style={styles.test}>当月用能</Text>
+                                      <Text allowFontScaling={false}style={styles.test}>当月用能</Text>
                                   </View>
                                   <View style={styles.value}>
-                                      <Text style={styles.test}>{this.state.toMonth}</Text>
+                                      <Text allowFontScaling={false}style={styles.test}>{this.state.toMonth}</Text>
                                       <Image style={styles.imgline} source={require('../../image/survey_line1.png')}></Image>
                                   </View>
                               </View>
@@ -433,10 +433,10 @@ export class Survey extends Component<any,any> {
                               <View style={styles.item}>
                                   <View style={styles.name}>
                                       <Image style={styles.img} source={require('../../image/survey_ico2.png')}></Image>
-                                      <Text style={styles.test}>上月同期</Text>
+                                      <Text allowFontScaling={false}style={styles.test}>上月同期</Text>
                                   </View>
                                   <View style={styles.value}>
-                                      <Text style={styles.test}>{this.state.lastMonth}</Text>
+                                      <Text allowFontScaling={false}style={styles.test}>{this.state.lastMonth}</Text>
                                       <Image style={styles.imgline} source={require('../../image/survey_line2.png')}></Image>
                                   </View>
                               </View>
@@ -445,10 +445,10 @@ export class Survey extends Component<any,any> {
                               <View style={styles.item}>
                               <View style={styles.name}>
                                       <Image style={styles.img} source={require('../../image/survey_ico3.png')}></Image>
-                                      <Text style={styles.test}>月趋势</Text>
+                                      <Text allowFontScaling={false}style={styles.test}>月趋势</Text>
                                   </View>
                                   <View style={styles.value}>
-                                      <Text style={styles.test}>{this.state.monthTendency}%</Text>
+                                      <Text allowFontScaling={false}style={styles.test}>{this.state.monthTendency}%</Text>
                                       <Image style={styles.imgline} source={require('../../image/survey_line3.png')}></Image>
                                   </View>
                                   {this.state.monthTendency != ''?
@@ -475,7 +475,7 @@ export class Survey extends Component<any,any> {
               </View>
               {this.state.optionData_1.length > 0?
                 <View style={styles.list}>
-                  <Text style={styles.title}>日平均负荷曲线</Text>
+                  <Text allowFontScaling={false}style={styles.title}>日平均负荷曲线</Text>
                   <View style={styles.echarts}>
                       {/* <my-canvas obj-data="{{optionData_1[0]}}"></my-canvas> */}
                       <MyCanvas objData={this.state.optionData_1[0]}></MyCanvas>
@@ -484,7 +484,7 @@ export class Survey extends Component<any,any> {
               }
               {this.state.optionData_2.length > 0?
                 <View style={styles.list}>
-                  <Text style={styles.title}>历史趋势</Text>
+                  <Text allowFontScaling={false}style={styles.title}>历史趋势</Text>
                   <View style={styles.radio}>
                       <CheckBox
                         containerStyle={styles.radioCk}
@@ -560,7 +560,7 @@ const styles  = StyleSheet.create({
     borderLeftWidth: 2,
     borderStyle:'solid',
     borderColor:'#313131',
-    fontSize: Fs/16,
+    fontSize: Fs/20,
     color: '#313131',
     paddingLeft: 10,
     marginTop:12,
@@ -626,7 +626,7 @@ const styles  = StyleSheet.create({
     flex: 1,
     paddingRight:5,
     paddingLeft:5,
-    fontSize: Fs/20,
+    fontSize: Fs/24,
     color: '#666666',
     overflow: 'hidden',
   },

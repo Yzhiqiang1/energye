@@ -244,7 +244,7 @@ export class WaterAnalysis4 extends Component<any,any> {
                                     click={this.clickStart}
                                 ></Picker>
                             </View>
-                            <Text style={styles.text}>
+                            <Text allowFontScaling={false} style={styles.text}>
                                 至
                             </Text>
                             <View style={styles.flex}>
@@ -255,31 +255,31 @@ export class WaterAnalysis4 extends Component<any,any> {
                                     click={this.clickEnd}
                                 ></Picker>
                             </View>
-                            <Text style={styles.button} onPress={this.clickSearch}>查询</Text>
+                            <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>查询</Text>
                         </View>
                         
                         <View style={styles.echarts_con}>
                             {this.state.optionData.length == 0?
-                                <Text style={styles.empty}>暂无数据</Text>:
+                                <Text allowFontScaling={false} style={styles.empty}>暂无数据</Text>:
                                 <View style={styles.item}>
                                     <View style={styles.name}>
-                                        <Text style={styles.nameText}>损耗分析数据统计</Text>
+                                        <Text allowFontScaling={false} style={styles.nameText}>损耗分析数据统计</Text>
                                     </View>
                                     <View style={styles.table}>
                                         <View style={styles.row}>
-                                            <Text style={styles.th}>回柜名称</Text>
-                                            <Text style={styles.th}>当前支路能耗</Text>
-                                            <Text style={styles.th}>下级支路能耗合计</Text>
-                                            <Text style={styles.th}>当前和下级差值</Text>
-                                            <Text style={styles.th}>相差百分比</Text>
+                                            <Text allowFontScaling={false} style={styles.th}>回柜名称</Text>
+                                            <Text allowFontScaling={false} style={styles.th}>当前支路能耗</Text>
+                                            <Text allowFontScaling={false} style={styles.th}>下级支路能耗合计</Text>
+                                            <Text allowFontScaling={false} style={styles.th}>当前和下级差值</Text>
+                                            <Text allowFontScaling={false} style={styles.th}>相差百分比</Text>
                                         </View>
                                         {this.state.optionData.map((item:any,index:number)=>{
                                             <View key={index} style={[styles.row,index%2 == 0? styles.b1 : null]}>
-                                                <Text style={[styles.td,styles.c1]}>{item.name}</Text>
-                                                <Text style={styles.td}>{item.energy}</Text>
-                                                <Text style={styles.td}>{item.total}</Text>
-                                                <Text style={styles.td}>{item.residue}</Text>
-                                                <Text style={styles.td}>{item.percentage}</Text>
+                                                <Text allowFontScaling={false} style={[styles.td,styles.c1]}>{item.name}</Text>
+                                                <Text allowFontScaling={false} style={styles.td}>{item.energy}</Text>
+                                                <Text allowFontScaling={false} style={styles.td}>{item.total}</Text>
+                                                <Text allowFontScaling={false} style={styles.td}>{item.residue}</Text>
+                                                <Text allowFontScaling={false} style={styles.td}>{item.percentage}</Text>
                                             </View>
                                         })}
                                     </View>
@@ -357,7 +357,7 @@ const styles = StyleSheet.create({
         textAlignVertical: 'center',
         paddingLeft: 12,
         paddingRight: 12,
-        fontSize: Fs/18,
+        fontSize: Fs/22,
         color: '#666666',
         borderStyle:'solid',
         borderWidth: 1,
@@ -407,7 +407,7 @@ const styles = StyleSheet.create({
         height: 40,
         lineHeight: 40,
         textAlignVertical: 'center',
-        fontSize: Fs/18,
+        fontSize: Fs/22,
         textAlign: 'center',
     },
     echarts:{
@@ -421,7 +421,7 @@ const styles = StyleSheet.create({
         paddingTop: 25,
         paddingBottom: 25,
         textAlign: 'center',
-        fontSize: Fs/18,
+        fontSize: Fs/22,
         color: '#999999',
         overflow: 'hidden',
     },
@@ -450,7 +450,7 @@ const styles = StyleSheet.create({
         paddingRight:3,
         paddingLeft:3,
         overflow: 'hidden',
-        fontSize: Fs/18,
+        fontSize: Fs/22,
         color: '#666666',
         textAlign:'center'
 
@@ -462,7 +462,7 @@ const styles = StyleSheet.create({
         paddingRight:3,
         paddingLeft:3,
         overflow: 'hidden',
-        fontSize: Fs/20,
+        fontSize: Fs/24,
         color: '#666666',
         textAlign:'center'
     },
@@ -486,7 +486,7 @@ const styles = StyleSheet.create({
         lineHeight: 30,
         textAlignVertical: 'center',
         paddingRight: 5,
-        fontSize: Fs/20,
+        fontSize: Fs/24,
         color: '#666666',
         overflow: 'hidden',
     }

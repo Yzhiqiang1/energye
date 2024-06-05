@@ -499,9 +499,9 @@ export class GasAnalysis1 extends Component<any,any> {
                     <View style={styleg.container}>
                         {/* 选项卡 */}
                         <View style={styles.tab}>
-                            <Text style={[styles.tabflex,this.state.dataSwitchIn == 0 ? styles.flexIs : null]} onPress={()=>this.clickDataSwitch(0)}>日报</Text>
-                            <Text style={[styles.tabflex,this.state.dataSwitchIn == 1 ? styles.flexIs : null]} onPress={()=>this.clickDataSwitch(1)}>月报</Text>
-                            <Text style={[styles.tabflex,this.state.dataSwitchIn == 2 ? styles.flexIs : null]} onPress={()=>this.clickDataSwitch(2)}>年报</Text>
+                            <Text allowFontScaling={false} style={[styles.tabflex,this.state.dataSwitchIn == 0 ? styles.flexIs : null]} onPress={()=>this.clickDataSwitch(0)}>日报</Text>
+                            <Text allowFontScaling={false} style={[styles.tabflex,this.state.dataSwitchIn == 1 ? styles.flexIs : null]} onPress={()=>this.clickDataSwitch(1)}>月报</Text>
+                            <Text allowFontScaling={false} style={[styles.tabflex,this.state.dataSwitchIn == 2 ? styles.flexIs : null]} onPress={()=>this.clickDataSwitch(2)}>年报</Text>
                         </View>
                         {/* 查询框 */}
                         <View style={styles.query_head}>
@@ -575,17 +575,17 @@ export class GasAnalysis1 extends Component<any,any> {
                                 </View>
                             </View>:''
                         }
-                        <Text style={styles.button} onPress={this.clickSearch}>查询</Text>
+                        <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>查询</Text>
                         </View>
                         <ScrollView style={styles.echarts_con}>
                             {this.state.optionData.length == 0?
-                                <Text style={styles.empty}>暂无数据</Text>:''
+                                <Text allowFontScaling={false} style={styles.empty}>暂无数据</Text>:''
                             }
                             {this.state.optionData.map((item: any,index: number)=>{
                                 return(
                                     item.state == true?
                                     <View style={styles.item} key={index}>
-                                        <Text style={styles.name}>
+                                        <Text allowFontScaling={false} style={styles.name}>
                                             {item.name}
                                         </Text>
                                         <View style={styles.echarts}>
@@ -657,7 +657,7 @@ const styles = StyleSheet.create({
     },
     tabflex:{
         flex: 1,
-        fontSize: Fs/18,
+        fontSize: Fs/22,
         textAlign:'center',
         lineHeight:40,
         height: 40,
@@ -665,7 +665,7 @@ const styles = StyleSheet.create({
     },
     flex:{
         flex: 1,
-        fontSize: Fs/18,
+        fontSize: Fs/22,
         paddingLeft: 10,
         textAlign:'center',
     },
@@ -683,7 +683,7 @@ const styles = StyleSheet.create({
         textAlignVertical: 'center',
         paddingLeft: 12,
         paddingRight: 12,
-        fontSize: Fs/18,
+        fontSize: Fs/22,
         color: '#666666',
         borderStyle:'solid',
         borderWidth: 1,
@@ -711,7 +711,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 40,
         lineHeight: 40,
-        fontSize: Fs/18,
+        fontSize: Fs/22,
         textAlign: 'center',
         borderColor: '#E5E5E5',
         borderBottomWidth: 1,
@@ -729,7 +729,7 @@ const styles = StyleSheet.create({
         paddingTop: 25,
         paddingBottom: 25,
         textAlign: 'center',
-        fontSize: Fs/18,
+        fontSize: Fs/22,
         color: '#999999',
         overflow: 'hidden',
     },

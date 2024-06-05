@@ -378,19 +378,19 @@ export class PowerTest1 extends Component<any,any> {
                                     click={this.clickDate}
                                 ></Picker>
                             </View>
-                            <Text style={styles.button} onPress={this.getCharData}>查询</Text>
-                            <Text style={[styles.button,styles.buttonC1]}  onPress={this.preDate}>上一日</Text>
-                            <Text style={styles.button}  onPress={this.nextData}>下一日</Text>
+                            <Text allowFontScaling={false} style={styles.button} onPress={this.getCharData}>查询</Text>
+                            <Text allowFontScaling={false} style={[styles.button,styles.buttonC1]}  onPress={this.preDate}>上一日</Text>
+                            <Text allowFontScaling={false} style={styles.button}  onPress={this.nextData}>下一日</Text>
                         </View>
                         <ScrollView style={styles.echarts_con}>
                             {this.state.optionData.length == 0?
-                                <Text style={styles.empty}>暂无数据</Text>:''
+                                <Text allowFontScaling={false} style={styles.empty}>暂无数据</Text>:''
                             }
                             {this.state.optionData.map((data:any, index:any) => {
                                 return(
                                     data.state == true?
                                     <View key={index} style={styles.item}>
-                                        <Text style={styles.name}>
+                                        <Text allowFontScaling={false} style={styles.name}>
                                             {data.name}
                                         </Text>
                                         <View style={styles.echarts}>
@@ -437,7 +437,7 @@ const styles = StyleSheet.create({
         textAlignVertical: 'center',
         paddingLeft: 12,
         paddingRight: 12,
-        fontSize: Fs/18,
+        fontSize: Fs/22,
         color: '#666666',
         borderStyle:'solid',
         borderWidth: 1,
@@ -467,7 +467,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 40,
         lineHeight: 40,
-        fontSize: Fs/18,
+        fontSize: Fs/22,
         textAlign: 'center',
         borderBottomColor: '#E5E5E5',
         borderBottomWidth: 0.3,
@@ -485,7 +485,7 @@ const styles = StyleSheet.create({
         paddingTop: 25,
         paddingBottom: 25,
         textAlign: 'center',
-        fontSize: Fs/18,
+        fontSize: Fs/22,
         color: '#999999',
         overflow: 'hidden',
     },

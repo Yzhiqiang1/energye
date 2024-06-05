@@ -276,7 +276,7 @@ export class Picker extends Component<any,any> {
             this.props.pickerType == 1?
             <View>
                 <Pressable style={styleg.button} onPress={()=>{this.setState({open:true})}}>
-                    <Text style={styleg.TextButton}>{this.state.dateName}</Text>
+                    <Text allowFontScaling={false} style={styleg.TextButton}>{this.state.dateName}</Text>
                     <Image style={styleg.ico} source={require('../../image/down.png')}></Image>
                 </Pressable>
                 <Modal 
@@ -290,8 +290,8 @@ export class Picker extends Component<any,any> {
                     deviceHeight={Dimensions.get('screen').height}>
                     <View style={[styles.dialogBox,{position: 'absolute',zIndex: 999}]}>
                         <View style={styles.butTop}>
-                            <Text style={styles.bot} onPress={()=>{this.setState({open:false})}}>取消</Text>
-                            <Text style={[styles.bot,styles.right]} onPress={this.confirm}>确定</Text>
+                            <Text allowFontScaling={false} style={styles.bot} onPress={()=>{this.setState({open:false})}}>取消</Text>
+                            <Text allowFontScaling={false} style={[styles.bot,styles.right]} onPress={this.confirm}>确定</Text>
                         </View>
                         <DatePickerView
                             precision={this.state.precision}
@@ -308,8 +308,8 @@ export class Picker extends Component<any,any> {
                     onBackdropPress={this.pressable}
                 >
                     <View style={styles.butTop}>
-                        <Text style={styles.bot} onPress={()=>{this.setState({open:false})}}>取消</Text>
-                        <Text style={[styles.bot,styles.right]} onPress={this.confirm}>确定</Text>
+                        <Text allowFontScaling={false} style={styles.bot} onPress={()=>{this.setState({open:false})}}>取消</Text>
+                        <Text allowFontScaling={false} style={[styles.bot,styles.right]} onPress={this.confirm}>确定</Text>
                     </View>
                     <DatePickerView
                         precision={this.state.precision}
@@ -322,7 +322,7 @@ export class Picker extends Component<any,any> {
             this.props.pickerType == 2?
             <View>
                 <Pressable style={styleg.button} onPress={()=>{this.setState({open:true})}}>
-                    <Text style={styleg.TextButton}>{this.state.startDay+this.props.text +' 至 '+ this.state.endDay+this.props.text}</Text>
+                    <Text allowFontScaling={false} style={styleg.TextButton}>{this.state.startDay+this.props.text +' 至 '+ this.state.endDay+this.props.text}</Text>
                     <Image style={styleg.ico} source={require('../../image/down.png')}></Image>
                 </Pressable>
                 {/* <Dialog 
@@ -332,8 +332,8 @@ export class Picker extends Component<any,any> {
                     onBackdropPress={this.pressable}
                 >
                     <View style={styles.butTop}>
-                        <Text style={styles.bot} onPress={()=>{this.setState({open:false})}}>取消</Text>
-                        <Text style={[styles.bot,styles.right]} onPress={this.uniteConfirm}>确定</Text>
+                        <Text allowFontScaling={false} style={styles.bot} onPress={()=>{this.setState({open:false})}}>取消</Text>
+                        <Text allowFontScaling={false} style={[styles.bot,styles.right]} onPress={this.uniteConfirm}>确定</Text>
                     </View>
 
                     <View style={{display:'flex',flexDirection:'row'}}>
@@ -364,8 +364,8 @@ export class Picker extends Component<any,any> {
                     deviceHeight={Dimensions.get('screen').height}>
                     <View style={[styles.dialogBox,{position: 'absolute',zIndex: 999}]}>
                         <View style={styles.butTop}>
-                            <Text style={styles.bot} onPress={()=>{this.setState({open:false})}}>取消</Text>
-                            <Text style={[styles.bot,styles.right]} onPress={this.uniteConfirm}>确定</Text>
+                            <Text allowFontScaling={false} style={styles.bot} onPress={()=>{this.setState({open:false})}}>取消</Text>
+                            <Text allowFontScaling={false} style={[styles.bot,styles.right]} onPress={this.uniteConfirm}>确定</Text>
                         </View>
 
                         <View style={{display:'flex',flexDirection:'row'}}>
@@ -390,7 +390,7 @@ export class Picker extends Component<any,any> {
             this.props.pickerType == 3?
             <View>
                 <Pressable style={styleg.button} onPress={()=>{this.setState({open:true})}}>
-                    <Text style={styleg.TextButton}>{this.state.week}</Text>
+                    <Text allowFontScaling={false} style={styleg.TextButton}>{this.state.week}</Text>
                     <Image style={styleg.ico} source={require('../../image/down.png')}></Image>
                 </Pressable>
                 {/* <Dialog 
@@ -400,8 +400,8 @@ export class Picker extends Component<any,any> {
                 onBackdropPress={this.pressable}
                 >
                     <View style={styles.butTop}>
-                        <Text style={styles.bot} onPress={()=>{this.setState({open:false})}}>取消</Text>
-                        <Text style={[styles.bot,styles.right]} onPress={this.weekConfirm}>确定</Text>
+                        <Text allowFontScaling={false} style={styles.bot} onPress={()=>{this.setState({open:false})}}>取消</Text>
+                        <Text allowFontScaling={false} style={[styles.bot,styles.right]} onPress={this.weekConfirm}>确定</Text>
                     </View>
 
                     <View>
@@ -424,8 +424,8 @@ export class Picker extends Component<any,any> {
                     deviceHeight={Dimensions.get('screen').height}>
                     <View style={[styles.dialogBox,{position: 'absolute',zIndex: 999}]}>
                         <View style={styles.butTop}>
-                            <Text style={styles.bot} onPress={()=>{this.setState({open:false})}}>取消</Text>
-                            <Text style={[styles.bot,styles.right]} onPress={this.weekConfirm}>确定</Text>
+                            <Text allowFontScaling={false} style={styles.bot} onPress={()=>{this.setState({open:false})}}>取消</Text>
+                            <Text allowFontScaling={false} style={[styles.bot,styles.right]} onPress={this.weekConfirm}>确定</Text>
                         </View>
 
                         <View>
@@ -441,7 +441,7 @@ export class Picker extends Component<any,any> {
             this.props.pickerType == 4?
             <View>
                 <Pressable style={styleg.button} onPress={()=>{this.setState({open:true})}}>
-                    <Text style={styleg.TextButton}>{this.state.data}</Text>
+                    <Text allowFontScaling={false} style={styleg.TextButton}>{this.state.data}</Text>
                     <Image style={styleg.ico} source={require('../../image/down.png')}></Image>
                 </Pressable>
                 {/* <Dialog 
@@ -451,8 +451,8 @@ export class Picker extends Component<any,any> {
                 onBackdropPress={this.pressable}
                 >
                     <View style={styles.butTop}>
-                        <Text style={styles.bot} onPress={()=>{this.setState({open:false})}}>取消</Text>
-                        <Text style={[styles.bot,styles.right]} onPress={this.dataConfirm}>确定</Text>
+                        <Text allowFontScaling={false} style={styles.bot} onPress={()=>{this.setState({open:false})}}>取消</Text>
+                        <Text allowFontScaling={false} style={[styles.bot,styles.right]} onPress={this.dataConfirm}>确定</Text>
                     </View>
 
                     <View>
@@ -474,8 +474,8 @@ export class Picker extends Component<any,any> {
                     deviceHeight={Dimensions.get('screen').height}>
                     <View style={[styles.dialogBox,{position: 'absolute',zIndex: 999}]}>
                         <View style={styles.butTop}>
-                            <Text style={styles.bot} onPress={()=>{this.setState({open:false})}}>取消</Text>
-                            <Text style={[styles.bot,styles.right]} onPress={this.dataConfirm}>确定</Text>
+                            <Text allowFontScaling={false} style={styles.bot} onPress={()=>{this.setState({open:false})}}>取消</Text>
+                            <Text allowFontScaling={false} style={[styles.bot,styles.right]} onPress={this.dataConfirm}>确定</Text>
                         </View>
 
                         <View>
@@ -497,7 +497,7 @@ const styles = StyleSheet.create({
         height: 30,
         lineHeight: 30,
         textAlignVertical: 'center',
-        fontSize: Fs/18,
+        fontSize: Fs/22,
         borderStyle: 'solid',
         borderWidth: 1,
         borderColor: '#333',
@@ -520,7 +520,7 @@ const styles = StyleSheet.create({
         paddingLeft: 20,
     },
     bot:{
-        fontSize: Fs/18,
+        fontSize: Fs/22,
         lineHeight: 40,
     },
     right:{

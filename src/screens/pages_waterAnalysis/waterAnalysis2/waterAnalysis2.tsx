@@ -267,13 +267,13 @@ export class WaterAnalysis2 extends Component<any,any> {
                                     click={this.clickDate}
                                 ></Picker>
                             </View>
-                            <Text style={styles.button} onPress={this.clickSearch}>查询</Text>
-                            <Text style={[styles.button,styles.buttonC1]} onPress={this.preDate}>上一年</Text>
-                            <Text style={styles.button} onPress={this.nextData}>下一年</Text>
+                            <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>查询</Text>
+                            <Text allowFontScaling={false} style={[styles.button,styles.buttonC1]} onPress={this.preDate}>上一年</Text>
+                            <Text allowFontScaling={false} style={styles.button} onPress={this.nextData}>下一年</Text>
                         </View>
                         <View style={styles.echarts_con}>
                             {this.state.optionData.length == 0?
-                                <Text style={styles.empty}>暂无数据</Text>:''
+                                <Text allowFontScaling={false} style={styles.empty}>暂无数据</Text>:''
                             }
                             {/* 柱形图 */}
                             {this.state.optionData.map((item:any,index:number)=>{
@@ -293,26 +293,26 @@ export class WaterAnalysis2 extends Component<any,any> {
                             {this.state.optionData.map((item:any,index:number)=>{
                                 return(
                                     <View style={styles.item} key={index}>
-                                        <Text style={styles.name}>
+                                        <Text allowFontScaling={false} style={styles.name}>
                                             列表
                                         </Text>
                                         <View style={styles.echarts}>
                                             <View style={styles.table}>
                                                 <View style={styles.row}>
-                                                    <Text style={styles.th}>月份</Text>
-                                                    <Text style={styles.th}>本期</Text>
-                                                    <Text style={styles.th}>同期</Text>
-                                                    <Text style={styles.th}>同比(%)</Text>
-                                                    <Text style={styles.th}>累计同比(%)</Text>
+                                                    <Text allowFontScaling={false} style={styles.th}>月份</Text>
+                                                    <Text allowFontScaling={false} style={styles.th}>本期</Text>
+                                                    <Text allowFontScaling={false} style={styles.th}>同期</Text>
+                                                    <Text allowFontScaling={false} style={styles.th}>同比(%)</Text>
+                                                    <Text allowFontScaling={false} style={styles.th}>累计同比(%)</Text>
                                                 </View>
                                                 {this.state.optionData2.map((item:any,index1:Number)=>{
                                                     return(
                                                         <View style={[styles.row,index%2 == 0? styles.b1 : null]}>
-                                                            <Text style={[styles.td,styles.c1]}>{item.month}</Text>
-                                                            <Text style={styles.td}>{item.cha1}</Text>
-                                                            <Text style={styles.td}>{item.cha2}</Text>
-                                                            <Text style={styles.td}>{item.tb1}</Text>
-                                                            <Text style={styles.td}>{item.tb2}</Text>
+                                                            <Text allowFontScaling={false} style={[styles.td,styles.c1]}>{item.month}</Text>
+                                                            <Text allowFontScaling={false} style={styles.td}>{item.cha1}</Text>
+                                                            <Text allowFontScaling={false} style={styles.td}>{item.cha2}</Text>
+                                                            <Text allowFontScaling={false} style={styles.td}>{item.tb1}</Text>
+                                                            <Text allowFontScaling={false} style={styles.td}>{item.tb2}</Text>
                                                         </View>
                                                     )
                                                 })}
@@ -385,7 +385,7 @@ const styles = StyleSheet.create({
     },
     tabflex:{
         flex: 1,
-        fontSize: Fs/18,
+        fontSize: Fs/22,
         textAlign:'center',
         lineHeight:40,
         height: 40,
@@ -393,7 +393,7 @@ const styles = StyleSheet.create({
     },
     flex:{
         flex: 1,
-        fontSize: Fs/18,
+        fontSize: Fs/22,
         textAlign:'center',
     },
     button:{
@@ -404,7 +404,7 @@ const styles = StyleSheet.create({
         textAlignVertical: 'center',
         paddingLeft: 12,
         paddingRight: 12,
-        fontSize: Fs/18,
+        fontSize: Fs/22,
         color: '#666666',
         borderStyle:'solid',
         borderWidth: 1,
@@ -436,7 +436,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 40,
         lineHeight: 40,
-        fontSize: Fs/18,
+        fontSize: Fs/22,
         textAlign: 'center',
         borderColor: '#E5E5E5',
         borderBottomWidth: 1,
@@ -454,7 +454,7 @@ const styles = StyleSheet.create({
         paddingTop: 25,
         paddingBottom: 25,
         textAlign: 'center',
-        fontSize: Fs/18,
+        fontSize: Fs/22,
         color: '#999999',
         overflow: 'hidden',
     },
@@ -475,7 +475,7 @@ const styles = StyleSheet.create({
         paddingRight:3,
         paddingLeft:3,
         overflow: 'hidden',
-        fontSize: Fs/18,
+        fontSize: Fs/22,
         color: '#666666',
         textAlign:'center'
 
@@ -487,7 +487,7 @@ const styles = StyleSheet.create({
         paddingRight:3,
         paddingLeft:3,
         overflow: 'hidden',
-        fontSize: Fs/20,
+        fontSize: Fs/24,
         color: '#666666',
         textAlign:'center'
     },

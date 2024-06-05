@@ -143,7 +143,7 @@ export class MyLegend extends React.Component<any,any> {
                 </View>
                 {/* 弹出框按钮  contentSel.length*/}
                 <Pressable style={styles.dial} onPress={this.showPopup}>
-                    <Text style={styles.dialText}>已选中{this.state.n}种谐波含量</Text>
+                    <Text allowFontScaling={false} style={styles.dialText}>已选中{this.state.n}种谐波含量</Text>
                     <Image style={styleg.ico} source={require('../../image/down.png')}></Image>
                 </Pressable>
                 <Dialog 
@@ -188,7 +188,7 @@ export class MyLegend extends React.Component<any,any> {
                                 size={20}
                                 />
                                 <View style={styles.dialBottom}>
-                                    <Text style={styles.button} onPress={this.onTap}>确定</Text>
+                                    <Text allowFontScaling={false} style={styles.button} onPress={this.onTap}>确定</Text>
                                 </View>
                             </View>
                         </View>
@@ -212,7 +212,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#fff',
         overflow: 'hidden',
-        fontSize: Fs/20,
+        fontSize: Fs/24,
     },
     
     dial :{
@@ -233,7 +233,7 @@ const styles = StyleSheet.create({
         flex: 2.2,
     },
     dialText:{
-        fontSize: Fs/20,
+        fontSize: Fs/24,
         color: '#666666',
         marginRight: 5,
     },

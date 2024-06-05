@@ -477,7 +477,7 @@ export class TimeLine extends Component<any,any> {
                                             <View 
                                                 key={index_r}
                                                 style={[styles.itemUnavail,{height:item_r.height,top:item_r.top}]}>
-                                                <Text>{item.height}</Text>
+                                                <Text allowFontScaling={false}>{item.height}</Text>
                                             </View>
                                         )
                                     })}

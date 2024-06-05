@@ -3,7 +3,6 @@ import {Text, View, Image, TextInput, ScrollView, Dimensions, Pressable, SafeAre
 import React, { Component } from 'react'
 import { StyleSheet } from 'react-native'
 import styleg from '../../indexCss'//公共样式
-import Menu from '../../component/menu/menu'//底部导航组件
 import {HttpService} from '../../utils/http'
 import { Register } from '../../utils/app'
 import store from '../../redux/store'
@@ -200,13 +199,13 @@ export class Configuration extends Component<any,any> {
               <Pressable style={styles.navLeft} onPress={()=>{this.props.navigation.navigate('HomeBar')}}>
                 <Image style={styles.navImg} source={require('../../image/Home.png')}></Image>
               </Pressable>
-              <Text style={styles.navName}>云组态</Text>
+              <Text style={styles.navName} allowFontScaling={false}>云组态</Text>
             </View>
 
             <View style={styles.head}>
               <View style={styles.search}>
                   <View style={styles.flex}>
-                      <TextInput style={styles.input} value={this.state.searchVal} placeholder='关键字搜索' onChangeText={this._search} ></TextInput>
+                      <TextInput style={styles.input} value={this.state.searchVal} allowFontScaling={false} placeholder='关键字搜索' onChangeText={this._search} ></TextInput>
                       {this.state.searchVal!=''?
                         <Pressable style={styles.close} onPress={this.searchClose}>
                             <Image style={styles.closeimg} source={require('../../image/search-close.png')}></Image>
@@ -215,22 +214,22 @@ export class Configuration extends Component<any,any> {
                   </View>
                   <Pressable style={styles.button} onPress={this.searchSubmit}>
                       <Image style={styles.ico} source={require('../../image/searcha.png')} ></Image>
-                      <Text style={styles.searchT}>搜索</Text>
+                      <Text style={styles.searchT} allowFontScaling={false}>搜索</Text>
                   </Pressable>
               </View>
               <View style={styles.allowance}>
-                  <Text style={styles.name}>我的组态</Text>
+                  <Text style={styles.name} allowFontScaling={false}>我的组态</Text>
                   <View style={styles.number}>
                     <View style={styles.numberSpot1}></View>
-                    <Text style={styles.Spot}>总计 {this.state.objList.cfgnum}</Text>
+                    <Text style={styles.Spot} allowFontScaling={false}>总计 {this.state.objList.cfgnum}</Text>
                   </View>
                   <View style={styles.number}>
                     <View style={styles.numberSpot2}></View>
-                    <Text style={styles.Spot}>已用 {this.state.objList.count}</Text>
+                    <Text style={styles.Spot} allowFontScaling={false}>已用 {this.state.objList.count}</Text>
                   </View>
                   <View style={styles.number}>
                     <View style={styles.numberSpot3}></View>
-                    <Text style={styles.Spot}>剩余 {this.state.objList ? this.state.objList.cfgnum - this.state.objList.count:''}</Text>
+                    <Text style={styles.Spot} allowFontScaling={false}>剩余 {this.state.objList ? this.state.objList.cfgnum - this.state.objList.count:''}</Text>
                   </View>
               </View>
             </View>
@@ -240,14 +239,14 @@ export class Configuration extends Component<any,any> {
                   <View style={styles.box}>
                   {this.state.objArr.map((data:any, index:any) => {
                     return (
-                      <Shadow distance={2} style={[styles.row,styles.rowR]}  key={index}>
+                      <Shadow distance={1} style={[styles.row,styles.rowR]}  key={index}>
                           <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': 'white'},styles.item]}
                             onPress={()=>{this.props.navigation.navigate('ConfigurationDetails',{url:data.url,name:data.appname})}}
                           >
                               <View style={styles.images}>
                                   <Image style={styles.img} source={{uri:'https://www.energye.cn/images/zutai/Not.png'}}></Image>
                               </View>
-                              <Text style={styles.Scrollname}>{data.appname}</Text>
+                              <Text style={styles.Scrollname} allowFontScaling={false}>{data.appname}</Text>
                           </Pressable>
                       </Shadow>
                     );
@@ -257,13 +256,13 @@ export class Configuration extends Component<any,any> {
                 {this.state.LoginStatus == 2?
                   <View>
                     {this.state.objArr.length > 0 && this.state.isLastPage == true?
-                      <Text style={styles.isPageTxt}>
+                      <Text style={styles.isPageTxt} allowFontScaling={false}>
                           已加载所有数据
                       </Text> : ''
                     }
                   
                     {this.state.objArr.length == 0 && this.state.isPageLoad == true?
-                      <Text style={styles.nothing}>
+                      <Text style={styles.nothing} allowFontScaling={false}>
                         未查询到数据
                       </Text>:''
                     }
@@ -274,7 +273,7 @@ export class Configuration extends Component<any,any> {
                       </View>:''
                     }
                   </View> :
-                    <Text style={styles.notLoggedIn}>
+                    <Text style={styles.notLoggedIn} allowFontScaling={false}>
                       您还未登录，
                       {/*  */}
                         <Text style={styles.url} onPress={()=>this.props.navigation.navigate('BindAccount')}>点击登录</Text>
@@ -322,7 +321,7 @@ const styles = StyleSheet.create({
     lineHeight:ht/10,
     textAlignVertical: 'center',
     textAlign:'center',
-    fontSize:Fs/16,
+    fontSize:Fs/18,
     color:'#fff'
   },
   head:{
@@ -339,8 +338,8 @@ const styles = StyleSheet.create({
   search:{
     position: 'relative',
     width: '100%',
-    height: 40,
-    marginTop: 10,
+    height: ht/6/2,
+    marginTop: 5,
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
@@ -358,7 +357,7 @@ const styles = StyleSheet.create({
     paddingLeft: 5,
     paddingRight: 5,
     color: '#333',
-    fontSize: Fs/18,
+    fontSize: Fs/20,
     borderStyle: 'solid',
     borderWidth:1,
     borderColor: '#f2f2f2',
@@ -398,7 +397,7 @@ const styles = StyleSheet.create({
     lineHeight: 35,
     textAlignVertical: 'center',
     color:'#fff',
-    fontSize: Fs/18,
+    fontSize: Fs/20,
   },
   ico:{
     position: 'absolute',
@@ -425,7 +424,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
     color: '#1890FF',
     fontWeight: '700',
-    fontSize: Fs/18,
+    fontSize: Fs/20,
     overflow: 'hidden',
   },
   number:{
@@ -441,7 +440,7 @@ const styles = StyleSheet.create({
   Spot: {
     height: 30,
     color: '#333',
-    fontSize: Fs/20,
+    fontSize: Fs/24,
     lineHeight: 30,
     textAlignVertical: 'center',
   },
@@ -521,7 +520,7 @@ const styles = StyleSheet.create({
     height: 40,
     lineHeight: 40,
     textAlign: 'center',
-    fontSize: Fs/18,
+    fontSize: Fs/20,
     color: '#333333',
     overflow: 'hidden',
   },
@@ -531,7 +530,7 @@ const styles = StyleSheet.create({
     height: 40,
     lineHeight: 40,
     textAlign: 'center',
-    fontSize: Fs/18,
+    fontSize: Fs/20,
     color: '#666',
     marginBottom: 10,
     overflow: 'hidden',
@@ -557,7 +556,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 35,
     lineHeight: 35,
-    fontSize: Fs/20,
+    fontSize: Fs/24,
     color: '#999',
     textAlign: 'center',
     overflow: 'hidden',
@@ -565,8 +564,8 @@ const styles = StyleSheet.create({
   url:{
     color: '#4395ff',
     textDecorationLine:'underline',
-    fontSize: Fs/20,
+    fontSize: Fs/24,
   },
-}) 
+})
 
 export default Configuration
