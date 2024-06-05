@@ -14,7 +14,8 @@ export class Loading extends Component<any,any> {
     render() {
         return (
             this.props.type == 1 ?
-            <Dialog 
+            <View>
+                <Dialog 
                 overlayStyle={[
                     styles.Loading,
                     Platform.OS === 'ios' ? { transform: [{ translateY: 1 }] } : {},
@@ -26,14 +27,17 @@ export class Loading extends Component<any,any> {
                 <Dialog.Loading />
                 <Text style={styles.text}>{this.props.LoadingMsg}</Text>
             </Dialog>
+            </View>
             :
-            <Dialog 
-                overlayStyle={[styles.showLoading,Platform.OS === 'ios' ? { transform: [{ translateY: 1 }] } : {},]} 
-                isVisible={this.props.visible}
-                backdropStyle={{height: 0}}
-                >
-                <Text style={styles.showText}>{this.props.LoadingMsg}</Text>
-            </Dialog>
+            <View>
+                <Dialog 
+                    overlayStyle={[styles.showLoading,Platform.OS === 'ios' ? { transform: [{ translateY: 1 }] } : {},]} 
+                    isVisible={this.props.visible}
+                    backdropStyle={{height: 0}}
+                    >
+                    <Text style={styles.showText}>{this.props.LoadingMsg}</Text>
+                </Dialog>
+            </View>
         )
     }
 }

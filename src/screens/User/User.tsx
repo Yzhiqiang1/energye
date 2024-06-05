@@ -178,17 +178,11 @@ export class User extends Component<any,any> {
               }
             </View>
             {/* 弹窗效果组件 */}
-            <Dialog 
-                isVisible={!this.state.visible}
-                >
-                <Dialog.Loading />
-                <Text onPress={()=>this.setState({visible: true})}>对话框</Text>
-            </Dialog>
-            {/* <Loading 
+            <Loading 
                 type={this.state.msgType} 
                 visible={this.state.visible} 
                 LoadingMsg={this.state.LoadingMsg}>
-            </Loading> */}
+            </Loading>
           </View>
         </SafeAreaView>
       </View>

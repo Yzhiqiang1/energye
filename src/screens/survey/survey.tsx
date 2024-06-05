@@ -340,205 +340,203 @@ export class Survey extends Component<any,any> {
         })
     });
   }
-  SC =()=>{
-      cs.measure((x: any, y: any,width:any, height:any )=>{
-        console.log(x,y);
-        console.log(width,height);
-      })
-  }
   render() {
     return (
-      <SafeAreaView style={{flex: 1,width:'100%',height:'100%',}} ref={(ref)=>{cs=ref}}>
-         {/* 引入自定义导航栏 */}
-        <Navbar 
-            pageName={"用能概况"}
-            showBack={true}
-            showHome={false}
-            isCheck={3}
-            LoginStatus={this.state.LoginStatus}
-            props={this.props}
-            handleSelect={this.handleSelect}
-        >
-        </Navbar>
-        {/* 内容区 */}
-        <ScrollView style={styleg.container}>
-             <View style={styles.list}>
-                <Text  style={[styles.title]} onPress={this.SC}>环比(单位：kW·h)</Text>
-                <View style={styles.con}>
-                    <View style={styles.row}>
-                        <View style={[styles.row33,styles.pl]}>
-                            <View style={styles.item}>
-                                <View style={styles.name}>
-                                    <Image style={styles.img} source={require('../../image/survey_ico1.png')}></Image>
-                                    <Text style={styles.test}>当日用能</Text>
-                                </View>
-                                <View style={styles.value}>
-                                    <Text style={styles.test}>{this.state.toDay}</Text>
-                                    <Image style={styles.imgline} source={require('../../image/survey_line1.png')}></Image>
-                                </View>
-                            </View>
-                        </View>
-                         <View style={[styles.row33,styles.pl]}>
-                            <View style={styles.item}>
-                                <View style={styles.name}>
-                                    <Image style={styles.img} source={require('../../image/survey_ico2.png')}></Image>
-                                    <Text style={styles.test}>昨日同期</Text>
-                                </View>
-                                <View style={styles.value}>
-                                    <Text style={styles.test}>{this.state.lastDay}</Text>
-                                    <Image style={styles.imgline} source={require('../../image/survey_line2.png')}></Image>
-                                </View>
-                            </View>
-                        </View>
-                        <View style={[styles.row33,styles.pr]}>
-                            <View style={styles.item}>
-                                <View style={styles.name}>
-                                    <Image style={styles.img} source={require('../../image/survey_ico3.png')}></Image>
-                                    <Text style={styles.test}>日趋势</Text>
-                                </View>
-                                <View style={styles.value}>
-                                    <Text style={styles.test}>{this.state.dayTendency}%</Text>
-                                    <Image style={styles.imgline} source={require('../../image/survey_line3.png')}></Image>
-                                </View>
-                                {this.state.dayTendency!= ''?
-                                  this.state.dayTendency>=0?
-                                  <View style={styles.tenbox}>
-                                    <Image 
-                                    style={styles.tendency}
-                                    source={require('../../image/survey_up.png')} 
-                                    ></Image>
-                                  </View>
-                                  :
-                                  <View style={styles.tenbox}>
-                                     <Image 
-                                      style={styles.tendency}
-                                      source={require('../../image/survey_down.png')} 
-                                      ></Image>
-                                   </View>
-                                  : ''}
-                            </View>
-                        </View> 
-                    </View>
-                    <View style={styles.row}>
-                        <View style={[styles.row33,styles.pl]}>
-                            <View style={styles.item}>
-                                <View style={styles.name}>
-                                    <Image style={styles.img} source={require('../../image/survey_ico1.png')}></Image>
-                                    <Text style={styles.test}>当月用能</Text>
-                                </View>
-                                <View style={styles.value}>
-                                    <Text style={styles.test}>{this.state.toMonth}</Text>
-                                    <Image style={styles.imgline} source={require('../../image/survey_line1.png')}></Image>
-                                </View>
-                            </View>
-                        </View>
-                        <View style={styles.row33}>
-                            <View style={styles.item}>
-                                <View style={styles.name}>
-                                    <Image style={styles.img} source={require('../../image/survey_ico2.png')}></Image>
-                                    <Text style={styles.test}>上月同期</Text>
-                                </View>
-                                <View style={styles.value}>
-                                    <Text style={styles.test}>{this.state.lastMonth}</Text>
-                                    <Image style={styles.imgline} source={require('../../image/survey_line2.png')}></Image>
-                                </View>
-                            </View>
-                        </View>
-                        <View style={styles.row33}>
-                            <View style={styles.item}>
-                            <View style={styles.name}>
-                                    <Image style={styles.img} source={require('../../image/survey_ico3.png')}></Image>
-                                    <Text style={styles.test}>月趋势</Text>
-                                </View>
-                                <View style={styles.value}>
-                                    <Text style={styles.test}>{this.state.monthTendency}%</Text>
-                                    <Image style={styles.imgline} source={require('../../image/survey_line3.png')}></Image>
-                                </View>
-                                {this.state.monthTendency != ''?
-                                  this.state.monthTendency>=0?
-                                  <View style={styles.tenbox}>
-                                    <Image 
-                                    style={styles.tendency}
-                                    source={require('../../image/survey_up.png')} 
-                                    ></Image>
-                                  </View>
-                                  :
-                                  <View style={styles.tenbox}>
-                                     <Image 
-                                      style={styles.tendency}
-                                      source={require('../../image/survey_down.png')} 
-                                      ></Image>
-                                   </View>
-                                  :'' 
-                                }
-                            </View>
-                        </View>
-                    </View>
-                </View>
-            </View>
-            {this.state.optionData_1.length > 0?
+      <View style={{flex: 1}}>
+        <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
+        </View>
+        <SafeAreaView style={{flex: 1}}>
+          {/* 引入自定义导航栏 */}
+          <Navbar 
+              pageName={"用能概况"}
+              showBack={true}
+              showHome={false}
+              isCheck={3}
+              LoginStatus={this.state.LoginStatus}
+              props={this.props}
+              handleSelect={this.handleSelect}
+          >
+          </Navbar>
+          {/* 内容区 */}
+          <ScrollView style={styleg.container}>
               <View style={styles.list}>
-                <Text style={styles.title}>日平均负荷曲线</Text>
-                <View style={styles.echarts}>
-                    {/* <my-canvas obj-data="{{optionData_1[0]}}"></my-canvas> */}
-                    <MyCanvas objData={this.state.optionData_1[0]}></MyCanvas>
-                </View>
-              </View>:''
-            }
-            {this.state.optionData_2.length > 0?
-              <View style={styles.list}>
-                <Text style={styles.title}>历史趋势</Text>
-                <View style={styles.radio}>
-                    <CheckBox
-                      containerStyle={styles.radioCk}
-                      checked={this.state._radio === '48h'}
-                      onPress={() => this.onChange('48h')}
-                      title={'过去48时'}
-                      size={16}
-                      checkedIcon="dot-circle-o"
-                      uncheckedIcon="circle-o"
-                    />
-                    <CheckBox
-                      containerStyle={styles.radioCk}
-                      checked={this.state._radio === '31d'}
-                      onPress={() => this.onChange('31d')}
-                      title={'过去31天'}
-                      size={16}
-                      checkedIcon="dot-circle-o"
-                      uncheckedIcon="circle-o"
-                    />
-                    <CheckBox
-                      containerStyle={styles.radioCk}
-                      checked={this.state._radio === '12M'}
-                      onPress={() => this.onChange('12M')}
-                      title={'过去12月'}
-                      size={16}
-                      checkedIcon="dot-circle-o"
-                      uncheckedIcon="circle-o"
-                    />
-                    <CheckBox
-                      containerStyle={styles.radioCk}
-                      checked={this.state._radio === '3y'}
-                      onPress={() => this.onChange('3y')}
-                      title={'过去3年'}
-                      size={16}
-                      checkedIcon="dot-circle-o"
-                      uncheckedIcon="circle-o"
-                    />
-                </View>
-                <View style={styles.echarts}>
-                    <MyCanvas objData={this.state.optionData_2[0]}></MyCanvas>
-                </View>
-            </View> :''
-            }
-        </ScrollView>
-        {/* 弹窗效果 */}
-        <Loading 
-            type={this.state.msgType} 
-            visible={this.state.visible} 
-            LoadingMsg={this.state.LoadingMsg}>
-        </Loading>
-      </SafeAreaView>
+                  <Text  style={[styles.title]}>环比(单位：kW·h)</Text>
+                  <View style={styles.con}>
+                      <View style={styles.row}>
+                          <View style={[styles.row33,styles.pl]}>
+                              <View style={styles.item}>
+                                  <View style={styles.name}>
+                                      <Image style={styles.img} source={require('../../image/survey_ico1.png')}></Image>
+                                      <Text style={styles.test}>当日用能</Text>
+                                  </View>
+                                  <View style={styles.value}>
+                                      <Text style={styles.test}>{this.state.toDay}</Text>
+                                      <Image style={styles.imgline} source={require('../../image/survey_line1.png')}></Image>
+                                  </View>
+                              </View>
+                          </View>
+                          <View style={[styles.row33,styles.pl]}>
+                              <View style={styles.item}>
+                                  <View style={styles.name}>
+                                      <Image style={styles.img} source={require('../../image/survey_ico2.png')}></Image>
+                                      <Text style={styles.test}>昨日同期</Text>
+                                  </View>
+                                  <View style={styles.value}>
+                                      <Text style={styles.test}>{this.state.lastDay}</Text>
+                                      <Image style={styles.imgline} source={require('../../image/survey_line2.png')}></Image>
+                                  </View>
+                              </View>
+                          </View>
+                          <View style={[styles.row33,styles.pr]}>
+                              <View style={styles.item}>
+                                  <View style={styles.name}>
+                                      <Image style={styles.img} source={require('../../image/survey_ico3.png')}></Image>
+                                      <Text style={styles.test}>日趋势</Text>
+                                  </View>
+                                  <View style={styles.value}>
+                                      <Text style={styles.test}>{this.state.dayTendency}%</Text>
+                                      <Image style={styles.imgline} source={require('../../image/survey_line3.png')}></Image>
+                                  </View>
+                                  {this.state.dayTendency!= ''?
+                                    this.state.dayTendency>=0?
+                                    <View style={styles.tenbox}>
+                                      <Image 
+                                      style={styles.tendency}
+                                      source={require('../../image/survey_up.png')} 
+                                      ></Image>
+                                    </View>
+                                    :
+                                    <View style={styles.tenbox}>
+                                      <Image 
+                                        style={styles.tendency}
+                                        source={require('../../image/survey_down.png')} 
+                                        ></Image>
+                                    </View>
+                                    : ''}
+                              </View>
+                          </View> 
+                      </View>
+                      <View style={styles.row}>
+                          <View style={[styles.row33,styles.pl]}>
+                              <View style={styles.item}>
+                                  <View style={styles.name}>
+                                      <Image style={styles.img} source={require('../../image/survey_ico1.png')}></Image>
+                                      <Text style={styles.test}>当月用能</Text>
+                                  </View>
+                                  <View style={styles.value}>
+                                      <Text style={styles.test}>{this.state.toMonth}</Text>
+                                      <Image style={styles.imgline} source={require('../../image/survey_line1.png')}></Image>
+                                  </View>
+                              </View>
+                          </View>
+                          <View style={styles.row33}>
+                              <View style={styles.item}>
+                                  <View style={styles.name}>
+                                      <Image style={styles.img} source={require('../../image/survey_ico2.png')}></Image>
+                                      <Text style={styles.test}>上月同期</Text>
+                                  </View>
+                                  <View style={styles.value}>
+                                      <Text style={styles.test}>{this.state.lastMonth}</Text>
+                                      <Image style={styles.imgline} source={require('../../image/survey_line2.png')}></Image>
+                                  </View>
+                              </View>
+                          </View>
+                          <View style={styles.row33}>
+                              <View style={styles.item}>
+                              <View style={styles.name}>
+                                      <Image style={styles.img} source={require('../../image/survey_ico3.png')}></Image>
+                                      <Text style={styles.test}>月趋势</Text>
+                                  </View>
+                                  <View style={styles.value}>
+                                      <Text style={styles.test}>{this.state.monthTendency}%</Text>
+                                      <Image style={styles.imgline} source={require('../../image/survey_line3.png')}></Image>
+                                  </View>
+                                  {this.state.monthTendency != ''?
+                                    this.state.monthTendency>=0?
+                                    <View style={styles.tenbox}>
+                                      <Image 
+                                      style={styles.tendency}
+                                      source={require('../../image/survey_up.png')} 
+                                      ></Image>
+                                    </View>
+                                    :
+                                    <View style={styles.tenbox}>
+                                      <Image 
+                                        style={styles.tendency}
+                                        source={require('../../image/survey_down.png')} 
+                                        ></Image>
+                                    </View>
+                                    :'' 
+                                  }
+                              </View>
+                          </View>
+                      </View>
+                  </View>
+              </View>
+              {this.state.optionData_1.length > 0?
+                <View style={styles.list}>
+                  <Text style={styles.title}>日平均负荷曲线</Text>
+                  <View style={styles.echarts}>
+                      {/* <my-canvas obj-data="{{optionData_1[0]}}"></my-canvas> */}
+                      <MyCanvas objData={this.state.optionData_1[0]}></MyCanvas>
+                  </View>
+                </View>:''
+              }
+              {this.state.optionData_2.length > 0?
+                <View style={styles.list}>
+                  <Text style={styles.title}>历史趋势</Text>
+                  <View style={styles.radio}>
+                      <CheckBox
+                        containerStyle={styles.radioCk}
+                        checked={this.state._radio === '48h'}
+                        onPress={() => this.onChange('48h')}
+                        title={'过去48时'}
+                        size={16}
+                        checkedIcon="dot-circle-o"
+                        uncheckedIcon="circle-o"
+                      />
+                      <CheckBox
+                        containerStyle={styles.radioCk}
+                        checked={this.state._radio === '31d'}
+                        onPress={() => this.onChange('31d')}
+                        title={'过去31天'}
+                        size={16}
+                        checkedIcon="dot-circle-o"
+                        uncheckedIcon="circle-o"
+                      />
+                      <CheckBox
+                        containerStyle={styles.radioCk}
+                        checked={this.state._radio === '12M'}
+                        onPress={() => this.onChange('12M')}
+                        title={'过去12月'}
+                        size={16}
+                        checkedIcon="dot-circle-o"
+                        uncheckedIcon="circle-o"
+                      />
+                      <CheckBox
+                        containerStyle={styles.radioCk}
+                        checked={this.state._radio === '3y'}
+                        onPress={() => this.onChange('3y')}
+                        title={'过去3年'}
+                        size={16}
+                        checkedIcon="dot-circle-o"
+                        uncheckedIcon="circle-o"
+                      />
+                  </View>
+                  <View style={styles.echarts}>
+                      <MyCanvas objData={this.state.optionData_2[0]}></MyCanvas>
+                  </View>
+              </View> :''
+              }
+          </ScrollView>
+          {/* 弹窗效果 */}
+          <Loading 
+              type={this.state.msgType} 
+              visible={this.state.visible} 
+              LoadingMsg={this.state.LoadingMsg}>
+          </Loading>
+        </SafeAreaView>
+      </View>
     )
   }
 }

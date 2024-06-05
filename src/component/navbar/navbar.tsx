@@ -1,13 +1,12 @@
 import { StackNavigationProp } from '@react-navigation/stack'
 import React from 'react'
 import { Text, View, StyleSheet, TouchableOpacity, ActivityIndicator,
-Image, Pressable, Dimensions, DeviceEventEmitter, ScrollView, 
-Button,
-Platform} from 'react-native'
+Image, Pressable, Dimensions, DeviceEventEmitter, ScrollView, Platform} from 'react-native'
 import store from '../../redux/store'//全局数据管理
 import { HttpService } from '../../utils/http'//网络请求服务
 import { parameter_Group } from '../../redux/actions/user'
 import { Overlay, Icon } from '@rneui/themed';//遮罩层
+import Modal from "react-native-modal";
 import Tree from '../tree/Tree'
 import Loading from '../Loading/Loading'
 const api = require( '../../utils/api')//接口文件
@@ -92,6 +91,8 @@ export class Navbar extends React.Component<any,any> {
     }
     //树下拉框展开
     treeSelectClick=() => {
+        console.log(1);
+        
         this.setState({
             showTree: !this.state.showTree,
         })
@@ -619,27 +620,69 @@ export class Navbar extends React.Component<any,any> {
                             </Pressable>:''
                         }
                     </View>
-                    { this.state.showTree ?
-                        <Overlay 
-                            isVisible={true} 
-                            backdropStyle={{position:'absolute', top: ht/9, }} 
-                            overlayStyle={[
-                                styles.con,
-                                Platform.OS === 'ios' ? { transform: [{ translateY: 1 }] } : {},
-                            ]}
-                            onBackdropPress={this.treeSelectClick}
-                            >
-                            <Pressable style={{
-                                position:'absolute',
-                                top:-40,
-                                left:'50%',
-                                marginLeft:-90,
-                                zIndex: 99999,
-                                width:180,
-                                height:26,
-                            }}
-                                onPress={this.treeSelectClick}
-                            ></Pressable>
+                    {/* <Overlay 
+                        isVisible={this.state.showTree} 
+                        backdropStyle={{position:'absolute', top: ht/9, backgroundColor: '#333',opacity: 0.3}} 
+                        overlayStyle={[
+                            styles.con,
+                            Platform.OS === 'ios' ? { transform: [{ translateY: 1 }] } : {},
+                        ]}
+                        onBackdropPress={this.treeSelectClick}
+                        >
+                        <Pressable style={{
+                            position:'absolute',
+                            top:-40,
+                            left:'50%',
+                            marginLeft:-90,
+                            zIndex: 99999,
+                            width:180,
+                            height:26,
+                        }}
+                            onPress={this.treeSelectClick}
+                        ></Pressable>
+                        <View style={styles.boxs}>
+                            {this.state.isCheck != 6?
+                                    <View style={[styles.left,this.props.isCheck==4?styles.leftW100:null]}>
+                                        <ScrollView>
+                                            {this.state.arrGroup.map((data:any, index:any) => {
+                                                return(
+                                                    <Text key={index} 
+                                                        style={[styles.list,index == this.state.isGroup?styles.listIs:null]}
+                                                        onPress={()=>this.choiceGroup(index)}
+                                                    >{data.name}</Text>
+                                                )
+                                            })}
+                                        </ScrollView>
+                                    </View>
+                                :''
+                            }
+                            {this.props.isCheck == 1 || this.props.isCheck == 2 ||
+                            this.props.isCheck == 3 || this.props.isCheck == 5 ||
+                            this.props.isCheck == 6 ?
+                                <ScrollView>
+                                    <View style={styles.right}>
+                                        <Tree
+                                            dataTree={this.state.dataTree}
+                                            selectKey={this.state.selectKey}
+                                            isChecks={this.props.isCheck}
+                                            isOpenAll={true}
+                                            handleSelect={this.handleSelect}
+                                        ></Tree>
+                                    </View>
+                                </ScrollView>
+                                :''
+                            }
+                        </View>
+                    </Overlay> */}
+                    <Modal
+                        isVisible={this.state.showTree}
+                        backdropOpacity={0.4}
+                        animationIn={'fadeIn'}
+                        animationOut={'fadeOut'}
+                        customBackdrop={<Text style={styles.custom} onPress={this.treeSelectClick}/>}
+                        >
+                        <View style={styles.modal}>
+                            {/* 在这里放置你的内容 */}
                             <View style={styles.boxs}>
                                 {this.state.isCheck != 6?
                                         <View style={[styles.left,this.props.isCheck==4?styles.leftW100:null]}>
@@ -673,9 +716,8 @@ export class Navbar extends React.Component<any,any> {
                                     :''
                                 }
                             </View>
-                        </Overlay>
-                        :''
-                    }
+                        </View>
+                    </Modal>
                     {/* 弹窗效果组件 */}
                     <Loading 
                         type={this.state.msgType} 
@@ -836,6 +878,22 @@ const styles = StyleSheet.create({
         zIndex: 9999,
         overflow: 'hidden',
     }, 
+    custom:{
+        flex: 1,
+        top: ht/9,
+        backgroundColor: '#333'
+    },
+    modal:{
+        position:'absolute',
+        width: Dimensions.get('window').width-10,
+        minHeight: 300,
+        top: ht/9-15,
+        left: -15,
+        borderRadius: 5,
+        backgroundColor: '#fff',
+        display: 'flex',
+        flexDirection:'row',
+    }
 })
 
 export default Navbar
