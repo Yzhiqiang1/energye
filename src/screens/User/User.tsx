@@ -172,9 +172,12 @@ export class User extends Component<any,any> {
             </Pressable>
             <View style={styles.con}>
               {this.state.logonStatus?
-                <Text style={styles.signOut} onPress={this.signOut}>
-                  退出登录
-                </Text> : ''
+                <Pressable style={styles.signOut} onPress={this.signOut}>
+                  <Text style={styles.signOutText}>
+                    退出登录
+                  </Text>
+                </Pressable>
+                : ''
               }
             </View>
             {/* 弹窗效果组件 */}
@@ -289,14 +292,17 @@ const styles = StyleSheet.create({
     position: 'relative',
     width: '70%',
     height: 40,
-    lineHeight: 40,
-    textAlignVertical: 'center',
-    textAlign: 'center',
-    fontSize: Fs/18,
-    color: '#fff',
     backgroundColor:'#1890FF',
     borderRadius: 5,
     margin:40
+  },
+  signOutText:{
+    fontSize: Fs/18,
+    textAlign: 'center',
+    color: '#fff',
+    height: 40,
+    lineHeight: 40,
+    textAlignVertical: 'center',
   },
   button: {
     borderRadius: 6,

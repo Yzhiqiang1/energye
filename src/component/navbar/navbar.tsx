@@ -1,7 +1,7 @@
 import { StackNavigationProp } from '@react-navigation/stack'
 import React from 'react'
 import { Text, View, StyleSheet, TouchableOpacity, ActivityIndicator,
-Image, Pressable, Dimensions, DeviceEventEmitter, ScrollView, Platform} from 'react-native'
+Image, Pressable, Dimensions, DeviceEventEmitter, ScrollView } from 'react-native'
 import store from '../../redux/store'//全局数据管理
 import { HttpService } from '../../utils/http'//网络请求服务
 import { parameter_Group } from '../../redux/actions/user'
@@ -91,8 +91,6 @@ export class Navbar extends React.Component<any,any> {
     }
     //树下拉框展开
     treeSelectClick=() => {
-        console.log(1);
-        
         this.setState({
             showTree: !this.state.showTree,
         })
@@ -676,13 +674,15 @@ export class Navbar extends React.Component<any,any> {
                     </Overlay> */}
                     <Modal
                         isVisible={this.state.showTree}
-                        backdropOpacity={0.4}
+                        customBackdrop={<Pressable style={styles.custom} 
+                        onPress={this.treeSelectClick}/>}
                         animationIn={'fadeIn'}
                         animationOut={'fadeOut'}
-                        customBackdrop={<Text style={styles.custom} onPress={this.treeSelectClick}/>}
                         >
                         <View style={styles.modal}>
                             {/* 在这里放置你的内容 */}
+                            <Pressable style={{position: 'absolute',zIndex: 9999,top: '-15%',width: '100%',height: '10%'}} onPress={this.treeSelectClick}>
+                            </Pressable>
                             <View style={styles.boxs}>
                                 {this.state.isCheck != 6?
                                         <View style={[styles.left,this.props.isCheck==4?styles.leftW100:null]}>
@@ -881,7 +881,7 @@ const styles = StyleSheet.create({
     custom:{
         flex: 1,
         top: ht/9,
-        backgroundColor: '#333'
+        backgroundColor: '#333',
     },
     modal:{
         position:'absolute',
