@@ -621,9 +621,9 @@ export class Navbar extends React.Component<any,any> {
                     </View>
                     <View style={{position: 'absolute',zIndex: 999999}}>
                         <Overlay 
-                            style={{flex: 1,width:200,height:200,backgroundColor: 'red'}}
+                            style={{flex: 1,width:200,height:200}}
                             isVisible={this.state.showTree} 
-                            backdropStyle={{position:'absolute',flex: 1, top: ht/9, opacity: 0.3}} 
+                            backdropStyle={{position:'absolute',flex: 1, top: ht/9, opacity: 0.4,backgroundColor: '#333'}} 
                             overlayStyle={[
                                 styles.con,
                                 Platform.OS !== 'ios' ? { transform: [{ translateY: 1 }] } : {},
