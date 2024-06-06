@@ -17,6 +17,7 @@ import { Camera, useCameraDevice, useCodeScanner} from "react-native-vision-came
 import { launchImageLibrary } from 'react-native-image-picker';//图片选择器
 import { PERMISSIONS, openSettings, request} from 'react-native-permissions'
 import LinearGradient from 'react-native-linear-gradient';
+import Modal from "react-native-modal";
 
 import Navbars from '../../component/Navbars/Navbars';
 import { Dialog } from '@rneui/themed';
@@ -897,9 +898,10 @@ export class Scanqr extends Component<any,any> {
                         visible={this.state.visible} 
                         LoadingMsg={this.state.LoadingMsg}>
                     </Loading>
-                    <Dialog 
+                    {/* <Dialog 
                         overlayStyle={styles.overlayStyle} 
-                        isVisible={this.state.show}
+                        // isVisible={this.state.show}
+                        isVisible={true}
                         backdropStyle={{height:'120%'}}
                         >
                         <Dialog.Title titleStyle={styles.titleStyle} title="未登录"/>
@@ -914,7 +916,31 @@ export class Scanqr extends Component<any,any> {
                             onPress={()=>this.GoLogIn()}
                             >去登录</Text>
                         </View>
-                    </Dialog>
+                    </Dialog> */}
+                    <Modal
+                    isVisible={this.state.show}
+                    backdropOpacity={0.4}
+                    animationIn={'fadeIn'}
+                    animationOut={'fadeOut'}
+                    deviceHeight={Dimensions.get('screen').height}
+                    animationInTiming={100}
+                    animationOutTiming={100}
+                    >
+                        <View style={styles.modal}>
+                            <Text allowFontScaling={false} style={[styles.warn,{color: '#333'}]}>未登录</Text>
+                            <Text allowFontScaling={false} style={styles.warn}>你还未登录点击去登录按钮登,请录后进行创建设备,点击取消放弃创建</Text>
+                            <View style={styles.bottom}>
+                                <Text allowFontScaling={false} 
+                                style={styles.bottomBut} 
+                                onPress={()=>this.setState({show: false})}
+                                >取消</Text>
+                                <Text allowFontScaling={false} 
+                                style={[styles.bottomBut,styles.bottomButR]}
+                                onPress={()=>this.GoLogIn()}
+                                >去登录</Text>
+                            </View> 
+                        </View>
+                </Modal>
                 </SafeAreaView>
             </View>
         )
@@ -1141,7 +1167,7 @@ const styles = StyleSheet.create({
         marginTop:20,
         textAlign:'center',
         width:'100%',
-        fontSize: Fs/17,
+        fontSize: Fs/16,
         fontWeight: '800',
         color: '#191919'
     },
@@ -1155,7 +1181,7 @@ const styles = StyleSheet.create({
     warn:{
         textAlign: 'center',
         width: '90%',
-        fontSize: 22,
+        fontSize: Fs/18,
         marginTop: 20
     },
     bottom:{
@@ -1174,7 +1200,7 @@ const styles = StyleSheet.create({
         textAlignVertical: 'center',
         flex:1,
         textAlign:'center',
-        fontSize: Fs/17,
+        fontSize: Fs/21,
         fontWeight: '800',
         color: '#191919'
     },
@@ -1237,6 +1263,17 @@ const styles = StyleSheet.create({
     ScanningStrip: {
         height: 20,
         width: '100%',
+    },
+    modal:{
+        position: 'absolute',
+        left: '50%',
+        marginLeft: -Fs/1.1/2,
+        display: 'flex',
+        alignItems: 'center',
+        width: Fs/1.1,
+        height: '33%',
+        borderRadius: 10,
+        backgroundColor: '#fff'
     },
 })
 

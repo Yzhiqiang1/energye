@@ -1,7 +1,8 @@
 import { StackNavigationProp } from '@react-navigation/stack'
 import React from 'react'
 import { Text, View, StyleSheet, TouchableOpacity, ActivityIndicator,
-Image, Pressable, Dimensions, DeviceEventEmitter, ScrollView } from 'react-native'
+Image, Pressable, Dimensions, DeviceEventEmitter, ScrollView, 
+Platform} from 'react-native'
 import store from '../../redux/store'//全局数据管理
 import { HttpService } from '../../utils/http'//网络请求服务
 import { parameter_Group } from '../../redux/actions/user'
@@ -599,7 +600,7 @@ export class Navbar extends React.Component<any,any> {
                         <Text allowFontScaling={false} style={styles.navbar_text}>{this.props.pageName}</Text>
                         {this.props.LoginStatus == 1?
                             <TouchableOpacity style={styles.treeSelect} onPress={()=>{navigation?.navigate('BindAccount')}}>
-                                <Text allowFontScaling={false} style={[styles.navbar_text,{fontSize:Fs/22,color:'#2EA4FF',fontWeight: '100'}]}>您还未登录,点击登录</Text>
+                                <Text allowFontScaling={false} style={[styles.navbar_text,{fontSize:Fs/22,color:'#2EA4FF',fontWeight: '400'}]}>您还未登录,点击登录</Text>
                             </TouchableOpacity> : ''
                         }
                         {this.props.LoginStatus == 2?
@@ -618,71 +619,28 @@ export class Navbar extends React.Component<any,any> {
                             </Pressable>:''
                         }
                     </View>
-                    {/* <Overlay 
-                        isVisible={this.state.showTree} 
-                        backdropStyle={{position:'absolute', top: ht/9, backgroundColor: '#333',opacity: 0.3}} 
-                        overlayStyle={[
-                            styles.con,
-                            Platform.OS === 'ios' ? { transform: [{ translateY: 1 }] } : {},
-                        ]}
-                        onBackdropPress={this.treeSelectClick}
-                        >
-                        <Pressable style={{
-                            position:'absolute',
-                            top:-40,
-                            left:'50%',
-                            marginLeft:-90,
-                            zIndex: 99999,
-                            width:180,
-                            height:26,
-                        }}
-                            onPress={this.treeSelectClick}
-                        ></Pressable>
-                        <View style={styles.boxs}>
-                            {this.state.isCheck != 6?
-                                    <View style={[styles.left,this.props.isCheck==4?styles.leftW100:null]}>
-                                        <ScrollView>
-                                            {this.state.arrGroup.map((data:any, index:any) => {
-                                                return(
-                                                    <Text allowFontScaling={false} key={index} 
-                                                        style={[styles.list,index == this.state.isGroup?styles.listIs:null]}
-                                                        onPress={()=>this.choiceGroup(index)}
-                                                    >{data.name}</Text>
-                                                )
-                                            })}
-                                        </ScrollView>
-                                    </View>
-                                :''
-                            }
-                            {this.props.isCheck == 1 || this.props.isCheck == 2 ||
-                            this.props.isCheck == 3 || this.props.isCheck == 5 ||
-                            this.props.isCheck == 6 ?
-                                <ScrollView>
-                                    <View style={styles.right}>
-                                        <Tree
-                                            dataTree={this.state.dataTree}
-                                            selectKey={this.state.selectKey}
-                                            isChecks={this.props.isCheck}
-                                            isOpenAll={true}
-                                            handleSelect={this.handleSelect}
-                                        ></Tree>
-                                    </View>
-                                </ScrollView>
-                                :''
-                            }
-                        </View>
-                    </Overlay> */}
-                    <Modal
-                        isVisible={this.state.showTree}
-                        customBackdrop={<Pressable style={styles.custom} 
-                        onPress={this.treeSelectClick}/>}
-                        animationIn={'fadeIn'}
-                        animationOut={'fadeOut'}
-                        >
-                        <View style={styles.modal}>
-                            {/* 在这里放置你的内容 */}
-                            <Pressable style={{position: 'absolute',zIndex: 9999,top: '-15%',width: '100%',height: '10%'}} onPress={this.treeSelectClick}>
-                            </Pressable>
+                    <View style={{position: 'absolute',zIndex: 999999}}>
+                        <Overlay 
+                            style={{flex: 1,width:200,height:200,backgroundColor: 'red'}}
+                            isVisible={this.state.showTree} 
+                            backdropStyle={{position:'absolute',flex: 1, top: ht/9, opacity: 0.3}} 
+                            overlayStyle={[
+                                styles.con,
+                                Platform.OS !== 'ios' ? { transform: [{ translateY: 1 }] } : {},
+                            ]}
+                            onBackdropPress={this.treeSelectClick}
+                            >
+                            <Pressable style={{
+                                position:'absolute',
+                                top:-40,
+                                left:'50%',
+                                marginLeft:-90,
+                                zIndex: 99999,
+                                width:180,
+                                height:26,
+                            }}
+                                onPress={this.treeSelectClick}
+                            ></Pressable>
                             <View style={styles.boxs}>
                                 {this.state.isCheck != 6?
                                         <View style={[styles.left,this.props.isCheck==4?styles.leftW100:null]}>
@@ -716,8 +674,8 @@ export class Navbar extends React.Component<any,any> {
                                     :''
                                 }
                             </View>
-                        </View>
-                    </Modal>
+                        </Overlay>
+                    </View>
                     {/* 弹窗效果组件 */}
                     <Loading 
                         type={this.state.msgType} 
