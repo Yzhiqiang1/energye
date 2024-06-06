@@ -1,8 +1,6 @@
-import { Dimensions, Image, Pressable, StyleSheet, Text, View } from 'react-native'
+import { Dimensions, Image, Modal, Pressable, StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native'
 import React, { Component } from 'react'
 import { DatePickerView, PickerValue, PickerView } from '@ant-design/react-native'
-import Modal from "react-native-modal"
-import { Dialog } from '@rneui/themed';
 import styleg from '../../indexCss';
 import { getTransition } from '../../utils/util';
 const Fs = Dimensions.get('window').width*0.8
@@ -280,25 +278,23 @@ export class Picker extends Component<any,any> {
                     <Image style={styleg.ico} source={require('../../image/down.png')}></Image>
                 </Pressable>
                 <Modal 
-                    isVisible={this.state.open}
-                    animationIn={'fadeIn'}
-                    animationOut={'fadeOut'}
-                    backdropOpacity={0.4}
-                    animationInTiming={100}
-                    animationOutTiming={100}
-                    onBackdropPress={this.pressable}
-                    deviceHeight={Dimensions.get('screen').height}>
-                    <View style={[styles.dialogBox,{position: 'absolute',zIndex: 999}]}>
-                        <View style={styles.butTop}>
-                            <Text allowFontScaling={false} style={styles.bot} onPress={()=>{this.setState({open:false})}}>取消</Text>
-                            <Text allowFontScaling={false} style={[styles.bot,styles.right]} onPress={this.confirm}>确定</Text>
-                        </View>
-                        <DatePickerView
-                            precision={this.state.precision}
-                            defaultValue={new Date(String(this.state.date))}
-                            onChange={(value: Date)=>this.onChange(value)}
-                        >
-                        </DatePickerView>
+                    visible={this.state.open}
+                    transparent={true}>
+                    <View style={{flex: 1,backgroundColor: 'rgba(0,0,0,0.4)',}}>
+                            <Pressable style={{flex: 1}} onPress={()=>{this.setState({open:false})}}>
+                            </Pressable>
+                            <View style={[styles.dialogBox]}>
+                                <View style={styles.butTop}>
+                                    <Text allowFontScaling={false} style={styles.bot} onPress={()=>{this.setState({open:false})}}>取消</Text>
+                                    <Text allowFontScaling={false} style={[styles.bot,styles.right]} onPress={this.confirm}>确定</Text>
+                                </View>
+                                <DatePickerView
+                                    precision={this.state.precision}
+                                    defaultValue={new Date(String(this.state.date))}
+                                    onChange={(value: Date)=>this.onChange(value)}
+                                >
+                                </DatePickerView>
+                            </View>
                     </View>
                 </Modal>
                 {/* <Dialog 
@@ -325,63 +321,35 @@ export class Picker extends Component<any,any> {
                     <Text allowFontScaling={false} style={styleg.TextButton}>{this.state.startDay+this.props.text +' 至 '+ this.state.endDay+this.props.text}</Text>
                     <Image style={styleg.ico} source={require('../../image/down.png')}></Image>
                 </Pressable>
-                {/* <Dialog 
-                    isVisible={this.state.open}
-                    backdropStyle={{height:'120%',padding:0,margin:0}}
-                    overlayStyle={styles.dialogBox}
-                    onBackdropPress={this.pressable}
-                >
-                    <View style={styles.butTop}>
-                        <Text allowFontScaling={false} style={styles.bot} onPress={()=>{this.setState({open:false})}}>取消</Text>
-                        <Text allowFontScaling={false} style={[styles.bot,styles.right]} onPress={this.uniteConfirm}>确定</Text>
-                    </View>
-
-                    <View style={{display:'flex',flexDirection:'row'}}>
-                        <View style={{flex: 1}}>
-                            <PickerView
-                                data={this.state.start}
-                                defaultValue={[this.state.startDay]}
-                                onChange={(value)=>this.startChange(value)}>
-                            </PickerView>
-                        </View>
-                        <View style={{flex: 1}}>
-                            <PickerView
-                               data={this.state.end}
-                               defaultValue={[this.state.endDay]}
-                               onChange={(value)=>this.endChange(value)}>
-                            </PickerView>
-                        </View>
-                    </View>
-                </Dialog> */}
                 <Modal 
-                    isVisible={this.state.open}
-                    animationIn={'fadeIn'}
-                    animationOut={'fadeOut'}
-                    backdropOpacity={0.4}
-                    animationInTiming={100}
-                    animationOutTiming={100}
-                    onBackdropPress={this.pressable}
-                    deviceHeight={Dimensions.get('screen').height}>
-                    <View style={[styles.dialogBox,{position: 'absolute',zIndex: 999}]}>
-                        <View style={styles.butTop}>
-                            <Text allowFontScaling={false} style={styles.bot} onPress={()=>{this.setState({open:false})}}>取消</Text>
-                            <Text allowFontScaling={false} style={[styles.bot,styles.right]} onPress={this.uniteConfirm}>确定</Text>
-                        </View>
-
-                        <View style={{display:'flex',flexDirection:'row'}}>
-                            <View style={{flex: 1}}>
-                                <PickerView
-                                    data={this.state.start}
-                                    defaultValue={[this.state.startDay]}
-                                    onChange={(value)=>this.startChange(value)}>
-                                </PickerView>
+                    animationType="fade"
+                    visible={this.state.open}
+                    transparent={true}
+                    presentationStyle={'overFullScreen'}>
+                    <View style={{flex: 1,backgroundColor: 'rgba(0,0,0,0.4)'}}>
+                        <Pressable style={{flex: 1}} onPress={()=>{this.setState({open:false})}}>
+                        </Pressable>
+                        <View style={[styles.dialogBox,{position: 'absolute',zIndex: 999}]}>
+                            <View style={styles.butTop}>
+                                <Text allowFontScaling={false} style={styles.bot} onPress={()=>{this.setState({open:false})}}>取消</Text>
+                                <Text allowFontScaling={false} style={[styles.bot,styles.right]} onPress={this.uniteConfirm}>确定</Text>
                             </View>
-                            <View style={{flex: 1}}>
-                                <PickerView
-                                data={this.state.end}
-                                defaultValue={[this.state.endDay]}
-                                onChange={(value)=>this.endChange(value)}>
-                                </PickerView>
+
+                            <View style={{display:'flex',flexDirection:'row'}}>
+                                <View style={{flex: 1}}>
+                                    <PickerView
+                                        data={this.state.start}
+                                        defaultValue={[this.state.startDay]}
+                                        onChange={(value)=>this.startChange(value)}>
+                                    </PickerView>
+                                </View>
+                                <View style={{flex: 1}}>
+                                    <PickerView
+                                    data={this.state.end}
+                                    defaultValue={[this.state.endDay]}
+                                    onChange={(value)=>this.endChange(value)}>
+                                    </PickerView>
+                                </View>
                             </View>
                         </View>
                     </View>
@@ -393,47 +361,27 @@ export class Picker extends Component<any,any> {
                     <Text allowFontScaling={false} style={styleg.TextButton}>{this.state.week}</Text>
                     <Image style={styleg.ico} source={require('../../image/down.png')}></Image>
                 </Pressable>
-                {/* <Dialog 
-                isVisible={this.state.open}
-                backdropStyle={{height:'120%',padding:0,margin:0}}
-                overlayStyle={styles.dialogBox}
-                onBackdropPress={this.pressable}
-                >
-                    <View style={styles.butTop}>
-                        <Text allowFontScaling={false} style={styles.bot} onPress={()=>{this.setState({open:false})}}>取消</Text>
-                        <Text allowFontScaling={false} style={[styles.bot,styles.right]} onPress={this.weekConfirm}>确定</Text>
-                    </View>
-
-                    <View>
-                    <PickerView
-                        data={this.state.weekData}
-                        defaultValue={this.state.weekValue}
-                        onChange={(value)=>this.weekChange(value)}>
-                    </PickerView>
-                    </View>
-                </Dialog> */}
-
                 <Modal 
-                    isVisible={this.state.open}
-                    animationIn={'fadeIn'}
-                    animationOut={'fadeOut'}
-                    backdropOpacity={0.4}
-                    animationInTiming={100}
-                    animationOutTiming={100}
-                    onBackdropPress={this.pressable}
-                    deviceHeight={Dimensions.get('screen').height}>
-                    <View style={[styles.dialogBox,{position: 'absolute',zIndex: 999}]}>
-                        <View style={styles.butTop}>
-                            <Text allowFontScaling={false} style={styles.bot} onPress={()=>{this.setState({open:false})}}>取消</Text>
-                            <Text allowFontScaling={false} style={[styles.bot,styles.right]} onPress={this.weekConfirm}>确定</Text>
-                        </View>
+                    animationType="fade"
+                    visible={this.state.open}
+                    transparent={true}
+                    presentationStyle={'overFullScreen'}>
+                    <View style={{flex: 1,backgroundColor: 'rgba(0,0,0,0.4)',}}>
+                        <Pressable style={{flex: 1}} onPress={()=>{this.setState({open:false})}}>
+                        </Pressable>
+                        <View style={[styles.dialogBox,{position: 'absolute',zIndex: 999}]}>
+                            <View style={styles.butTop}>
+                                <Text allowFontScaling={false} style={styles.bot} onPress={()=>{this.setState({open:false})}}>取消</Text>
+                                <Text allowFontScaling={false} style={[styles.bot,styles.right]} onPress={this.weekConfirm}>确定</Text>
+                            </View>
 
-                        <View>
-                        <PickerView
-                            data={this.state.weekData}
-                            defaultValue={this.state.weekValue}
-                            onChange={(value)=>this.weekChange(value)}>
-                        </PickerView>
+                            <View>
+                            <PickerView
+                                data={this.state.weekData}
+                                defaultValue={this.state.weekValue}
+                                onChange={(value)=>this.weekChange(value)}>
+                            </PickerView>
+                            </View>
                         </View>
                     </View>
                 </Modal>
@@ -444,46 +392,27 @@ export class Picker extends Component<any,any> {
                     <Text allowFontScaling={false} style={styleg.TextButton}>{this.state.data}</Text>
                     <Image style={styleg.ico} source={require('../../image/down.png')}></Image>
                 </Pressable>
-                {/* <Dialog 
-                isVisible={this.state.open}
-                backdropStyle={{height:'120%',padding:0,margin:0}}
-                overlayStyle={styles.dialogBox}
-                onBackdropPress={this.pressable}
-                >
-                    <View style={styles.butTop}>
-                        <Text allowFontScaling={false} style={styles.bot} onPress={()=>{this.setState({open:false})}}>取消</Text>
-                        <Text allowFontScaling={false} style={[styles.bot,styles.right]} onPress={this.dataConfirm}>确定</Text>
-                    </View>
+                <Modal 
+                    animationType="fade"
+                    visible={this.state.open}
+                    transparent={true}
+                    presentationStyle={'overFullScreen'}>
+                    <View style={{flex: 1,backgroundColor: 'rgba(0,0,0,0.4)',}}>
+                        <Pressable style={{flex: 1}} onPress={()=>{this.setState({open:false})}}>
+                        </Pressable>
+                        <View style={[styles.dialogBox,{position: 'absolute',zIndex: 99999}]}>
+                            <View style={styles.butTop}>
+                                <Text allowFontScaling={false} style={styles.bot} onPress={()=>{this.setState({open:false})}}>取消</Text>
+                                <Text allowFontScaling={false} style={[styles.bot,styles.right]} onPress={this.dataConfirm}>确定</Text>
+                            </View>
 
-                    <View>
-                    <PickerView
-                        data={this.state.dataSwitch}
-                        defaultValue={this.state.dataSwitchIn}
-                        onChange={(value)=>this.dataChange(value)}>
-                    </PickerView>
-                    </View>
-                </Dialog> */}
-                 <Modal 
-                    isVisible={this.state.open}
-                    animationIn={'fadeIn'}
-                    animationOut={'fadeOut'}
-                    backdropOpacity={0.4}
-                    animationInTiming={100}
-                    animationOutTiming={100}
-                    onBackdropPress={this.pressable}
-                    deviceHeight={Dimensions.get('screen').height}>
-                    <View style={[styles.dialogBox,{position: 'absolute',zIndex: 999}]}>
-                        <View style={styles.butTop}>
-                            <Text allowFontScaling={false} style={styles.bot} onPress={()=>{this.setState({open:false})}}>取消</Text>
-                            <Text allowFontScaling={false} style={[styles.bot,styles.right]} onPress={this.dataConfirm}>确定</Text>
-                        </View>
-
-                        <View>
-                        <PickerView
-                            data={this.state.dataSwitch}
-                            defaultValue={this.state.dataSwitchIn}
-                            onChange={(value)=>this.dataChange(value)}>
-                        </PickerView>
+                            <View>
+                                <PickerView
+                                    data={this.state.dataSwitch}
+                                    defaultValue={this.state.dataSwitchIn}
+                                    onChange={(value)=>this.dataChange(value)}>
+                                </PickerView>
+                            </View>
                         </View>
                     </View>
                 </Modal>
@@ -505,9 +434,9 @@ const styles = StyleSheet.create({
     },
     dialogBox:{
         position: 'absolute',
-        bottom: -40,
+        zIndex: 9999,
+        bottom: -20,
         width: Dimensions.get('window').width,
-        marginLeft: -20,
         height: Dimensions.get('window').height/2.5,
         borderRadius: 10,
         backgroundColor: '#fff'

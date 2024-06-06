@@ -10,6 +10,7 @@ import {
     Dimensions,
     Platform,
     SafeAreaView,
+    Alert,
 } from 'react-native'
 import React, { Component, useEffect } from 'react'
 import Geolocation from '@react-native-community/geolocation';//获取定位
@@ -17,7 +18,6 @@ import { Camera, useCameraDevice, useCodeScanner} from "react-native-vision-came
 import { launchImageLibrary } from 'react-native-image-picker';//图片选择器
 import { PERMISSIONS, openSettings, request} from 'react-native-permissions'
 import LinearGradient from 'react-native-linear-gradient';
-import Modal from "react-native-modal";
 
 import Navbars from '../../component/Navbars/Navbars';
 import { Dialog } from '@rneui/themed';
@@ -217,8 +217,7 @@ export class Scanqr extends Component<any,any> {
             //对话框
             show: false,
             scene_id: '',
-            // 权限询问
-            power: false,
+
             boxHeight: 0
         }
     }
@@ -603,9 +602,21 @@ export class Scanqr extends Component<any,any> {
                 } else {
                     console.log('Camera permission denied');
                     // 权限被拒绝,弹出提示窗
-                    that.setState({
-                        power: true
-                    })
+                    Alert.alert(
+                        "提示",
+                        "当前摄像头权限已拒绝，无法使用扫码创建设备功能，是否去设置开启",
+                        [
+                          {
+                            text: "取消",
+                            onPress: () => console.log("Cancel Pressed"),
+                            style: "cancel"
+                          },
+                          { text: "去设置", onPress: () => {
+                                that.install()
+                            }
+                        }
+                        ]
+                    );
                 }
             } catch (error) {
               console.warn('Error requesting camera permission:', error);
@@ -665,10 +676,25 @@ export class Scanqr extends Component<any,any> {
                     })
                 }
             } else {
-                this.setState({
-                    show: true,
-                    scene_id: scene_id
-                })
+                Alert.alert(
+                    "未登录",
+                    "  你还未登录点击去登录按钮登,请录后进行创建设备,点击取消放弃创建",
+                    [
+                      {
+                        text: "取消",
+                        onPress: () => console.log("Cancel Pressed"),
+                        style: "cancel"
+                      },
+                      { text: "请登录", onPress: () => {
+                            this.GoLogIn()
+                            this.setState({
+                                show: true,
+                                scene_id: scene_id
+                            })
+                        }
+                    }
+                    ]
+                );
             }
         }else{
             this.setState({
@@ -832,23 +858,6 @@ export class Scanqr extends Component<any,any> {
                             <Pressable style={styles.scanCode} onPress={this.openCamera}>
                                 <Image style={styles.img} source={require('../../image/scanCode.png')}></Image>
                             </Pressable>
-                            {/* 摄像头权限拒绝后询问弹窗 */}
-                            <Dialog
-                                isVisible={this.state.power}
-                                backdropStyle={{height:'120%'}}
-                            >
-                                <Text allowFontScaling={false} style={styles.hint}>当前摄像头权限已拒绝，无法使用扫码创建设备功能，是否去设置开启</Text>
-                                <View style={styles.hintBox}>
-                                    <Text allowFontScaling={false} 
-                                        style={styles.butL} 
-                                        onPress={()=>this.setState({ power: false})}
-                                    >取消</Text>
-                                    <Text allowFontScaling={false} 
-                                        style={styles.butR}
-                                        onPress={this.install}
-                                    >去设置</Text>
-                                </View>
-                            </Dialog>
                             {/* 底部弹窗 */}
                             <Animated.View style={[styles.btmDialog,{transform:[{translateY:this.translateY}]}]}>
                                 <View style={styles.popupHead}>
@@ -898,49 +907,6 @@ export class Scanqr extends Component<any,any> {
                         visible={this.state.visible} 
                         LoadingMsg={this.state.LoadingMsg}>
                     </Loading>
-                    {/* <Dialog 
-                        overlayStyle={styles.overlayStyle} 
-                        // isVisible={this.state.show}
-                        isVisible={true}
-                        backdropStyle={{height:'120%'}}
-                        >
-                        <Dialog.Title titleStyle={styles.titleStyle} title="未登录"/>
-                        <Text allowFontScaling={false} style={styles.warn}>你还未登录点击去登录按钮登,请录后进行创建设备,点击取消放弃创建</Text>
-                        <View style={styles.bottom}>
-                            <Text allowFontScaling={false} 
-                            style={styles.bottomBut} 
-                            onPress={()=>this.setState({show: false})}
-                            >取消</Text>
-                            <Text allowFontScaling={false} 
-                            style={[styles.bottomBut,styles.bottomButR]}
-                            onPress={()=>this.GoLogIn()}
-                            >去登录</Text>
-                        </View>
-                    </Dialog> */}
-                    <Modal
-                    isVisible={this.state.show}
-                    backdropOpacity={0.4}
-                    animationIn={'fadeIn'}
-                    animationOut={'fadeOut'}
-                    deviceHeight={Dimensions.get('screen').height}
-                    animationInTiming={100}
-                    animationOutTiming={100}
-                    >
-                        <View style={styles.modal}>
-                            <Text allowFontScaling={false} style={[styles.warn,{color: '#333'}]}>未登录</Text>
-                            <Text allowFontScaling={false} style={styles.warn}>你还未登录点击去登录按钮登,请录后进行创建设备,点击取消放弃创建</Text>
-                            <View style={styles.bottom}>
-                                <Text allowFontScaling={false} 
-                                style={styles.bottomBut} 
-                                onPress={()=>this.setState({show: false})}
-                                >取消</Text>
-                                <Text allowFontScaling={false} 
-                                style={[styles.bottomBut,styles.bottomButR]}
-                                onPress={()=>this.GoLogIn()}
-                                >去登录</Text>
-                            </View> 
-                        </View>
-                </Modal>
                 </SafeAreaView>
             </View>
         )

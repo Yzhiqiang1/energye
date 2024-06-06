@@ -1,7 +1,5 @@
-import { Dimensions, StyleSheet, Text, StatusBar, View, Platform, ActivityIndicator} from 'react-native'
+import { Dimensions, StyleSheet, Text, StatusBar, View, ActivityIndicator, Modal} from 'react-native'
 import React, { Component } from 'react'
-import { Dialog } from '@rneui/themed';
-import Modal from "react-native-modal";
 const Fs = Dimensions.get('window').width*0.8
 const screenHeight = Dimensions.get('screen').height-Number(StatusBar.currentHeight);
 
@@ -28,20 +26,18 @@ export class Loading extends Component<any,any> {
                     <Dialog.Loading />
                     <Text allowFontScaling={false} style={styles.text}>{this.props.LoadingMsg}</Text>
                 </Dialog> */}
-
                 <Modal
-                    isVisible={this.props.visible}
-                    backdropOpacity={0.4}
-                    animationIn={'fadeIn'}
-                    animationOut={'fadeOut'}
-                    deviceHeight={Dimensions.get('screen').height}
-                    animationInTiming={100}
-                    animationOutTiming={100}
-                    >
+                animationType="fade"
+                transparent={true}
+                visible={this.props.visible}
+                presentationStyle={'overFullScreen'}
+                >
+                    <View style={styles.modalBox}>
                         <View style={styles.modal}>
                             <ActivityIndicator size="large" color="#2da2fe"/>
                             <Text allowFontScaling={false} style={styles.text}>{this.props.LoadingMsg}</Text>
                         </View>
+                    </View>
                 </Modal>
             </View>
             :
@@ -54,15 +50,15 @@ export class Loading extends Component<any,any> {
                     <Text allowFontScaling={false} style={styles.showText}>{this.props.LoadingMsg}</Text>
                 </Dialog> */}
                  <Modal
-                    isVisible={this.props.visible}
-                    animationIn={'fadeIn'}
-                    animationOut={'fadeOut'}
-                    customBackdrop={<View style={{display: 'flex'}}/>}
-                    animationInTiming={100}
-                    animationOutTiming={100}
+                    animationType="fade"
+                    transparent={true}
+                    visible={this.props.visible}
+                    presentationStyle={'overFullScreen'}
                     >
-                        <View style={styles.showLoading}>
-                            <Text allowFontScaling={false} style={styles.showText}>{this.props.LoadingMsg}</Text>
+                        <View style={{flex: 1,alignItems:'center',justifyContent:'center'}}>
+                            <View style={styles.showLoading}>
+                                <Text allowFontScaling={false} style={styles.showText}>{this.props.LoadingMsg}</Text>
+                            </View>
                         </View>
                 </Modal>
             </View>
@@ -97,6 +93,13 @@ const styles = StyleSheet.create({
         maxWidth: 200,
         fontSize: Fs/22,
         color: '#fff',
+    },
+    modalBox: {
+        height: screenHeight,
+        width: '100%',
+        justifyContent: 'center', 
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)'
     },
     modal: {
         position: 'absolute',

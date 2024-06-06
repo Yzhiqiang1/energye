@@ -1,4 +1,4 @@
-import { Dimensions, Image, StyleSheet, Text, TextInput, TouchableOpacity, View,SafeAreaView } from 'react-native'
+import { Dimensions, Image, StyleSheet, Text, TextInput, TouchableOpacity, View,SafeAreaView, Pressable } from 'react-native'
 import React, { Component } from 'react'
 import { CheckBox } from '@rneui/themed';
 import Navbar from '../../component/navbar/navbar'
@@ -387,9 +387,13 @@ export class AccountRegister extends Component<any,any> {
                             >《TLINK物联网平台服务条款》</Text>
                         </View>
 
-                        <View style={styles.butList} >
-                            <Text style={styles.buttonL} allowFontScaling={false}>取消注册</Text>
-                            <Text style={styles.buttonR} onPress={this.register} allowFontScaling={false}>注册</Text>
+                        <View style={styles.butList}>
+                            <Pressable style={styles.buttonL} onPress={()=>this.props.navigation.navigate('HomeBar')}>
+                                <Text style={styles.buttonText} allowFontScaling={false}>取消注册</Text>
+                            </Pressable>
+                            <Pressable style={styles.buttonR} onPress={this.register} >
+                                <Text style={[styles.buttonText,{color: '#fff'}]} allowFontScaling={false}>注册</Text>
+                            </Pressable>
                         </View>
                         <View style={styles.link} >
                             <TouchableOpacity>
@@ -472,6 +476,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 50,
         lineHeight: 50,
+        textAlignVertical: 'center',
         color: '#333333',
         fontSize: Fs/22,
         paddingLeft: 40,
@@ -499,24 +504,22 @@ const styles = StyleSheet.create({
         position: 'relative',
         width: '40.5%',
         height: 40,
-        lineHeight: 40,
-        textAlignVertical: 'center',
-        textAlign: 'center',
-        fontSize: Fs/22,
-        color: '#333',
         backgroundColor: '#eee',
         borderRadius: 5,
         padding: 0,
     },
-    buttonR:{
-        position: 'relative',
-        width: '40.5%',
+    buttonText:{
         height: 40,
         lineHeight: 40,
         textAlignVertical: 'center',
         textAlign: 'center',
         fontSize: Fs/20,
-        color: '#fff',
+        color: '#333',
+    },
+    buttonR:{
+        position: 'relative',
+        width: '40.5%',
+        height: 40,
         backgroundColor: '#2EA4FF',
         borderRadius: 5,
         padding: 0,

@@ -1,4 +1,4 @@
-import { Dimensions, StyleSheet, View} from 'react-native'
+import { Dimensions, SafeAreaView, StyleSheet, View} from 'react-native'
 import React, { Component } from 'react'
 import { WebView } from 'react-native-webview'
 import LoginNavbar from '../../component/loginNavbar/loginNavbar'
@@ -13,19 +13,23 @@ export class ConfigurationDetails extends Component<any,any> {
     }
     render() {        
         return (
-            <View style={{ flex: 1 }}>
-                <View style={{height:ht/10,backgroundColor:'#2ea4ff'}}>
-                    <LoginNavbar 
-                        props={this.props}
-                        name={this.props.route.params.name}
-                        showBack={true}
-                        showHome={false}
-                    >
-                    </LoginNavbar>
+            <View style={{flex: 1}}>
+                <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#2da2fe'}}>
                 </View>
-                <WebView style={styles.WebView}
-                    source={{ uri: this.props.route.params.url }}
-                ></WebView>
+                <SafeAreaView style={{ flex: 1 }}>
+                    <View style={{height:ht/10,backgroundColor:'#2ea4ff'}}>
+                        <LoginNavbar 
+                            props={this.props}
+                            name={this.props.route.params.name}
+                            showBack={true}
+                            showHome={false}
+                        >
+                        </LoginNavbar>
+                    </View>
+                    <WebView style={styles.WebView}
+                        source={{ uri: this.props.route.params.url }}
+                    ></WebView>
+                </SafeAreaView>
             </View>
         )
     }

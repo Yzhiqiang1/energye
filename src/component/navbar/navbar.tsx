@@ -2,12 +2,13 @@ import { StackNavigationProp } from '@react-navigation/stack'
 import React from 'react'
 import { Text, View, StyleSheet, TouchableOpacity, ActivityIndicator,
 Image, Pressable, Dimensions, DeviceEventEmitter, ScrollView, 
-Platform} from 'react-native'
+Platform,
+Modal} from 'react-native'
 import store from '../../redux/store'//全局数据管理
 import { HttpService } from '../../utils/http'//网络请求服务
 import { parameter_Group } from '../../redux/actions/user'
 import { Overlay, Icon } from '@rneui/themed';//遮罩层
-import Modal from "react-native-modal";
+// import Modal from "react-native-modal";
 import Tree from '../tree/Tree'
 import Loading from '../Loading/Loading'
 const api = require( '../../utils/api')//接口文件
@@ -81,7 +82,7 @@ export class Navbar extends React.Component<any,any> {
             }
         }
     }
-
+    
     //回退
     navBack = ()=> {
         this.props.props.navigation.goBack()
@@ -606,7 +607,7 @@ export class Navbar extends React.Component<any,any> {
                         {this.props.LoginStatus == 2?
                             <Pressable style={styles.treeSelect} onPress={this.treeSelectClick}>
                                 {this.state.treeLoading?
-                                    <ActivityIndicator color="#1989fa" /> :
+                                    <ActivityIndicator color="#1989fa"/> :
                                     <View style={styles.test}>
                                         <View style={styles.test}>
                                             <Text allowFontScaling={false} numberOfLines={1} ellipsizeMode="tail" style={styles.testName}>{this.state.treeName}</Text>
@@ -619,8 +620,8 @@ export class Navbar extends React.Component<any,any> {
                             </Pressable>:''
                         }
                     </View>
-                    <View style={{position: 'absolute',zIndex: 999999}}>
-                        <Overlay 
+                    <View style={{position: 'absolute',zIndex: 9999}}>
+                        {/* <Overlay 
                             style={{flex: 1,width:200,height:200}}
                             isVisible={this.state.showTree} 
                             backdropStyle={{position:'absolute',flex: 1, top: ht/9, opacity: 0.4,backgroundColor: '#333'}} 
@@ -671,10 +672,67 @@ export class Navbar extends React.Component<any,any> {
                                             ></Tree>
                                         </View>
                                     </ScrollView>
-                                    :''
+                                    : ''
                                 }
                             </View>
-                        </Overlay>
+                        </Overlay> */}
+                        <Modal
+                            animationType="fade"
+                            transparent={true}
+                            visible={this.state.showTree}
+                            presentationStyle={'overFullScreen'}
+                        >
+                            <View style={[styles.modalBox,{top: ht/9}]}>
+                                <Pressable style={{width: '100%',height: '100%'}} onPress={this.treeSelectClick}>
+                                </Pressable>
+                                <View style={styles.con}>
+                                    <Pressable style={{
+                                        position:'absolute',
+                                        top:-40,
+                                        left:'50%',
+                                        marginLeft:-90,
+                                        zIndex: 99999,
+                                        width:180,
+                                        height:26,
+                                    }}
+                                        onPress={this.treeSelectClick}
+                                    ></Pressable>
+                                    <View style={styles.boxs}>
+                                        {this.state.isCheck != 6?
+                                            <View style={[styles.left,this.props.isCheck==4?styles.leftW100:null]}>
+                                                <ScrollView>
+                                                    {this.state.arrGroup.map((data:any, index:any) => {
+                                                        return(
+                                                            <Text allowFontScaling={false} key={index} 
+                                                                style={[styles.list,index == this.state.isGroup?styles.listIs:null]}
+                                                                onPress={()=>this.choiceGroup(index)}
+                                                            >{data.name}</Text>
+                                                        )
+                                                    })}
+                                                </ScrollView>
+                                            </View>
+                                            :''
+                                        }
+                                        {this.props.isCheck == 1 || this.props.isCheck == 2 ||
+                                        this.props.isCheck == 3 || this.props.isCheck == 5 ||
+                                        this.props.isCheck == 6 ?
+                                            <ScrollView>
+                                                <View style={styles.right}>
+                                                    <Tree
+                                                        dataTree={this.state.dataTree}
+                                                        selectKey={this.state.selectKey}
+                                                        isChecks={this.props.isCheck}
+                                                        isOpenAll={true}
+                                                        handleSelect={this.handleSelect}
+                                                    ></Tree>
+                                                </View>
+                                            </ScrollView>
+                                            : ''
+                                        }
+                                    </View>
+                                </View>
+                            </View>
+                        </Modal>
                     </View>
                     {/* 弹窗效果组件 */}
                     <Loading 
@@ -683,8 +741,8 @@ export class Navbar extends React.Component<any,any> {
                         LoadingMsg={this.state.LoadingMsg}>
                     </Loading>
                 </View>
-                )
-            }
+        )
+    }
 }
 
 
@@ -777,7 +835,7 @@ const styles = StyleSheet.create({
     con:{
         position: 'absolute',
         zIndex: 9999,
-        top: ht/9+5,
+        top: 5,
         width: '96%', 
         minHeight: 300,
         backgroundColor: '#ffffff',
@@ -851,7 +909,13 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         display: 'flex',
         flexDirection:'row',
-    }
+    },
+    modalBox: {
+        flex: 1,
+        justifyContent: 'center', 
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)'
+    },
 })
 
 export default Navbar

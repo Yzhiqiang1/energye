@@ -16,7 +16,8 @@ export class BindAccount extends Component<any,any> {
         this.state = {  
             password: '',
             userName: '',
-            boxHeight: 0
+            boxHeight: 0,
+            intercept: true,
          };
     };
     //输入用户名
@@ -65,6 +66,27 @@ export class BindAccount extends Component<any,any> {
         that.getLogin(); //登录
     }
     //请求登录
+    getLogin2 = () =>{
+        this.setState({
+            msgType: 1,
+            visible: true,
+            LoadingMsg: '登录中...'
+        })
+        let userName = this.state.userName
+        let password = this.state.password
+        HttpService.Post(api.applogin,{
+            userName: userName,
+            password: password
+        }).then((res:any)=>{
+            if(res.flag == '00'){
+                console.log('成功提示,存放数据');
+            }else{
+                console.log('失败原因');
+            }
+        }).catch(()=>{
+            console.log('登录失败');
+        })
+    }
     getLogin = () => {
         this.setState({
             msgType: 1,
@@ -80,6 +102,9 @@ export class BindAccount extends Component<any,any> {
             console.log(res, "登录获取的数据!！")
             if(res.flag){
                 if (res.flag == '00') {
+                    this.setState({
+                        intercept: true,
+                    })
                     //保存登录信息到全局
                     store.dispatch(Set_State('Set_State',res))
                     //跳转首页关闭之前的所有页面
@@ -88,7 +113,8 @@ export class BindAccount extends Component<any,any> {
                     this.setState({
                         msgType: 2,
                         visible: true,
-                        LoadingMsg: res.msg
+                        LoadingMsg: res.msg,
+                        intercept: true,
                     },()=>{
                         setTimeout(()=>{
                             this.setState({
@@ -101,7 +127,8 @@ export class BindAccount extends Component<any,any> {
                 this.setState({
                     msgType: 2,
                     visible: true,
-                    LoadingMsg: '登录异常，检查账号是否正确'
+                    LoadingMsg: '登录异常，检查账号是否正确',
+                    intercept: true,
                 },()=>{
                     setTimeout(()=>{
                         this.setState({
@@ -115,7 +142,8 @@ export class BindAccount extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '登录异常，检查网络是否连接'
+                LoadingMsg: '登录异常，检查网络是否连接',
+                intercept: true,
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -126,16 +154,19 @@ export class BindAccount extends Component<any,any> {
         })
     }
     //游客模式登陆
-    touristLongin= () => {
+    touristLongin = () => {
         var that = this;
         //游客登陆
-        that.setState({
-            //账号：jg2021 密码：sd2021
-            password: 'admin',
-            userName: 'tlink',
-        }, () => {
-            that.getLogin(); //登录
-        })
+        if(that.state.intercept){
+            that.setState({
+                //账号：jg2021 密码：sd2021
+                password: 'admin',
+                userName: 'tlink',
+                intercept: false
+            }, () => {
+                that.getLogin(); //登录
+            })
+        }
     }
     boxH=(e:any)=>{
         const { height: newHeight } = e.nativeEvent.layout;
@@ -172,12 +203,12 @@ export class BindAccount extends Component<any,any> {
                             </TouchableOpacity>
                         </View>
                         <View  style={styles.butList}>
-                            <View style={styles.button}>
-                                <Text style={styles.buttonL} allowFontScaling={false} onPress={()=>this.props.navigation.navigate('Tabbar')}>取消登录</Text>
-                            </View>
-                            <View style={styles.button}>
-                                <Text style={styles.buttonR} allowFontScaling={false} onPress={this.Login}>登录</Text>
-                            </View>
+                            <Pressable style={styles.button} onPress={()=>this.props.navigation.navigate('HomeBar')}>
+                                <Text style={styles.buttonL} allowFontScaling={false} >取消登录</Text>
+                            </Pressable>
+                            <Pressable style={styles.button} onPress={this.Login}>
+                                <Text style={styles.buttonR} allowFontScaling={false} >登录</Text>
+                            </Pressable>
                         </View>
                         <View style={styles.link}>
                             <TouchableOpacity style={styles.Url}  onPress={()=>this.props.navigation.navigate('BindPhone')}>
@@ -297,6 +328,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 50,
         lineHeight: 50,
+        textAlignVertical: 'center',
         color: '#333333',
         fontSize: Fs/22,
         paddingLeft: 80,
@@ -327,6 +359,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#eee',
         borderRadius: 10,
         padding: 0,
+        overflow:'hidden'
     },
     buttonL:{
         height: 40,
@@ -342,7 +375,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: Fs/22,
         backgroundColor:'#2EA4FF',
-        borderRadius: 10,
+        // borderRadius: 10,
         color:'#fff'
     },
     link:{

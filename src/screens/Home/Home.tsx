@@ -1,4 +1,4 @@
-import { Text, View, Dimensions, Image, ScrollView, Pressable, SafeAreaView} from 'react-native'
+import { Text, View, Dimensions, Image, ScrollView, Pressable, SafeAreaView, Alert, Modal, ActivityIndicator} from 'react-native'
 import React, { Component } from 'react'
 import styles from './HomeCss'
 import Navbar from '../../component/navbar/navbar'

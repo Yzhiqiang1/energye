@@ -173,7 +173,7 @@ export class User extends Component<any,any> {
             <View style={styles.con}>
               {this.state.logonStatus?
                 <Pressable style={styles.signOut} onPress={this.signOut}>
-                  <Text allowFontScaling={false}style={styles.signOutText}>
+                  <Text allowFontScaling={false} style={styles.signOutText}>
                     退出登录
                   </Text>
                 </Pressable>

@@ -1,4 +1,4 @@
-import { Dimensions, StyleSheet, Text, View, Image, TextInput, TouchableOpacity, SafeAreaView } from 'react-native'
+import { Dimensions, StyleSheet, Text, View, Image, TextInput, TouchableOpacity, SafeAreaView, Pressable } from 'react-native'
 import React, { Component,} from 'react'
 import {HttpService} from '../../utils/http'
 import LoginNavbar from '../../component/loginNavbar/loginNavbar'
@@ -276,12 +276,12 @@ export class BindPhone extends Component<any,any> {
                                 </TouchableOpacity>
                             </View>
                             <View  style={styles.butList}>
-                                <View style={styles.button}>
-                                    <Text allowFontScaling={false} style={styles.buttonL} onPress={()=>this.props.navigation.navigate('Index')}>取消登录</Text>
-                                </View>
-                                <View style={styles.button}>
-                                    <Text allowFontScaling={false} style={styles.buttonR} onPress={this.Login}>登录</Text>
-                                </View>
+                                <Pressable style={styles.button} onPress={()=>this.props.navigation.navigate('HomeBar')}>
+                                    <Text allowFontScaling={false} style={styles.buttonL} >取消登录</Text>
+                                </Pressable>
+                                <Pressable style={styles.button} onPress={this.Login}>
+                                    <Text allowFontScaling={false} style={styles.buttonR}>登录</Text>
+                                </Pressable>
                             </View>
                             <View style={styles.link}>
                                 <TouchableOpacity style={styles.Url} onPress={()=>this.props.navigation.navigate('BindAccount')}>
@@ -367,6 +367,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 50,
         lineHeight: 50,
+        textAlignVertical: 'center',
         color: '#333333',
         fontSize: Fs/22,
         paddingLeft: 80,
@@ -397,6 +398,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#eee',
         borderRadius: 10,
         padding: 0,
+        overflow: 'hidden'
     },
     buttonL:{
         height: 40,
