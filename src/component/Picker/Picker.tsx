@@ -1,4 +1,4 @@
-import { Dimensions, Image, Modal, Pressable, StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native'
+import { Dimensions, Image, Modal, Pressable, StyleSheet, Text, View } from 'react-native'
 import React, { Component } from 'react'
 import { DatePickerView, PickerValue, PickerView } from '@ant-design/react-native'
 import styleg from '../../indexCss';
@@ -113,7 +113,7 @@ export class Picker extends Component<any,any> {
             })
         }
     }
-    //月/日选择初始
+    // 月 日 选择初始
     dateInitial=()=>{
         let start:any = []
         let end:any = []
@@ -280,7 +280,7 @@ export class Picker extends Component<any,any> {
                 <Modal 
                     visible={this.state.open}
                     transparent={true}>
-                    <View style={{flex: 1,backgroundColor: 'rgba(0,0,0,0.4)',}}>
+                    <View style={styles.modalBack}>
                             <Pressable style={{flex: 1}} onPress={()=>{this.setState({open:false})}}>
                             </Pressable>
                             <View style={[styles.dialogBox]}>
@@ -297,23 +297,6 @@ export class Picker extends Component<any,any> {
                             </View>
                     </View>
                 </Modal>
-                {/* <Dialog 
-                    isVisible={this.state.open}
-                    backdropStyle={{height:'120%',padding:0,margin:0}}
-                    overlayStyle={[styles.dialogBox,{position: 'absolute',zIndex: 999}]}
-                    onBackdropPress={this.pressable}
-                >
-                    <View style={styles.butTop}>
-                        <Text allowFontScaling={false} style={styles.bot} onPress={()=>{this.setState({open:false})}}>取消</Text>
-                        <Text allowFontScaling={false} style={[styles.bot,styles.right]} onPress={this.confirm}>确定</Text>
-                    </View>
-                    <DatePickerView
-                        precision={this.state.precision}
-                        defaultValue={new Date(String(this.state.date))}
-                        onChange={(value: Date)=>this.onChange(value)}
-                    >
-                    </DatePickerView>
-                </Dialog> */}
             </View>:
             this.props.pickerType == 2?
             <View>
@@ -457,6 +440,13 @@ const styles = StyleSheet.create({
         right: 20,
         color: '#2EA4FF'
     },
+    modalBack:{
+        position: 'absolute',
+        zIndex: 999999,
+        width: '100%',
+        height: '100%',
+        backgroundColor: 'rgba(0,0,0,0.4)',
+    }
 })
 
 export default Picker

@@ -14,18 +14,6 @@ export class Loading extends Component<any,any> {
         return (
             this.props.type == 1 ?
             <View>
-                {/* <Dialog 
-                    overlayStyle={[
-                        styles.Loading,
-                        Platform.OS === 'ios' ? { transform: [{ translateY: 1 }] } : {},
-                        {pointerEvents: 'none'}
-                    ]} 
-                    isVisible={this.props.visible}
-                    backdropStyle={{position: 'absolute',height: screenHeight}}
-                    >
-                    <Dialog.Loading />
-                    <Text allowFontScaling={false} style={styles.text}>{this.props.LoadingMsg}</Text>
-                </Dialog> */}
                 <Modal
                 animationType="fade"
                 transparent={true}
@@ -42,20 +30,13 @@ export class Loading extends Component<any,any> {
             </View>
             :
             <View>
-                {/* <Dialog 
-                    overlayStyle={[styles.showLoading,Platform.OS === 'ios' ? { transform: [{ translateY: 1 }] } : {},]} 
-                    isVisible={this.props.visible}
-                    backdropStyle={{height: 0}}
-                    >
-                    <Text allowFontScaling={false} style={styles.showText}>{this.props.LoadingMsg}</Text>
-                </Dialog> */}
                  <Modal
                     animationType="fade"
                     transparent={true}
                     visible={this.props.visible}
                     presentationStyle={'overFullScreen'}
                     >
-                        <View style={{flex: 1,alignItems:'center',justifyContent:'center'}}>
+                        <View style={{position: 'absolute',zIndex: 999999,width: '100%',height: '100%',alignItems:'center',justifyContent:'center'}}>
                             <View style={styles.showLoading}>
                                 <Text allowFontScaling={false} style={styles.showText}>{this.props.LoadingMsg}</Text>
                             </View>
@@ -95,6 +76,8 @@ const styles = StyleSheet.create({
         color: '#fff',
     },
     modalBox: {
+        position: 'absolute',
+        zIndex: 9999999,
         height: screenHeight,
         width: '100%',
         justifyContent: 'center', 

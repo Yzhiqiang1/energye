@@ -1,17 +1,5 @@
-import {
-    StyleSheet,
-    View,
-    Image,
-    TextInput,
-    Pressable,
-    Text,
-    ScrollView,
-    Animated,
-    Dimensions,
-    Platform,
-    SafeAreaView,
-    Alert,
-} from 'react-native'
+import { StyleSheet, View, Image, TextInput, Pressable, Text, ScrollView, Animated,
+     Dimensions, Platform, SafeAreaView, Alert, StatusBar} from 'react-native'
 import React, { Component, useEffect } from 'react'
 import Geolocation from '@react-native-community/geolocation';//获取定位
 import { Camera, useCameraDevice, useCodeScanner} from "react-native-vision-camera"//摄像头扫码
@@ -39,10 +27,13 @@ const ht = Dimensions.get('window').height*0.8
     扫码组件 
 ****/
 function MyComponent(props: any) {
+    // 动画初始值
     let translateY1 = new Animated.Value(0)
     let fadeAnim = new Animated.Value(0)
+    //获取设备相机
     const device = useCameraDevice('back');
     const isFocused = useIsFocused()
+    //扫码
     const codeScanner = useCodeScanner({
         codeTypes: ['qr', 'ean-13'],
         onCodeScanned: (codes:any) => {
@@ -60,12 +51,12 @@ function MyComponent(props: any) {
             maxWidth: 200,
             maxHeight: 200,
             maxFiles: 2,
-          };
+        };
         launchImageLibrary(options, (response:any) => {
             if (!response.didCancel) {
                 // 相册获得的图片base64
                 let source = response.assets[0].base64;
-                // 处理扫描选取的二维码图片
+                // 处理选取的二维码图片
                 recoginze(source);
             }
         })
@@ -89,7 +80,7 @@ function MyComponent(props: any) {
                 useNativeDriver: true
             }
         )
-        //淡入淡出效果
+        //淡入效果
         const fadeIn = Animated.timing(fadeAnim,
             {
                 toValue: 1,
@@ -105,6 +96,7 @@ function MyComponent(props: any) {
                 useNativeDriver: true
             }
         )
+        // 淡出效果
         const fadeOut = Animated.timing(fadeAnim,
             {
                 toValue: 0,
@@ -131,15 +123,15 @@ function MyComponent(props: any) {
     if (device == null) return <View></View>
     return <View style={styles.cameraBox}>
                 <Camera
-                photo={false}
-                video={false}
-                isActive={isFocused}
-                style={{zIndex: 9999, height: '100%', width: '100%', }}
-                onError={(error) => {
-                    console.error(error)
-                }}
-                device={device}
-                codeScanner={codeScanner} 
+                    photo={false}
+                    video={false}
+                    isActive={isFocused}
+                    style={{zIndex: 9999, height: '100%', width: '100%', }}
+                    onError={(error) => {
+                        console.error(error)
+                    }}
+                    device={device}
+                    codeScanner={codeScanner} 
                 />
                 {/* 扫描条 */}
                 <Animated.View style={[styles.scanBox,{transform:[{translateY: translateY1}],opacity: fadeAnim}]}>
@@ -286,6 +278,7 @@ export class Scanqr extends Component<any,any> {
                 let permission;
                 if(Platform.OS === 'android'){
                     permission = PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION;
+                    console.log(permission);
                 }else{
                     permission = PERMISSIONS.IOS.LOCATION_WHEN_IN_USE;
                 }
@@ -594,27 +587,26 @@ export class Scanqr extends Component<any,any> {
                 const result = await request(permission);
             
                 if (result === 'granted') {
-                    console.log('Camera permission granted');
                     // 权限被授予，打开摄像头组件
                     that.setState({
                         camera: true
                     })
                 } else {
-                    console.log('Camera permission denied');
                     // 权限被拒绝,弹出提示窗
                     Alert.alert(
                         "提示",
                         "当前摄像头权限已拒绝，无法使用扫码创建设备功能，是否去设置开启",
                         [
-                          {
-                            text: "取消",
-                            onPress: () => console.log("Cancel Pressed"),
-                            style: "cancel"
-                          },
-                          { text: "去设置", onPress: () => {
-                                that.install()
+                            {
+                                text: "取消",
+                                onPress: () => console.log("Cancel Pressed"),
+                                style: "cancel"
+                            },
+                            { 
+                                text: "去设置", onPress: () => {
+                                    that.install()
+                                }   
                             }
-                        }
                         ]
                     );
                 }
@@ -626,9 +618,6 @@ export class Scanqr extends Component<any,any> {
     }
     install=()=>{
         openSettings().catch(() => console.warn('cannot open settings'))
-        this.setState({
-            power: false
-        })
     }
     // 关闭摄像头
     closeCamera=()=>{
@@ -824,7 +813,7 @@ export class Scanqr extends Component<any,any> {
                         ></Navbars>:''
                     }
                     {!this.state.camera?
-                        <View style={[styles.container,{height: this.state.boxHeight-ht/10}]}>
+                        <View style={[styles.container,{height: Dimensions.get('screen').height-ht/10-Number(StatusBar.currentHeight)}]}>
                             {/* 地图 */}
                             <MapView 
                                 style={{width:'100%',height:'100%'}}
@@ -916,7 +905,7 @@ export class Scanqr extends Component<any,any> {
 const styles = StyleSheet.create({
     container:{
         position: 'absolute',
-        bottom: 0,
+        top: ht/10,
         width: '100%',
         backgroundColor: '#f4f4f4',
         zIndex: 9,
@@ -1080,7 +1069,7 @@ const styles = StyleSheet.create({
     address:{
         position: 'relative',
         width: '100%',
-        fontSize: 16,
+        fontSize: Fs/24,
         color: '#999',
         overflow: 'hidden',
     },

@@ -276,7 +276,7 @@ export class BindPhone extends Component<any,any> {
                                 </TouchableOpacity>
                             </View>
                             <View  style={styles.butList}>
-                                <Pressable style={styles.button} onPress={()=>this.props.navigation.navigate('HomeBar')}>
+                                <Pressable style={styles.button} onPress={()=>this.props.navigation.navigate('Tabbar')}>
                                     <Text allowFontScaling={false} style={styles.buttonL} >取消登录</Text>
                                 </Pressable>
                                 <Pressable style={styles.button} onPress={this.Login}>

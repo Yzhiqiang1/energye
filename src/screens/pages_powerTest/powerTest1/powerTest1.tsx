@@ -388,7 +388,7 @@ export class PowerTest1 extends Component<any,any> {
                             }
                             {this.state.optionData.map((data:any, index:any) => {
                                 return(
-                                    data.state == true?
+                                    data.state == true? 
                                     <View key={index} style={styles.item}>
                                         <Text allowFontScaling={false} style={styles.name}>
                                             {data.name}

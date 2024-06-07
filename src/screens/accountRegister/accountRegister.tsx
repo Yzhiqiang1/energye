@@ -388,7 +388,7 @@ export class AccountRegister extends Component<any,any> {
                         </View>
 
                         <View style={styles.butList}>
-                            <Pressable style={styles.buttonL} onPress={()=>this.props.navigation.navigate('HomeBar')}>
+                            <Pressable style={styles.buttonL} onPress={()=>this.props.navigation.navigate('Tabbar')}>
                                 <Text style={styles.buttonText} allowFontScaling={false}>取消注册</Text>
                             </Pressable>
                             <Pressable style={styles.buttonR} onPress={this.register} >
@@ -505,7 +505,7 @@ const styles = StyleSheet.create({
         width: '40.5%',
         height: 40,
         backgroundColor: '#eee',
-        borderRadius: 5,
+        borderRadius: 10,
         padding: 0,
     },
     buttonText:{
@@ -521,7 +521,7 @@ const styles = StyleSheet.create({
         width: '40.5%',
         height: 40,
         backgroundColor: '#2EA4FF',
-        borderRadius: 5,
+        borderRadius: 10,
         padding: 0,
         verticalAlign: 'middle',
     },

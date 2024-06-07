@@ -39,8 +39,6 @@ export class Survey extends Component<any,any> {
     }
   }
   componentDidMount(): void {
-    console.log(Dimensions.get('window').height);
-    
     Register.userSignIn(false).then(res => {
       //校验登录成功后执行
       if (res == true) {
@@ -301,7 +299,6 @@ export class Survey extends Component<any,any> {
                 this.setState({
                   visible: false,
                 })
-                console.log(this.state.optionData_2);
             })
         } else {
             //关闭加载效果

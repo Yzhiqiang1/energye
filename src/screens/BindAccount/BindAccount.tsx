@@ -203,7 +203,7 @@ export class BindAccount extends Component<any,any> {
                             </TouchableOpacity>
                         </View>
                         <View  style={styles.butList}>
-                            <Pressable style={styles.button} onPress={()=>this.props.navigation.navigate('HomeBar')}>
+                            <Pressable style={styles.button} onPress={()=>this.props.navigation.navigate('Tabbar')}>
                                 <Text style={styles.buttonL} allowFontScaling={false} >取消登录</Text>
                             </Pressable>
                             <Pressable style={styles.button} onPress={this.Login}>
@@ -375,7 +375,6 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: Fs/22,
         backgroundColor:'#2EA4FF',
-        // borderRadius: 10,
         color:'#fff'
     },
     link:{
