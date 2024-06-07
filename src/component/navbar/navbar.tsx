@@ -684,13 +684,15 @@ export class Navbar extends React.Component<any,any> {
                                     this.props.isCheck == 6 ?
                                         <ScrollView>
                                             <View style={styles.right}>
-                                                <Tree
-                                                    dataTree={this.state.dataTree}
-                                                    selectKey={this.state.selectKey}
-                                                    isChecks={this.props.isCheck}
-                                                    isOpenAll={true}
-                                                    handleSelect={this.handleSelect}
-                                                ></Tree>
+                                               <ScrollView horizontal={true}>
+                                                    <Tree
+                                                        dataTree={this.state.dataTree}
+                                                        selectKey={this.state.selectKey}
+                                                        isChecks={this.props.isCheck}
+                                                        isOpenAll={true}
+                                                        handleSelect={this.handleSelect}
+                                                    ></Tree>
+                                                </ScrollView>
                                             </View>
                                         </ScrollView>
                                         : ''

@@ -65,28 +65,6 @@ export class BindAccount extends Component<any,any> {
         }
         that.getLogin(); //登录
     }
-    //请求登录
-    getLogin2 = () =>{
-        this.setState({
-            msgType: 1,
-            visible: true,
-            LoadingMsg: '登录中...'
-        })
-        let userName = this.state.userName
-        let password = this.state.password
-        HttpService.Post(api.applogin,{
-            userName: userName,
-            password: password
-        }).then((res:any)=>{
-            if(res.flag == '00'){
-                console.log('成功提示,存放数据');
-            }else{
-                console.log('失败原因');
-            }
-        }).catch(()=>{
-            console.log('登录失败');
-        })
-    }
     getLogin = () => {
         this.setState({
             msgType: 1,
@@ -160,8 +138,8 @@ export class BindAccount extends Component<any,any> {
         if(that.state.intercept){
             that.setState({
                 //账号：jg2021 密码：sd2021
-                password: 'admin',
-                userName: 'tlink',
+                password: 'sd2021',
+                userName: 'jg2021',
                 intercept: false
             }, () => {
                 that.getLogin(); //登录
