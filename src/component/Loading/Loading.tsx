@@ -9,7 +9,6 @@ export class Loading extends Component<any,any> {
         LoadingMsg: '加载中...',
         visible: false
     }
-    
     render() {
         return (
             this.props.type == 1 ?

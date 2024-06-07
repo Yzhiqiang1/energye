@@ -328,7 +328,6 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 50,
         lineHeight: 50,
-        textAlignVertical: 'center',
         color: '#333333',
         fontSize: Fs/22,
         paddingLeft: 80,
