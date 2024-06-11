@@ -1,4 +1,4 @@
-import { AppState, Image, StyleSheet, Text, View, Dimensions, SafeAreaView} from 'react-native'
+import { AppState, Image, StyleSheet, Text, View, Dimensions, SafeAreaView, ScrollView} from 'react-native'
 import {Shadow} from 'react-native-shadow-2'
 import React, { Component } from 'react'
 import Navbar from '../../../component/navbar/navbar'
@@ -283,7 +283,7 @@ export class Security2 extends Component<any,any> {
 
                     {/* 内容区 */}
                     <View style={styleg.containerMini}>
-                        <View style={styles.containerMini}>
+                        <ScrollView contentContainerStyle={styles.containerMini}>
                             {/* 面板item */}
                             {this.state.leakageArr.length == 0?
                                 <Text allowFontScaling={false} style={styles.empty}>没有对应传感器</Text>:
@@ -359,7 +359,7 @@ export class Security2 extends Component<any,any> {
                                     )
                                 })
                             }
-                        </View>
+                        </ScrollView>
                     </View>
                     {/* 弹窗效果组件 */}
                     <Loading

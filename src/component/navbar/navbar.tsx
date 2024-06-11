@@ -92,10 +92,10 @@ export class Navbar extends React.Component<any,any> {
     }
     //树下拉框展开
     treeSelectClick=() => {
+        //打开弹窗
         this.setState({
             showTree: !this.state.showTree,
         })
-        //打开弹窗
         if(this.state.showTree){
             Animated.timing(this.deg,
                 {
@@ -135,12 +135,21 @@ export class Navbar extends React.Component<any,any> {
         if (is != index) {
             if (isCheck == 1 || isCheck == 2 || isCheck == 3 || isCheck == 5) {//含树的单选和多选
                 this.setState({
+                    msgType: 1,
+                    visible: true,
+                    LoadingMsg: '查询中...'
+                })
+                this.setState({
                     isGroup: index,
                 }, () => {
                     //查询树
                     this.getTree(2);
                 })
             } else if (isCheck == 4) {//只含分组
+                this.setState({
+                    msgType: 1,
+                    visible: false,
+                })
                 this.setState({
                     isGroup: index,
                 }, () => {})
@@ -589,6 +598,11 @@ export class Navbar extends React.Component<any,any> {
             });
         }
     }
+    handleOnRequestClose=()=>{
+        this.setState({
+            showTree: false
+        })
+    }
     static defaultProps = {
         LoginStatus: '',
         isCheck: 1,
@@ -647,6 +661,8 @@ export class Navbar extends React.Component<any,any> {
                     <Modal
                         transparent={true}
                         visible={this.state.showTree}
+                        onRequestClose={this.handleOnRequestClose}
+                        presentationStyle={'overFullScreen'}
                     >
                         <View style={[styles.modalBox,{top: ht/9}]}>
                             <Pressable style={{width: '100%',height: '100%'}} onPress={this.treeSelectClick}>
@@ -684,7 +700,10 @@ export class Navbar extends React.Component<any,any> {
                                     this.props.isCheck == 6 ?
                                         <ScrollView>
                                             <View style={styles.right}>
-                                               <ScrollView horizontal={true}>
+                                                <ScrollView 
+                                                horizontal={true}
+                                                showsHorizontalScrollIndicator={false}
+                                                >
                                                     <Tree
                                                         dataTree={this.state.dataTree}
                                                         selectKey={this.state.selectKey}
@@ -877,13 +896,16 @@ const styles = StyleSheet.create({
         flexDirection:'row',
     },
     modalBox: {
-        position: 'absolute',
-        width: '100%',
-        height: '100%',
-        zIndex: 999999,
-        justifyContent: 'center', 
-        alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)'
+        // position: 'absolute',
+        // width: '100%',
+        // height: '100%',
+        // zIndex: 999999,
+        // justifyContent: 'center', 
+        // alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.4)',
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
     },
 })
 

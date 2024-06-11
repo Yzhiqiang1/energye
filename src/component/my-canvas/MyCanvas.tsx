@@ -224,6 +224,15 @@ const styles = StyleSheet.create({
   my_canvas:{
     width: '100%',
     marginBottom: 10,
+    backgroundColor: "white",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 4
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5
   },
 })
 

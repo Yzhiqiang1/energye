@@ -62,6 +62,7 @@ export class Tree extends Component<any,any> {
                     <View key={index} style={styles.tree}>
                         <View style={styles.treeItem}>
                             {/*  节点操作图标  */}
+
                             {data.children && data.children.length > 0?
                                  <Pressable style={styles.treeItemOnOff} onPress={()=>this.isOpen(index)}>
                                     {data.open?

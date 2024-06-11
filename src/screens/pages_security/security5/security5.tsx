@@ -263,7 +263,7 @@ export class Security5 extends Component<any,any> {
             <View style={{flex: 1}}>
                 <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
                 </View>
-                <SafeAreaView style={{flex: 1,backgroundColor: '#f4f4f4'}}>
+                <SafeAreaView style={{flex: 1}}>
                     {/* 引入自定义导航栏 */}
                     <Navbar 
                         pageName={'开关监测'}

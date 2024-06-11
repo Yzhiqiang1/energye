@@ -69,12 +69,12 @@ export class Security1 extends Component<any,any> {
     }
     //监听运行状态
     _handleAppStateChange=(nextappState: any)=>{
-        if(nextappState == 'background'){//进入后台禁止数据更新
+        if(nextappState == 'background'){//App进入后台禁止数据更新
             this.setState({
                 socketTask: false,
             })
         }
-        if(nextappState == 'active'){//进入前台开始数据更新
+        if(nextappState == 'active'){//进入App开始数据更新
             this.setState({
                 socketTask: true,
             })
@@ -203,8 +203,17 @@ export class Security1 extends Component<any,any> {
                         sensorArr[a].sensorList[b].loading = false; //给每一个传感器添加一个loading属性
                     }
                 }
-                that.setState({
-                    sensorArr: sensorArr,
+            }else{
+                this.setState({
+                    msgType: 2,
+                    visible: true,
+                    LoadingMsg: res.msg
+                },()=>{
+                    setTimeout(()=>{
+                        this.setState({
+                            visible: false,
+                        })
+                    },2000)
                 })
             }
         })
@@ -309,7 +318,7 @@ export class Security1 extends Component<any,any> {
     render() {
         return (
             <View style={{flex: 1}}>
-                <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",}}>
+                <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
                 </View>
                 <SafeAreaView style={{flex: 1}}>
                     {/* 引入自定义导航栏 */}

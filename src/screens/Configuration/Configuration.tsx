@@ -234,7 +234,7 @@ export class Configuration extends Component<any,any> {
               </View>
             </View>
 
-            <ScrollView style={[styles.view,{height:this.state.boxHeight-ht/6-ht/10-5}]} onMomentumScrollEnd={this.downScroll}>
+            <ScrollView style={[styles.view,{height:this.state.boxHeight-ht/6-ht/10-5}]} onMomentumScrollEnd={this.downScroll} overScrollMode={'never'}>
                 {this.state.LoginStatus == 2?
                   <View style={styles.box}>
                   {this.state.objArr.map((data:any, index:any) => {

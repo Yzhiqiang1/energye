@@ -666,7 +666,7 @@ const styles = StyleSheet.create({
     flex:{
         flex: 1,
         fontSize: Fs/22,
-        paddingLeft: 10,
+        paddingLeft: 5,
         textAlign:'center',
     },
     flexs:{
