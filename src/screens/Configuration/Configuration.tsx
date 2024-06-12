@@ -1,5 +1,4 @@
-import {Text, View, Image, TextInput, ScrollView, Dimensions, Pressable, SafeAreaView } from 'react-native'
-
+import {Text, View, Image, TextInput, ScrollView, Dimensions, Pressable, SafeAreaView, TouchableHighlight} from 'react-native'
 import React, { Component } from 'react'
 import { StyleSheet } from 'react-native'
 import styleg from '../../indexCss'//公共样式
@@ -26,7 +25,10 @@ export class Configuration extends Component<any,any> {
         isLastPage: false, //是否加载最后一页
         scrollIs: true, //滚动中禁止重复滚动
         visible: false,
-        boxHeight: 0
+        boxHeight: 0,
+
+        msgType: 1,
+        LoadingMsg: ''
     }
   }
   
@@ -212,10 +214,12 @@ export class Configuration extends Component<any,any> {
                         </Pressable>:''
                       }
                   </View>
-                  <Pressable style={styles.button} onPress={this.searchSubmit}>
-                      <Image style={styles.ico} source={require('../../image/searcha.png')} ></Image>
-                      <Text style={styles.searchT} allowFontScaling={false}>搜索</Text>
-                  </Pressable>
+                  <TouchableHighlight style={styles.button} onPress={this.searchSubmit} underlayColor={'#2da2fe'}>
+                      <View style={{width: '100%', height: '100%'}} >
+                        <Image style={styles.ico} source={require('../../image/searcha.png')} ></Image>
+                        <Text style={styles.searchT} allowFontScaling={false}>搜索</Text>
+                      </View>
+                  </TouchableHighlight>
               </View>
               <View style={styles.allowance}>
                   <Text style={styles.name} allowFontScaling={false}>我的组态</Text>
@@ -281,7 +285,7 @@ export class Configuration extends Component<any,any> {
                 }
             </ScrollView>   
             <Loading
-              type={this.state.type}
+              type={this.state.msgType}
               LoadingMsg={this.state.LoadingMsg}
               visible={this.state.visible}
             ></Loading>
@@ -383,8 +387,7 @@ const styles = StyleSheet.create({
     position: 'relative',
     width: 80,
     height: 35,
-    paddingLeft:15,
-    
+    paddingRight:15,
     color: '#fff',
     backgroundColor: '#1890FF',
     borderRadius: 5,
@@ -393,7 +396,7 @@ const styles = StyleSheet.create({
   },
   searchT:{
     height: 35,
-    textAlign: 'center',
+    textAlign: 'right',
     lineHeight: 35,
     textAlignVertical: 'center',
     color:'#fff',

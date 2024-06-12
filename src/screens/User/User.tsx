@@ -1,4 +1,4 @@
-import { Text, View, Pressable, Dimensions, SafeAreaView} from 'react-native'
+import { Text, View, Pressable, Dimensions, SafeAreaView, TouchableHighlight} from 'react-native'
 import React, { Component } from 'react'
 import { Menu } from '../../component/menu/menu'//底部导航组件
 import styleg from '../../indexCss'//公共scc
@@ -6,10 +6,9 @@ import { StyleSheet } from 'react-native'
 import store from '../../redux/store'
 import { Log_Out } from '../../redux/actions/user'
 import { Register } from '../../utils/app'
-import { Dialog, Image } from '@rneui/themed';
+import { Image } from '@rneui/themed';
 import { HttpService } from '../../utils/http'
 import Loading from '../../component/Loading/Loading'//加载窗口组件
-import { DatePickerView } from '@ant-design/react-native'
 const api = require('../..//utils/api')
 const Fs = Dimensions.get('window').width*0.8
 const ht = Dimensions.get('window').height*0.8
@@ -172,11 +171,11 @@ export class User extends Component<any,any> {
             </Pressable>
             <View style={styles.con}>
               {this.state.logonStatus?
-                <Pressable style={styles.signOut} onPress={this.signOut}>
+                <TouchableHighlight style={styles.signOut} onPress={this.signOut} underlayColor={'#2da2fe'}>
                   <Text allowFontScaling={false} style={styles.signOutText}>
                     退出登录
                   </Text>
-                </Pressable>
+                </TouchableHighlight>
                 : ''
               }
             </View>

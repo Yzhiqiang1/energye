@@ -429,7 +429,6 @@ const styles = StyleSheet.create({
         width: '100%',
         backgroundColor: '#fff',
         marginTop: 10,
-        
     },
     name:{
         position: 'relative',

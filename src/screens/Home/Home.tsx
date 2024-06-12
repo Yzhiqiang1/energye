@@ -56,7 +56,7 @@ export class Index extends Component<any,any> {
                         <View style={styles.indexMini}>
                             {/* 设备概括 */}
                             <View style={styles.indexUl}>
-                                <Text allowFontScaling={false} style={styles.title} onPress={()=>{this.props.navigation.navigate('App')}}>
+                                <Text allowFontScaling={false} style={styles.title}>
                                     设备概况
                                 </Text>
                                 <View style={styles.con}>

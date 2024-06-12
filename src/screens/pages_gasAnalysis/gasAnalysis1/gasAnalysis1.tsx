@@ -692,7 +692,6 @@ const styles = StyleSheet.create({
         marginLeft: 7,
         overflow: 'hidden',
     },
-    text:{},
     echarts_con:{
         position: 'absolute',
         top: 90,

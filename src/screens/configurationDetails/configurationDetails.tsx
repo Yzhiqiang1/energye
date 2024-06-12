@@ -26,10 +26,10 @@ export class ConfigurationDetails extends Component<any,any> {
                         >
                         </LoginNavbar>
                     </View>
-                    <WebView style={styles.WebView}
-                        source={{ uri: this.props.route.params.url }}
-                    ></WebView>
                 </SafeAreaView>
+                <WebView style={styles.WebView}
+                    source={{ uri: this.props.route.params.url }}
+                ></WebView>
             </View>
         )
     }

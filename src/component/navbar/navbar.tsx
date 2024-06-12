@@ -5,8 +5,7 @@ Image, Pressable, Dimensions, DeviceEventEmitter, ScrollView, Animated, Modal } 
 import store from '../../redux/store'//全局数据管理
 import { HttpService } from '../../utils/http'//网络请求服务
 import { parameter_Group } from '../../redux/actions/user'
-import { Overlay, Icon } from '@rneui/themed';//遮罩层
-// import Modal from "react-native-modal";
+import { Icon } from '@rneui/themed';
 import Tree from '../tree/Tree'
 import Loading from '../Loading/Loading'
 const api = require( '../../utils/api')//接口文件
@@ -614,119 +613,119 @@ export class Navbar extends React.Component<any,any> {
     render() {
         const {navigation,}: {navigation?: StackNavigationProp<any, any>; } = this.props.props
         return (
-                <View style={[styles.navbar,{height: ht/9,pointerEvents: 'auto'}]}>
-                    <View style={[styles.navbar_head]}>
-                        {this.props.showBack?
-                            <Pressable style={styles.navbar_left} onPress={this.navBack}>
-                                <Icon
-                                    name='left'
-                                    type='antdesign'
-                                    color='#333'
-                                    size={22}
-                                />
-                            </Pressable>:''
-                        }
-                        {this.props.showHome?
-                            <Pressable style={styles.navbar_left} onPress={this.navHome}>
-                                <Icon
-                                    name='home'
-                                    type='antdesign'
-                                    color='#333'
-                                    size={22}
-                                />
-                            </Pressable>:''
-                        }
-                        <Text allowFontScaling={false} style={styles.navbar_text}>{this.props.pageName}</Text>
-                        {this.props.LoginStatus == 1?
-                            <TouchableOpacity style={styles.treeSelect} onPress={()=>{navigation?.navigate('BindAccount')}}>
-                                <Text allowFontScaling={false} style={[styles.navbar_text,{fontSize:Fs/22,color:'#2EA4FF',fontWeight: '400'}]}>您还未登录,点击登录</Text>
-                            </TouchableOpacity> : ''
-                        }
-                        {this.props.LoginStatus == 2?
-                            <Pressable style={styles.treeSelect} onPress={this.treeSelectClick}>
-                                {this.state.treeLoading?
-                                    <ActivityIndicator color="#1989fa"/> :
+            <View style={[styles.navbar,{height: ht/9,pointerEvents: 'auto'}]}>
+                <View style={[styles.navbar_head]}>
+                    {this.props.showBack?
+                        <Pressable style={styles.navbar_left} onPress={this.navBack}>
+                            <Icon
+                                name='left'
+                                type='antdesign'
+                                color='#333'
+                                size={22}
+                            />
+                        </Pressable>:''
+                    }
+                    {this.props.showHome?
+                        <Pressable style={styles.navbar_left} onPress={this.navHome}>
+                            <Icon
+                                name='home'
+                                type='antdesign'
+                                color='#333'
+                                size={22}
+                            />
+                        </Pressable>:''
+                    }
+                    <Text allowFontScaling={false} style={styles.navbar_text}>{this.props.pageName}</Text>
+                    {this.props.LoginStatus == 1?
+                        <TouchableOpacity style={styles.treeSelect} onPress={()=>{navigation?.navigate('BindAccount')}}>
+                            <Text allowFontScaling={false} style={[styles.navbar_text,{fontSize:Fs/22,color:'#2EA4FF',fontWeight: '400'}]}>您还未登录,点击登录</Text>
+                        </TouchableOpacity> : ''
+                    }
+                    {this.props.LoginStatus == 2?
+                        <Pressable style={styles.treeSelect} onPress={this.treeSelectClick}>
+                            {this.state.treeLoading?
+                                <ActivityIndicator color="#1989fa"/> :
+                                <View style={styles.test}>
                                     <View style={styles.test}>
-                                        <View style={styles.test}>
-                                            <Text allowFontScaling={false} numberOfLines={1} ellipsizeMode="tail" style={styles.testName}>{this.state.treeName}</Text>
-                                            <Animated.View style={[styles.ico,{transform: [{rotate: this.state.rotate}]}]}>
-                                                <Image style={styles.img} source={require("../../image/down.png")}></Image>
-                                            </Animated.View>
-                                        </View>
+                                        <Text allowFontScaling={false} numberOfLines={1} ellipsizeMode="tail" style={styles.testName}>{this.state.treeName}</Text>
+                                        <Animated.View style={[styles.ico,{transform: [{rotate: this.state.rotate}]}]}>
+                                            <Image style={styles.img} source={require("../../image/down.png")}></Image>
+                                        </Animated.View>
                                     </View>
+                                </View>
+                            }
+                        </Pressable>:''
+                    }
+                </View>
+                <Modal
+                    transparent={true}
+                    visible={this.state.showTree}
+                    onRequestClose={this.handleOnRequestClose}
+                    presentationStyle={'overFullScreen'}
+                >
+                    <View style={[styles.modalBox,{top: ht/9}]}>
+                        <Pressable style={{width: '100%',height: '100%'}} onPress={this.treeSelectClick}>
+                        </Pressable>
+                        <View style={styles.con}>
+                            <Pressable style={{
+                                position:'absolute',
+                                top:-40,
+                                left:'50%',
+                                marginLeft:-90,
+                                zIndex: 9,
+                                width:180,
+                                height:26,
+                            }}
+                                onPress={this.treeSelectClick}
+                            ></Pressable>
+                            <View style={styles.boxs}>
+                                {this.state.isCheck != 6?
+                                    <View style={[styles.left,this.props.isCheck==4?styles.leftW100:null]}>
+                                        <ScrollView>
+                                            {this.state.arrGroup.map((data:any, index:any) => {
+                                                return(
+                                                    <Text allowFontScaling={false} key={index} 
+                                                        style={[styles.list,index == this.state.isGroup?styles.listIs:null]}
+                                                        onPress={()=>this.choiceGroup(index)}
+                                                    >{data.name}</Text>
+                                                )
+                                            })}
+                                        </ScrollView>
+                                    </View>
+                                    :''
                                 }
-                            </Pressable>:''
-                        }
-                    </View>
-                    <Modal
-                        transparent={true}
-                        visible={this.state.showTree}
-                        onRequestClose={this.handleOnRequestClose}
-                        presentationStyle={'overFullScreen'}
-                    >
-                        <View style={[styles.modalBox,{top: ht/9}]}>
-                            <Pressable style={{width: '100%',height: '100%'}} onPress={this.treeSelectClick}>
-                            </Pressable>
-                            <View style={styles.con}>
-                                <Pressable style={{
-                                    position:'absolute',
-                                    top:-40,
-                                    left:'50%',
-                                    marginLeft:-90,
-                                    zIndex: 9,
-                                    width:180,
-                                    height:26,
-                                }}
-                                    onPress={this.treeSelectClick}
-                                ></Pressable>
-                                <View style={styles.boxs}>
-                                    {this.state.isCheck != 6?
-                                        <View style={[styles.left,this.props.isCheck==4?styles.leftW100:null]}>
-                                            <ScrollView>
-                                                {this.state.arrGroup.map((data:any, index:any) => {
-                                                    return(
-                                                        <Text allowFontScaling={false} key={index} 
-                                                            style={[styles.list,index == this.state.isGroup?styles.listIs:null]}
-                                                            onPress={()=>this.choiceGroup(index)}
-                                                        >{data.name}</Text>
-                                                    )
-                                                })}
+                                {this.props.isCheck == 1 || this.props.isCheck == 2 ||
+                                this.props.isCheck == 3 || this.props.isCheck == 5 ||
+                                this.props.isCheck == 6 ?
+                                    <ScrollView>
+                                        <View style={styles.right}>
+                                            <ScrollView 
+                                            horizontal={true}
+                                            showsHorizontalScrollIndicator={false}
+                                            >
+                                                <Tree
+                                                    dataTree={this.state.dataTree}
+                                                    selectKey={this.state.selectKey}
+                                                    isChecks={this.props.isCheck}
+                                                    isOpenAll={true}
+                                                    handleSelect={this.handleSelect}
+                                                ></Tree>
                                             </ScrollView>
                                         </View>
-                                        :''
-                                    }
-                                    {this.props.isCheck == 1 || this.props.isCheck == 2 ||
-                                    this.props.isCheck == 3 || this.props.isCheck == 5 ||
-                                    this.props.isCheck == 6 ?
-                                        <ScrollView>
-                                            <View style={styles.right}>
-                                                <ScrollView 
-                                                horizontal={true}
-                                                showsHorizontalScrollIndicator={false}
-                                                >
-                                                    <Tree
-                                                        dataTree={this.state.dataTree}
-                                                        selectKey={this.state.selectKey}
-                                                        isChecks={this.props.isCheck}
-                                                        isOpenAll={true}
-                                                        handleSelect={this.handleSelect}
-                                                    ></Tree>
-                                                </ScrollView>
-                                            </View>
-                                        </ScrollView>
-                                        : ''
-                                    }
-                                </View>
+                                    </ScrollView>
+                                    : ''
+                                }
                             </View>
                         </View>
-                    </Modal>
-                    {/* 弹窗效果组件 */}
-                    <Loading 
-                        type={this.state.msgType} 
-                        visible={this.state.visible} 
-                        LoadingMsg={this.state.LoadingMsg}>
-                    </Loading>
-                </View>
+                    </View>
+                </Modal>
+                {/* 弹窗效果组件 */}
+                <Loading 
+                    type={this.state.msgType} 
+                    visible={this.state.visible} 
+                    LoadingMsg={this.state.LoadingMsg}>
+                </Loading>
+            </View>
         )
     }
 }
@@ -738,11 +737,11 @@ const styles = StyleSheet.create({
         top: 0,
         left: 0,
         width: '100%',
-        zIndex: 9,
+        zIndex: 99999,
         backgroundColor: '#fff',
         borderBlockColor: '#f4f4f4',
-        borderStyle:'solid',
-        borderBottomWidth:1,
+        borderStyle: 'solid',
+        borderBottomWidth: 1,
     },
     navbar_head:{
         position: 'absolute',
