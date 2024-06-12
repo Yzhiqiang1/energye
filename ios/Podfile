@@ -83,6 +83,7 @@ target 'energyes' do
           config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.0'
         end
       end
+    end
     )
   end
 end
