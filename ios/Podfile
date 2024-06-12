@@ -52,7 +52,7 @@ if linkage != nil
   Pod::UI.puts "Configuring Pod with #{linkage}ally linked Frameworks".green
   use_frameworks! :linkage => linkage.to_sym
 end
-
+platform :ios, '12.0'
 target 'energyes' do
   config = use_native_modules!
 
@@ -78,7 +78,6 @@ target 'energyes' do
       installer,
       config[:reactNativePath],
       :mac_catalyst_enabled => false
-      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '14.0'
     )
   end
 end
