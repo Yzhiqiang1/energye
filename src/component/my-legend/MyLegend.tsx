@@ -1,4 +1,4 @@
-import { Dimensions, Image, Pressable, StyleSheet, Text, View } from 'react-native'
+import { Dimensions, Image, Pressable, StyleSheet, Text, View, Modal } from 'react-native'
 import * as React from 'react';
 import styleg from '../../indexCss'
 import { CheckBox, Dialog } from '@rneui/base';
@@ -146,7 +146,8 @@ export class MyLegend extends React.Component<any,any> {
                     <Text allowFontScaling={false} style={styles.dialText}>已选中{this.state.n}种谐波含量</Text>
                     <Image style={styleg.ico} source={require('../../image/down.png')}></Image>
                 </Pressable>
-                <Dialog 
+
+                {/* <Dialog 
                     isVisible={this.state.show}
                     backdropStyle={{height:'120%',padding:0,margin:0}}
                     overlayStyle={styles.dialogBox}
@@ -193,7 +194,58 @@ export class MyLegend extends React.Component<any,any> {
                             </View>
                         </View>
                     </View>
-                </Dialog>
+                </Dialog> */}
+                <Modal 
+                    transparent={true}
+                    visible={this.state.show}
+                    presentationStyle={'overFullScreen'}
+                >
+                    <View style={styles.modalBox}>
+                        <View style={styles.dialogBox}>
+                            <View style={styles.dialogCont}>
+                                <View style={[styles.tr,styles.bgG]}>
+                                    {this.state.result2for.map((data:any,index:number)=>{
+                                        return(
+                                            <View style={styles.Box} key={index}>
+                                                {index==0?
+                                                    <CheckBox
+                                                    checked={this.state.result2.includes(data)}
+                                                    onPress={()=>this.onChange2(data)}
+                                                    title={`总谐波`}
+                                                    containerStyle={styles.CheckBox}
+                                                    size={15}
+                                                    />:
+                                                    <CheckBox
+                                                    checked={this.state.result2.includes(data)}
+                                                    onPress={()=>this.onChange2(data)}
+                                                    title={`${data}次谐波`}
+                                                    containerStyle={styles.CheckBox}
+                                                    size={15}
+                                                    />
+                                                }
+                                            </View>
+                                        )
+                                    })}
+                                    <View style={styles.dialogBottom}>
+                                        <CheckBox
+                                        checked={this.state.result2.length == 31}
+                                        onPress={()=>this.setAllCheck(this.state.result2.length)}
+                                        title={`全选`}
+                                        containerStyle={styles.CheckBox}
+                                        iconType="material-community"
+                                        checkedIcon="checkbox-marked"
+                                        uncheckedIcon="checkbox-blank-outline"
+                                        size={20}
+                                        />
+                                        <View style={styles.dialBottom}>
+                                            <Text allowFontScaling={false} style={styles.button} onPress={this.onTap}>确定</Text>
+                                        </View>
+                                    </View>
+                                </View>
+                            </View>
+                        </View>
+                    </View>
+                </Modal>
             </View>
         </View>
         )
@@ -274,13 +326,13 @@ const styles = StyleSheet.create({
     },
     button:{
         width: 70,
-        height: 40,
-        lineHeight: 40,
+        height: 30,
+        lineHeight: 30,
         textAlignVertical: 'center',
         color: '#fff',
         backgroundColor: '#07c160',
         borderRadius: 5,
-        fontSize: Fs/18,
+        fontSize: Fs/20,
         textAlign: 'center',
     },
     checkbox:{
@@ -322,7 +374,12 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         backgroundColor:'#fff'
     },
-   
+    modalBox: {
+        flex: 1,
+        backgroundColor: 'rgba(0, 0, 0, 0.4)',
+        justifyContent: "center",
+        alignItems: "center",
+    },
 })
 
 export default MyLegend

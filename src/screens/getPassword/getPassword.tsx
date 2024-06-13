@@ -11,7 +11,7 @@ export class GetPassword extends Component {
     render() {
         return (
         <View>
-            <Text>getPassword</Text>
+            <Text>忘记密码</Text>
         </View>
         )
     }

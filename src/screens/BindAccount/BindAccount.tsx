@@ -47,7 +47,6 @@ export class BindAccount extends Component<any,any> {
                     })
                 },2000)
             })
-            console.log(1);
             return false;
         } else if (that.state.password.length < 1) {
             this.setState({
@@ -116,7 +115,6 @@ export class BindAccount extends Component<any,any> {
                 })
             }
         }).catch(res=>{
-            console.log(res);
             this.setState({
                 msgType: 2,
                 visible: true,
@@ -181,10 +179,10 @@ export class BindAccount extends Component<any,any> {
                             </TouchableOpacity>
                         </View>
                         <View  style={styles.butList}>
-                            <Pressable style={styles.button} onPress={()=>this.props.navigation.navigate('Tabbar')}>
+                            <Pressable style={({ pressed })=>[{backgroundColor: pressed ? '#f3f3f3' : '#eeeeee'},styles.button]} onPress={()=>this.props.navigation.navigate('Tabbar')}>
                                 <Text style={styles.buttonL} allowFontScaling={false} >取消登录</Text>
                             </Pressable>
-                            <Pressable style={styles.button} onPress={this.Login}>
+                            <Pressable style={({ pressed })=>[{backgroundColor: pressed ? '#2da2fe' : '#1890FF'},styles.button]} onPress={this.Login}>
                                 <Text style={styles.buttonR} allowFontScaling={false} >登录</Text>
                             </Pressable>
                         </View>
@@ -333,7 +331,7 @@ const styles = StyleSheet.create({
         width: '47.5%',
         height: 40,
         color: '#333',
-        backgroundColor: '#eee',
+        // backgroundColor: '#eee',
         borderRadius: 10,
         padding: 0,
         overflow:'hidden'
@@ -351,7 +349,7 @@ const styles = StyleSheet.create({
         textAlignVertical: 'center',
         textAlign: 'center',
         fontSize: Fs/22,
-        backgroundColor:'#2EA4FF',
+        // backgroundColor:'#2EA4FF',
         color:'#fff'
     },
     link:{

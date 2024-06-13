@@ -12,7 +12,6 @@ const Fs = Dimensions.get('window').width*0.8
 
 //全屏幕宽高
 const height = Dimensions.get('window').height
-const width = Dimensions.get('window').width
 export class BindPhone extends Component<any,any> {
     constructor(props: any) {
         super(props);
@@ -27,7 +26,7 @@ export class BindPhone extends Component<any,any> {
             LoadingMsg: '',
             visible: false,
             boxHeight: 0,
-         };
+        };
     };
     //输入手机号
     mobileChangeSearch = (value: string)=>{
@@ -276,10 +275,10 @@ export class BindPhone extends Component<any,any> {
                                 </TouchableOpacity>
                             </View>
                             <View  style={styles.butList}>
-                                <Pressable style={styles.button} onPress={()=>this.props.navigation.navigate('Tabbar')}>
+                                <Pressable style={({ pressed })=>[{backgroundColor: pressed? '#f3f3f3' : '#eeeeee'},styles.button]} onPress={()=>this.props.navigation.navigate('Tabbar')}>
                                     <Text allowFontScaling={false} style={styles.buttonL} >取消登录</Text>
                                 </Pressable>
-                                <Pressable style={styles.button} onPress={this.Login}>
+                                <Pressable style={({ pressed })=>[{backgroundColor: pressed? '#2da2fe' : '#1890FF'},styles.button]} onPress={this.Login}>
                                     <Text allowFontScaling={false} style={styles.buttonR}>登录</Text>
                                 </Pressable>
                             </View>
@@ -394,7 +393,6 @@ const styles = StyleSheet.create({
         width: '47.5%',
         height: 40,
         color: '#333',
-        backgroundColor: '#eee',
         borderRadius: 10,
         padding: 0,
         overflow: 'hidden'
@@ -412,7 +410,6 @@ const styles = StyleSheet.create({
         textAlignVertical: 'center',
         textAlign: 'center',
         fontSize: Fs/22,
-        backgroundColor:'#2EA4FF',
         borderRadius: 10,
         color:'#fff'
     },

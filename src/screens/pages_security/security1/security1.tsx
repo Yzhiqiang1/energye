@@ -1,5 +1,4 @@
 import { AppState, Image, StyleSheet, Text, View, Dimensions, SafeAreaView, ScrollView} from 'react-native'
-import {Shadow} from 'react-native-shadow-2'
 import React, { Component } from 'react'
 import Navbar from '../../../component/navbar/navbar'
 import styleg from '../../../indexCss'
@@ -289,7 +288,7 @@ export class Security2 extends Component<any,any> {
                                 <Text allowFontScaling={false} style={styles.empty}>没有对应传感器</Text>:
                                 this.state.leakageArr.map((top_item:any,top_index:number)=>{
                                     return(
-                                        <Shadow distance={4} style={styles.indexMini} key={top_index}>
+                                        <View style={styles.indexMini} key={top_index}>
                                             {/* 设备信息行 */}
                                             <View style={[styles.deviece,styles.tr]}>
                                                 <Image 
@@ -355,7 +354,7 @@ export class Security2 extends Component<any,any> {
                                                     </View>
                                                 </View>
                                             </View>
-                                        </Shadow>
+                                        </View>
                                     )
                                 })
                             }
@@ -387,6 +386,15 @@ const styles = StyleSheet.create({
         opacity: 1,
         marginBottom:11,
         fontSize: Fs/22,
+
+        shadowColor: "#000",
+        shadowOffset: {
+        width: 0,
+        height: 4
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5
     },
     tr :{
         borderStyle: 'solid',

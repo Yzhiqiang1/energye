@@ -1,5 +1,4 @@
 import { AppState, DeviceEventEmitter, Dimensions, Image, SafeAreaView, StyleSheet, Text, View } from 'react-native'
-import {Shadow} from 'react-native-shadow-2'
 import React, { Component } from 'react'
 import Navbar from '../../../component/navbar/navbar'
 import { Register } from '../../../utils/app'
@@ -341,7 +340,7 @@ export class Security1 extends Component<any,any> {
                             {/* 面板item */}
                             {this.state.sensorArr.map((top_item:any,top_index:number)=>{
                                 return(
-                                    <Shadow distance={4} style={styles.indexMini} key={top_index}>
+                                    <View style={styles.indexMini} key={top_index}>
                                         {/* 设备信息行 */}
                                         <View style={[styles.deviece,styles.tr]}>
                                             <Image source={require('../../../image/switch1.png')} resizeMode='contain' style={styles.devieceImg}></Image>
@@ -375,7 +374,7 @@ export class Security1 extends Component<any,any> {
                                                 </View>
                                             )
                                         })}
-                                    </Shadow>
+                                    </View>
                                 )
                             })}
                             {/* 对话框 */}
@@ -422,6 +421,15 @@ const styles = StyleSheet.create({
         opacity: 1,
         marginBottom:11,
         fontSize: Fs/22,
+
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 10,
+            height: 4
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5
     },
     
     tr :{

@@ -349,7 +349,7 @@ export class AccountRegister extends Component<any,any> {
                 <Navbar
                     props={this.props}
                     pageName={'注册账号'}   
-                    showBack={true}
+                    showBack={true}     
                     showHome={false}
                     LoginStatus={3}
                 ></Navbar>
@@ -388,10 +388,10 @@ export class AccountRegister extends Component<any,any> {
                         </View>
 
                         <View style={styles.butList}>
-                            <Pressable style={styles.buttonL} onPress={()=>this.props.navigation.navigate('Tabbar')}>
+                            <Pressable style={({ pressed })=>[{backgroundColor: pressed ? '#f3f3f3' : '#eeeeee'},styles.buttonL]} onPress={()=>this.props.navigation.navigate('Tabbar')}>
                                 <Text style={styles.buttonText} allowFontScaling={false}>取消注册</Text>
                             </Pressable>
-                            <Pressable style={styles.buttonR} onPress={this.register} >
+                            <Pressable style={({ pressed })=>[{backgroundColor: pressed ? '#2da2fe' : '#1890FF'},styles.buttonR]} onPress={this.register} >
                                 <Text style={[styles.buttonText,{color: '#fff'}]} allowFontScaling={false}>注册</Text>
                             </Pressable>
                         </View>
@@ -503,7 +503,7 @@ const styles = StyleSheet.create({
         position: 'relative',
         width: '40.5%',
         height: 40,
-        backgroundColor: '#eee',
+        // backgroundColor: '',
         borderRadius: 10,
         padding: 0,
     },
@@ -519,7 +519,6 @@ const styles = StyleSheet.create({
         position: 'relative',
         width: '40.5%',
         height: 40,
-        backgroundColor: '#2EA4FF',
         borderRadius: 10,
         padding: 0,
         verticalAlign: 'middle',

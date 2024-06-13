@@ -1,18 +1,14 @@
 
 import * as React from 'react';
-import { View, StyleSheet } from 'react-native';
-import { Shadow } from 'react-native-shadow-2';
+import { View, StyleSheet, Text } from 'react-native';
 import RNEChartsPro from "react-native-echarts-pro";//echarts图
 
 export class MyCanvas extends React.Component<any,any> {
-  echarts: any
   constructor(props:any){
     super(props)
     this.state={
       //折线图
-      ecLine: {
-        lazyLoad: true,
-      },
+      ecLine: true,
       option: {}
     }
   }
@@ -22,6 +18,13 @@ export class MyCanvas extends React.Component<any,any> {
 
   componentDidUpdate(prevProps: Readonly<any>): void {
     if(prevProps.objData !== this.props.objData){
+      this.setState({
+        ecLine: false,
+      },()=>{
+        this.setState({
+          ecLine: true,
+        })
+      })
       this.ecLine(this.props.objData)
     }
   }
@@ -206,15 +209,16 @@ export class MyCanvas extends React.Component<any,any> {
     objType: 1,
     objHeight:700,
   };
-
   render() {
     return (
         <View style = {[styles.my_canvas,this.props.objType == 3?{height:this.props.objHeight}:null]}>
-            <RNEChartsPro
-              ref={(ref: any) => (this.echarts = ref)}
-              option={ this.state.option }
-              height={ this.props.objType == 3?this.props.objHeight: 300 }
-            ></RNEChartsPro>
+            {this.state.ecLine?
+              <RNEChartsPro
+              webViewSettings={ this.state.option }
+               option={ this.state.option }
+               height={ this.props.objType == 3?this.props.objHeight: 300 }
+             ></RNEChartsPro>:''
+            }
         </View>
     )
   }
@@ -225,6 +229,7 @@ const styles = StyleSheet.create({
     width: '100%',
     marginBottom: 10,
     backgroundColor: "white",
+
     shadowColor: "#000",
     shadowOffset: {
       width: 0,

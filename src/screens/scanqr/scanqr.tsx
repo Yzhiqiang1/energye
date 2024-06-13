@@ -8,7 +8,6 @@ import { PERMISSIONS, openSettings, request} from 'react-native-permissions'
 import LinearGradient from 'react-native-linear-gradient';
 
 import Navbars from '../../component/Navbars/Navbars';
-import { Dialog } from '@rneui/themed';
 import Loading from '../../component/Loading/Loading';
 import { Register } from '../../utils/app';
 import store from '../../redux/store';
@@ -33,16 +32,17 @@ function MyComponent(props: any) {
     //获取设备相机
     const device = useCameraDevice('back');
     const isFocused = useIsFocused()
-    //扫码
+    //扫码格式
     const codeScanner = useCodeScanner({
         codeTypes: ['qr', 'ean-13'],
         onCodeScanned: (codes:any) => {
+            //识别二维码后触发
             props.scanCode(codes[0].value)
             props.close()
         }
     });
 
-    //选择照片按钮点击
+    //手动选择照片
     const choosePic = () => {
         const options:any = {
             mediaType: 'photo',
@@ -60,7 +60,6 @@ function MyComponent(props: any) {
                 recoginze(source);
             }
         })
-        
     }
     // 识别图片二维码
     const recoginze = async (data: any) => {
@@ -70,7 +69,7 @@ function MyComponent(props: any) {
         props.close()
         props.scanCode(result)
     }
-
+    
     useEffect(() => {
         //扫码条向下平移
         const shiftDown = Animated.timing(translateY1,
@@ -517,7 +516,7 @@ export class Scanqr extends Component<any,any> {
         }, () => {
             //地址逆解析
             that._reverseGeocoder();
-            //打开弹窗
+            //显示弹窗
             Animated.timing(this.translateY,
                 {
                     toValue: -ht/2,
@@ -904,8 +903,7 @@ export class Scanqr extends Component<any,any> {
 
 const styles = StyleSheet.create({
     container:{
-        position: 'absolute',
-        top: ht/10,
+        flex: 1,
         width: '100%',
         backgroundColor: '#f4f4f4',
         zIndex: 9,

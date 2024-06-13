@@ -140,7 +140,7 @@ export class User extends Component<any,any> {
         <SafeAreaView style={{flex: 1}}>
           <View style={styleg.containerMax}>
             <View style={styles.nav}>
-              <Pressable style={styles.navLeft} onPress={()=>{this.props.navigation.navigate('HomeBar')}}>
+              <Pressable style={({ pressed })=>[{backgroundColor: pressed? '#c3c3c3' : '#b4b4b4'  },styles.navLeft]} onPress={()=>{this.props.navigation.navigate('HomeBar')}}>
                 <Image style={styles.navImg} source={require('../../image/Home.png')}></Image>
               </Pressable>
               <Text allowFontScaling={false}style={styles.navName}>我的</Text>
@@ -206,7 +206,6 @@ const styles = StyleSheet.create({
     zIndex:999,
     width: 30,
     height: 30,
-    backgroundColor:'#c3c3c3',
     borderRadius: 20,
     display:'flex',
     alignItems:'center',
