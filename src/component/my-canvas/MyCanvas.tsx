@@ -1,6 +1,6 @@
 
 import * as React from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import RNEChartsPro from "react-native-echarts-pro";//echarts图
 
 export class MyCanvas extends React.Component<any,any> {
@@ -214,10 +214,9 @@ export class MyCanvas extends React.Component<any,any> {
         <View style = {[styles.my_canvas,this.props.objType == 3?{height:this.props.objHeight}:null]}>
             {this.state.ecLine?
               <RNEChartsPro
-              webViewSettings={ this.state.option }
-               option={ this.state.option }
-               height={ this.props.objType == 3?this.props.objHeight: 300 }
-             ></RNEChartsPro>:''
+                option={ this.state.option }
+                height={ this.props.objType == 3?this.props.objHeight: 300 }
+              ></RNEChartsPro>:''
             }
         </View>
     )

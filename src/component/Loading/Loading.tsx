@@ -29,17 +29,17 @@ export class Loading extends Component<any,any> {
             </View>
             :
             <View>
-                 <Modal
-                    animationType="fade"
+                <Modal
+                    animationType='fade'
                     transparent={true}
-                    visible={this.props.visible}
+                    visible={ this.props.visible }
                     presentationStyle={'overFullScreen'}
-                    >
-                        <View style={{position: 'absolute',zIndex: 999999,width: '100%',height: '100%',alignItems:'center',justifyContent:'center'}}>
-                            <View style={styles.showLoading}>
-                                <Text allowFontScaling={false} style={styles.showText}>{this.props.LoadingMsg}</Text>
-                            </View>
+                >
+                    <View style={styles.box}>
+                        <View style={styles.showLoading}>
+                            <Text allowFontScaling={false} style={styles.showText}>{this.props.LoadingMsg}</Text>
                         </View>
+                    </View>
                 </Modal>
             </View>
         )
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     },
     modalBox: {
         position: 'absolute',
-        zIndex: 9999999,
+        zIndex: 99999,
         height: screenHeight,
         width: '100%',
         justifyContent: 'center', 
@@ -94,6 +94,14 @@ const styles = StyleSheet.create({
         height: Dimensions.get('screen').width/3,
         borderRadius:10,
         backgroundColor: '#fff',
+    },
+    box: {
+        position: 'absolute',
+        zIndex: 99999,
+        width: '100%',
+        height: '100%',
+        alignItems: 'center',
+        justifyContent: 'center'
     }
 })
 export default Loading

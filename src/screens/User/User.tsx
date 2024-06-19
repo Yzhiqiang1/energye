@@ -1,6 +1,5 @@
-import { Text, View, Pressable, Dimensions, SafeAreaView, TouchableHighlight} from 'react-native'
+import { Text, View, Pressable, Dimensions, SafeAreaView, TouchableHighlight } from 'react-native'
 import React, { Component } from 'react'
-import { Menu } from '../../component/menu/menu'//底部导航组件
 import styleg from '../../indexCss'//公共scc
 import { StyleSheet } from 'react-native'
 import store from '../../redux/store'
@@ -38,10 +37,10 @@ export class User extends Component<any,any> {
     let that = this;
     //调用登录验证
     Register.userSignIn(false).then(res => {
-        //校验登录成功后执行
-        if (res == true) {
-            that.check_ok(); //校验通过后调用方法
-        }
+      //校验登录成功后执行
+      if (res == true) {
+          that.check_ok(); //校验通过后调用方法
+      }
     });
   }
   /*******************************
@@ -124,11 +123,6 @@ export class User extends Component<any,any> {
    
   }
 
-  toggleDialog3 = ()=>{
-    this.setState({
-      visible: !this.state.visible
-    })
-  }
   onChange=(value: Date)=>{
     console.log(value);
   }

@@ -1,5 +1,5 @@
 import { StyleSheet, View, Image, TextInput, Pressable, Text, ScrollView, Animated,
-     Dimensions, Platform, SafeAreaView, Alert, StatusBar} from 'react-native'
+    Dimensions, Platform, SafeAreaView, Alert, StatusBar} from 'react-native'
 import React, { Component, useEffect } from 'react'
 import Geolocation from '@react-native-community/geolocation';//获取定位
 import { Camera, useCameraDevice, useCodeScanner} from "react-native-vision-camera"//摄像头扫码
@@ -603,7 +603,7 @@ export class Scanqr extends Component<any,any> {
                             },
                             { 
                                 text: "去设置", onPress: () => {
-                                    that.install()
+                                    openSettings().catch(() => console.warn('cannot open settings'))
                                 }   
                             }
                         ]
@@ -614,9 +614,6 @@ export class Scanqr extends Component<any,any> {
             }
         }
         requestCameraPermission()
-    }
-    install=()=>{
-        openSettings().catch(() => console.warn('cannot open settings'))
     }
     // 关闭摄像头
     closeCamera=()=>{
@@ -867,7 +864,7 @@ export class Scanqr extends Component<any,any> {
                                                 return(
                                                     <Pressable 
                                                         key={index}
-                                                        style={[styles.list,index == this.state.positionIndex ? styles.on:null]}
+                                                        style={[styles.list,index == this.state.positionIndex ? styles.on : null]}
                                                         onPress={()=>this._select(index)}
                                                     >
                                                         <View>

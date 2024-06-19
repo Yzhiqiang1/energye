@@ -270,9 +270,6 @@ export class BindPhone extends Component<any,any> {
                                 <Text allowFontScaling={false} style={styles.Code} onPress={this.gainCode}>{this.state.mobiletitle}</Text>
                             </View>
                             <View style={styles.forget}>
-                                <TouchableOpacity >
-                                    <Text allowFontScaling={false} style={{color:'#2EA4FF',fontSize:Fs/24}}>忘记密码?</Text>
-                                </TouchableOpacity>
                             </View>
                             <View  style={styles.butList}>
                                 <Pressable style={({ pressed })=>[{backgroundColor: pressed? '#f3f3f3' : '#eeeeee'},styles.button]} onPress={()=>this.props.navigation.navigate('Tabbar')}>

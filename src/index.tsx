@@ -42,6 +42,7 @@ import history_switchMonitor from './screens/pages_security/history_switchMonito
 import security3 from './screens/pages_security/security3/security3';
 import ServiceInfo from './screens/serviceInfo/serviceInfo';
 import Playback from './screens/pages_video/playback/playback'
+import GetPassword from './screens/getPassword/getPassword'
 
 const Stack = createStackNavigator();
 
@@ -90,6 +91,7 @@ export class Index extends Component {
             <Stack.Screen name="history_switchMonitor" component={history_switchMonitor}></Stack.Screen>
             <Stack.Screen name="ServiceInfo" component={ServiceInfo}></Stack.Screen>
             <Stack.Screen name="Playback" component={Playback}></Stack.Screen>
+            <Stack.Screen name="GetPassword" component={GetPassword}></Stack.Screen>
         </Stack.Navigator>
       </SafeAreaProvider>
     )

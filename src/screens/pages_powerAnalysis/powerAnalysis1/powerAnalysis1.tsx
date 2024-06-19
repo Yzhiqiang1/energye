@@ -1,4 +1,4 @@
-import { Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Dimensions, Image, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import React, { Component } from 'react'
 import Navbar from '../../../component/navbar/navbar'
 import styleg from '../../../indexCss'
@@ -10,6 +10,7 @@ import { HttpService } from '../../../utils/http'
 import MyCanvas from '../../../component/my-canvas/MyCanvas'//数据图组件
 import Loading from '../../../component/Loading/Loading'//加载组件
 import { Picker } from '../../../component/Picker/Picker'
+import { PickerBut } from '../../../component/PickerBut/PickerBut' 
 const api = require('../../../utils/api')
 const Fs = Dimensions.get('window').width*0.8
 
@@ -58,8 +59,9 @@ export class PowerAnalysis1 extends Component<any,any> {
 
             msgType: 1,
             visible: false,
-            LoadingMsg: ''
+            LoadingMsg: '',
 
+            open: false
         }    
     }
     componentDidMount(): void {

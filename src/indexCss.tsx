@@ -1,5 +1,4 @@
 import { Dimensions, StatusBar, StyleSheet, Platform, NativeModules } from 'react-native'
-const ht = Dimensions.get('window').height*0.8//屏幕高度
 const { StatusBarManager } = NativeModules;
 const STATUS_BAR_HEIGHT = Platform.OS === 'ios' ? StatusBar.currentHeight : StatusBarManager.HEIGHT;//状态栏高度
 const Fs = Dimensions.get('window').width*0.8
@@ -23,10 +22,6 @@ const styleg = StyleSheet.create({
     },
     container:{
         flex: 1,
-        // marginTop:5,
-        // position: 'absolute',
-        // top: ht/9,
-        // bottom: 0,
         width: '100%',
         backgroundColor: '#f4f4f4',
         zIndex: 9,

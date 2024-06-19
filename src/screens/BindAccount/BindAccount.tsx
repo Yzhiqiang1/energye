@@ -175,7 +175,7 @@ export class BindAccount extends Component<any,any> {
                         </View>
                         <View style={styles.forget}>
                             <TouchableOpacity >
-                                <Text style={{color:'#2EA4FF'}} allowFontScaling={false}>忘记密码?</Text>
+                                <Text style={{color:'#2EA4FF'}} allowFontScaling={false} onPress={()=>this.props.navigation.navigate('GetPassword')}>忘记密码?</Text>
                             </TouchableOpacity>
                         </View>
                         <View  style={styles.butList}>

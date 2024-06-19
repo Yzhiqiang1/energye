@@ -14,6 +14,7 @@ const Fs = Dimensions.get('window').width*0.8
 
 
 export class Navbar extends React.Component<any,any> {
+    //下箭头旋转动画数值
     deg = new Animated.Value(0);
     constructor(props: any ){
         super(props)
@@ -417,7 +418,6 @@ export class Navbar extends React.Component<any,any> {
                     })
                 }
             } else {
-                //关闭加载效果
                 //更新数据
                 that.setState({
                     treeLoading: false,
@@ -426,7 +426,6 @@ export class Navbar extends React.Component<any,any> {
                 })
             }
         }).catch((fail_message) => {
-            //关闭加载效果
             //错误提示信息
             this.setState({
                 msgType: 2,
@@ -609,9 +608,8 @@ export class Navbar extends React.Component<any,any> {
         showHome:false,
         pageName:''
     };
-
     render() {
-        const {navigation,}: {navigation?: StackNavigationProp<any, any>; } = this.props.props
+        const {navigation,}: { navigation?: StackNavigationProp<any, any> } = this.props.props
         return (
             <View style={[styles.navbar,{height: ht/9,pointerEvents: 'auto'}]}>
                 <View style={[styles.navbar_head]}>
@@ -662,6 +660,7 @@ export class Navbar extends React.Component<any,any> {
                     visible={this.state.showTree}
                     onRequestClose={this.handleOnRequestClose}
                     presentationStyle={'overFullScreen'}
+                    hardwareAccelerated={true}
                 >
                     <View style={[styles.modalBox,{top: ht/9}]}>
                         <Pressable style={{width: '100%',height: '100%'}} onPress={this.treeSelectClick}>
@@ -723,7 +722,8 @@ export class Navbar extends React.Component<any,any> {
                 <Loading 
                     type={this.state.msgType} 
                     visible={this.state.visible} 
-                    LoadingMsg={this.state.LoadingMsg}>
+                    LoadingMsg={this.state.LoadingMsg}
+                >
                 </Loading>
             </View>
         )
@@ -883,26 +883,10 @@ const styles = StyleSheet.create({
         top: ht/9,
         backgroundColor: '#333',
     },
-    modal:{
-        position:'absolute',
-        width: Dimensions.get('window').width-10,
-        minHeight: 300,
-        top: ht/9-15,
-        left: -15,
-        borderRadius: 5,
-        backgroundColor: '#fff',
-        display: 'flex',
-        flexDirection:'row',
-    },
     modalBox: {
-        // position: 'absolute',
-        // width: '100%',
-        // height: '100%',
-        // zIndex: 999999,
-        // justifyContent: 'center', 
-        // alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.4)',
+        top: 10,
         flex: 1,
+        backgroundColor: 'rgba(0, 0, 0, 0.4)',
         justifyContent: "center",
         alignItems: "center",
     },
