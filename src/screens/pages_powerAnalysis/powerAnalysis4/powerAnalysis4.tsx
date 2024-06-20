@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, DeviceEventEmitter, Dimensions, SafeAreaView } from 'react-native'
+import { StyleSheet, Text, View, DeviceEventEmitter, Dimensions, SafeAreaView, Pressable, Image } from 'react-native'
 import React, { Component } from 'react'
 import Navbar from '../../../component/navbar/navbar'
 import styleg from '../../../indexCss'
@@ -8,6 +8,7 @@ import { HttpService } from '../../../utils/http'
 import util, { plusReduceData } from '../../../utils/util'
 import Loading from '../../../component/Loading/Loading'
 import Picker from '../../../component/Picker/Picker'
+import PickerBut from '../../../component/PickerBut/PickerBut'
 const api = require('../../../utils/api')
 const Fs = Dimensions.get('window').width*0.8
 
@@ -239,23 +240,31 @@ export class PowerAnalysis4 extends Component<any,any> {
                     <View style={styleg.container}>
                         <View style={styles.query_head}>
                             <View style={styles.flex}>
-                                <Picker
+                                {/* <Picker
                                     pickerType={1}
                                     date={this.state.start}
                                     precisionType={1}
                                     click={this.clickStart}
-                                ></Picker>
+                                ></Picker> */}
+                                <Pressable style={styleg.button} onPress={()=>this.setState({open: true,typePk: 1})}>
+                                    <Text allowFontScaling={false} style={styleg.TextButton}>{this.state._day}</Text>
+                                    <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
+                                </Pressable>
                             </View>
                             <Text allowFontScaling={false} style={styles.text}>
                                 至
                             </Text>
                             <View style={styles.flex}>
-                                <Picker
+                                {/* <Picker
                                     pickerType={1}
                                     date={this.state.end}
                                     precisionType={1}
                                     click={this.clickEnd}
-                                ></Picker>
+                                ></Picker> */}
+                                 <Pressable style={styleg.button} onPress={()=>this.setState({open: true,typePk: 2})}>
+                                    <Text allowFontScaling={false} style={styleg.TextButton}>{this.state._day}</Text>
+                                    <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
+                                </Pressable>
                             </View>
                             <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>查询</Text>
                         </View>
@@ -298,6 +307,25 @@ export class PowerAnalysis4 extends Component<any,any> {
                         visible={this.state.visible} 
                         LoadingMsg={this.state.LoadingMsg}>
                     </Loading>
+                    {/* 日期选择 */}
+                    {this.state.open ? 
+                        this.state.typePk==1?
+                        <PickerBut
+                            pickerType={1}
+                            date={this.state.start}
+                            precisionType={1}
+                            click={this.clickStart}
+                            cancel={()=>this.setState({open: false})}
+                        ></PickerBut>:
+                        <PickerBut
+                            pickerType={1}
+                            date={this.state.end}
+                            precisionType={1}
+                            click={this.clickEnd}
+                            cancel={()=>this.setState({open: false})}
+                        ></PickerBut>
+                    :''}
+                    
                 </SafeAreaView>
             </View>
         )

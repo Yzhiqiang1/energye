@@ -1,4 +1,4 @@
-import { Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Dimensions, Image, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import React, { Component } from 'react'
 import Navbar from '../../../component/navbar/navbar'
 import util from '../../../utils/util'
@@ -9,6 +9,7 @@ import { HttpService } from '../../../utils/http'
 import MyCanvas from '../../../component/my-canvas/MyCanvas'
 import Loading from '../../../component/Loading/Loading'//加载组件
 import { Picker } from '../../../component/Picker/Picker'
+import { PickerBut } from '../../../component/PickerBut/PickerBut'
 const api = require('../../../utils/api')
 const tool = require('../../../utils/tool.js');
 const Fs = Dimensions.get('window').width*0.8
@@ -501,21 +502,29 @@ export class PowerTest6 extends Component<any,any> {
                 <View style={styleg.container}>
                     <View style={styles.query_head}>
                         <View style={{flex:2}}>
-                            <Picker
+                            {/* <Picker
                                 pickerType={1}
                                 date={this.state._date}
                                 precisionType={1}
                                 click={this.clickDate}
-                            ></Picker>
+                            ></Picker> */}
+                            <Pressable style={styleg.button} onPress={()=>this.setState({open: true, typePk: 1})}>
+                                <Text allowFontScaling={false} style={styleg.TextButton}>{this.state._date}</Text>
+                                <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
+                            </Pressable>
                         </View>
                         <View style={styles.flex}>
-                            <Picker
+                            {/* <Picker
                                 pickerType={4}
                                 dataSwitch={this.state._typeArr}
                                 dataSwitchIn={this.state._typeIn}
                                 click={this.clickType}
                                 >
-                            </Picker>
+                            </Picker> */}
+                            <Pressable style={styleg.button} onPress={()=>this.setState({open: true, typePk: 2})}>
+                                <Text allowFontScaling={false} style={styleg.TextButton}>{this.state._typeArr[this.state._typeIn]}</Text>
+                                <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
+                            </Pressable>
                         </View>
                         <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>查询</Text>
                     </View>
@@ -544,6 +553,25 @@ export class PowerTest6 extends Component<any,any> {
                     visible={this.state.visible} 
                     LoadingMsg={this.state.LoadingMsg}>
                 </Loading>
+                {/* 日期选择 */}
+                {this.state.open?
+                    this.state.typePk==1?
+                        <PickerBut
+                            pickerType={1}
+                            date={this.state._date}
+                            precisionType={1}
+                            click={this.clickDate}
+                            cancel={()=>this.setState({open: false})}
+                        ></PickerBut>:
+                        <PickerBut
+                            pickerType={4}
+                            dataSwitch={this.state._typeArr}
+                            dataSwitchIn={this.state._typeIn}
+                            click={this.clickType}
+                            cancel={()=>this.setState({open: false})}
+                        ></PickerBut>
+                    :''
+                }
             </SafeAreaView>
         </View>
     )

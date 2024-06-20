@@ -1,4 +1,4 @@
-import { DeviceEventEmitter, Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { DeviceEventEmitter, Dimensions, Image, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import React, { Component } from 'react'
 import Navbar from '../../../component/navbar/navbar'
 import util from '../../../utils/util'
@@ -9,6 +9,7 @@ import store from '../../../redux/store'
 import { HttpService } from '../../../utils/http'
 import Loading from '../../../component/Loading/Loading'//加载组件
 import Picker from '../../../component/Picker/Picker'
+import PickerBut from '../../../component/PickerBut/PickerBut'
 const api = require('../../../utils/api')
 const Fs = Dimensions.get('window').width*0.8
 
@@ -434,21 +435,29 @@ export class PowerTest5 extends Component<any,any> {
                 <View style={styleg.container}>
                     <View style={styles.query_head}>
                         <View style={styles.flex}>
-                            <Picker
+                            {/* <Picker
                                 pickerType={4}
                                 dataSwitch={this.state.dataSwitch}
                                 dataSwitchIn={this.state.dataSwitchIn}
                                 click={this.clickDataSwitch}
                                 >
-                            </Picker>
+                            </Picker> */}
+                            <Pressable style={styleg.button} onPress={()=>this.setState({open: true, typePk: 1})}>
+                                <Text allowFontScaling={false} style={styleg.TextButton}>{this.state.dataSwitch[this.state.dataSwitchIn]}</Text>
+                                <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
+                            </Pressable>
                         </View>
                     <View style={{flex:2}}>
-                            <Picker
+                            {/* <Picker
                                 pickerType={1}
                                 date={this.state._date}
                                 precisionType={this.state.dataSwitchIn==0 ? 2 : 4}
                                 click={this.clickDate}
-                            ></Picker>
+                            ></Picker> */}
+                            <Pressable style={styleg.button} onPress={()=>this.setState({open: true, typePk: 2})}>
+                                <Text allowFontScaling={false} style={styleg.TextButton}>{this.state._date}</Text>
+                                <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
+                            </Pressable>
                     </View>
                         <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>查询</Text>
                     </View>
@@ -477,6 +486,25 @@ export class PowerTest5 extends Component<any,any> {
                     visible={this.state.visible} 
                     LoadingMsg={this.state.LoadingMsg}>
                 </Loading>
+                {/* 日期选择 */}
+                {this.state.open?
+                    this.state.typePk==1?
+                        <PickerBut
+                            pickerType={4}
+                            dataSwitch={this.state.dataSwitch}
+                            dataSwitchIn={this.state.dataSwitchIn}
+                            click={this.clickDataSwitch}
+                            cancel={()=>this.setState({open: false})}
+                        ></PickerBut>:
+                        <PickerBut
+                            pickerType={1}
+                            date={this.state._date}
+                            precisionType={this.state.dataSwitchIn==0 ? 2 : 4}
+                            click={this.clickDate}
+                            cancel={()=>this.setState({open: false})}
+                        ></PickerBut>
+                    :''
+                }
             </SafeAreaView>
       </View>
     )

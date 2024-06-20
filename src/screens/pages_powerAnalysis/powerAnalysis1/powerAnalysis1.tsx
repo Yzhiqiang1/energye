@@ -10,7 +10,7 @@ import { HttpService } from '../../../utils/http'
 import MyCanvas from '../../../component/my-canvas/MyCanvas'//数据图组件
 import Loading from '../../../component/Loading/Loading'//加载组件
 import { Picker } from '../../../component/Picker/Picker'
-import { PickerBut } from '../../../component/PickerBut/PickerBut' 
+import PickerBut from '../../../component/PickerBut/PickerBut'
 const api = require('../../../utils/api')
 const Fs = Dimensions.get('window').width*0.8
 
@@ -552,20 +552,28 @@ export class PowerAnalysis1 extends Component<any,any> {
                             {this.state.dataSwitchIn == 0?
                                 <View style={styles.timing}>
                                     <View style={styles.flex}>
-                                        <Picker
+                                        {/* <Picker
                                             pickerType={1}
                                             date={[this.state.start,this.state.start_HH]}
                                             precisionType={3}
                                             click={this.startConfirm}
-                                        ></Picker>
+                                        ></Picker> */}
+                                        <Pressable style={styleg.button} onPress={()=>this.setState({open: true, typePk: 1})}>
+                                            <Text allowFontScaling={false} style={styleg.TextButton}>{this.state.start+' '+this.state.start_HH+'时'}</Text>
+                                            <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
+                                        </Pressable>
                                     </View>
                                     <View style={styles.flex}>
-                                        <Picker
+                                        {/* <Picker
                                             pickerType={1}
                                             date={[this.state.end,this.state.end_HH]}
                                             precisionType={3}
                                             click={this.endConfirm}
-                                        ></Picker>
+                                        ></Picker> */}
+                                        <Pressable style={styleg.button} onPress={()=>this.setState({open: true, typePk: 2})}>
+                                            <Text allowFontScaling={false} style={styleg.TextButton}>{this.state.end+' '+this.state.end_HH+'时'}</Text>
+                                            <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
+                                        </Pressable>
                                     </View>
                                 </View>:''
                             }
@@ -573,23 +581,33 @@ export class PowerAnalysis1 extends Component<any,any> {
                             {this.state.dataSwitchIn == 1?
                                 <View style={styles.timing}>
                                     <View style={styles.flex}>
-                                        <Picker
+                                        {/* <Picker
                                             pickerType={1}
                                             date={this.state._month}
                                             precisionType={2}
                                             click={this._monthClick}
-                                        ></Picker>
+                                        ></Picker> */}
+                                        <Pressable style={styleg.button} onPress={()=>this.setState({open: true, typePk: 3})}>
+                                            <Text allowFontScaling={false} style={styleg.TextButton}>{this.state._month}</Text>
+                                            <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
+                                        </Pressable>
                                     </View>
                                     {/* 多列选择器 */}
                                     <View style={styles.flex}>
-                                        <Picker
+                                        {/* <Picker
                                             pickerType={2}
                                             monthTime={this.state._monthTime}
                                             monthTimeIn={this.state._monthTimeIn}
                                             precisionType={2}
                                             text = '日'
                                             click={this._monthTimeClick}
-                                        ></Picker>
+                                        ></Picker> */}
+                                        <Pressable style={styleg.button} onPress={()=>this.setState({open: true, typePk: 4})}>
+                                            <Text allowFontScaling={false} style={styleg.TextButton}>
+                                                {this.state._monthTime[0][this.state._monthTimeIn[0]]+'日 至 '+this.state._monthTime[1][this.state._monthTimeIn[1]]+'日'}
+                                            </Text>
+                                            <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
+                                        </Pressable>
                                     </View>
                                 </View>:''
                             }
@@ -597,23 +615,33 @@ export class PowerAnalysis1 extends Component<any,any> {
                             {this.state.dataSwitchIn == 2?
                                 <View style={styles.timing}>
                                     <View style={styles.flex}>
-                                        <Picker
+                                        {/* <Picker
                                             pickerType={1}
                                             date={this.state._year}
                                             precisionType={4}
                                             click={this._yearClick}
-                                        ></Picker>
+                                        ></Picker> */}
+                                        <Pressable style={styleg.button} onPress={()=>this.setState({open: true, typePk: 5})}>
+                                            <Text allowFontScaling={false} style={styleg.TextButton}>{this.state._year}</Text>
+                                            <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
+                                        </Pressable>
                                     </View>
                                     {/* 多列选择器 */}
                                     <View style={styles.flex}>
-                                        <Picker
+                                        {/* <Picker
                                             pickerType={2}
                                             monthTime={this.state._yearTime}
                                             monthTimeIn={this.state._yearTimeIn}
                                             precisionType={2}
                                             text = '月'
                                             click={this._yearTimeClick}
-                                        ></Picker>
+                                        ></Picker> */}
+                                        <Pressable style={styleg.button} onPress={()=>this.setState({open: true, typePk: 6})}>
+                                            <Text allowFontScaling={false} style={styleg.TextButton}>
+                                                {this.state._yearTime[0][this.state._yearTimeIn[0]]+'月 至 '+this.state._yearTime[1][this.state._yearTimeIn[1]]+'日'}
+                                            </Text>
+                                            <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
+                                        </Pressable>
                                     </View>
                                 </View>:''   
                             }
@@ -644,6 +672,59 @@ export class PowerAnalysis1 extends Component<any,any> {
                         visible={this.state.visible} 
                         LoadingMsg={this.state.LoadingMsg}>
                     </Loading>
+                    {/* 日期选择 */}
+                    {this.state.open?
+                        this.state.typePk==1?
+                            <PickerBut
+                                pickerType={1}
+                                date={[this.state.start,this.state.start_HH]}
+                                precisionType={3}
+                                click={this.startConfirm}
+                                cancel={()=>this.setState({open: false})}
+                            ></PickerBut>:
+                        this.state.typePk==2?
+                            <PickerBut
+                                pickerType={1}
+                                date={[this.state.end,this.state.end_HH]}
+                                precisionType={3}
+                                click={this.endConfirm}
+                                cancel={()=>this.setState({open: false})}
+                            ></PickerBut>:
+                        this.state.typePk==3?
+                            <PickerBut
+                                pickerType={1}
+                                date={[this.state.end,this.state.end_HH]}
+                                precisionType={3}
+                                click={this.endConfirm}
+                                cancel={()=>this.setState({open: false})}
+                            ></PickerBut>:
+                        this.state.typePk==4?
+                            <PickerBut
+                                pickerType={2}
+                                monthTime={this.state._monthTime}
+                                monthTimeIn={this.state._monthTimeIn}
+                                precisionType={2}
+                                click={this._monthTimeClick}
+                                cancel={()=>this.setState({open: false})}
+                            ></PickerBut>:
+                        this.state.typePk==5?
+                            <PickerBut
+                                pickerType={1}
+                                date={this.state._year}
+                                precisionType={4}
+                                click={this._yearClick}
+                                cancel={()=>this.setState({open: false})}
+                            ></PickerBut>:
+                            <PickerBut
+                                pickerType={2}
+                                monthTime={this.state._yearTime}
+                                monthTimeIn={this.state._yearTimeIn}
+                                precisionType={2}
+                                click={this._yearTimeClick}
+                                cancel={()=>this.setState({open: false})}
+                            ></PickerBut>
+                        :''
+                    }
                 </SafeAreaView>
             </View>
         )

@@ -1,4 +1,4 @@
-import { DeviceEventEmitter, Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { DeviceEventEmitter, Dimensions, Image, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import React, { Component } from 'react'
 //方法
 import styleg from '../../../indexCss'
@@ -12,6 +12,7 @@ import MyCanvas from '../../../component/my-canvas/MyCanvas'
 import MyLegend from '../../../component/my-legend/MyLegend'
 import Loading from '../../../component/Loading/Loading'//加载动画组件
 import Picker from '../../../component/Picker/Picker'//选择器
+import PickerBut from '../../../component/PickerBut/PickerBut'
 const api = require('../../../utils/api')
 const Fs = Dimensions.get('window').width*0.8
 
@@ -413,23 +414,31 @@ export class PowerTest7 extends Component<any,any> {
                     <View style={styleg.container}>
                         <View style={styles.query_head}>
                             <View style={styles.flex}>
-                                <Picker
+                                {/* <Picker
                                     pickerType={1}
                                     date={this.state.start}
                                     precisionType={1}
                                     click={this.clickStart}
-                                ></Picker>
+                                ></Picker> */}
+                                <Pressable style={styleg.button} onPress={()=>this.setState({open: true, typePk: 1})}>
+                                    <Text allowFontScaling={false} style={styleg.TextButton}>{this.state.start}</Text>
+                                    <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
+                                </Pressable>
                             </View>
                             <Text allowFontScaling={false} style={styles.text}>
                                 至
                             </Text>
                             <View style={styles.flex}>
-                                <Picker
+                                {/* <Picker
                                     pickerType={1}
                                     date={this.state.end}
                                     precisionType={1}
                                     click={this.clickEnd}
-                                ></Picker>
+                                ></Picker> */}
+                                <Pressable style={styleg.button} onPress={()=>this.setState({open: true, typePk: 2})}>
+                                    <Text allowFontScaling={false} style={styleg.TextButton}>{this.state.end}</Text>
+                                    <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
+                                </Pressable>
                             </View>
                             <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>查询</Text>
                         </View>
@@ -458,6 +467,25 @@ export class PowerTest7 extends Component<any,any> {
                         visible={this.state.visible} 
                         LoadingMsg={this.state.LoadingMsg}>
                     </Loading>
+                    {/* 日期选择 */}
+                    {this.state.open?
+                        this.state.typePk==1?
+                            <PickerBut
+                                pickerType={1}
+                                date={this.state.start}
+                                precisionType={1}
+                                click={this.clickStart}
+                                cancel={()=>this.setState({open: false})}
+                            ></PickerBut>:
+                            <PickerBut
+                                pickerType={1}
+                                date={this.state.end}
+                                precisionType={1}
+                                click={this.clickEnd}
+                                cancel={()=>this.setState({open: false})}
+                            ></PickerBut>
+                        :''
+                    }
                 </SafeAreaView>
             </View>
         )

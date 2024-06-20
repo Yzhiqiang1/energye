@@ -1,4 +1,4 @@
-import { Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Dimensions, Image, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import React, { Component } from 'react'
 import Navbar from '../../../component/navbar/navbar'
 import styleg from '../../../indexCss';
@@ -7,6 +7,7 @@ import store from '../../../redux/store'
 import { Register } from '../../../utils/app';
 import { HttpService } from '../../../utils/http';
 import { Picker } from '../../../component/Picker/Picker'//选择器
+import { PickerBut } from '../../../component/PickerBut/PickerBut'//选择器
 import Loading from '../../../component/Loading/Loading'//加载组件
 let util = require('../../../utils/util.js');
 const api = require('../../../utils/api')
@@ -244,7 +245,14 @@ export class PowerTest3 extends Component<any,any> {
         });
     }
 
-    setSelectedOption=(value:any)=>{}
+    openPicker=(type:any)=>{
+        console.log(1);
+        
+        this.setState({
+            open: true,
+            typePk: type
+        })
+    }
     render() {
         return (
             <View style={{flex: 1}}>
@@ -265,20 +273,28 @@ export class PowerTest3 extends Component<any,any> {
                     <View style={styleg.container}>
                         <View style={styles.query_head}>
                             <View style={styles.flex}>
-                                <Picker
+                                {/* <Picker
                                     pickerType={1}
                                     date={this.state._date}
                                     precisionType={1}
                                     click={this.clickDate}
-                                ></Picker>
+                                ></Picker> */}
+                                <Pressable style={styleg.button} onPress={()=>this.openPicker(1)}>
+                                    <Text allowFontScaling={false} style={styleg.TextButton}>{this.state._date}</Text>
+                                    <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
+                                </Pressable>
                             </View>
-                            <Picker
+                            {/* <Picker
                                 pickerType={4}
                                 dataSwitch={this.state._timeArr}
                                 dataSwitchIn={this.state._timeIn}
                                 click={this.clickTime}
                                 >
-                            </Picker>
+                            </Picker> */}
+                            <Pressable style={styleg.button} onPress={()=>this.openPicker(2)}>
+                                <Text allowFontScaling={false} style={styleg.TextButton}>{this.state._timeArr[this.state._timeIn]}</Text>
+                                <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
+                            </Pressable>
                             <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>查询</Text>
                         </View>
                         <ScrollView style={styles.echarts_con}>
@@ -306,6 +322,25 @@ export class PowerTest3 extends Component<any,any> {
                         visible={this.state.visible} 
                         LoadingMsg={this.state.LoadingMsg}>
                     </Loading>
+                    {/* 日期选择 */}
+                    {this.state.open?
+                        this.state.typePk==1?
+                        <PickerBut
+                            pickerType={1}
+                            date={this.state._date}
+                            precisionType={1}
+                            click={this.clickDate}
+                            cancel={()=>this.setState({open: false})}
+                        ></PickerBut>
+                        :
+                        <PickerBut
+                            pickerType={4}
+                            dataSwitch={this.state._timeArr}
+                            dataSwitchIn={this.state._timeIn}
+                            click={this.clickTime}
+                            cancel={()=>this.setState({open: false})}
+                        ></PickerBut>
+                    :''}
                 </SafeAreaView>
             </View>
         )

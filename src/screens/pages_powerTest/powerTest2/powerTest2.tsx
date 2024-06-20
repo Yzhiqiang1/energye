@@ -1,4 +1,4 @@
-import { DeviceEventEmitter, Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { DeviceEventEmitter, Dimensions, Image, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import React, { Component } from 'react'
 import store from '../../../redux/store'
 import { Register } from '../../../utils/app';
@@ -8,6 +8,7 @@ import MyCanvas from '../../../component/my-canvas/MyCanvas';
 import { HttpService } from '../../../utils/http';
 import Loading from '../../../component/Loading/Loading'//加载组件
 import Picker from '../../../component/Picker/Picker';
+import PickerBut from '../../../component/PickerBut/PickerBut';
 const util = require('../../../utils/util.js');
 const api = require('../../../utils/api')
 const { plusReduceData } = require('../../../utils/util.js');
@@ -27,7 +28,10 @@ export class PowerTest2 extends Component<any,any> {
             // 弹出窗口
             msgType: 1,
             visible: false,//加载效果控制
-            LoadingMsg:''// 加载效果文字
+            LoadingMsg:'',// 加载效果文字
+            //日期选择
+            open: false,
+            typePk: 1
         }
     }  
     componentDidMount(): void {
@@ -305,6 +309,13 @@ export class PowerTest2 extends Component<any,any> {
             })
         });
     }
+    openPicker=(type: number)=>{
+        this.setState({
+            open: true,
+            typePk: type
+        })
+    }
+
     render() {
         return (
             <View style={{flex: 1}}>
@@ -325,23 +336,31 @@ export class PowerTest2 extends Component<any,any> {
                     <View style={styleg.container}>
                         <View style={styles.query_head}>
                             <View style={styles.flex}>
-                                <Picker
+                                {/* <Picker
                                     pickerType={1}
                                     date={this.state.start}
                                     precisionType={1}
                                     click={this.clickStart}
-                                ></Picker>
+                                ></Picker> */}
+                                <Pressable style={styleg.button} onPress={()=>this.openPicker(1)}>
+                                    <Text allowFontScaling={false} style={styleg.TextButton}>{this.state.start}</Text>
+                                    <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
+                                </Pressable>
                             </View>
                             <Text allowFontScaling={false} style={styles.text}>
                                 至
                             </Text>
                             <View style={styles.flex}>
-                                <Picker
+                                {/* <Picker
                                     pickerType={1}
                                     date={this.state.end}
                                     precisionType={1}
                                     click={this.clickEnd}
-                                ></Picker>
+                                ></Picker> */}
+                                <Pressable style={styleg.button} onPress={()=>this.openPicker(2)}>
+                                    <Text allowFontScaling={false} style={styleg.TextButton}>{this.state.end}</Text>
+                                    <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
+                                </Pressable>
                             </View>
                             <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>查询</Text>
                         </View>
@@ -371,6 +390,26 @@ export class PowerTest2 extends Component<any,any> {
                         visible={this.state.visible} 
                         LoadingMsg={this.state.LoadingMsg}>
                     </Loading>
+                    {/* 日期选择器 */}
+                    {this.state.open?
+                        this.state.typePk==1?
+                            <PickerBut
+                                pickerType={1}
+                                date={this.state.start}
+                                precisionType={1}
+                                click={this.clickStart}
+                                cancel={()=>this.setState({open: false})}
+                            ></PickerBut>
+                            :
+                            <PickerBut
+                                pickerType={1}
+                                date={this.state.end}
+                                precisionType={1}
+                                click={this.clickEnd}
+                                cancel={()=>this.setState({open: false})}
+                            ></PickerBut>
+                    :''
+                    }
                 </SafeAreaView>
             </View>
         )

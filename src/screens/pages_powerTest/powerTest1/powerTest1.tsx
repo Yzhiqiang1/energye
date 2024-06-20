@@ -7,7 +7,9 @@ import styleg from '../../../indexCss'
 import { HttpService } from '../../../utils/http'
 import MyCanvas from '../../../component/my-canvas/MyCanvas'
 import Loading from '../../../component/Loading/Loading'//加载组件
-// import Picker from '../../../component/Picker/Picker'//选择器
+import Picker from '../../../component/Picker/Picker'//选择器
+import { DatePickerView } from '@ant-design/react-native'
+import { getTransition } from '../../../utils/util'
 import PickerBut from '../../../component/PickerBut/PickerBut'
 const util = require('../../../utils/util')
 const api = require('../../../utils/api')//引入API文件
@@ -223,6 +225,8 @@ export class PowerTest1 extends Component<any,any> {
             date: date,
             names: "P,Pa,Pb,Pc,Ia,Ib,Ic,Uan,Ubn,Ucn,Uab,Ubc,Uca,Fr,Pf,Q,S,IUnB,UUnB"
         }).then((res:any) => {
+            console.log(res);
+            
             if (res.flag == "00") {
                 let listData = res.data.list;
                 //校验数据是否为空
@@ -355,6 +359,23 @@ export class PowerTest1 extends Component<any,any> {
             isVisible: e
         })
     }
+
+    // 日期选择器变化
+    onChange(date: Date){
+        this.setState({
+            datePicker: date
+        })
+    }
+     //确定日期
+     confirm=()=>{
+        let DP = this.state.datePicker
+        let date: any = DP ? getTransition(DP,1) : null
+        console.log(date);
+        this.setState({
+            _date: date ? date : this.state._date,
+            open: false
+        })
+    }
     render() {
         return (
             <View style={{flex: 1}}>
@@ -390,7 +411,7 @@ export class PowerTest1 extends Component<any,any> {
                             <Text allowFontScaling={false} style={[styles.button,styles.buttonC1]}  onPress={this.preDate}>上一日</Text>
                             <Text allowFontScaling={false} style={styles.button}  onPress={this.nextData}>下一日</Text>
                         </View>
-                        <ScrollView style={styles.echarts_con}>
+                        <ScrollView style={styles.echarts_con} >
                             {this.state.optionData.length == 0?
                                 <Text allowFontScaling={false} style={styles.empty}>暂无数据</Text>:''
                             }
@@ -409,21 +430,23 @@ export class PowerTest1 extends Component<any,any> {
                             })}
                         </ScrollView>
                     </View>
-                    {/* 底部抽屉 */}
-                    <PickerBut
-                        pickerType={1}
-                        date={this.state._date}
-                        precisionType={1}
-                        click={this.clickDate} 
-                        open={this.state.open}
-                        cancel={()=>this.setState({open: false})}
-                    ></PickerBut>
                     {/* 弹窗效果 */}
                     <Loading 
                         type={this.state.msgType} 
                         visible={this.state.visible} 
                         LoadingMsg={this.state.LoadingMsg}>
                     </Loading>
+                    {/* 日期选择 */}
+                    {this.state.open?
+                        <PickerBut 
+                            pickerType={1}
+                            date={this.state._date}
+                            precisionType={1}
+                            click={this.clickDate}
+                            cancel={()=>this.setState({open: false})}
+                        ></PickerBut>
+                        :''
+                    }
                 </SafeAreaView>
             </View>
         )
@@ -512,7 +535,38 @@ const styles = StyleSheet.create({
         backgroundColor:'white',
         borderRadius: 10
     },
-
+    drawer: {
+        position: 'absolute',
+        zIndex: 999999,
+        width: '100%',
+        height: Dimensions.get('screen').height,
+        backgroundColor: 'rgba(0,0,0,0.4)',
+    },
+    dialogBox:{
+        position: 'absolute',
+        zIndex: 9999,
+        bottom: 0,
+        width: Dimensions.get('screen').width,
+        height: Dimensions.get('screen').height/2.5,
+        borderRadius: 10,
+        backgroundColor: '#fff'
+    },
+    butTop:{
+        position: 'relative',
+        height: 40,
+        display: 'flex',
+        flexDirection: 'row',
+        paddingLeft: 20,
+    },
+    bot:{
+        fontSize: Fs/22,
+        lineHeight: 40,
+    },
+    right:{
+        position: 'absolute',
+        right: 20,
+        color: '#2EA4FF'
+    },
 })
 
 export default PowerTest1

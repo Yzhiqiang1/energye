@@ -1,6 +1,6 @@
 import { Dimensions, Pressable, StyleSheet, Text, View } from 'react-native'
 import React, { Component } from 'react'
-import { DatePickerView, PickerView } from '@ant-design/react-native'
+import { DatePickerView, PickerValue, PickerView } from '@ant-design/react-native'
 import { getTransition } from '../../utils/util'
 const Fs = Dimensions.get('window').width*0.8
 const ht = Dimensions.get('window').height*0.8
@@ -10,8 +10,6 @@ export class PickerBut extends Component<any,any> {
         super(props)
         this.state={
             date: '',
-            open: false,
-
             precisionType: 1,//日期选择类型
             precision: 'day',//日期精度，默认 日
 
@@ -44,9 +42,6 @@ export class PickerBut extends Component<any,any> {
         }
     }
     componentDidMount(): void {
-        this.setState({
-            open: this.props.open
-        })
         let precision = 'day' //精度 默认日
         let date = this.props.date
         let dateName = this.props.date
@@ -79,11 +74,6 @@ export class PickerBut extends Component<any,any> {
         })
     }
     componentDidUpdate(prevProps: Readonly<any>): void {
-        if(prevProps.open != this.props.open){
-            this.setState({
-                open: this.props.open
-            })
-        }
         if(this.props.date !== prevProps.date){
             let date = this.props.date
             let dateName = this.props.date
@@ -140,11 +130,16 @@ export class PickerBut extends Component<any,any> {
             }
             end.push(obj)
         })
+        console.log('start',start);
+        console.log('end',end);
+        console.log('startDay',startDay);
+        console.log('endDay',endDay);
+        
         this.setState({
             start: start,
             end: end,
-            startDay: startDay,
-            endDay: endDay
+            startDay: String(startDay),
+            endDay: String(endDay)
         })
     }
     //周选择初始
@@ -163,6 +158,24 @@ export class PickerBut extends Component<any,any> {
             weekData: weekData
         })
     }
+    //周选择变换
+    weekChange=(value: PickerValue[])=>{
+        this.setState({
+            weekTransfer: value
+        })
+    }
+    //周选择确认
+    weekConfirm=()=>{
+        if(this.state.weekTransfer){
+            let week = this.props.monthTime[this.state.weekTransfer].split('(')
+            this.setState({
+                weekValue: this.state.weekTransfer,
+                week: week[0],
+            })
+            this.props.click(this.state.weekTransfer)
+        }
+        this.props.cancel()
+    }
     //普通选择初始
     dataSwitch=()=>{
         let data = this.props.dataSwitch[this.props.dataSwitchIn]
@@ -179,6 +192,24 @@ export class PickerBut extends Component<any,any> {
             dataSwitch: dataSwitch,
         })
     }
+    //普通选择变换
+    dataChange=(value: PickerValue[])=>{
+        this.setState({
+            dataTransfer: value
+        })
+    }
+    //普通选择确认
+    dataConfirm=()=>{
+        if(this.state.dataTransfer){
+            let data = this.props.dataSwitch[Number(this.state.dataTransfer)]
+            this.setState({
+                data: data,
+                dataSwitchIn: this.state.dataTransfer,
+            })
+            this.props.click(Number(this.state.dataTransfer))
+        }
+        this.props.cancel()
+    }
     pressable=()=>{
         this.setState({open:false})
     }
@@ -187,6 +218,7 @@ export class PickerBut extends Component<any,any> {
             PstartDay: value
         })
     }
+
     endChange=(value:any)=>{
         this.setState({
             PendDay: value
@@ -200,8 +232,8 @@ export class PickerBut extends Component<any,any> {
             this.setState({
                 startDay: start,
                 endDay: end,
-                open: false
             })
+            this.props.cancel()
         }
     }
     onChange=(date: Date)=>{
@@ -236,7 +268,6 @@ export class PickerBut extends Component<any,any> {
     render() {
         return (
             this.props.pickerType == 1?
-                this.state.open?
                 <View style={styles.modalBack}>
                     <Pressable style={{flex: 1}} onPress={()=>this.props.cancel()}>
                     </Pressable>
@@ -245,75 +276,82 @@ export class PickerBut extends Component<any,any> {
                             <Text allowFontScaling={false} style={styles.bot} onPress={()=>this.props.cancel()}>取消</Text>
                             <Text allowFontScaling={false} style={[styles.bot,styles.right]} onPress={this.confirm}>确定</Text>
                         </View>
+                        {this.state.date?
                         <DatePickerView
                             precision={this.state.precision}
                             defaultValue={new Date(String(this.state.date))}
                             onChange={(value: Date)=>this.onChange(value)}
-                        >
-                        </DatePickerView>
+                        ></DatePickerView> :''}
                     </View>
-                </View>:'':
-            this.props.pickerType == 2? 
-                this.state.open?
+                </View>
+            :this.props.pickerType == 2? 
                 <View style={styles.modalBack}>
-                    <Pressable style={{flex: 1}} onPress={()=>{this.setState({open:false})}}>
+                    <Pressable style={{flex: 1}} onPress={()=>this.props.cancel()}>
                     </Pressable>
                     <View style={[styles.dialogBox,{position: 'absolute',zIndex: 999}]}>
                         <View style={styles.butTop}>
-                            <Text allowFontScaling={false} style={styles.bot} onPress={()=>{this.setState({open:false})}}>取消</Text>
+                            <Text allowFontScaling={false} style={styles.bot} onPress={()=>this.props.cancel()}>取消</Text>
                             <Text allowFontScaling={false} style={[styles.bot,styles.right]} onPress={this.uniteConfirm}>确定</Text>
                         </View>
 
                         <View style={{display:'flex',flexDirection:'row'}}>
+                            {this.state.startDay?
                             <View style={{flex: 1}}>
                                 <PickerView
                                     data={this.state.start}
                                     defaultValue={[this.state.startDay]}
                                     onChange={(value)=>this.startChange(value)}>
                                 </PickerView>
-                            </View>
+                            </View>:'' }
+                            {this.state.endDay?
                             <View style={{flex: 1}}>
-                                <PickerView
+                            <PickerView
                                 data={this.state.end}
                                 defaultValue={[this.state.endDay]}
                                 onChange={(value)=>this.endChange(value)}>
                                 </PickerView>
-                            </View>
+                            </View>:''
+                            }
+                        </View>
+                    </View>
+                </View>
+            :this.props.pickerType == 3?
+                <View style={styles.modalBack}>
+                    <Pressable style={{flex: 1}} onPress={()=>this.props.cancel()}>
+                    </Pressable>
+                    <View style={[styles.dialogBox,{position: 'absolute',zIndex: 999}]}>
+                        <View style={styles.butTop}>
+                            <Text allowFontScaling={false} style={styles.bot} onPress={()=>this.props.cancel()}>取消</Text>
+                            <Text allowFontScaling={false} style={[styles.bot,styles.right]} onPress={this.weekConfirm}>确定</Text>
+                        </View>
+                        <View>
+                        <PickerView
+                            data={this.state.weekData}
+                            defaultValue={this.state.weekValue}
+                            onChange={(value)=>this.weekChange(value)}>
+                        </PickerView>
+                        </View>
+                    </View>
+                </View>:
+            this.props.pickerType == 4?
+                <View style={styles.modalBack}>
+                    <Pressable style={{flex: 1}} onPress={()=>this.props.cancel()}>
+                    </Pressable>
+                    <View style={[styles.dialogBox,{position: 'absolute',zIndex: 99999}]}>
+                        <View style={styles.butTop}>
+                            <Text allowFontScaling={false} style={styles.bot} onPress={()=>this.props.cancel()}>取消</Text>
+                            <Text allowFontScaling={false} style={[styles.bot,styles.right]} onPress={this.dataConfirm}>确定</Text>
+                        </View>
+
+                        <View>
+                            <PickerView
+                                data={this.state.dataSwitch}
+                                defaultValue={this.state.dataSwitchIn}
+                                onChange={(value)=>this.dataChange(value)}>
+                            </PickerView>
                         </View>
                     </View>
                 </View>:''
-                :''
-            // this.props.pickerType == 4?
-            // <View>
-            //     <Pressable style={styleg.button} onPress={()=>{this.setState({open:true})}}>
-            //         <Text allowFontScaling={false} style={styleg.TextButton}>{this.state.data}</Text>
-            //         <Image style={styleg.ico} source={require('../../image/down.png')}></Image>
-            //     </Pressable>
-            //     <Modal 
-            //         animationType="fade"
-            //         visible={this.state.open}
-            //         transparent={true}
-            //         presentationStyle={'overFullScreen'}>
-            //         <View style={{flex: 1,backgroundColor: 'rgba(0,0,0,0.4)',}}>
-            //             <Pressable style={{flex: 1}} onPress={()=>{this.setState({open:false})}}>
-            //             </Pressable>
-            //             <View style={[styles.dialogBox,{position: 'absolute',zIndex: 99999}]}>
-            //                 <View style={styles.butTop}>
-            //                     <Text allowFontScaling={false} style={styles.bot} onPress={()=>{this.setState({open:false})}}>取消</Text>
-            //                     <Text allowFontScaling={false} style={[styles.bot,styles.right]} onPress={this.dataConfirm}>确定</Text>
-            //                 </View>
-
-            //                 <View>
-            //                     <PickerView
-            //                         data={this.state.dataSwitch}
-            //                         defaultValue={this.state.dataSwitchIn}
-            //                         onChange={(value)=>this.dataChange(value)}>
-            //                     </PickerView>
-            //                 </View>
-            //             </View>
-            //         </View>
-            //     </Modal>
-            // </View>:''
         )
     }
 }

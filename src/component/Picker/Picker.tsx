@@ -281,20 +281,20 @@ export class Picker extends Component<any,any> {
                     visible={this.state.open}
                     transparent={true}>
                     <View style={styles.modalBack}>
-                            <Pressable style={{flex: 1}} onPress={()=>{this.setState({open:false})}}>
-                            </Pressable>
-                            <View style={[styles.dialogBox]}>
-                                <View style={styles.butTop}>
-                                    <Text allowFontScaling={false} style={styles.bot} onPress={()=>{this.setState({open:false})}}>取消</Text>
-                                    <Text allowFontScaling={false} style={[styles.bot,styles.right]} onPress={this.confirm}>确定</Text>
-                                </View>
-                                <DatePickerView
-                                    precision={this.state.precision}
-                                    defaultValue={new Date(String(this.state.date))}
-                                    onChange={(value: Date)=>this.onChange(value)}
-                                >
-                                </DatePickerView>
+                        <Pressable style={{flex: 1}} onPress={()=>{this.setState({open:false})}}>
+                        </Pressable>
+                        <View style={[styles.dialogBox]}>
+                            <View style={styles.butTop}>
+                                <Text allowFontScaling={false} style={styles.bot} onPress={()=>{this.setState({open:false})}}>取消</Text>
+                                <Text allowFontScaling={false} style={[styles.bot,styles.right]} onPress={this.confirm}>确定</Text>
                             </View>
+                            <DatePickerView
+                                precision={this.state.precision}
+                                defaultValue={new Date(String(this.state.date))}
+                                onChange={(value: Date)=>this.onChange(value)}
+                            >
+                            </DatePickerView>
+                        </View>
                     </View>
                 </Modal>
             </View>:
@@ -416,7 +416,6 @@ const styles = StyleSheet.create({
         borderRadius: 5,
     },
     dialogBox:{
-        position: 'absolute',
         zIndex: 9999,
         bottom: -20,
         width: Dimensions.get('window').width,
@@ -444,7 +443,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         zIndex: 999999,
         width: '100%',
-        height: '100%',
+        height: Dimensions.get('screen').height,
         backgroundColor: 'rgba(0,0,0,0.4)',
     }
 })
