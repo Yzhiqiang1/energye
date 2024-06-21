@@ -28,6 +28,7 @@ export class MyCanvas extends React.Component<any,any> {
       this.ecLine(this.props.objData)
     }
   }
+
   ecLine=(res: any)=>{
     let that = this;
     let objType = that.props.objType;
@@ -213,10 +214,10 @@ export class MyCanvas extends React.Component<any,any> {
     return (
         <View style = {[styles.my_canvas,this.props.objType == 3?{height:this.props.objHeight}:null]}>
             {this.state.ecLine?
-              <RNEChartsPro
-                option={ this.state.option }
-                height={ this.props.objType == 3?this.props.objHeight: 300 }
-              ></RNEChartsPro>:''
+                <RNEChartsPro
+                  option={ this.state.option }
+                  height={ this.props.objType == 3?this.props.objHeight: 300 }
+                ></RNEChartsPro>:''
             }
         </View>
     )

@@ -30,6 +30,7 @@ export class PowerAnalysis3 extends Component<any,any> {
             _weekTime: this.getWeek.value,
             _weekTimeDate: this.getWeek.data,
             _weekTimeIn: 0,
+            _weekSeveral: ['第一周','第二周','第三周','第四周'],
             //月报处理
             _month: util.nowDate(1),
             //数据项
@@ -289,6 +290,12 @@ export class PowerAnalysis3 extends Component<any,any> {
             <View style={{flex: 1}}>
                 <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
                 </View>
+                {/* 弹窗效果组件 */}
+                <Loading 
+                    type={this.state.msgType} 
+                    visible={this.state.visible} 
+                    LoadingMsg={this.state.LoadingMsg}>
+                </Loading>
                 <SafeAreaView style={{flex: 1}}>
                     {/* 引入自定义导航栏 */}
                     <Navbar 
@@ -347,7 +354,7 @@ export class PowerAnalysis3 extends Component<any,any> {
                                     ></Picker> */}
                                     <Pressable style={styleg.button} onPress={()=>this.setState({open: true,typePk: 3})}>
                                         <Text allowFontScaling={false} style={styleg.TextButton}>
-                                            {this.state._weekTimeIn}
+                                            {this.state._weekSeveral[this.state._weekTimeIn]}
                                         </Text>
                                         <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
                                     </Pressable>
@@ -403,12 +410,6 @@ export class PowerAnalysis3 extends Component<any,any> {
                             }
                         </View>
                     </View>
-                    {/* 弹窗效果组件 */}
-                    <Loading 
-                        type={this.state.msgType} 
-                        visible={this.state.visible} 
-                        LoadingMsg={this.state.LoadingMsg}>
-                    </Loading>
                     {/* 日期选择器 */}
                     {this.state.open?
                         this.state.typePk==1?
@@ -421,19 +422,19 @@ export class PowerAnalysis3 extends Component<any,any> {
                             ></PickerBut>:
                         this.state.typePk==2? 
                             <PickerBut
+                                pickerType={1}
+                                date={this.state._week}
+                                precisionType={2}
+                                click={this._weekClick}
+                                cancel={()=>this.setState({open: false})}
+                            ></PickerBut>:
+                        this.state.typePk==3? 
+                            <PickerBut
                                 pickerType={3}
                                 monthTime={this.state._weekTime}
                                 monthTimeIn={this.state._weekTimeIn}
                                 precisionType={2}
                                 click={this._weekTimeClick}
-                                cancel={()=>this.setState({open: false})}
-                            ></PickerBut>:
-                        this.state.typePk==3? 
-                            <PickerBut
-                                pickerType={1}
-                                date={this.state._month}
-                                precisionType={2}
-                                click={this._monthClick}
                                 cancel={()=>this.setState({open: false})}
                             ></PickerBut>:
                         this.state.typePk==4? 

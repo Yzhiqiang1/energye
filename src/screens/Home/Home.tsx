@@ -390,8 +390,6 @@ export class Index extends Component<any,any> {
                                             </Pressable>
                                         </View>
                                     </View>
-
-
                                 </View>
                             </View>
                         </View>

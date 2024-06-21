@@ -1,4 +1,4 @@
-import { Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Dimensions, Image, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import React, { Component } from 'react'
 import styleg from '../../../indexCss'
 import MyCanvas from '../../../component/my-canvas/MyCanvas'
@@ -8,6 +8,7 @@ import store from '../../../redux/store'
 import { HttpService } from '../../../utils/http'
 import Navbars from '../../../component/Navbars/Navbars'
 import Loading from '../../../component/Loading/Loading'
+import PickerBut from '../../../component/PickerBut/PickerBut'
 const api = require('../../../utils/api')
 const Fs = Dimensions.get('window').width*0.8
 
@@ -279,6 +280,12 @@ export class History_leakage extends Component<any,any> {
             <View style={{flex: 1}}>
                 <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
                 </View>
+                {/* 弹窗效果组件 */}
+                <Loading 
+                    type={this.state.msgType} 
+                    visible={this.state.visible} 
+                    LoadingMsg={this.state.LoadingMsg}>
+                </Loading>
                 <SafeAreaView style={{flex: 1}}>
                     <Navbars
                         name={'历史查询'}
@@ -290,13 +297,17 @@ export class History_leakage extends Component<any,any> {
                     <View style={styleg.container10}>
                         <View style={styles.query_head}>
                             <View style={styles.flex}>
-                                <Picker
+                                {/* <Picker
                                     pickerType={1}
                                     date={this.state._date}
                                     precisionType={1}
                                     click={this.clickDate}
                                 >
-                                </Picker>
+                                </Picker> */}
+                                <Pressable style={styleg.button} onPress={()=>this.setState({open: true,typePk: 1})}>
+                                    <Text allowFontScaling={false} style={styleg.TextButton}>{this.state._date}</Text>
+                                    <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
+                                </Pressable>
                             </View>
                             <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>查询</Text>
                             <Text allowFontScaling={false} style={[styles.button,styles.buttonC1]} onPress={this.preDate}>上一日</Text>
@@ -321,12 +332,16 @@ export class History_leakage extends Component<any,any> {
                             })}
                         </ScrollView>
                     </View>
-                    {/* 弹窗效果组件 */}
-                    <Loading 
-                        type={this.state.msgType} 
-                        visible={this.state.visible} 
-                        LoadingMsg={this.state.LoadingMsg}>
-                    </Loading>
+                     {/* 日期选择 */}
+                     {this.state.open ? 
+                        <PickerBut
+                            pickerType={1}
+                            date={this.state._date}
+                            precisionType={1}
+                            click={this.clickDate}
+                            cancel={()=>this.setState({open: false})}
+                        ></PickerBut>
+                    :''}
                 </SafeAreaView>
             </View>
         )

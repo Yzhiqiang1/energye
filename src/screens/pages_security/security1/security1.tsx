@@ -268,6 +268,12 @@ export class Security2 extends Component<any,any> {
             <View style={{flex: 1}}>
                 <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
                 </View>
+                {/* 弹窗效果组件 */}
+                <Loading
+                    type={this.state.msgType} 
+                    visible={this.state.visible} 
+                    LoadingMsg={this.state.LoadingMsg}>
+                </Loading>
                 <SafeAreaView style={{flex: 1}}>
                     {/* 引入自定义导航栏 */}
                     <Navbar 
@@ -360,12 +366,6 @@ export class Security2 extends Component<any,any> {
                             }
                         </ScrollView>
                     </View>
-                    {/* 弹窗效果组件 */}
-                    <Loading
-                        type={this.state.msgType} 
-                        visible={this.state.visible} 
-                        LoadingMsg={this.state.LoadingMsg}>
-                    </Loading>
                 </SafeAreaView>
             </View>
         )

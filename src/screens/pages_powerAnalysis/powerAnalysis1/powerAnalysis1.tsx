@@ -527,6 +527,12 @@ export class PowerAnalysis1 extends Component<any,any> {
             <View style={{flex: 1}}>
                 <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
                 </View>
+                {/* 弹窗效果组件 */}
+                <Loading 
+                    type={this.state.msgType} 
+                    visible={this.state.visible} 
+                    LoadingMsg={this.state.LoadingMsg}>
+                </Loading>
                 <SafeAreaView style={{flex: 1}}>
                     {/* 引入自定义导航栏 */}
                     <Navbar 
@@ -666,12 +672,6 @@ export class PowerAnalysis1 extends Component<any,any> {
                             })}
                         </ScrollView>
                     </View>
-                    {/* 弹窗效果组件 */}
-                    <Loading 
-                        type={this.state.msgType} 
-                        visible={this.state.visible} 
-                        LoadingMsg={this.state.LoadingMsg}>
-                    </Loading>
                     {/* 日期选择 */}
                     {this.state.open?
                         this.state.typePk==1?
@@ -693,9 +693,9 @@ export class PowerAnalysis1 extends Component<any,any> {
                         this.state.typePk==3?
                             <PickerBut
                                 pickerType={1}
-                                date={[this.state.end,this.state.end_HH]}
-                                precisionType={3}
-                                click={this.endConfirm}
+                                date={this.state._month}
+                                precisionType={2}
+                                click={this._monthClick}
                                 cancel={()=>this.setState({open: false})}
                             ></PickerBut>:
                         this.state.typePk==4?

@@ -345,6 +345,11 @@ export class AccountRegister extends Component<any,any> {
         <View style={{flex: 1}}>
             <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
             </View>
+            <Loading
+                type={this.state.msgType}
+                LoadingMsg={this.state.LoadingMsg}
+                visible={this.state.visible}
+            ></Loading>
             <SafeAreaView style={styles.box}>
                 <Navbar
                     props={this.props}
@@ -405,11 +410,6 @@ export class AccountRegister extends Component<any,any> {
                         </View>
                     </View>
                 </View>
-                <Loading
-                    type={this.state.msgType}
-                    LoadingMsg={this.state.LoadingMsg}
-                    visible={this.state.visible}
-                ></Loading>
             </SafeAreaView>
         </View>
         )

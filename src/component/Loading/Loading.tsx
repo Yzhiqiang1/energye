@@ -1,7 +1,7 @@
 import { Dimensions, StyleSheet, Text, StatusBar, View, ActivityIndicator, Modal} from 'react-native'
 import React, { Component } from 'react'
 const Fs = Dimensions.get('window').width*0.8
-const screenHeight = Dimensions.get('screen').height-Number(StatusBar.currentHeight);
+const screenHeight = Dimensions.get('screen').height
 
 export class Loading extends Component<any,any> {
     static defaultProps = {
@@ -11,36 +11,57 @@ export class Loading extends Component<any,any> {
     }
     render() {
         return (
+            // this.props.type == 1 ?
+            // <View>
+            //     <Modal
+            //     animationType="fade"
+            //     transparent={true}
+            //     visible={this.props.visible}
+            //     presentationStyle={'overFullScreen'}
+            //     >
+            //         <View style={styles.modalBox}>
+            //             <View style={styles.modal}>
+            //                 <ActivityIndicator size="large" color="#2da2fe"/>
+            //                 <Text allowFontScaling={false} style={styles.text}>{this.props.LoadingMsg}</Text>
+            //             </View>
+            //         </View>
+            //     </Modal>
+            // </View>
+            // :
+            // <View>
+            //     <Modal
+            //         animationType='fade'
+            //         transparent={true}
+            //         visible={ this.props.visible }
+            //         presentationStyle={'overFullScreen'}
+            //     >
+            //         <View style={styles.box}>
+            //             <View style={styles.showLoading}>
+            //                 <Text allowFontScaling={false} style={styles.showText}>{this.props.LoadingMsg}</Text>
+            //             </View>
+            //         </View>
+            //     </Modal>
+            // </View>
             this.props.type == 1 ?
             <View>
-                <Modal
-                animationType="fade"
-                transparent={true}
-                visible={this.props.visible}
-                presentationStyle={'overFullScreen'}
-                >
+                {this.props.visible?
                     <View style={styles.modalBox}>
                         <View style={styles.modal}>
-                            <ActivityIndicator size="large" color="#2da2fe"/>
+                            <ActivityIndicator size="large" color="#fff"/>
                             <Text allowFontScaling={false} style={styles.text}>{this.props.LoadingMsg}</Text>
                         </View>
-                    </View>
-                </Modal>
+                    </View>:''
+                }
             </View>
             :
             <View>
-                <Modal
-                    animationType='fade'
-                    transparent={true}
-                    visible={ this.props.visible }
-                    presentationStyle={'overFullScreen'}
-                >
-                    <View style={styles.box}>
+                {this.props.visible?
+                    <View style={styles.modalBox}>
                         <View style={styles.showLoading}>
                             <Text allowFontScaling={false} style={styles.showText}>{this.props.LoadingMsg}</Text>
                         </View>
-                    </View>
-                </Modal>
+                    </View>:''
+                }
             </View>
         )
     }
@@ -58,6 +79,7 @@ const styles = StyleSheet.create({
     showLoading:{
         display:'flex',
         alignItems:'center',
+        justifyContent: 'center',
         borderRadius:10,
         padding: 5,
         paddingLeft: 20,
@@ -67,7 +89,7 @@ const styles = StyleSheet.create({
     },
     text: {
         fontSize: Fs/22,
-        color: '#333',
+        color: '#fff',
     },
     showText: {
         maxWidth: 200,
@@ -76,12 +98,11 @@ const styles = StyleSheet.create({
     },
     modalBox: {
         position: 'absolute',
-        zIndex: 99999,
+        zIndex: 999999,
         height: screenHeight,
         width: '100%',
         justifyContent: 'center', 
         alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)'
     },
     modal: {
         position: 'absolute',
@@ -93,15 +114,7 @@ const styles = StyleSheet.create({
         width: Dimensions.get('screen').width/3,
         height: Dimensions.get('screen').width/3,
         borderRadius:10,
-        backgroundColor: '#fff',
+        backgroundColor: '#666666',
     },
-    box: {
-        position: 'absolute',
-        zIndex: 99999,
-        width: '100%',
-        height: '100%',
-        alignItems: 'center',
-        justifyContent: 'center'
-    }
 })
 export default Loading

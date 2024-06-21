@@ -1,4 +1,4 @@
-import { DeviceEventEmitter, Dimensions, SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import { DeviceEventEmitter, Dimensions, Image, Pressable, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import React, { Component } from 'react'
 import Navbar from '../../../component/navbar/navbar'
 import styleg from '../../../indexCss'
@@ -9,6 +9,7 @@ import store from '../../../redux/store'
 import { HttpService } from '../../../utils/http'
 import Loading from '../../../component/Loading/Loading'
 import Picker from '../../../component/Picker/Picker'
+import PickerBut from '../../../component/PickerBut/PickerBut'
 const api = require('../../../utils/api')
 const Fs = Dimensions.get('window').width*0.8
 
@@ -246,6 +247,12 @@ export class GasAnalysis2 extends Component<any,any> {
             <View style={{flex: 1}}>
                 <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
                 </View>
+                {/* 弹窗效果 */}
+                <Loading 
+                    type={this.state.msgType} 
+                    visible={this.state.visible} 
+                    LoadingMsg={this.state.LoadingMsg}>
+                </Loading>
                 <SafeAreaView style={{flex: 1}}>
                     {/* 引入自定义导航栏 */}
                     <Navbar 
@@ -261,12 +268,16 @@ export class GasAnalysis2 extends Component<any,any> {
                     <View style={styleg.container}>
                         <View style={styles.query_head}>
                             <View style={styles.flex}>
-                                <Picker
+                                {/* <Picker
                                     pickerType={1}
                                     date={this.state._date}
                                     precisionType={4}
                                     click={this.clickDate}
-                                ></Picker>
+                                ></Picker> */}
+                                <Pressable style={styleg.button} onPress={()=>this.setState({open: true})}>
+                                    <Text allowFontScaling={false} style={styleg.TextButton}>{this.state._date}</Text>
+                                    <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
+                                </Pressable>
                             </View>
                             <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>查询</Text>
                             <Text allowFontScaling={false} style={[styles.button,styles.buttonC1]} onPress={this.preDate}>上一年</Text>
@@ -324,12 +335,16 @@ export class GasAnalysis2 extends Component<any,any> {
                             })}
                         </View>
                     </View>
-                    {/* 弹窗效果 */}
-                    <Loading 
-                        type={this.state.msgType} 
-                        visible={this.state.visible} 
-                        LoadingMsg={this.state.LoadingMsg}>
-                    </Loading>
+                    {/* 日期选择 */}
+                    {this.state.open?
+                        <PickerBut
+                            pickerType={1}
+                            date={this.state._date}
+                            precisionType={4}
+                            click={this.clickDate}
+                            cancel={()=>this.setState({open: false})}
+                        ></PickerBut>
+                    :''}
                 </SafeAreaView>
             </View>
         )

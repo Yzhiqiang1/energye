@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View,  ScrollView, Dimensions, SafeAreaView, } from 'react-native'
+import { StyleSheet, Text, View,  ScrollView, Dimensions, SafeAreaView, Pressable, Image, } from 'react-native'
 import React, { Component } from 'react'
 import Navbar from '../../../component/navbar/navbar'
 import styleg from '../../../indexCss'
@@ -10,6 +10,7 @@ import tool from '../../../utils/tool'
 import { HttpService } from '../../../utils/http'
 import Loading from '../../../component/Loading/Loading'
 import Picker from '../../../component/Picker/Picker'
+import PickerBut from '../../../component/PickerBut/PickerBut'
 const api = require('../../../utils/api')
 const Fs = Dimensions.get('window').width*0.8
 
@@ -484,6 +485,12 @@ export class GasAnalysis1 extends Component<any,any> {
             <View style={{flex: 1}}>
                 <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
                 </View>
+                {/* 弹窗效果 */}
+                <Loading 
+                    type={this.state.msgType} 
+                    visible={this.state.visible} 
+                    LoadingMsg={this.state.LoadingMsg}>
+                </Loading>
                 <SafeAreaView style={{flex: 1}}>
                     {/* 引入自定义导航栏 */}
                     <Navbar 
@@ -509,20 +516,32 @@ export class GasAnalysis1 extends Component<any,any> {
                         {this.state.dataSwitchIn == 0?
                             <View style={styles.flexs}>
                                 <View style={styles.flex}>
-                                    <Picker
+                                    {/* <Picker
                                         pickerType={1}
                                         date={[this.state.start,this.state.start_HH]}
                                         precisionType={3}
                                         click={this.startConfirm}
-                                    ></Picker>
+                                    ></Picker> */}
+                                    <Pressable style={styleg.button} onPress={()=>this.setState({open: true,typePk: 1})}>
+                                        <Text allowFontScaling={false} style={styleg.TextButton}>
+                                            {this.state.start+' '+this.state.start_HH+'时'}
+                                        </Text>
+                                        <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
+                                    </Pressable>
                                 </View>
                                 <View style={styles.flex}>
-                                    <Picker
+                                    {/* <Picker
                                         pickerType={1}
                                         date={[this.state.end,this.state.end_HH]}
                                         precisionType={3}
                                         click={this.endConfirm}
-                                    ></Picker>
+                                    ></Picker> */}
+                                    <Pressable style={styleg.button} onPress={()=>this.setState({open: true,typePk: 2})}>
+                                        <Text allowFontScaling={false} style={styleg.TextButton}>
+                                            {this.state.end+' '+this.state.end_HH+'时'}
+                                        </Text>
+                                        <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
+                                    </Pressable>
                                 </View>
                             </View>:''
                         }
@@ -531,23 +550,33 @@ export class GasAnalysis1 extends Component<any,any> {
                         {this.state.dataSwitchIn == 1?
                             <View style={styles.flexs}>
                                 <View style={styles.flex}>
-                                    <Picker
+                                    {/* <Picker
                                         pickerType={1}
                                         date={this.state._month}
                                         precisionType={2}
                                         click={this._monthClick}
-                                    ></Picker>
+                                    ></Picker> */}
+                                    <Pressable style={styleg.button} onPress={()=>this.setState({open: true,typePk: 3})}>
+                                        <Text allowFontScaling={false} style={styleg.TextButton}>{this.state._month}</Text>
+                                        <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
+                                    </Pressable>
                                 </View>
                                 {/* 多列选择器 */}
                                 <View style={styles.flex}>
-                                    <Picker
+                                    {/* <Picker
                                         pickerType={2}
                                         monthTime={this.state._monthTime}
                                         monthTimeIn={this.state._monthTimeIn}
                                         precisionType={2}
                                         text = '日'
                                         click={this._monthTimeClick}
-                                    ></Picker>
+                                    ></Picker> */}
+                                    <Pressable style={styleg.button} onPress={()=>this.setState({open: true,typePk: 4})}>
+                                        <Text allowFontScaling={false} style={styleg.TextButton}>
+                                            {this.state._monthTime[0][this.state._monthTimeIn[0]]+'日 至 '+this.state._monthTime[1][this.state._monthTimeIn[1]]+'日'}
+                                        </Text>
+                                        <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
+                                    </Pressable>
                                 </View>
                             </View>:''
                         }
@@ -555,23 +584,35 @@ export class GasAnalysis1 extends Component<any,any> {
                         {this.state.dataSwitchIn == 2?
                             <View style={styles.flexs}>
                                 <View style={styles.flex}>
-                                    <Picker
+                                    {/* <Picker
                                         pickerType={1}
                                         date={this.state._year}
                                         precisionType={4}
                                         click={this._yearClick}
-                                    ></Picker>
+                                    ></Picker> */}
+                                    <Pressable style={styleg.button} onPress={()=>this.setState({open: true,typePk: 5})}>
+                                        <Text allowFontScaling={false} style={styleg.TextButton}>
+                                            {this.state._year}
+                                        </Text>
+                                        <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
+                                    </Pressable>
                                 </View>
                                 {/* 多列选择器 */}
                                 <View style={styles.flex}>
-                                    <Picker
+                                    {/* <Picker
                                         pickerType={2}
                                         monthTime={this.state._yearTime}
                                         monthTimeIn={this.state._yearTimeIn}
                                         precisionType={2}
                                         text = '月'
                                         click={this._yearTimeClick}
-                                    ></Picker>
+                                    ></Picker> */}
+                                    <Pressable style={styleg.button} onPress={()=>this.setState({open: true,typePk: 6})}>
+                                        <Text allowFontScaling={false} style={styleg.TextButton}>
+                                            {this.state._yearTime[0][this.state._yearTimeIn[0]]+'月 至 '+this.state._yearTime[1][this.state._yearTimeIn[1]]+'月'}
+                                        </Text>
+                                        <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
+                                    </Pressable>
                                 </View>
                             </View>:''
                         }
@@ -596,12 +637,59 @@ export class GasAnalysis1 extends Component<any,any> {
                             })}
                         </ScrollView>
                     </View>
-                    {/* 弹窗效果 */}
-                    <Loading 
-                        type={this.state.msgType} 
-                        visible={this.state.visible} 
-                        LoadingMsg={this.state.LoadingMsg}>
-                    </Loading>
+                    {/* 日期选择 */}
+                    {this.state.open?
+                        this.state.typePk==1?
+                            <PickerBut
+                                pickerType={1}
+                                date={[this.state.start,this.state.start_HH]}
+                                precisionType={3}
+                                click={this.startConfirm}
+                                cancel={()=>this.setState({open: false})}
+                            ></PickerBut>:
+                        this.state.typePk==2?
+                            <PickerBut
+                                pickerType={1}
+                                date={[this.state.end,this.state.end_HH]}
+                                precisionType={3}
+                                click={this.endConfirm}
+                                cancel={()=>this.setState({open: false})}
+                            ></PickerBut>:
+                        this.state.typePk==3?
+                            <PickerBut
+                                pickerType={1}
+                                date={this.state._month}
+                                precisionType={2}
+                                click={this._monthClick}
+                                cancel={()=>this.setState({open: false})}
+                            ></PickerBut>:
+                        this.state.typePk==4?
+                            <PickerBut
+                                pickerType={2}
+                                monthTime={this.state._monthTime}
+                                monthTimeIn={this.state._monthTimeIn}
+                                precisionType={2}
+                                click={this._monthTimeClick}
+                                cancel={()=>this.setState({open: false})}
+                            ></PickerBut>:
+                        this.state.typePk==5?
+                            <PickerBut
+                                pickerType={1}
+                                date={this.state._year}
+                                precisionType={4}
+                                click={this._yearClick}
+                                cancel={()=>this.setState({open: false})}
+                            ></PickerBut>:
+                            <PickerBut
+                                pickerType={2}
+                                monthTime={this.state._yearTime}
+                                monthTimeIn={this.state._yearTimeIn}
+                                precisionType={2}
+                                click={this._yearTimeClick}
+                                cancel={()=>this.setState({open: false})}
+                            ></PickerBut>
+                        :''
+                    }
                 </SafeAreaView>
             </View>
         )
@@ -666,7 +754,6 @@ const styles = StyleSheet.create({
     flex:{
         flex: 1,
         fontSize: Fs/22,
-        paddingLeft: 5,
         textAlign:'center',
     },
     flexs:{

@@ -1,4 +1,4 @@
-import { Dimensions, SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import { Dimensions, Image, Pressable, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import React, { Component } from 'react'
 import Navbar from '../../../component/navbar/navbar'
 import styleg from '../../../indexCss'
@@ -9,6 +9,7 @@ import { HttpService } from '../../../utils/http'
 import tool from '../../../utils/tool'
 import Loading from '../../../component/Loading/Loading'
 import Picker from '../../../component/Picker/Picker'
+import PickerBut from '../../../component/PickerBut/PickerBut'
 const api = require('../../../utils/api')
 const Fs = Dimensions.get('window').width*0.8
 
@@ -234,6 +235,12 @@ export class WaterAnalysis5 extends Component<any,any> {
             <View style={{flex: 1}}>
                 <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
                 </View>
+                {/* 弹窗效果组件 */}
+                <Loading 
+                    type={this.state.msgType} 
+                    visible={this.state.visible} 
+                    LoadingMsg={this.state.LoadingMsg}>
+                </Loading>
                 <SafeAreaView style={{flex: 1}}>
                     {/* 引入自定义导航栏 */}
                     <Navbar 
@@ -249,23 +256,31 @@ export class WaterAnalysis5 extends Component<any,any> {
                     <View style={styleg.container}>
                         <View style={styles.query_head}>
                             <View style={styles.flex}>
-                                <Picker
+                                {/* <Picker
                                     pickerType={1}
                                     date={this.state.start}
                                     precisionType={5}
                                     click={this.startConfirm}
-                                ></Picker>
+                                ></Picker> */}
+                                <Pressable style={styleg.button} onPress={()=>this.setState({open: true,typePk: 1})}>
+                                    <Text allowFontScaling={false} style={styleg.TextButton}>{this.state.start}</Text>
+                                    <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
+                                </Pressable>
                             </View>
                             <Text allowFontScaling={false} style={styles.text}>
                                 至
                             </Text>
                             <View style={styles.flex}>
-                                <Picker
+                                {/* <Picker
                                     pickerType={1}
                                     date={this.state.end}
                                     precisionType={5}
                                     click={this.endConfirm}
-                                ></Picker>
+                                ></Picker> */}
+                                <Pressable style={styleg.button} onPress={()=>this.setState({open: true,typePk: 2})}>
+                                    <Text allowFontScaling={false} style={styleg.TextButton}>{this.state.end}</Text>
+                                    <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
+                                </Pressable>
                             </View>
                             <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>查询</Text>
                         </View>
@@ -299,12 +314,24 @@ export class WaterAnalysis5 extends Component<any,any> {
                             }
                         </View>
                     </View>
-                    {/* 弹窗效果组件 */}
-                    <Loading 
-                        type={this.state.msgType} 
-                        visible={this.state.visible} 
-                        LoadingMsg={this.state.LoadingMsg}>
-                    </Loading>
+                    {/* 日期选择 */}
+                    {this.state.open ? 
+                        this.state.typePk==1?
+                            <PickerBut
+                                pickerType={1}
+                                date={this.state.start}
+                                precisionType={5}
+                                click={this.startConfirm}
+                                cancel={()=>this.setState({open: false})}
+                            ></PickerBut>:
+                            <PickerBut
+                                pickerType={1}
+                                date={this.state.end}
+                                precisionType={5}
+                                click={this.endConfirm}
+                                cancel={()=>this.setState({open: false})}
+                            ></PickerBut>
+                    :''}
                 </SafeAreaView>
             </View>
         )

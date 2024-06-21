@@ -209,7 +209,10 @@ export class Scanqr extends Component<any,any> {
             show: false,
             scene_id: '',
 
-            boxHeight: 0
+            boxHeight: 0,
+            //提示框
+            alertShow: false,
+            loginPrompt: false
         }
     }
     componentDidMount(): void {
@@ -592,22 +595,25 @@ export class Scanqr extends Component<any,any> {
                     })
                 } else {
                     // 权限被拒绝,弹出提示窗
-                    Alert.alert(
-                        "提示",
-                        "当前摄像头权限已拒绝，无法使用扫码创建设备功能，是否去设置开启",
-                        [
-                            {
-                                text: "取消",
-                                onPress: () => console.log("Cancel Pressed"),
-                                style: "cancel"
-                            },
-                            { 
-                                text: "去设置", onPress: () => {
-                                    openSettings().catch(() => console.warn('cannot open settings'))
-                                }   
-                            }
-                        ]
-                    );
+                    that.setState({
+                        alertShow: true
+                    })
+                    // Alert.alert(
+                    //     "提示",
+                    //     "当前摄像头权限已拒绝，无法使用扫码创建设备功能，是否去设置开启",
+                    //     [
+                    //         {
+                    //             text: "取消",
+                    //             onPress: () => console.log("Cancel Pressed"),
+                    //             style: "cancel"
+                    //         },
+                    //         { 
+                    //             text: "去设置", onPress: () => {
+                    //                 openSettings().catch(() => console.warn('cannot open settings'))
+                    //             }   
+                    //         }
+                    //     ]
+                    // );
                 }
             } catch (error) {
               console.warn('Error requesting camera permission:', error);
@@ -661,25 +667,29 @@ export class Scanqr extends Component<any,any> {
                     })
                 }
             } else {
-                Alert.alert(
-                    "未登录",
-                    "  你还未登录点击去登录按钮登,请录后进行创建设备,点击取消放弃创建",
-                    [
-                      {
-                        text: "取消",
-                        onPress: () => console.log("Cancel Pressed"),
-                        style: "cancel"
-                      },
-                      { text: "请登录", onPress: () => {
-                            this.GoLogIn()
-                            this.setState({
-                                show: true,
-                                scene_id: scene_id
-                            })
-                        }
-                    }
-                    ]
-                );
+                this.setState({
+                    show: true,
+                    scene_id: scene_id,
+                    loginPrompt: true,
+                })
+            //     Alert.alert(
+            //         "未登录",
+            //         "  你还未登录点击去登录按钮登,请录后进行创建设备,点击取消放弃创建",
+            //         [{
+            //             text: "取消",
+            //             onPress: () => console.log("Cancel Pressed"),
+            //             style: "cancel"
+            //         },
+            //         { 
+            //             text: "请登录", onPress: () => {
+            //                 this.GoLogIn()
+            //                 this.setState({
+            //                     show: true,
+            //                     scene_id: scene_id
+            //                 })
+            //             }
+            //         }]
+            //     );
             }
         }else{
             this.setState({
@@ -787,7 +797,7 @@ export class Scanqr extends Component<any,any> {
             show: false
         })
     }
-
+    //获取盒子高度
     boxH=(e:any)=>{
         const { height: newHeight } = e.nativeEvent.layout;
         this.setState({
@@ -799,6 +809,11 @@ export class Scanqr extends Component<any,any> {
             <View style={{flex: 1}}>
                 <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
                 </View>
+                <Loading 
+                    type={this.state.msgType} 
+                    visible={this.state.visible} 
+                    LoadingMsg={this.state.LoadingMsg}>
+                </Loading>
                 <SafeAreaView style={{flex: 1}} onLayout={(event) => this.boxH(event)}>
                     {!this.state.camera?
                         <Navbars
@@ -884,15 +899,55 @@ export class Scanqr extends Component<any,any> {
                                     </ScrollView>
                                 </View>
                             </Animated.View>
+                            {/* 权限提示 */}
+                            
                         </View>
                         :<MyComponent close={this.closeCamera} scanCode={this._scanCode}></MyComponent>
                     }
-                    <Loading 
-                        type={this.state.msgType} 
-                        visible={this.state.visible} 
-                        LoadingMsg={this.state.LoadingMsg}>
-                    </Loading>
                 </SafeAreaView>
+                {this.state.alertShow?
+                    <View style={styles.shade}>
+                        <View style={styles.frame}>
+                            <Text allowFontScaling={false} style={{fontSize: Fs/20,fontWeight:"600",color: '#333',marginBottom: 15}}>提示</Text>
+                            <Text allowFontScaling={false} style={{fontSize: Fs/24,color: '#333'}}>
+                                当前摄像头权限已拒绝，无法使用扫码创建设备功能，是否去设置开启
+                            </Text>
+                            <View style={styles.frameBtm}>
+                                <Text 
+                                onPress={()=>{this.setState({alertShow: false})}} 
+                                style={{fontSize: Fs/22,color: '#0da5b6',marginRight: 20}}>
+                                取消</Text>
+
+                                <Text 
+                                onPress={()=>openSettings().catch(() => console.warn('cannot open settings'))} 
+                                style={{fontSize: Fs/22,color: '#0da5b6'}}>
+                                去设置</Text>
+                            </View>
+                        </View>
+                    </View>:''
+                }
+                {this.state.loginPrompt?
+                    <View style={styles.shade}>
+                        <View style={styles.frame}>
+                            <Text allowFontScaling={false} style={{fontSize: Fs/20,fontWeight:"600",color: '#333',marginBottom: 15}}>未登录</Text>
+                            <Text allowFontScaling={false} style={{fontSize: Fs/24,color: '#333'}}>
+                                你还未登录点击去登录按钮登录，登录后进行创建设备，点击取消放弃创建
+                            </Text>
+                            <View style={styles.frameBtm}>
+                                <Text 
+                                onPress={()=>{this.setState({loginPrompt: false,scene_id: ''})}} 
+                                style={{fontSize: Fs/22,color: '#0da5b6',marginRight: 20}}>
+                                取消</Text>
+
+                                <Text 
+                                onPress={()=>{this.GoLogIn()}} 
+                                style={{fontSize: Fs/22,color: '#0da5b6'}}>
+                                去登录</Text>
+                            </View>
+                        </View>
+                    </View>:''
+                }
+               
             </View>
         )
     }
@@ -1224,6 +1279,30 @@ const styles = StyleSheet.create({
         height: '33%',
         borderRadius: 10,
         backgroundColor: '#fff'
+    },
+    shade:{
+        position: 'absolute',
+        width: Dimensions.get('screen').width,
+        height: Dimensions.get('screen').height,
+        backgroundColor: 'rgba(0,0,0,0.4)',
+        zIndex: 999999
+    },
+    frame:{
+        position: 'absolute',
+        top: '50%',
+        width: "90%",
+        height: 160,
+        marginTop: -80,
+        marginLeft: "5%", 
+        backgroundColor: '#fff',
+        padding: 20
+    },
+    frameBtm: {
+        position: 'absolute',
+        bottom: 20,
+        right: 20,
+        display: 'flex',
+        flexDirection: 'row'
     },
 })
 

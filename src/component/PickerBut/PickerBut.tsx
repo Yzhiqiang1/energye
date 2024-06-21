@@ -130,16 +130,12 @@ export class PickerBut extends Component<any,any> {
             }
             end.push(obj)
         })
-        console.log('start',start);
-        console.log('end',end);
-        console.log('startDay',startDay);
-        console.log('endDay',endDay);
         
         this.setState({
             start: start,
             end: end,
-            startDay: String(startDay),
-            endDay: String(endDay)
+            startDay: startDay,
+            endDay: endDay
         })
     }
     //周选择初始
@@ -147,6 +143,8 @@ export class PickerBut extends Component<any,any> {
         let week = this.props.monthTime[this.props.monthTimeIn].split('(')
         let weekData:any = []
         this.props.monthTime.map((value:any,index:number)=>{
+            console.log(value);
+            
             let obj = {
                 label: value,
                 value: index
@@ -155,8 +153,10 @@ export class PickerBut extends Component<any,any> {
         })
         this.setState({
             week: week[0],
-            weekData: weekData
-        })
+            weekData: weekData,
+            weekValue: this.props.monthTimeIn,
+        },()=>{console.log(this.state.weekData);})
+        
     }
     //周选择变换
     weekChange=(value: PickerValue[])=>{
@@ -228,7 +228,7 @@ export class PickerBut extends Component<any,any> {
         let start = this.state.PstartDay?this.state.PstartDay:this.state.startDay
         let end = this.state.PendDay?this.state.PendDay:this.state.endDay
         this.props.click([Number(start)-1,Number(end)-1])
-        if(Number(start)<Number(end)){
+        if(Number(start)<=Number(end)){
             this.setState({
                 startDay: start,
                 endDay: end,
@@ -293,24 +293,23 @@ export class PickerBut extends Component<any,any> {
                             <Text allowFontScaling={false} style={styles.bot} onPress={()=>this.props.cancel()}>取消</Text>
                             <Text allowFontScaling={false} style={[styles.bot,styles.right]} onPress={this.uniteConfirm}>确定</Text>
                         </View>
-
                         <View style={{display:'flex',flexDirection:'row'}}>
                             {this.state.startDay?
-                            <View style={{flex: 1}}>
-                                <PickerView
-                                    data={this.state.start}
-                                    defaultValue={[this.state.startDay]}
-                                    onChange={(value)=>this.startChange(value)}>
-                                </PickerView>
-                            </View>:'' }
+                                <View style={{flex: 1}}>
+                                    <PickerView
+                                        data={this.state.start}
+                                        defaultValue={[this.state.startDay]}
+                                        onChange={(value)=>this.startChange(value)}>
+                                    </PickerView>
+                                </View>:'' }
                             {this.state.endDay?
-                            <View style={{flex: 1}}>
-                            <PickerView
-                                data={this.state.end}
-                                defaultValue={[this.state.endDay]}
-                                onChange={(value)=>this.endChange(value)}>
-                                </PickerView>
-                            </View>:''
+                                <View style={{flex: 1}}>
+                                    <PickerView
+                                        data={this.state.end}
+                                        defaultValue={[this.state.endDay]}
+                                        onChange={(value)=>this.endChange(value)}>
+                                    </PickerView>
+                                </View>:''
                             }
                         </View>
                     </View>
@@ -325,11 +324,13 @@ export class PickerBut extends Component<any,any> {
                             <Text allowFontScaling={false} style={[styles.bot,styles.right]} onPress={this.weekConfirm}>确定</Text>
                         </View>
                         <View>
-                        <PickerView
-                            data={this.state.weekData}
-                            defaultValue={this.state.weekValue}
-                            onChange={(value)=>this.weekChange(value)}>
-                        </PickerView>
+                            {this.state.weekValue>=0?
+                            <PickerView
+                                data={this.state.weekData}
+                                defaultValue={[Number(this.state.weekValue)]}
+                                onChange={(value)=>this.weekChange(value)}>
+                            </PickerView>:''    
+                            }
                         </View>
                     </View>
                 </View>:

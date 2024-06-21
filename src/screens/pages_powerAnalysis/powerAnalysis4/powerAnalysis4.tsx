@@ -225,6 +225,12 @@ export class PowerAnalysis4 extends Component<any,any> {
             <View style={{flex: 1}}>
                 <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
                 </View>
+                {/* 弹窗效果组件 */}
+                <Loading 
+                    type={this.state.msgType} 
+                    visible={this.state.visible} 
+                    LoadingMsg={this.state.LoadingMsg}>
+                </Loading>
                 <SafeAreaView style={{flex: 1}}>
                     {/* 引入自定义导航栏 */}
                     <Navbar 
@@ -247,7 +253,7 @@ export class PowerAnalysis4 extends Component<any,any> {
                                     click={this.clickStart}
                                 ></Picker> */}
                                 <Pressable style={styleg.button} onPress={()=>this.setState({open: true,typePk: 1})}>
-                                    <Text allowFontScaling={false} style={styleg.TextButton}>{this.state._day}</Text>
+                                    <Text allowFontScaling={false} style={styleg.TextButton}>{this.state.start}</Text>
                                     <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
                                 </Pressable>
                             </View>
@@ -261,8 +267,8 @@ export class PowerAnalysis4 extends Component<any,any> {
                                     precisionType={1}
                                     click={this.clickEnd}
                                 ></Picker> */}
-                                 <Pressable style={styleg.button} onPress={()=>this.setState({open: true,typePk: 2})}>
-                                    <Text allowFontScaling={false} style={styleg.TextButton}>{this.state._day}</Text>
+                                <Pressable style={styleg.button} onPress={()=>this.setState({open: true,typePk: 2})}>
+                                    <Text allowFontScaling={false} style={styleg.TextButton}>{this.state.end}</Text>
                                     <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
                                 </Pressable>
                             </View>
@@ -301,12 +307,6 @@ export class PowerAnalysis4 extends Component<any,any> {
                             }
                         </View>
                     </View>
-                    {/* 弹窗效果组件 */}
-                    <Loading 
-                        type={this.state.msgType} 
-                        visible={this.state.visible} 
-                        LoadingMsg={this.state.LoadingMsg}>
-                    </Loading>
                     {/* 日期选择 */}
                     {this.state.open ? 
                         this.state.typePk==1?
@@ -325,7 +325,6 @@ export class PowerAnalysis4 extends Component<any,any> {
                             cancel={()=>this.setState({open: false})}
                         ></PickerBut>
                     :''}
-                    
                 </SafeAreaView>
             </View>
         )

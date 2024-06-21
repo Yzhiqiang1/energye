@@ -244,6 +244,11 @@ export class BindPhone extends Component<any,any> {
                 <View style={styles.images} onLayout={(event) => this.boxH(event)}>
                     <Image style={styles.loginBac} resizeMethod='auto' source={require('../../image/loginBac.png')}></Image>
                 </View>
+                <Loading
+                    type={this.state.type}
+                    LoadingMsg={this.state.LoadingMsg}
+                    visible={this.state.visible}
+                ></Loading>
                 <SafeAreaView style={styles.view}>
                     <LoginNavbar
                         props={this.props}
@@ -289,11 +294,6 @@ export class BindPhone extends Component<any,any> {
                             </View>
                         </View>
                     </View>
-                    <Loading
-                        type={this.state.type}
-                        LoadingMsg={this.state.LoadingMsg}
-                        visible={this.state.visible}
-                    ></Loading>
                 </SafeAreaView>
             </View>
         )

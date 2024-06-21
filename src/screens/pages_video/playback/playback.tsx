@@ -9,6 +9,8 @@ import Loading from '../../../component/Loading/Loading';
 import Orientation from 'react-native-orientation-locker';
 import { Dimensions } from 'react-native'
 import NetInfo from "@react-native-community/netinfo";
+import styleg from '../../../indexCss';
+import PickerBut from '../../../component/PickerBut/PickerBut';
 const api = require('../../../utils/api')
 const { StatusBarManager } = NativeModules;
 const STATUS_BAR_HEIGHT = Platform.OS === 'android' ? StatusBar.currentHeight : StatusBarManager.HEIGHT;//状态栏高度
@@ -913,19 +915,27 @@ export class Playback extends Component<any,any> {
                         <View style={styles.controlArea}>
                             <View style={styles.cloudSwitch}>
                                 {/* 选择日期 */}
-                                <Picker
+                                {/* <Picker
                                     pickerType={1}
                                     date={this.state.date}
                                     precisionType={1}
                                     click={this.bindDateChange}
-                                ></Picker>
-                                <Picker
+                                ></Picker> */}
+                                <Pressable style={styleg.button} onPress={()=>this.setState({open: true,typePk: 1})}>
+                                    <Text allowFontScaling={false} style={styleg.TextButton}>{this.state.start}</Text>
+                                    <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
+                                </Pressable>
+                                {/* <Picker
                                     pickerType={4}
                                     dataSwitch={this.state.storageType}
                                     dataSwitchIn={this.state.storageIn}
                                     click={this.storageChange}
                                 >
-                                </Picker>
+                                </Picker> */}
+                                <Pressable style={styleg.button} onPress={()=>this.setState({open: true,typePk: 2})}>
+                                    <Text allowFontScaling={false} style={styleg.TextButton}>{this.state.start}</Text>
+                                    <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
+                                </Pressable>
                             </View>
                             {/* 时间轴 */}
                             <View style={styles.timeAxis}>
@@ -943,6 +953,24 @@ export class Playback extends Component<any,any> {
                         visible={this.state.visible} 
                         LoadingMsg={this.state.LoadingMsg}>
                     </Loading>
+                    {/* 日期选择 */}
+                    {this.state.open ? 
+                        this.state.typePk==1?
+                            <PickerBut
+                                pickerType={1}
+                                date={this.state.date}
+                                precisionType={1}
+                                click={this.bindDateChange}
+                                cancel={()=>this.setState({open: false})}
+                            ></PickerBut>:
+                            <PickerBut
+                                pickerType={4}
+                                dataSwitch={this.state.storageType}
+                                dataSwitchIn={this.state.storageIn}
+                                click={this.storageChange}
+                                cancel={()=>this.setState({open: false})}
+                            ></PickerBut>
+                    :''}
                 </SafeAreaView>
             </View>
         )

@@ -50,6 +50,8 @@ const styleg = StyleSheet.create({
     TextButton:{
         fontSize: Fs/22,
         color: '#666666',
+        overflow: 'hidden',
+        lineHeight: 30,
     },
     ico:{
         width: 15,

@@ -179,7 +179,6 @@ export class Security1 extends Component<any,any> {
      *     获取传感器数据
      * *************************/
     getSwitchData=()=>{
-        let that = this;
         let userId = store.getState().userReducer.userId; //用户ID
         let deviceIds = store.getState().userReducer.parameterGroup.radioSonGroup.selectKey; //获取设备ID----【单选-父含子】
         deviceIds = Object.keys(deviceIds).join(",")
@@ -187,6 +186,7 @@ export class Security1 extends Component<any,any> {
             userId: userId,
             deviceIds: deviceIds,
         }).then((res:any) => {
+            console.log('获取传感器数据-数据',res);
             if (res.flag == "00") {
                 let sensorArr = res.data;
                 for (let a = 0; a < res.data.length; a++) {
@@ -202,6 +202,9 @@ export class Security1 extends Component<any,any> {
                         sensorArr[a].sensorList[b].loading = false; //给每一个传感器添加一个loading属性
                     }
                 }
+                this.setState({
+                    sensorArr: sensorArr,
+                })
             }else{
                 this.setState({
                     msgType: 2,
@@ -319,6 +322,12 @@ export class Security1 extends Component<any,any> {
             <View style={{flex: 1}}>
                 <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
                 </View>
+                {/* 弹窗效果组件 */}
+                <Loading
+                    type={this.state.msgType} 
+                    visible={this.state.visible} 
+                    LoadingMsg={this.state.LoadingMsg}>
+                </Loading>
                 <SafeAreaView style={{flex: 1}}>
                     {/* 引入自定义导航栏 */}
                     <Navbar 
@@ -393,12 +402,6 @@ export class Security1 extends Component<any,any> {
                             </Dialog>
                         </View>
                     </View>
-                    {/* 弹窗效果组件 */}
-                    <Loading 
-                        type={this.state.msgType} 
-                        visible={this.state.visible} 
-                        LoadingMsg={this.state.LoadingMsg}>
-                    </Loading>
                 </SafeAreaView>
             </View>
         )

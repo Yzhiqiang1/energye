@@ -655,13 +655,14 @@ export class Navbar extends React.Component<any,any> {
                         </Pressable>:''
                     }
                 </View>
-                <Modal
+                {/* <Modal
                     transparent={true}
                     visible={this.state.showTree}
                     onRequestClose={this.handleOnRequestClose}
                     presentationStyle={'overFullScreen'}
                     hardwareAccelerated={true}
-                >
+                > */}
+                {this.state.showTree?
                     <View style={[styles.modalBox,{top: ht/9}]}>
                         <Pressable style={{width: '100%',height: '100%'}} onPress={this.treeSelectClick}>
                         </Pressable>
@@ -716,8 +717,9 @@ export class Navbar extends React.Component<any,any> {
                                 }
                             </View>
                         </View>
-                    </View>
-                </Modal>
+                    </View>:''
+                }
+                {/* </Modal> */}
                 {/* 弹窗效果组件 */}
                 <Loading 
                     type={this.state.msgType} 
@@ -884,8 +886,11 @@ const styles = StyleSheet.create({
         backgroundColor: '#333',
     },
     modalBox: {
+        position: 'absolute',
         top: 10,
-        flex: 1,
+        height: Dimensions.get('screen').height,
+        width: Dimensions.get('screen').width,
+        zIndex: 99999,
         backgroundColor: 'rgba(0, 0, 0, 0.4)',
         justifyContent: "center",
         alignItems: "center",

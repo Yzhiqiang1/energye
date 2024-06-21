@@ -132,6 +132,12 @@ export class User extends Component<any,any> {
         <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#2da2fe'}}>
         </View>
         <SafeAreaView style={{flex: 1}}>
+          {/* 弹窗效果组件 */}
+          <Loading 
+              type={this.state.msgType} 
+              visible={this.state.visible} 
+              LoadingMsg={this.state.LoadingMsg}>
+          </Loading>
           <View style={styleg.containerMax}>
             <View style={styles.nav}>
               <Pressable style={({ pressed })=>[{backgroundColor: pressed? '#c3c3c3' : '#b4b4b4'  },styles.navLeft]} onPress={()=>{this.props.navigation.navigate('HomeBar')}}>
@@ -173,12 +179,6 @@ export class User extends Component<any,any> {
                 : ''
               }
             </View>
-            {/* 弹窗效果组件 */}
-            <Loading 
-                type={this.state.msgType} 
-                visible={this.state.visible} 
-                LoadingMsg={this.state.LoadingMsg}>
-            </Loading>
           </View>
         </SafeAreaView>
       </View>

@@ -152,7 +152,13 @@ export class BindAccount extends Component<any,any> {
     }
   render() {
     return (
-        <View style={{flex: 1}}>
+        <View style={{flex: 1}} >
+            {/* 弹窗效果组件 */}
+           <Loading 
+                type={this.state.msgType} 
+                visible={this.state.visible} 
+                LoadingMsg={this.state.LoadingMsg}>
+            </Loading>
             <View style={styles.images} onLayout={(event) => this.boxH(event)}>
                 <Image style={styles.loginBac} resizeMethod='auto' source={require('../../image/loginBac.png')}></Image>
             </View>
@@ -203,12 +209,6 @@ export class BindAccount extends Component<any,any> {
                         </View>
                     </View>
                 </View>
-                {/* 弹窗效果组件 */}
-                <Loading 
-                    type={this.state.msgType} 
-                    visible={this.state.visible} 
-                    LoadingMsg={this.state.LoadingMsg}>
-                </Loading>
             </SafeAreaView>
         </View>
     )
@@ -220,7 +220,7 @@ const styles = StyleSheet.create({
     view:{
         flex: 1,
         display: 'flex',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     nav:{
         position:'absolute',

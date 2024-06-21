@@ -24,11 +24,11 @@ export class Configuration extends Component<any,any> {
         isPageLoad: true, //加载中效果
         isLastPage: false, //是否加载最后一页
         scrollIs: true, //滚动中禁止重复滚动
-        visible: false,
         boxHeight: 0,
 
         msgType: 1,
-        LoadingMsg: ''
+        LoadingMsg: '',
+        visible: false,
     }
   }
   
@@ -63,9 +63,9 @@ export class Configuration extends Component<any,any> {
   //首次查询
   getFirst(){
     let that = this;
-    //加载效果
+    // 加载效果
     this.setState({
-        type: 1,
+        msgType: 1,
         visible: true,
         LoadingMsg: '查询中...'
     })
@@ -150,10 +150,10 @@ export class Configuration extends Component<any,any> {
       pageSize: pageSize
     }).then((res:any)=>{
       //取消加载效果
-      that.setState({
-        isPageLoad: true,
-        scrollIs: true
-      })
+      // that.setState({
+      //   isPageLoad: true,
+      //   scrollIs: true
+      // })
       //关闭加载效果
       this.setState({
         visible: false
@@ -195,6 +195,11 @@ export class Configuration extends Component<any,any> {
       <View style={{flex: 1}}>
         <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#2da2fe'}}>
         </View>
+        <Loading
+            type={this.state.msgType}
+            LoadingMsg={this.state.LoadingMsg}
+            visible={this.state.visible}
+        ></Loading>
         <SafeAreaView style={{flex: 1}}>
           <View style={styleg.containerMax} onLayout={(event) => this.boxH(event)}>
             <View style={styles.nav}>
@@ -283,12 +288,7 @@ export class Configuration extends Component<any,any> {
                         <Text style={styles.url} onPress={()=>this.props.navigation.navigate('BindAccount')}>点击登录</Text>
                     </Text> 
                 }
-            </ScrollView>   
-            <Loading
-              type={this.state.msgType}
-              LoadingMsg={this.state.LoadingMsg}
-              visible={this.state.visible}
-            ></Loading>
+            </ScrollView>
           </View>
         </SafeAreaView>
       </View>

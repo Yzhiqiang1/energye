@@ -1,4 +1,4 @@
-import { Dimensions, Image, SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import { Dimensions, Image, Pressable, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import React, { Component } from 'react'
 import Navbar from '../../../component/navbar/navbar'
 import styleg from '../../../indexCss'
@@ -8,6 +8,7 @@ import store from '../../../redux/store'
 import { HttpService } from '../../../utils/http'
 import Loading from '../../../component/Loading/Loading'
 import Picker from '../../../component/Picker/Picker'
+import PickerBut from '../../../component/PickerBut/PickerBut'
 const api = require('../../../utils/api')
 const Fs = Dimensions.get('window').width*0.8
 
@@ -30,6 +31,7 @@ export class WaterAnalysis3 extends Component<any,any> {
             _weekTime: getWeek.value,
             _weekTimeDate: getWeek.data,
             _weekTimeIn: 0,
+            _weekSeveral: ['第一周','第二周','第三周','第四周'],
             //月报处理
             _month: util.nowDate(1),
             //数据项
@@ -106,7 +108,7 @@ export class WaterAnalysis3 extends Component<any,any> {
      * *********/
     _dayClick=(e:any)=>{
         this.setState({
-            _day: e.detail.value
+            _day: e
         })
     }
     /********
@@ -290,6 +292,12 @@ export class WaterAnalysis3 extends Component<any,any> {
             <View style={{flex: 1}}>
                 <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
                 </View>
+                {/* 弹窗效果组件 */}
+                <Loading 
+                    type={this.state.msgType} 
+                    visible={this.state.visible} 
+                    LoadingMsg={this.state.LoadingMsg}>
+                </Loading>
                 <SafeAreaView style={{flex: 1}}>
                     {/* 引入自定义导航栏 */}
                     <Navbar 
@@ -313,43 +321,59 @@ export class WaterAnalysis3 extends Component<any,any> {
                             {/* 日报处理 */}
                             {this.state.dataSwitchIn == 0?
                                 <View style={styles.flex}>
-                                    <Picker
+                                    {/* <Picker
                                         pickerType={1}
                                         date={this.state._day}
                                         precisionType={1}
                                         click={this._dayClick}
-                                    ></Picker>
+                                    ></Picker> */}
+                                    <Pressable style={styleg.button} onPress={()=>this.setState({open: true,typePk: 1})}>
+                                        <Text allowFontScaling={false} style={styleg.TextButton}>{this.state._day}</Text>
+                                        <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
+                                    </Pressable>
                                 </View>:''
                             }
                             {/* 周报处理 */}
                             {this.state.dataSwitchIn == 1?
                                 <View style={[styles.flex,,styles.week]}>
-                                    <Picker
+                                    {/* <Picker
                                         pickerType={1}
                                         date={this.state._week}
                                         precisionType={2}
                                         click={this._weekClick}
-                                    ></Picker>
+                                    ></Picker> */}
+                                    <Pressable style={styleg.button} onPress={()=>this.setState({open: true,typePk: 2})}>
+                                        <Text allowFontScaling={false} style={styleg.TextButton}>{this.state._week}</Text>
+                                        <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
+                                    </Pressable>
                                     {/* 多列选择器 */}
-                                    <Picker
+                                    {/* <Picker
                                         pickerType={3}
                                         monthTime={this.state._weekTime}
                                         monthTimeIn={this.state._weekTimeIn}
                                         precisionType={2}
                                         click={this._weekTimeClick}
-                                    ></Picker>
+                                    ></Picker> */}
+                                    <Pressable style={styleg.button} onPress={()=>this.setState({open: true,typePk: 3})}>
+                                        <Text allowFontScaling={false} style={styleg.TextButton}>{this.state._weekSeveral[this.state._weekTimeIn]}</Text>
+                                        <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
+                                    </Pressable>
                                 </View>
                                 :''
                             }
                             {/* // 月报处理 */}
                             {this.state.dataSwitchIn == 2?
                                 <View style={styles.flex}>
-                                    <Picker
+                                    {/* <Picker
                                         pickerType={1}
                                         date={this.state._month}
                                         precisionType={2}
                                         click={this._monthClick}
-                                    ></Picker>
+                                    ></Picker> */}
+                                    <Pressable style={styleg.button} onPress={()=>this.setState({open: true,typePk: 4})}>
+                                        <Text allowFontScaling={false} style={styleg.TextButton}>{this.state._month}</Text>
+                                        <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
+                                    </Pressable>
                                 </View>:''
                             }
                             <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>查询</Text>
@@ -387,12 +411,43 @@ export class WaterAnalysis3 extends Component<any,any> {
                             }
                         </View>
                     </View>
-                    {/* 弹窗效果组件 */}
-                    <Loading 
-                        type={this.state.msgType} 
-                        visible={this.state.visible} 
-                        LoadingMsg={this.state.LoadingMsg}>
-                    </Loading>
+                    {/* 日期选择器 */}
+                    {this.state.open?
+                        this.state.typePk==1?
+                            <PickerBut
+                                pickerType={1}
+                                date={this.state._day}
+                                precisionType={1}
+                                click={this._dayClick}
+                                cancel={()=>this.setState({open: false})}
+                            ></PickerBut>:
+                        this.state.typePk==2? 
+                            <PickerBut
+                                pickerType={1}
+                                date={this.state._week}
+                                precisionType={2}
+                                click={this._weekClick}
+                                cancel={()=>this.setState({open: false})}
+                            ></PickerBut>:
+                        this.state.typePk==3? 
+                            <PickerBut
+                                pickerType={3}
+                                monthTime={this.state._weekTime}
+                                monthTimeIn={this.state._weekTimeIn}
+                                precisionType={2}
+                                click={this._weekTimeClick}
+                                cancel={()=>this.setState({open: false})}
+                            ></PickerBut>:
+                        this.state.typePk==4? 
+                            <PickerBut
+                                pickerType={1}
+                                date={this.state._month}
+                                precisionType={2}
+                                click={this._monthClick}
+                                cancel={()=>this.setState({open: false})}
+                            ></PickerBut>:""
+                    :''
+                    }
                 </SafeAreaView>
             </View>
         )
