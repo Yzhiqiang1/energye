@@ -611,73 +611,73 @@ export class Navbar extends React.Component<any,any> {
     render() {
         const {navigation,}: { navigation?: StackNavigationProp<any, any> } = this.props.props
         return (
-            <View style={[styles.navbar,{height: ht/9,pointerEvents: 'auto'}]}>
-                <View style={[styles.navbar_head]}>
-                    {this.props.showBack?
-                        <Pressable style={styles.navbar_left} onPress={this.navBack}>
-                            <Icon
-                                name='left'
-                                type='antdesign'
-                                color='#333'
-                                size={22}
-                            />
-                        </Pressable>:''
-                    }
-                    {this.props.showHome?
-                        <Pressable style={styles.navbar_left} onPress={this.navHome}>
-                            <Icon
-                                name='home'
-                                type='antdesign'
-                                color='#333'
-                                size={22}
-                            />
-                        </Pressable>:''
-                    }
-                    <Text allowFontScaling={false} style={styles.navbar_text}>{this.props.pageName}</Text>
-                    {this.props.LoginStatus == 1?
-                        <TouchableOpacity style={styles.treeSelect} onPress={()=>{navigation?.navigate('BindAccount')}}>
-                            <Text allowFontScaling={false} style={[styles.navbar_text,{fontSize:Fs/22,color:'#2EA4FF',fontWeight: '400'}]}>您还未登录,点击登录</Text>
-                        </TouchableOpacity> : ''
-                    }
-                    {this.props.LoginStatus == 2?
-                        <Pressable style={styles.treeSelect} onPress={this.treeSelectClick}>
-                            {this.state.treeLoading?
-                                <ActivityIndicator color="#1989fa"/> :
-                                <View style={styles.test}>
+            <View>
+                <View style={[styles.navbar,{height: ht/9,pointerEvents: 'auto'}]}>
+                    <View style={[styles.navbar_head]}>
+                        {this.props.showBack?
+                            <Pressable style={styles.navbar_left} onPress={this.navBack}>
+                                <Icon
+                                    name='left'
+                                    type='antdesign'
+                                    color='#333'
+                                    size={22}
+                                />
+                            </Pressable>:''
+                        }
+                        {this.props.showHome?
+                            <Pressable style={styles.navbar_left} onPress={this.navHome}>
+                                <Icon
+                                    name='home'
+                                    type='antdesign'
+                                    color='#333'
+                                    size={22}
+                                />
+                            </Pressable>:''
+                        }
+                        <Text allowFontScaling={false} style={styles.navbar_text}>{this.props.pageName}</Text>
+                        {this.props.LoginStatus == 1?
+                            <TouchableOpacity style={styles.treeSelect} onPress={()=>{navigation?.navigate('BindAccount')}}>
+                                <Text allowFontScaling={false} style={[styles.navbar_text,{fontSize:Fs/22,color:'#2EA4FF',fontWeight: '400'}]}>您还未登录,点击登录</Text>
+                            </TouchableOpacity> : ''
+                        }
+                        {this.props.LoginStatus == 2?
+                            <Pressable style={styles.treeSelect} onPress={this.treeSelectClick}>
+                                {this.state.treeLoading?
+                                    <ActivityIndicator color="#1989fa"/> :
                                     <View style={styles.test}>
-                                        <Text allowFontScaling={false} numberOfLines={1} ellipsizeMode="tail" style={styles.testName}>{this.state.treeName}</Text>
-                                        <Animated.View style={[styles.ico,{transform: [{rotate: this.state.rotate}]}]}>
-                                            <Image style={styles.img} source={require("../../image/down.png")}></Image>
-                                        </Animated.View>
+                                        <View style={styles.test}>
+                                            <Text allowFontScaling={false} numberOfLines={1} ellipsizeMode="tail" style={styles.testName}>{this.state.treeName}</Text>
+                                            <Animated.View style={[styles.ico,{transform: [{rotate: this.state.rotate}]}]}>
+                                                <Image style={styles.img} source={require("../../image/down.png")}></Image>
+                                            </Animated.View>
+                                        </View>
                                     </View>
-                                </View>
-                            }
-                        </Pressable>:''
-                    }
+                                }
+                            </Pressable>:''
+                        }
+                    </View>
+                    {/* <Modal
+                        transparent={true}
+                        visible={this.state.showTree}
+                        onRequestClose={this.handleOnRequestClose}
+                        presentationStyle={'overFullScreen'}
+                        hardwareAccelerated={true}
+                    > */}
+                    {/* </Modal> */}
+                    {/* 弹窗效果组件 */}
+                    <Loading 
+                        type={this.state.msgType} 
+                        visible={this.state.visible} 
+                        LoadingMsg={this.state.LoadingMsg}
+                    >
+                    </Loading>
                 </View>
-                {/* <Modal
-                    transparent={true}
-                    visible={this.state.showTree}
-                    onRequestClose={this.handleOnRequestClose}
-                    presentationStyle={'overFullScreen'}
-                    hardwareAccelerated={true}
-                > */}
+                {/* 设备选择弹窗 */}
                 {this.state.showTree?
                     <View style={[styles.modalBox,{top: ht/9}]}>
                         <Pressable style={{width: '100%',height: '100%'}} onPress={this.treeSelectClick}>
                         </Pressable>
                         <View style={styles.con}>
-                            <Pressable style={{
-                                position:'absolute',
-                                top:-40,
-                                left:'50%',
-                                marginLeft:-90,
-                                zIndex: 9,
-                                width:180,
-                                height:26,
-                            }}
-                                onPress={this.treeSelectClick}
-                            ></Pressable>
                             <View style={styles.boxs}>
                                 {this.state.isCheck != 6?
                                     <View style={[styles.left,this.props.isCheck==4?styles.leftW100:null]}>
@@ -719,14 +719,6 @@ export class Navbar extends React.Component<any,any> {
                         </View>
                     </View>:''
                 }
-                {/* </Modal> */}
-                {/* 弹窗效果组件 */}
-                <Loading 
-                    type={this.state.msgType} 
-                    visible={this.state.visible} 
-                    LoadingMsg={this.state.LoadingMsg}
-                >
-                </Loading>
             </View>
         )
     }
@@ -810,7 +802,6 @@ const styles = StyleSheet.create({
         width: 16,
         height: 16,
     },
-    
     box:{
         position: 'relative',
         width:'96%',
@@ -828,7 +819,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         display: 'flex',
         flexDirection:'row',
-        padding:0,
+        padding: 0,
     },
     left:{
         position: 'relative',
@@ -849,7 +840,7 @@ const styles = StyleSheet.create({
         paddingLeft: 10,
         fontSize: Fs/22,
         color: '#666',
-        overflow: 'hidden',
+        // overflow: 'hidden',
     },
     listIs:{
         backgroundColor: '#ffffff',
@@ -887,7 +878,6 @@ const styles = StyleSheet.create({
     },
     modalBox: {
         position: 'absolute',
-        top: 10,
         height: Dimensions.get('screen').height,
         width: Dimensions.get('screen').width,
         zIndex: 99999,
