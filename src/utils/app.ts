@@ -82,7 +82,6 @@ export class Register {
                 }
             }
         }
-       
     }
     ///创建websocket连接并监听状态
     static openWebsocket=()=>{

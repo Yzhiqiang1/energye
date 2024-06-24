@@ -5,9 +5,9 @@ export const Set_accessToken = (data: any) => {
     }
 }
 
-export const Set_State = (type:any,data: any) => {
+export const Set_State = (data: any) => {
     return {
-        type: type,
+        type: 'Set_State',
         data: data,
     }
 }

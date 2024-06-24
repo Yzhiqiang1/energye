@@ -1,4 +1,4 @@
-import { Text, View, Pressable, Dimensions, SafeAreaView, TouchableHighlight } from 'react-native'
+import { Text, View, Pressable, Dimensions, SafeAreaView, TouchableHighlight, ActivityIndicator } from 'react-native'
 import React, { Component } from 'react'
 import styleg from '../../indexCss'//公共scc
 import { StyleSheet } from 'react-native'
@@ -8,6 +8,9 @@ import { Register } from '../../utils/app'
 import { Image } from '@rneui/themed';
 import { HttpService } from '../../utils/http'
 import Loading from '../../component/Loading/Loading'//加载窗口组件
+import AsyncStorage from '@react-native-async-storage/async-storage'
+
+const screenHeight = Dimensions.get('screen').height
 const api = require('../..//utils/api')
 const Fs = Dimensions.get('window').width*0.8
 const ht = Dimensions.get('window').height*0.8
@@ -72,8 +75,17 @@ export class User extends Component<any,any> {
       userId:userId
     }).then((data:any)=>{
       if(data.flag == '00'){
-         //退出清空全局数据
-         store.dispatch(Log_Out())
+        //退出清空全局数据
+        store.dispatch(Log_Out())
+        //清理本地存储
+        const removeData = async () => {
+          try {
+            await AsyncStorage.removeItem('@user');
+          } catch(e) {
+            console.log('Error removing data');
+          }
+        };
+        removeData()
          //关闭加载效果
         this.setState({
           visible: false
@@ -119,19 +131,19 @@ export class User extends Component<any,any> {
         },2000)
       })
     })
-    
-   
   }
 
-  onChange=(value: Date)=>{
-    console.log(value);
-  }
   render() {
     return (
       <View style={{flex: 1}}>
         <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#2da2fe'}}>
         </View>
         <SafeAreaView style={{flex: 1}}>
+          <View style={styles.modalBox}>
+            <View style={styles.modal}>
+                
+            </View>
+          </View>
           {/* 弹窗效果组件 */}
           <Loading 
               type={this.state.msgType} 
@@ -303,6 +315,27 @@ const styles = StyleSheet.create({
     position:'absolute',
     bottom: 70,
     zIndex:999999
+  }, 
+  modalBox: {
+    position: 'absolute',
+    zIndex: 99999999,
+    height: screenHeight,
+    width: '100%',
+    justifyContent: 'center', 
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.4)'
+  },
+  modal: {
+    position: 'absolute',
+    left: '50%',
+    marginLeft: -Dimensions.get('screen').width/3/2,
+    display:'flex',
+    alignItems:'center',
+    justifyContent: 'space-evenly',
+    width: Dimensions.get('screen').width/3,
+    height: Dimensions.get('screen').width/3,
+    borderRadius:10,
+    backgroundColor: '#fff',
   },
 })
 

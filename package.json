@@ -12,6 +12,7 @@
   "dependencies": {
     "@ant-design/icons-react-native": "^2.3.2",
     "@ant-design/react-native": "^5.1.2",
+    "@react-native-async-storage/async-storage": "^1.23.1",
     "@react-native-camera-roll/camera-roll": "^7.7.0",
     "@react-native-community/cli-doctor": "^13.6.6",
     "@react-native-community/datetimepicker": "^7.6.4",
@@ -56,6 +57,7 @@
     "react-native-webview": "^13.8.4",
     "react-redux": "^9.1.0",
     "redux": "^5.0.1",
+    "redux-persist": "^6.0.0",
     "rn-overlay": "^0.4.0"
   },
   "devDependencies": {

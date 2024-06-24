@@ -47,7 +47,7 @@ const userReducer = (
         },
         scene: []
     }, 
-    action: { type: any; data: any;}) => {
+    action: any) => {
         switch (action.type) {
             case 'Set_accessToken':
                 state.accessToken = action.data.access_token;
@@ -100,7 +100,7 @@ const userReducer = (
             case 'scene':
                 state.scene = action.data.scene
             default:
-                return state
+            return state
         }
     }
 

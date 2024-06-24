@@ -2,6 +2,7 @@ import { Text, View, Dimensions, Image, ScrollView, Pressable, SafeAreaView, Sty
 import React, { Component } from 'react'
 import Navbar from '../../component/navbar/navbar'
 import { Register } from '../../utils/app'
+import Loading from '../../component/Loading/Loading'
 const Fs = Dimensions.get('window').width*0.8//屏幕宽比 
 export class Index extends Component<any,any> {
     constructor(props: any){

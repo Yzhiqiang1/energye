@@ -2,15 +2,19 @@ import { Dimensions, StyleSheet, Text, View, Image, TextInput, TouchableOpacity,
 import React, { Component,} from 'react'
 import {HttpService} from '../../utils/http'
 import LoginNavbar from '../../component/loginNavbar/loginNavbar'
-import { Set_State } from '../../redux/actions/user';
-import store from '../../redux/store'//全局管理
 import Loading from '../../component/Loading/Loading';
+import store from '../../redux/store';
+import { Set_State, Set_accessToken } from '../../redux/actions/user';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 const Fs = Dimensions.get('window').width*0.8
 let api = require('../../utils/api')
 
 //屏幕高
 const height = Dimensions.get('window').height
+
 export class BindAccount extends Component<any,any> {
+
     constructor(props: any) {
         super(props);
         this.state = {  
@@ -18,7 +22,7 @@ export class BindAccount extends Component<any,any> {
             userName: '',
             boxHeight: 0,
             intercept: true,
-         };
+        };
     };
     //输入用户名
     userNameChangeSearch = (value: string)=>{
@@ -73,17 +77,29 @@ export class BindAccount extends Component<any,any> {
         var userName = this.state.userName;
         var password = this.state.password;
         HttpService.Post(api.applogin,{
-            userName:userName,
-            password:password
+            userName: userName,
+            password: password
         }).then((res:any)=>{
-            console.log(res, "登录获取的数据!！")
+            console.log(res, "登录获取的数据!！!")
             if(res.flag){
                 if (res.flag == '00') {
                     this.setState({
                         intercept: true,
                     })
                     //保存登录信息到全局
-                    store.dispatch(Set_State('Set_State',res))
+                    store.dispatch(Set_State(res))
+                    const saveData = async () => {
+                        try {
+                          // 将对象转换为JSON字符串
+                          const data = res
+                          const jsonValue = JSON.stringify(data);
+                          // 存储数据
+                          await AsyncStorage.setItem('@user', jsonValue);
+                        } catch (e) {
+                          console.log('Error saving data');
+                        }
+                    };
+                    saveData()
                     //跳转首页关闭之前的所有页面
                     this.props.navigation.reset({index: 0,routes: [{ name: 'Tabbar' }]})
                 }else{
@@ -200,7 +216,6 @@ export class BindAccount extends Component<any,any> {
                                 <Text style={{color: '#01AAED',fontSize:Fs/18}}>注册账号</Text>
                             </TouchableOpacity>
                         </View>
-                        
                         <View style={styles.Tourist}>
                             <Pressable style={styles.experience} onPress={this.touristLongin}>
                                 <Image style={{width:30,height:30}} source={require('../../image/Tourist.png')}></Image>
@@ -228,32 +243,32 @@ const styles = StyleSheet.create({
         zIndex: 9999,
         width:'100%',
         height:60,
-      },
-      navLeft:{
-        position:'absolute',
-        left:10,
-        top:15,
-        zIndex:999,
-        width: 30,
-        height: 30,
-        backgroundColor:'#234e73',
-        borderRadius: 20,
-        display:'flex',
-        alignItems:'center',
-        justifyContent:'center',
-      },
-      navImg:{
-        width:25,
-        height:25,
-      },
-      navName:{
-        height:60,
-        lineHeight:60,
-        textAlignVertical: 'center',
-        textAlign:'center',
-        fontSize:Fs/16,
-        color:'#fff'
-      },
+    },
+    navLeft:{
+    position:'absolute',
+    left:10,
+    top:15,
+    zIndex:999,
+    width: 30,
+    height: 30,
+    backgroundColor:'#234e73',
+    borderRadius: 20,
+    display:'flex',
+    alignItems:'center',
+    justifyContent:'center',
+    },
+    navImg:{
+    width:25,
+    height:25,
+    },
+    navName:{
+    height:60,
+    lineHeight:60,
+    textAlignVertical: 'center',
+    textAlign:'center',
+    fontSize:Fs/16,
+    color:'#fff'
+    },
     images:{
         position: 'absolute',
         width: '100%',

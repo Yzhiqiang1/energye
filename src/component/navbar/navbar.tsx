@@ -611,8 +611,8 @@ export class Navbar extends React.Component<any,any> {
     render() {
         const {navigation,}: { navigation?: StackNavigationProp<any, any> } = this.props.props
         return (
-            <View>
-                <View style={[styles.navbar,{height: ht/9,pointerEvents: 'auto'}]}>
+            <View style={[styles.navbar,{height: ht/9, pointerEvents: 'auto'}]}>
+                <View>
                     <View style={[styles.navbar_head]}>
                         {this.props.showBack?
                             <Pressable style={styles.navbar_left} onPress={this.navBack}>
@@ -731,7 +731,7 @@ const styles = StyleSheet.create({
         top: 0,
         left: 0,
         width: '100%',
-        zIndex: 99999,
+        zIndex: 9999999,
         backgroundColor: '#fff',
         borderBlockColor: '#f4f4f4',
         borderStyle: 'solid',

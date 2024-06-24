@@ -43,26 +43,20 @@ export class Loading extends Component<any,any> {
             //     </Modal>
             // </View>
             this.props.type == 1 ?
-            <View>
-                {this.props.visible?
+                this.props.visible?
                     <View style={styles.modalBox}>
                         <View style={styles.modal}>
                             <ActivityIndicator size="large" color="#fff"/>
                             <Text allowFontScaling={false} style={styles.text}>{this.props.LoadingMsg}</Text>
                         </View>
                     </View>:''
-                }
-            </View>
-            :
-            <View>
-                {this.props.visible?
+                :
+                this.props.visible?
                     <View style={styles.modalBox}>
                         <View style={styles.showLoading}>
                             <Text allowFontScaling={false} style={styles.showText}>{this.props.LoadingMsg}</Text>
                         </View>
                     </View>:''
-                }
-            </View>
         )
     }
 }
@@ -98,7 +92,7 @@ const styles = StyleSheet.create({
     },
     modalBox: {
         position: 'absolute',
-        zIndex: 999999,
+        zIndex: 99999999,
         height: screenHeight,
         width: '100%',
         justifyContent: 'center', 
