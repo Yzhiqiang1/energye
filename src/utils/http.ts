@@ -1,4 +1,4 @@
-import store from "../redux/store";
+import { store } from "../redux/storer";
 export class HttpService {
     /* *************
     * 
@@ -38,8 +38,8 @@ export class HttpService {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'authorization': 'Bearer ' +  store.getState().userReducer.accessToken,
-                    'tlinkAppId': store.getState().userReducer.clientId,
+                    'authorization': 'Bearer ' +  store.getState().accessToken,
+                    'tlinkAppId': store.getState().clientId,
                 },
                 body: JSON.stringify(params), //提交的参数
             }).then(response => response.json()) //数据解析的方式，json解析
@@ -61,8 +61,8 @@ export class HttpService {
                 method: 'GET', 
                 headers: {
                     'Content-Type': 'application/json',
-                    'authorization': 'Bearer '+  store.getState().userReducer.accessToken,
-                    'tlinkAppId': store.getState().userReducer.clientId,
+                    'authorization': 'Bearer '+  store.getState().accessToken,
+                    'tlinkAppId': store.getState().clientId,
                 },
                 body: JSON.stringify(params), //提交的参数
             }).then(response => response.json()) //数据解析的方式，json解析

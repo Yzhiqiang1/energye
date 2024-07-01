@@ -4,11 +4,11 @@ import Navbar from '../../../component/navbar/navbar'
 import { Register } from '../../../utils/app';
 import styleg from '../../../indexCss';
 import MyCanvas from '../../../component/my-canvas/MyCanvas';
-import store from '../../../redux/store';
+import { store } from '../../../redux/storer';
 import { HttpService } from '../../../utils/http';
 import Loading from '../../../component/Loading/Loading'//加载组件
-import Picker  from '../../../component/Picker/Picker';
 import PickerBut from '../../../component/PickerBut/PickerBut';
+import { withTranslation } from 'react-i18next';//语言包
 let util = require('../../../utils/util.js');
 const api = require('../../../utils/api')
 const Fs = Dimensions.get('window').width*0.8
@@ -26,7 +26,8 @@ export class PowerTest4 extends Component<any,any> {
         //日期选择
         _date: util.nowDate(),
         //类型选择
-        dataType: ["功率", "电流", "相电压", "线电压", "不平衡度", "电压谐波", "电流谐波"],
+        // dataType: ["功率", "电流", "相电压", "线电压", "不平衡度", "电压谐波", "电流谐波"],
+         dataType: [this.props.t('power'),this.props.t('current'),this.props.t('phaseVoltage'),this.props.t('lineVoltage'),this.props.t('degreeImbalance'),this.props.t('HOV'),this.props.t('HOC'),],
         dataTypeIn: 0,
         //数据项
         optionData: [],
@@ -59,7 +60,7 @@ export class PowerTest4 extends Component<any,any> {
     }
     check_ok=()=>{
         let that = this;
-        let parameterGrou = store.getState().userReducer.parameterGroup; //获取选中组和设备信息
+        let parameterGrou = store.getState().parameterGroup; //获取选中组和设备信息
         if (parameterGrou.multiGroup.selectKey) {
             that.getTbaleDayData();
         } else {
@@ -67,7 +68,7 @@ export class PowerTest4 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg:'获取参数失败！'
+                LoadingMsg: this.props.t('getNotData')//'获取参数失败！'
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -120,7 +121,7 @@ export class PowerTest4 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg:'您还未登录,无法查询数据！'
+                LoadingMsg:  this.props.t('YANLI')//'您还未登录,无法查询数据！'
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -133,12 +134,12 @@ export class PowerTest4 extends Component<any,any> {
         this.setState({
             msgType: 1,
             visible: true,
-            LoadingMsg:'加载中...'
+            LoadingMsg: this.props.t('Loading')//'加载中...'
         }); //加载效果
         //用户ID
-        let userId = store.getState().userReducer.userId;
+        let userId = store.getState().userId;
         //查询设备ID
-        let ObjdeviceId = store.getState().userReducer.parameterGroup.multiGroup.selectKey;
+        let ObjdeviceId = store.getState().parameterGroup.multiGroup.selectKey;
         let strdeviceId = "";
         for (let i in ObjdeviceId) {
             strdeviceId += strdeviceId == "" ? ObjdeviceId[i] : ',' + ObjdeviceId[i];
@@ -187,10 +188,10 @@ export class PowerTest4 extends Component<any,any> {
                             name: "",
                             state: true,
                             title: objData.date + ' ' + objData.menuName,
-                            legendData: ["最大值", "最小值", "平均值"],
+                            legendData: [this.props.t('Max'), this.props.t('Min'), this.props.t('average')],
                             xAxisData: [],
                             series: [{
-                                name: "最大值",
+                                name: this.props.t('Max'),//"最大值",
                                 type: 'bar',
                                 barGap: 0,
                                 showBackground: true,
@@ -199,7 +200,7 @@ export class PowerTest4 extends Component<any,any> {
                                 },
                                 data: []
                             }, {
-                                name: "最小值",
+                                name: this.props.t('Min'),//"最小值",
                                 type: 'bar',
                                 barGap: 0,
                                 showBackground: true,
@@ -208,7 +209,7 @@ export class PowerTest4 extends Component<any,any> {
                                 },
                                 data: []
                             }, {
-                                name: "平均值",
+                                name: this.props.t('average'),//"平均值",
                                 type: 'bar',
                                 barGap: 0,
                                 showBackground: true,
@@ -222,10 +223,10 @@ export class PowerTest4 extends Component<any,any> {
                         /** 功率 **/
                         if (dataTypeIn == 0) {//功率
                             //区块名字
-                            queryData[i].name = "功率";
+                            queryData[i].name = this.props.t('power')//"功率";
                             /** 有功功率(kW) **/
                             if (objData.P_max || objData.P_min || objData.P_avg) {
-                                queryData[i].xAxisData.push("有功功率(kW)");
+                                queryData[i].xAxisData.push(this.props.t('activePower')+"(kW)");
                                 //最大值
                                 queryData[i].series[0].data.push({
                                     value: objData.P_max,
@@ -233,7 +234,7 @@ export class PowerTest4 extends Component<any,any> {
                                         show: true,
                                         rotate: -90,
                                         align: 'right',
-                                        formatter: '时间:' + objData.P_max_time + '(' + objData.P_max + ')'
+                                        formatter: this.props.t('Time')+':' + objData.P_max_time + '(' + objData.P_max + ')'
                                     }
                                 })
                                 //最小值
@@ -243,7 +244,7 @@ export class PowerTest4 extends Component<any,any> {
                                         show: true,
                                         rotate: -90,
                                         align: 'right',
-                                        formatter: '时间:' + objData.P_min_time + '(' + objData.P_min + ')'
+                                        formatter: this.props.t('Time')+':' + objData.P_min_time + '(' + objData.P_min + ')'
                                     }
                                 })
                                 //平均值
@@ -259,7 +260,7 @@ export class PowerTest4 extends Component<any,any> {
                             }
                             /** 无功功率(kVar) **/
                             if (objData.Q_max || objData.Q_min || objData.Q_avg) {
-                                queryData[i].xAxisData.push("无功功率(kVar)");
+                                queryData[i].xAxisData.push(this.props.t('reactivePower')+"(kVar)");
                                 //最大值
                                 queryData[i].series[0].data.push({
                                     value: objData.Q_max,
@@ -267,7 +268,7 @@ export class PowerTest4 extends Component<any,any> {
                                         show: true,
                                         rotate: -90,
                                         align: 'right',
-                                        formatter: '时间:' + objData.Q_max_time + '(' + objData.Q_max + ')'
+                                        formatter: this.props.t('Time')+':' + objData.Q_max_time + '(' + objData.Q_max + ')'
                                     }
                                 })
                                 //最小值
@@ -277,7 +278,7 @@ export class PowerTest4 extends Component<any,any> {
                                         show: true,
                                         rotate: -90,
                                         align: 'right',
-                                        formatter: '时间:' + objData.Q_min_time + '(' + objData.Q_min + ')'
+                                        formatter: this.props.t('Time')+':' + objData.Q_min_time + '(' + objData.Q_min + ')'
                                     }
                                 })
                                 //平均值
@@ -293,7 +294,7 @@ export class PowerTest4 extends Component<any,any> {
                             }
                             /** 视在功率(kVA) **/
                             if (objData.S_max || objData.S_min || objData.S_avg) {
-                                queryData[i].xAxisData.push("视在功率(kVA)");
+                                queryData[i].xAxisData.push(this.props.t('apparentPower')+"(kVA)");
                                 //最大值
                                 queryData[i].series[0].data.push({
                                     value: objData.S_max,
@@ -301,7 +302,7 @@ export class PowerTest4 extends Component<any,any> {
                                         show: true,
                                         rotate: -90,
                                         align: 'right',
-                                        formatter: '时间:' + objData.S_max_time + '(' + objData.S_max + ')'
+                                        formatter: this.props.t('Time')+':' + objData.S_max_time + '(' + objData.S_max + ')'
                                     }
                                 })
                                 //最小值
@@ -311,7 +312,7 @@ export class PowerTest4 extends Component<any,any> {
                                         show: true,
                                         rotate: -90,
                                         align: 'right',
-                                        formatter: '时间:' + objData.S_min_time + '(' + objData.S_min + ')'
+                                        formatter: this.props.t('Time')+':' + objData.S_min_time + '(' + objData.S_min + ')'
                                     }
                                 })
                                 //平均值
@@ -363,10 +364,10 @@ export class PowerTest4 extends Component<any,any> {
                         } 
                         else if (dataTypeIn == 1) {//电流
                             //区块名称
-                            queryData[i].name = "电流";
+                            queryData[i].name = this.props.t('current');//"电流";
                             /** A相电流(A) **/
                             if (objData.Ia_max || objData.Ia_min || objData.Ia_avg) {
-                                queryData[i].xAxisData.push("A相电流(A)");
+                                queryData[i].xAxisData.push(this.props.t('PAC')+"(A)");//A相电流
                                 //最大值
                                 queryData[i].series[0].data.push({
                                     value: objData.Ia_max,
@@ -374,7 +375,7 @@ export class PowerTest4 extends Component<any,any> {
                                         show: true,
                                         rotate: -90,
                                         align: 'right',
-                                        formatter: '时间:' + objData.Ia_max_time + '(' + objData.Ia_max + ')'
+                                        formatter: this.props.t('Time')+':' + objData.Ia_max_time + '(' + objData.Ia_max + ')'
                                     }
                                 })
                                 //最小值
@@ -384,7 +385,7 @@ export class PowerTest4 extends Component<any,any> {
                                         show: true,
                                         rotate: -90,
                                         align: 'right',
-                                        formatter: '时间:' + objData.Ia_min_time + '(' + objData.Ia_min + ')'
+                                        formatter: this.props.t('Time')+':' + objData.Ia_min_time + '(' + objData.Ia_min + ')'
                                     }
                                 })
                                 //平均值
@@ -400,7 +401,7 @@ export class PowerTest4 extends Component<any,any> {
                             }
                             /** B相电流(A) **/
                             if (objData.Ib_max || objData.Ib_min || objData.Ib_avg) {
-                                queryData[i].xAxisData.push("B相电流(A)");
+                                queryData[i].xAxisData.push(this.props.t('PBC')+"(A)");//B相电流
                                 //最大值
                                 queryData[i].series[0].data.push({
                                     value: objData.Ib_max,
@@ -408,7 +409,7 @@ export class PowerTest4 extends Component<any,any> {
                                         show: true,
                                         rotate: -90,
                                         align: 'right',
-                                        formatter: '时间:' + objData.Ib_max_time + '(' + objData.Ib_max + ')'
+                                        formatter: this.props.t('Time')+':' + objData.Ib_max_time + '(' + objData.Ib_max + ')'
                                     }
                                 })
                                 //最小值
@@ -418,7 +419,7 @@ export class PowerTest4 extends Component<any,any> {
                                         show: true,
                                         rotate: -90,
                                         align: 'right',
-                                        formatter: '时间:' + objData.Ib_min_time + '(' + objData.Ib_min + ')'
+                                        formatter: this.props.t('Time')+':' + objData.Ib_min_time + '(' + objData.Ib_min + ')'
                                     }
                                 })
                                 //平均值
@@ -434,7 +435,7 @@ export class PowerTest4 extends Component<any,any> {
                             }
                             /** C相电流(A) **/
                             if (objData.Ic_max || objData.Ic_min || objData.Ic_avg) {
-                                queryData[i].xAxisData.push("C相电流(A)");
+                                queryData[i].xAxisData.push(this.props.t('PCC')+"(A)");//C相电流
                                 //最大值
                                 queryData[i].series[0].data.push({
                                     value: objData.Ic_max,
@@ -442,7 +443,7 @@ export class PowerTest4 extends Component<any,any> {
                                         show: true,
                                         rotate: -90,
                                         align: 'right',
-                                        formatter: '时间:' + objData.Ic_max_time + '(' + objData.Ic_max + ')'
+                                        formatter: this.props.t('Time')+':' + objData.Ic_max_time + '(' + objData.Ic_max + ')'
                                     }
                                 })
                                 //最小值
@@ -452,7 +453,7 @@ export class PowerTest4 extends Component<any,any> {
                                         show: true,
                                         rotate: -90,
                                         align: 'right',
-                                        formatter: '时间:' + objData.Ic_min_time + '(' + objData.Ic_min + ')'
+                                        formatter: this.props.t('Time')+':' + objData.Ic_min_time + '(' + objData.Ic_min + ')'
                                     }
                                 })
                                 //平均值
@@ -468,7 +469,7 @@ export class PowerTest4 extends Component<any,any> {
                             }
                             /** 漏电电流(A) **/
                             if (objData.II_max || objData.II_min || objData.II_avg) {
-                                queryData[i].xAxisData.push("漏电电流(A)");
+                                queryData[i].xAxisData.push(this.props.t('currentLeakage')+"(A)");//漏电电流
                                 //最大值
                                 queryData[i].series[0].data.push({
                                     value: objData.II_max,
@@ -476,7 +477,7 @@ export class PowerTest4 extends Component<any,any> {
                                         show: true,
                                         rotate: -90,
                                         align: 'right',
-                                        formatter: '时间:' + objData.II_max_time + '(' + objData.II_max + ')'
+                                        formatter: this.props.t('Time')+':' + objData.II_max_time + '(' + objData.II_max + ')'
                                     }
                                 })
                                 //最小值
@@ -486,7 +487,7 @@ export class PowerTest4 extends Component<any,any> {
                                         show: true,
                                         rotate: -90,
                                         align: 'right',
-                                        formatter: '时间:' + objData.II_min_time + '(' + objData.II_min + ')'
+                                        formatter: this.props.t('Time')+':' + objData.II_min_time + '(' + objData.II_min + ')'
                                     }
                                 })
                                 //平均值
@@ -504,10 +505,10 @@ export class PowerTest4 extends Component<any,any> {
                         } 
                         else if (dataTypeIn == 2) {//相电压
                             //区块名称
-                            queryData[i].name = "相电压";
+                            queryData[i].name = this.props.t('phaseVoltage')//"相电压";
                             /** A相电压(V) **/
                             if (objData.Uan_max || objData.Uan_min || objData.Uan_avg) {
-                                queryData[i].xAxisData.push("A相电压(V)");
+                                queryData[i].xAxisData.push(this.props.t('PAV')+"(V)");//A相电压
                                 //最大值
                                 queryData[i].series[0].data.push({
                                     value: objData.Uan_max,
@@ -515,7 +516,7 @@ export class PowerTest4 extends Component<any,any> {
                                         show: true,
                                         rotate: -90,
                                         align: 'right',
-                                        formatter: '时间:' + objData.Uan_max_time + '(' + objData.Uan_max + ')'
+                                        formatter: this.props.t('Time')+':' + objData.Uan_max_time + '(' + objData.Uan_max + ')'
                                     }
                                 })
                                 //最小值
@@ -525,7 +526,7 @@ export class PowerTest4 extends Component<any,any> {
                                         show: true,
                                         rotate: -90,
                                         align: 'right',
-                                        formatter: '时间:' + objData.Uan_min_time + '(' + objData.Uan_min + ')'
+                                        formatter: this.props.t('Time')+':' + objData.Uan_min_time + '(' + objData.Uan_min + ')'
                                     }
                                 })
                                 //平均值
@@ -541,7 +542,7 @@ export class PowerTest4 extends Component<any,any> {
                             }
                             /** B相电压(V) **/
                             if (objData.Ubn_max || objData.Ubn_min || objData.Ubn_avg) {
-                                queryData[i].xAxisData.push("B相电压(V)");
+                                queryData[i].xAxisData.push(this.props.t('PBV')+"(V)");//B相电压
                                 //最大值
                                 queryData[i].series[0].data.push({
                                     value: objData.Ubn_max,
@@ -549,7 +550,7 @@ export class PowerTest4 extends Component<any,any> {
                                         show: true,
                                         rotate: -90,
                                         align: 'right',
-                                        formatter: '时间:' + objData.Ubn_max_time + '(' + objData.Ubn_max + ')'
+                                        formatter: this.props.t('Time')+':' + objData.Ubn_max_time + '(' + objData.Ubn_max + ')'
                                     }
                                 })
                                 //最小值
@@ -559,7 +560,7 @@ export class PowerTest4 extends Component<any,any> {
                                         show: true,
                                         rotate: -90,
                                         align: 'right',
-                                        formatter: '时间:' + objData.Ubn_min_time + '(' + objData.Ubn_min + ')'
+                                        formatter: this.props.t('Time')+':' + objData.Ubn_min_time + '(' + objData.Ubn_min + ')'
                                     }
                                 })
                                 //平均值
@@ -575,7 +576,7 @@ export class PowerTest4 extends Component<any,any> {
                             }
                             /** C相电压(V) **/
                             if (objData.Ucn_max || objData.Ucn_min || objData.Ucn_avg) {
-                                queryData[i].xAxisData.push("C相电压(V))");
+                                queryData[i].xAxisData.push(this.props.t('PCV')+"(V)");//C相电压
                                 //最大值
                                 queryData[i].series[0].data.push({
                                     value: objData.Ucn_max,
@@ -583,7 +584,7 @@ export class PowerTest4 extends Component<any,any> {
                                         show: true,
                                         rotate: -90,
                                         align: 'right',
-                                        formatter: '时间:' + objData.Ucn_max_time + '(' + objData.Ucn_max + ')'
+                                        formatter: this.props.t('Time')+':' + objData.Ucn_max_time + '(' + objData.Ucn_max + ')'
                                     }
                                 })
                                 //最小值
@@ -593,7 +594,7 @@ export class PowerTest4 extends Component<any,any> {
                                         show: true,
                                         rotate: -90,
                                         align: 'right',
-                                        formatter: '时间:' + objData.Ucn_min_time + '(' + objData.Ucn_min + ')'
+                                        formatter: this.props.t('Time')+':' + objData.Ucn_min_time + '(' + objData.Ucn_min + ')'
                                     }
                                 })
                                 //平均值
@@ -610,10 +611,10 @@ export class PowerTest4 extends Component<any,any> {
                         } 
                         else if (dataTypeIn == 3) {//线电压
                             //区块名称
-                            queryData[i].name = "线电压";
+                            queryData[i].name = this.props.t('lineVoltage');//"线电压";
                             /** AB相电压(V) **/
                             if (objData.Uab_max || objData.Uab_min || objData.Uab_avg) {
-                                queryData[i].xAxisData.push("AB相电压(V)");
+                                queryData[i].xAxisData.push(this.props.t('AB')+"(V)");
                                 //最大值
                                 queryData[i].series[0].data.push({
                                     value: objData.Uab_max,
@@ -621,7 +622,7 @@ export class PowerTest4 extends Component<any,any> {
                                         show: true,
                                         rotate: -90,
                                         align: 'right',
-                                        formatter: '时间:' + objData.Uab_max_time + '(' + objData.Uab_max + ')'
+                                        formatter: this.props.t('Time')+':' + objData.Uab_max_time + '(' + objData.Uab_max + ')'
                                     }
                                 })
                                 //最小值
@@ -631,7 +632,7 @@ export class PowerTest4 extends Component<any,any> {
                                         show: true,
                                         rotate: -90,
                                         align: 'right',
-                                        formatter: '时间:' + objData.Uab_min_time + '(' + objData.Uab_min + ')'
+                                        formatter: this.props.t('Time')+':' + objData.Uab_min_time + '(' + objData.Uab_min + ')'
                                     }
                                 })
                                 //平均值
@@ -647,7 +648,7 @@ export class PowerTest4 extends Component<any,any> {
                             }
                             /** BC相电压(V) **/
                             if (objData.Ubc_max || objData.Ubc_min || objData.Ubc_avg) {
-                                queryData[i].xAxisData.push("BC相电压(V)");
+                                queryData[i].xAxisData.push(this.props.t('BC')+"(V)");//BC相电压
                                 //最大值
                                 queryData[i].series[0].data.push({
                                     value: objData.Ubc_max,
@@ -655,7 +656,7 @@ export class PowerTest4 extends Component<any,any> {
                                         show: true,
                                         rotate: -90,
                                         align: 'right',
-                                        formatter: '时间:' + objData.Ubc_max_time + '(' + objData.Ubc_max + ')'
+                                        formatter: this.props.t('Time')+':' + objData.Ubc_max_time + '(' + objData.Ubc_max + ')'
                                     }
                                 })
                                 //最小值
@@ -665,7 +666,7 @@ export class PowerTest4 extends Component<any,any> {
                                         show: true,
                                         rotate: -90,
                                         align: 'right',
-                                        formatter: '时间:' + objData.Ubc_min_time + '(' + objData.Ubc_min + ')'
+                                        formatter: this.props.t('Time')+':' + objData.Ubc_min_time + '(' + objData.Ubc_min + ')'
                                     }
                                 })
                                 //平均值
@@ -681,7 +682,7 @@ export class PowerTest4 extends Component<any,any> {
                             }
                             /** CA相电压(V) **/
                             if (objData.Uca_max || objData.Uca_min || objData.Uca_avg) {
-                                queryData[i].xAxisData.push("CA相电压(V)");
+                                queryData[i].xAxisData.push(this.props.t('CA')+"(V)");//CA相电压
                                 //最大值
                                 queryData[i].series[0].data.push({
                                     value: objData.Uca_max,
@@ -689,7 +690,7 @@ export class PowerTest4 extends Component<any,any> {
                                         show: true,
                                         rotate: -90,
                                         align: 'right',
-                                        formatter: '时间:' + objData.Uca_max_time + '(' + objData.Uca_max + ')'
+                                        formatter: this.props.t('Time')+':' + objData.Uca_max_time + '(' + objData.Uca_max + ')'
                                     }
                                 })
                                 //最小值
@@ -699,7 +700,7 @@ export class PowerTest4 extends Component<any,any> {
                                         show: true,
                                         rotate: -90,
                                         align: 'right',
-                                        formatter: '时间:' + objData.Uca_min_time + '(' + objData.Uca_min + ')'
+                                        formatter: this.props.t('Time')+':' + objData.Uca_min_time + '(' + objData.Uca_min + ')'
                                     }
                                 })
                                 //平均值
@@ -716,10 +717,10 @@ export class PowerTest4 extends Component<any,any> {
                         } 
                         else if (dataTypeIn == 4) {//不平衡度
                             //区块名称
-                            queryData[i].name = "不平衡度";
+                            queryData[i].name = this.props.t('degreeImbalance');//"不平衡度";
                             /** 电压三相不平衡度(%) **/
                             if (objData.UUnB_max || objData.UUnB_min || objData.UUnB_avg) {
-                                queryData[i].xAxisData.push("电压三相不平衡度(%)");
+                                queryData[i].xAxisData.push(this.props.t('VTUD')+"(%)");//电压三相不平衡度
                                 //最大值
                                 queryData[i].series[0].data.push({
                                     value: objData.UUnB_max,
@@ -727,7 +728,7 @@ export class PowerTest4 extends Component<any,any> {
                                         show: true,
                                         rotate: -90,
                                         align: 'right',
-                                        formatter: '时间:' + objData.UUnB_max_time + '(' + objData.UUnB_max + ')'
+                                        formatter: this.props.t('Time')+':' + objData.UUnB_max_time + '(' + objData.UUnB_max + ')'
                                     }
                                 })
                                 //最小值
@@ -737,7 +738,7 @@ export class PowerTest4 extends Component<any,any> {
                                         show: true,
                                         rotate: -90,
                                         align: 'right',
-                                        formatter: '时间:' + objData.UUnB_min_time + '(' + objData.UUnB_min + ')'
+                                        formatter: this.props.t('Time')+':' + objData.UUnB_min_time + '(' + objData.UUnB_min + ')'
                                     }
                                 })
                                 //平均值
@@ -753,7 +754,7 @@ export class PowerTest4 extends Component<any,any> {
                             }
                             /** 电流三相不平衡度(%) **/
                             if (objData.IUnB_max || objData.IUnB_min || objData.IUnB_avg) {
-                                queryData[i].xAxisData.push("电流三相不平衡度(%)");
+                                queryData[i].xAxisData.push(this.props.t('CTUD')+"(%)");
                                 //最大值
                                 queryData[i].series[0].data.push({
                                     value: objData.IUnB_max,
@@ -761,7 +762,7 @@ export class PowerTest4 extends Component<any,any> {
                                         show: true,
                                         rotate: -90,
                                         align: 'right',
-                                        formatter: '时间:' + objData.IUnB_max_time + '(' + objData.IUnB_max + ')'
+                                        formatter: this.props.t('Time')+':' + objData.IUnB_max_time + '(' + objData.IUnB_max + ')'
                                     }
                                 })
                                 //最小值
@@ -771,7 +772,7 @@ export class PowerTest4 extends Component<any,any> {
                                         show: true,
                                         rotate: -90,
                                         align: 'right',
-                                        formatter: '时间:' + objData.IUnB_min_time + '(' + objData.IUnB_min + ')'
+                                        formatter: this.props.t('Time')+':' + objData.IUnB_min_time + '(' + objData.IUnB_min + ')'
                                     }
                                 })
                                 //平均值
@@ -788,10 +789,10 @@ export class PowerTest4 extends Component<any,any> {
                         } 
                         else if (dataTypeIn == 5) {//电压谐波
                             //区块名称
-                            queryData[i].name = "电压谐波";
+                            queryData[i].name = this.props.t('HOV');//"电压谐波";
                             /** A相电压总谐波畸变率(%) **/
                             if (objData.THD_Ia_max || objData.THD_Ia_min || objData.THD_Ia_avg) {
-                                queryData[i].xAxisData.push("A相总谐波畸变率(%)");
+                                queryData[i].xAxisData.push(this.props.t('PhaseAtotal')+"(%)");
                                 //最大值
                                 queryData[i].series[0].data.push({
                                     value: objData.THD_Ia_max,
@@ -799,7 +800,7 @@ export class PowerTest4 extends Component<any,any> {
                                         show: true,
                                         rotate: -90,
                                         align: 'right',
-                                        formatter: '时间:' + objData.THD_Ia_max_time + '(' + objData.THD_Ia_max + ')'
+                                        formatter: this.props.t('Time')+':' + objData.THD_Ia_max_time + '(' + objData.THD_Ia_max + ')'
                                     }
                                 })
                                 //最小值
@@ -809,7 +810,7 @@ export class PowerTest4 extends Component<any,any> {
                                         show: true,
                                         rotate: -90,
                                         align: 'right',
-                                        formatter: '时间:' + objData.THD_Ia_min_time + '(' + objData.THD_Ia_min + ')'
+                                        formatter: this.props.t('Time')+':' + objData.THD_Ia_min_time + '(' + objData.THD_Ia_min + ')'
                                     }
                                 })
                                 //平均值
@@ -825,7 +826,7 @@ export class PowerTest4 extends Component<any,any> {
                             }
                             /** B相电压总谐波畸变率(%) **/
                             if (objData.THD_Ib_max || objData.THD_Ib_min || objData.THD_Ib_avg) {
-                                queryData[i].xAxisData.push("B相总谐波畸变率(%)");
+                                queryData[i].xAxisData.push(this.props.t('PhaseBtotal')+"(%)");
                                 //最大值
                                 queryData[i].series[0].data.push({
                                     value: objData.THD_Ib_max,
@@ -833,7 +834,7 @@ export class PowerTest4 extends Component<any,any> {
                                         show: true,
                                         rotate: -90,
                                         align: 'right',
-                                        formatter: '时间:' + objData.THD_Ib_max_time + '(' + objData.THD_Ib_max + ')'
+                                        formatter: this.props.t('Time')+':' + objData.THD_Ib_max_time + '(' + objData.THD_Ib_max + ')'
                                     }
                                 })
                                 //最小值
@@ -843,7 +844,7 @@ export class PowerTest4 extends Component<any,any> {
                                         show: true,
                                         rotate: -90,
                                         align: 'right',
-                                        formatter: '时间:' + objData.THD_Ib_min_time + '(' + objData.THD_Ib_min + ')'
+                                        formatter: this.props.t('Time')+':' + objData.THD_Ib_min_time + '(' + objData.THD_Ib_min + ')'
                                     }
                                 })
                                 //平均值
@@ -859,7 +860,7 @@ export class PowerTest4 extends Component<any,any> {
                             }
                             /** C相电压总谐波畸变率(%) **/
                             if (objData.THD_Ic_max || objData.THD_Ic_min || objData.THD_Ic_avg) {
-                                queryData[i].xAxisData.push("C相总谐波畸变率(%)");
+                                queryData[i].xAxisData.push(this.props.t('PhaseCtotal')+"(%)");//C相总谐波畸变率
                                 //最大值
                                 queryData[i].series[0].data.push({
                                     value: objData.THD_Ic_max,
@@ -867,7 +868,7 @@ export class PowerTest4 extends Component<any,any> {
                                         show: true,
                                         rotate: -90,
                                         align: 'right',
-                                        formatter: '时间:' + objData.THD_Ic_max_time + '(' + objData.THD_Ic_max + ')'
+                                        formatter: this.props.t('Time')+':' + objData.THD_Ic_max_time + '(' + objData.THD_Ic_max + ')'
                                     }
                                 })
                                 //最小值
@@ -877,7 +878,7 @@ export class PowerTest4 extends Component<any,any> {
                                         show: true,
                                         rotate: -90,
                                         align: 'right',
-                                        formatter: '时间:' + objData.THD_Ic_min_time + '(' + objData.THD_Ic_min + ')'
+                                        formatter: this.props.t('Time')+':' + objData.THD_Ic_min_time + '(' + objData.THD_Ic_min + ')'
                                     }
                                 })
                                 //平均值
@@ -895,10 +896,10 @@ export class PowerTest4 extends Component<any,any> {
                         } 
                         else if (dataTypeIn == 6) {//电流谐波
                             //区块名称
-                            queryData[i].name = "电流谐波";
+                            queryData[i].name = this.props.t('HOC')//"电流谐波";
                             /** A相电流总谐波畸变率(%) **/
                             if (objData.THD_Uan_max || objData.THD_Uan_min || objData.THD_Uan_avg) {
-                                queryData[i].xAxisData.push("A相总谐波畸变率(%)");
+                                queryData[i].xAxisData.push(this.props.t('PhaseAtotal')+"(%)");//A相总谐波畸变率
                                 //最大值
                                 queryData[i].series[0].data.push({
                                     value: objData.THD_Uan_max,
@@ -906,7 +907,7 @@ export class PowerTest4 extends Component<any,any> {
                                         show: true,
                                         rotate: -90,
                                         align: 'right',
-                                        formatter: '时间:' + objData.THD_Uan_max_time + '(' + objData.THD_Uan_max + ')'
+                                        formatter: this.props.t('Time')+':' + objData.THD_Uan_max_time + '(' + objData.THD_Uan_max + ')'
                                     }
                                 })
                                 //最小值
@@ -916,7 +917,7 @@ export class PowerTest4 extends Component<any,any> {
                                         show: true,
                                         rotate: -90,
                                         align: 'right',
-                                        formatter: '时间:' + objData.THD_Uan_min_time + '(' + objData.THD_Uan_min + ')'
+                                        formatter: this.props.t('Time')+':' + objData.THD_Uan_min_time + '(' + objData.THD_Uan_min + ')'
                                     }
                                 })
                                 //平均值
@@ -932,7 +933,7 @@ export class PowerTest4 extends Component<any,any> {
                             }
                             /** B相电流总谐波畸变率(%) **/
                             if (objData.THD_Ubn_max || objData.THD_Ubn_min || objData.THD_Ubn_avg) {
-                                queryData[i].xAxisData.push("B相总谐波畸变率(%)");
+                                queryData[i].xAxisData.push(this.props.t('PhaseBtotal')+"(%)");//B相总谐波畸变率
                                 //最大值
                                 queryData[i].series[0].data.push({
                                     value: objData.THD_Ubn_max,
@@ -940,7 +941,7 @@ export class PowerTest4 extends Component<any,any> {
                                         show: true,
                                         rotate: -90,
                                         align: 'right',
-                                        formatter: '时间:' + objData.THD_Ubn_max_time + '(' + objData.THD_Ubn_max + ')'
+                                        formatter: this.props.t('Time')+':' + objData.THD_Ubn_max_time + '(' + objData.THD_Ubn_max + ')'
                                     }
                                 })
                                 //最小值
@@ -950,7 +951,7 @@ export class PowerTest4 extends Component<any,any> {
                                         show: true,
                                         rotate: -90,
                                         align: 'right',
-                                        formatter: '时间:' + objData.THD_Ubn_min_time + '(' + objData.THD_Ubn_min + ')'
+                                        formatter: this.props.t('Time')+':' + objData.THD_Ubn_min_time + '(' + objData.THD_Ubn_min + ')'
                                     }
                                 })
                                 //平均值
@@ -966,7 +967,7 @@ export class PowerTest4 extends Component<any,any> {
                             }
                             /** C相电流总谐波畸变率(%) **/
                             if (objData.THD_Ucn_max || objData.THD_Ucn_min || objData.THD_Ucn_avg) {
-                                queryData[i].xAxisData.push("C相总谐波畸变率(%)");
+                                queryData[i].xAxisData.push(this.props.t('PhaseCtotal')+"(%)");//C相总谐波畸变率
                                 //最大值
                                 queryData[i].series[0].data.push({
                                     value: objData.THD_Ucn_max,
@@ -974,7 +975,7 @@ export class PowerTest4 extends Component<any,any> {
                                         show: true,
                                         rotate: -90,
                                         align: 'right',
-                                        formatter: '时间:' + objData.THD_Ucn_max_time + '(' + objData.THD_Ucn_max + ')'
+                                        formatter: this.props.t('Time')+':' + objData.THD_Ucn_max_time + '(' + objData.THD_Ucn_max + ')'
                                     }
                                 })
                                 //最小值
@@ -984,7 +985,7 @@ export class PowerTest4 extends Component<any,any> {
                                         show: true,
                                         rotate: -90,
                                         align: 'right',
-                                        formatter: '时间:' + objData.THD_Ucn_min_time + '(' + objData.THD_Ucn_min + ')'
+                                        formatter: this.props.t('Time')+':' + objData.THD_Ucn_min_time + '(' + objData.THD_Ucn_min + ')'
                                     }
                                 })
                                 //平均值
@@ -1063,6 +1064,7 @@ export class PowerTest4 extends Component<any,any> {
         })
     }
   render() {
+    const { t } = this.props
     return (
         <View style={{flex: 1}}>
             <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
@@ -1076,7 +1078,7 @@ export class PowerTest4 extends Component<any,any> {
             <SafeAreaView style={{flex: 1}}>
                 {/* 引入自定义导航栏 */}
                 <Navbar 
-                    pageName={'电力运作报表'}
+                    pageName={t('PowerOperationReport')}//电力运作报表
                     showBack={true}
                     showHome={false}
                     isCheck={3}
@@ -1121,11 +1123,11 @@ export class PowerTest4 extends Component<any,any> {
                                 <Text allowFontScaling={false} style={styleg.TextButton}>{this.state.dataType[this.state.dataTypeIn]}</Text>
                                 <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
                             </Pressable>
-                        <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>查询</Text>
+                        <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>{t('inquire')}</Text>
                     </View>
                     <ScrollView style={styles.echarts_con}>
                         {this.state.optionData.length == 0?
-                        <Text allowFontScaling={false} style={styles.empty}>暂无数据</Text>:""
+                        <Text allowFontScaling={false} style={styles.empty}>{t('noData')}</Text>:""//暂无数据
                         }
                         {this.state.optionData.map((data:any,index:any)=>{
                         return(
@@ -1253,4 +1255,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default PowerTest4
+export default withTranslation()(PowerTest4)

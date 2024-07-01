@@ -3,12 +3,13 @@ import React, { Component } from 'react'
 import styleg from '../../../indexCss'
 import MyCanvas from '../../../component/my-canvas/MyCanvas'
 import util, { plusReduceData } from '../../../utils/util'
-import store from '../../../redux/store'
+import { store } from '../../../redux/storer'
 import { HttpService } from '../../../utils/http'
 import Loading from '../../../component/Loading/Loading'
 import Navbars from '../../../component/Navbars/Navbars'
 import Picker from '../../../component/Picker/Picker'
 import PickerBut from '../../../component/PickerBut/PickerBut'
+import { withTranslation } from 'react-i18next';//语言包
 const api = require('../../../utils/api')
 const Fs = Dimensions.get('window').width*0.8
 
@@ -28,7 +29,7 @@ export class History_switchMonitor extends Component<any,any> {
         }
     }
     componentDidMount(): void {
-        let sids = this.props.route.params.sids ? this.props.route.params.sids : "获取参数失败";
+        let sids = this.props.route.params.sids ? this.props.route.params.sids : this.props.t('getNotData');//"获取参数失败";
         console.log(sids,'sids');
         this.setState({
             sids: sids
@@ -63,7 +64,7 @@ export class History_switchMonitor extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '开始日期不能大于结束日期!'
+                LoadingMsg: this.props.t('TSDMN')//'开始日期不能大于结束日期!'
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -79,7 +80,7 @@ export class History_switchMonitor extends Component<any,any> {
     //获取逐日极值数据
     getHistory=()=>{
         let that = this;
-        let userId = store.getState().userReducer.userId; //用户ID
+        let userId = store.getState().userId; //用户ID
         let start = that.state.start //开始日期
         let end = that.state.end; //结束日期
         let sids = that.state.sids; //获取传感器数据
@@ -94,7 +95,7 @@ export class History_switchMonitor extends Component<any,any> {
         this.setState({
             msgType: 1,
             visible: true,
-            LoadingMsg: '加载中...'
+            LoadingMsg: this.props.t('Loading')//'加载中...'
         }); //加载效果
         HttpService.apiPost(api.kgjc_getHistory, {
             userId: userId,
@@ -175,6 +176,7 @@ export class History_switchMonitor extends Component<any,any> {
         })
     }
     render() {
+        const { t } = this.props
         return (
             <View style={{flex: 1}}>
                 <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
@@ -187,7 +189,7 @@ export class History_switchMonitor extends Component<any,any> {
                 </Loading>
                 <SafeAreaView style={{flex: 1}}>
                     <Navbars
-                    name={'历史记录'}
+                    name={t('History')}//'历史记录'
                     showBack={true}
                     showHome={false}
                     props={this.props}
@@ -209,7 +211,7 @@ export class History_switchMonitor extends Component<any,any> {
                                 </Pressable>
                             </View>
                             <Text allowFontScaling={false} style={styles.text}>
-                                至
+                                {t('to')}
                             </Text>
                             <View style={styles.flex}>
                                 {/* <Picker
@@ -224,12 +226,12 @@ export class History_switchMonitor extends Component<any,any> {
                                     <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
                                 </Pressable>
                             </View>
-                            <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>查询</Text>
+                            <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>{t('inquire')}</Text>
                         </View>
                         
                         <ScrollView style={styles.echartsCon}>
                             {this.state.optionData.length == 0?
-                                <Text allowFontScaling={false} style={styles.empty}>暂无数据</Text>:''
+                                <Text allowFontScaling={false} style={styles.empty}>{t('noData')}</Text>:''//暂无数据
                             }
                             {this.state.optionData.map((item:any,index:number)=>{
                                 return(
@@ -375,4 +377,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default History_switchMonitor
+export default withTranslation()(History_switchMonitor)

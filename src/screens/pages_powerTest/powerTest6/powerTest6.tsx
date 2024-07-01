@@ -4,12 +4,13 @@ import Navbar from '../../../component/navbar/navbar'
 import util from '../../../utils/util'
 import styleg from '../../../indexCss'
 import { Register } from '../../../utils/app'
-import store from '../../../redux/store'
+import { store } from '../../../redux/storer'
 import { HttpService } from '../../../utils/http'
 import MyCanvas from '../../../component/my-canvas/MyCanvas'
 import Loading from '../../../component/Loading/Loading'//加载组件
-import { Picker } from '../../../component/Picker/Picker'
 import { PickerBut } from '../../../component/PickerBut/PickerBut'
+import { withTranslation } from 'react-i18next';//语言包
+
 const api = require('../../../utils/api')
 const tool = require('../../../utils/tool.js');
 const Fs = Dimensions.get('window').width*0.8
@@ -23,7 +24,8 @@ export class PowerTest6 extends Component<any,any> {
 
             _date: util.nowDate(), //日期选择
             //类型选择
-            _typeArr: ["全部", "相电压", "线电压"],
+            // _typeArr: ["全部", "相电压", "线电压"],
+            _typeArr: [this.props.t('all'),this.props.t('phaseVoltage'),this.props.t('lineVoltage')],
             _typeIn: 0,
             names: ["Uan,Ubn,Ucn,Uab,Ubc,Uca,Ia,Ib,Ic,P,Q,S,Pf,T", "Uan,Ubn,Ucn,Ia,Ib,Ic,P,Q,S,Pf,T", "Uab,Ubc,Uca,Ia,Ib,Ic,P,Q,S,Pf,T"],
             //数据项
@@ -58,7 +60,7 @@ export class PowerTest6 extends Component<any,any> {
     }
     check_ok=()=>{
         let that = this;
-        let parameterGrou = store.getState().userReducer.parameterGroup; //获取选中组和设备信息
+        let parameterGrou = store.getState().parameterGroup; //获取选中组和设备信息
         if (parameterGrou.radioGroup.selectKey) {
             that.getTbaleHourData();
         } else {
@@ -66,7 +68,7 @@ export class PowerTest6 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg:'获取参数失败！'
+                LoadingMsg: this.props.t('getNotData')//'获取参数失败！'
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -108,7 +110,7 @@ export class PowerTest6 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg:'您还未登录,无法查询数据！'
+                LoadingMsg: this.props.t('YANLIA')//'您还未登录,无法查询数据！'
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -121,13 +123,12 @@ export class PowerTest6 extends Component<any,any> {
         this.setState({
             msgType: 1,
             visible: true,
-            LoadingMsg:'加载中...'
+            LoadingMsg: this.props.t('Loading')//'加载中...'
         }); //加载效果
-        let userId = store.getState().userReducer.userId; //用户ID
+        let userId = store.getState().userId; //用户ID
         //处理设备ID
         // let ObjdeviceId = app.globalData.parameterGroup.multiGroup.selectKey;//多选
-        let deviceId = store.getState().userReducer.parameterGroup.radioGroup.selectKey; //获取设备ID -单选
-        console.log(deviceId,435535);
+        let deviceId = store.getState().parameterGroup.radioGroup.selectKey; //获取设备ID -单选
 
         let date = that.state._date; //查询日期
         let names = that.state.names[that.state._typeIn]; //查询类型
@@ -162,7 +163,7 @@ export class PowerTest6 extends Component<any,any> {
                                 queryIs['dya' + id] = queryData.length;
                                 queryData.push({
                                     id: tool.randomNum(6),
-                                    name: "相电压",
+                                    name: this.props.t('phaseVoltage'),//"相电压",
                                     state: true,
                                     title: date + ' ' + objData.name,
                                     legendData: [],
@@ -191,7 +192,7 @@ export class PowerTest6 extends Component<any,any> {
                                     let num = a < 10 ? 'h0' + a : 'h' + a;
                                     if (arrData[num] != undefined) {
                                         if (queryData[queryIs['dya' + id]].xAxisDataIs == false) {
-                                            queryData[queryIs['dya' + id]].xAxisData.push(a + '时')
+                                            queryData[queryIs['dya' + id]].xAxisData.push(a + this.props.t('hour'))//'时'
                                         }
                                         queryData[queryIs['dya' + id]].series[seIs[objData.sensorLabel + id]].data.push(arrData[num])
                                     }
@@ -206,7 +207,7 @@ export class PowerTest6 extends Component<any,any> {
                                 queryIs['dyb' + id] = queryData.length;
                                 queryData.push({
                                     id: tool.randomNum(6),
-                                    name: "线电压",
+                                    name: this.props.t('lineVoltage'),//"线电压",
                                     state: true,
                                     title: date + ' ' + objData.name,
                                     legendData: [],
@@ -235,7 +236,7 @@ export class PowerTest6 extends Component<any,any> {
                                     let num = a < 10 ? 'h0' + a : 'h' + a;
                                     if (arrData[num] != undefined) {
                                         if (queryData[queryIs['dyb' + id]].xAxisDataIs == false) {
-                                            queryData[queryIs['dyb' + id]].xAxisData.push(a + '时')
+                                            queryData[queryIs['dyb' + id]].xAxisData.push(a + this.props.t('hour'))
                                         }
                                         queryData[queryIs['dyb' + id]].series[seIs[objData.sensorLabel + id]].data.push(arrData[num])
                                     }
@@ -252,7 +253,7 @@ export class PowerTest6 extends Component<any,any> {
                                 // console.log(queryIs['dl' + id],"queryIs['dl' + id'");
                                 queryData.push({
                                     id: tool.randomNum(6),
-                                    name: "电流",
+                                    name: this.props.t('current'),//"电流",
                                     state: true,
                                     title: date + ' ' + objData.name,
                                     legendData: [],
@@ -281,7 +282,7 @@ export class PowerTest6 extends Component<any,any> {
                                     let num = a < 10 ? 'h0' + a : 'h' + a;
                                     if (arrData[num] != undefined) {
                                         if (queryData[queryIs['dl' + id]].xAxisDataIs == false) {
-                                            queryData[queryIs['dl' + id]].xAxisData.push(a + '时') //xAxisData
+                                            queryData[queryIs['dl' + id]].xAxisData.push(a + this.props.t('hour')) //xAxisData
                                         }
                                         queryData[queryIs['dl' + id]].series[seIs[objData.sensorLabel + id]].data.push(arrData[num]) //queryData.series.data
                                     }
@@ -296,7 +297,7 @@ export class PowerTest6 extends Component<any,any> {
                                 queryIs['gl' + id] = queryData.length;
                                 queryData.push({
                                     id: tool.randomNum(6),
-                                    name: "功率",
+                                    name: this.props.t('power'),//"功率",
                                     state: true,
                                     title: date + ' ' + objData.name,
                                     legendData: [],
@@ -325,7 +326,7 @@ export class PowerTest6 extends Component<any,any> {
                                     let num = a < 10 ? 'h0' + a : 'h' + a;
                                     if (arrData[num] != undefined) {
                                         if (queryData[queryIs['gl' + id]].xAxisDataIs == false) {
-                                            queryData[queryIs['gl' + id]].xAxisData.push(a + '时')
+                                            queryData[queryIs['gl' + id]].xAxisData.push(a + this.props.t('hour'))
                                         }
                                         queryData[queryIs['gl' + id]].series[seIs[objData.sensorLabel + id]].data.push(arrData[num])
                                     }
@@ -340,7 +341,7 @@ export class PowerTest6 extends Component<any,any> {
                                 queryIs['ys' + id] = queryData.length;
                                 queryData.push({
                                     id: tool.randomNum(6),
-                                    name: "功率因数",
+                                    name: this.props.t('powerFactor'),//"功率因数",
                                     state: true,
                                     title: date + ' ' + objData.name,
                                     legendData: [],
@@ -369,7 +370,7 @@ export class PowerTest6 extends Component<any,any> {
                                     let num = a < 10 ? 'h0' + a : 'h' + a;
                                     if (arrData[num] != undefined) {
                                         if (queryData[queryIs['ys' + id]].xAxisDataIs == false) {
-                                            queryData[queryIs['ys' + id]].xAxisData.push(a + '时')
+                                            queryData[queryIs['ys' + id]].xAxisData.push(a + this.props.t('hour'))
                                         }
                                         queryData[queryIs['ys' + id]].series[seIs[objData.sensorLabel + id]].data.push(arrData[num])
                                     }
@@ -384,7 +385,7 @@ export class PowerTest6 extends Component<any,any> {
                                 queryIs['dn' + id] = queryData.length;
                                 queryData.push({
                                     id: tool.randomNum(6),
-                                    name: "电能",
+                                    name: this.props.t('energy'),//"电能",
                                     state: true,
                                     title: date + ' ' + objData.name,
                                     legendData: [],
@@ -413,7 +414,7 @@ export class PowerTest6 extends Component<any,any> {
                                     let num = a < 10 ? 'h0' + a : 'h' + a;
                                     if (arrData[num] != undefined) {
                                         if (queryData[queryIs['dn' + id]].xAxisDataIs == false) {
-                                            queryData[queryIs['dn' + id]].xAxisData.push(a + '时')
+                                            queryData[queryIs['dn' + id]].xAxisData.push(a + this.props.t('hour'))
                                         }
                                         queryData[queryIs['dn' + id]].series[seIs[objData.sensorLabel + id]].data.push(arrData[num])
                                     }
@@ -495,7 +496,7 @@ export class PowerTest6 extends Component<any,any> {
             <SafeAreaView style={{flex: 1}}>
                 {/* 引入自定义导航栏 */}
                 <Navbar 
-                    pageName={'电力运行日报'}
+                    pageName={this.props.t('Dropo')}//电力运行日报
                     showBack={true}
                     showHome={false}
                     isCheck={2}
@@ -532,11 +533,11 @@ export class PowerTest6 extends Component<any,any> {
                                 <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
                             </Pressable>
                         </View>
-                        <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>查询</Text>
+                        <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>{this.props.t('inquire')}</Text>
                     </View>
                     <ScrollView style={styles.echarts_con}>
                         {this.state.optionData.length == 0?
-                            <Text allowFontScaling={false} style={styles.empty}>暂无数据</Text>:''
+                            <Text allowFontScaling={false} style={styles.empty}>{this.props.t('noData')}</Text>:''//暂无数据
                         }
                         {this.state.optionData.map((item:any,index:any)=>{
                             return(
@@ -652,4 +653,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default PowerTest6
+export default withTranslation()(PowerTest6)

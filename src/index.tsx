@@ -43,32 +43,10 @@ import security3 from './screens/pages_security/security3/security3';
 import ServiceInfo from './screens/serviceInfo/serviceInfo';
 import Playback from './screens/pages_video/playback/playback'
 import GetPassword from './screens/getPassword/getPassword'
-import AsyncStorage from '@react-native-async-storage/async-storage';//本地存储
-import store from './redux/store';
-import { Set_State } from './redux/actions/user';
 
 const Stack = createStackNavigator();
 
 export class Index extends Component {
-  componentDidMount(): void {
-    //获取上次登入信息保存到全局
-    const loadData = async () => {
-      try {
-        const jsonValue = await AsyncStorage.getItem('@user');
-        if (jsonValue !== null) {
-          // 解析JSON字符串回对象
-          return JSON.parse(jsonValue);
-        }
-      } catch(e) {
-        console.log('Error loading data');
-      }
-    };
-    loadData().then(res=>{
-      if(res){
-        store.dispatch(Set_State(res))
-      }
-    })
-  }
   render() {
     return (
       <SafeAreaProvider>

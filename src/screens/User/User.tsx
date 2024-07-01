@@ -2,15 +2,15 @@ import { Text, View, Pressable, Dimensions, SafeAreaView, TouchableHighlight, Ac
 import React, { Component } from 'react'
 import styleg from '../../indexCss'//公共scc
 import { StyleSheet } from 'react-native'
-import store from '../../redux/store'
-import { Log_Out } from '../../redux/actions/user'
 import { Register } from '../../utils/app'
 import { Image } from '@rneui/themed';
 import { HttpService } from '../../utils/http'
 import Loading from '../../component/Loading/Loading'//加载窗口组件
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { LogOut } from '../../redux/reducers/counterSlice'
+import { store } from '../../redux/storer'
+import { withTranslation } from 'react-i18next';//语言包
 
-const screenHeight = Dimensions.get('screen').height
 const api = require('../..//utils/api')
 const Fs = Dimensions.get('window').width*0.8
 const ht = Dimensions.get('window').height*0.8
@@ -54,9 +54,9 @@ export class User extends Component<any,any> {
   check_ok() {
     //更新userID
     this.setState({
-        userImg: store.getState().userReducer.avatar,
-        userName: store.getState().userReducer.userName,
-        userId: store.getState().userReducer.userId,
+        userImg: store.getState().avatar,
+        userName: store.getState().userName,
+        userId: store.getState().userId,
         logonStatus: true,
     })
   }
@@ -68,15 +68,15 @@ export class User extends Component<any,any> {
     this.setState({
       msgType: 1,
       visible: true,
-      LoadingMsg: '注销中...'
+      LoadingMsg: this.props.t('Inlogout')//'注销中...'
     })
-    let userId = store.getState().userReducer.userId;
+    let userId = store.getState().userId;
     HttpService.apiPost(api.appSignOut,{
       userId:userId
     }).then((data:any)=>{
       if(data.flag == '00'){
         //退出清空全局数据
-        store.dispatch(Log_Out())
+        store.dispatch(LogOut())
         //清理本地存储
         const removeData = async () => {
           try {
@@ -104,7 +104,7 @@ export class User extends Component<any,any> {
         this.setState({
           msgType: 2,
           visible: true,
-          LoadingMsg: '注销失败'
+          LoadingMsg: this.props.t('onLogout')//'注销失败'
         },()=>{
           setTimeout(()=>{
               this.setState({
@@ -132,18 +132,13 @@ export class User extends Component<any,any> {
       })
     })
   }
-
   render() {
+    const { t } = this.props
     return (
       <View style={{flex: 1}}>
         <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#2da2fe'}}>
         </View>
         <SafeAreaView style={{flex: 1}}>
-          <View style={styles.modalBox}>
-            <View style={styles.modal}>
-                
-            </View>
-          </View>
           {/* 弹窗效果组件 */}
           <Loading 
               type={this.state.msgType} 
@@ -155,7 +150,7 @@ export class User extends Component<any,any> {
               <Pressable style={({ pressed })=>[{backgroundColor: pressed? '#c3c3c3' : '#b4b4b4'  },styles.navLeft]} onPress={()=>{this.props.navigation.navigate('HomeBar')}}>
                 <Image style={styles.navImg} source={require('../../image/Home.png')}></Image>
               </Pressable>
-              <Text allowFontScaling={false}style={styles.navName}>我的</Text>
+              <Text allowFontScaling={false}style={styles.navName}>{t('Mine')}</Text>{/*我的*/}
             </View>
 
             <Pressable style={styles.user}>
@@ -166,17 +161,17 @@ export class User extends Component<any,any> {
                           {this.state.userName}
                       </Text>
                       <Text allowFontScaling={false}style={styles.id}>
-                          账号ID：{this.state.userId}
-                      </Text>
+                          {t('AccountID')}：{this.state.userId}
+                      </Text>{/*账号ID*/}
                   </View>
                     :
                   <Pressable style={styles.text} onPress={()=>this.props.navigation.navigate('BindAccount')}>
                     <Text allowFontScaling={false}style={styles.name}>
-                        您还没有登录
-                    </Text>
+                        {t('onLog')}
+                    </Text>{/*您还没有登录*/}
                     <Text allowFontScaling={false}style={styles.id}>
-                        点击登录或注册账号
-                    </Text>
+                        {t('clickLogin')}
+                    </Text>{/*点击登录或注册账号*/}
                   </Pressable>
                   }
               <Image style={styles.rightIco} source={require('../../image/right.png')}></Image>
@@ -185,8 +180,8 @@ export class User extends Component<any,any> {
               {this.state.logonStatus?
                 <TouchableHighlight style={styles.signOut} onPress={this.signOut} underlayColor={'#2da2fe'}>
                   <Text allowFontScaling={false} style={styles.signOutText}>
-                    退出登录
-                  </Text>
+                  {t('logOut')}
+                  </Text>{/*退出登录*/}
                 </TouchableHighlight>
                 : ''
               }
@@ -315,28 +310,7 @@ const styles = StyleSheet.create({
     position:'absolute',
     bottom: 70,
     zIndex:999999
-  }, 
-  modalBox: {
-    position: 'absolute',
-    zIndex: 99999999,
-    height: screenHeight,
-    width: '100%',
-    justifyContent: 'center', 
-    alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.4)'
-  },
-  modal: {
-    position: 'absolute',
-    left: '50%',
-    marginLeft: -Dimensions.get('screen').width/3/2,
-    display:'flex',
-    alignItems:'center',
-    justifyContent: 'space-evenly',
-    width: Dimensions.get('screen').width/3,
-    height: Dimensions.get('screen').width/3,
-    borderRadius:10,
-    backgroundColor: '#fff',
   },
 })
 
-export default User
+export default withTranslation()(User)

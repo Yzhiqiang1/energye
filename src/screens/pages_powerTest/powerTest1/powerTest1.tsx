@@ -1,7 +1,7 @@
 import { DeviceEventEmitter, Dimensions, Image, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import React, { Component } from 'react'
 import {Register} from '../../../utils/app'
-import store from '../../../redux/store'
+import { store } from '../../../redux/storer'
 import Navbar from '../../../component/navbar/navbar'
 import styleg from '../../../indexCss'
 import { HttpService } from '../../../utils/http'
@@ -11,6 +11,8 @@ import Picker from '../../../component/Picker/Picker'//选择器
 import { DatePickerView } from '@ant-design/react-native'
 import { getTransition } from '../../../utils/util'
 import PickerBut from '../../../component/PickerBut/PickerBut'
+import { withTranslation } from 'react-i18next';//语言包
+
 const util = require('../../../utils/util')
 const api = require('../../../utils/api')//引入API文件
 const Fs = Dimensions.get('window').width*0.8
@@ -57,7 +59,7 @@ export class PowerTest1 extends Component<any,any> {
     }
     check_ok(){
         let that = this;
-        let parameterGrou = store.getState().userReducer.parameterGroup; //获取选中组和设备信息
+        let parameterGrou = store.getState().parameterGroup; //获取选中组和设备信息
         if (parameterGrou.radioGroup.selectKey) {
             that.getCharData();
         } else {
@@ -65,7 +67,7 @@ export class PowerTest1 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '获取参数失败！'
+                LoadingMsg: this.props.t('getNotData')//'获取参数失败！'
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -117,7 +119,7 @@ export class PowerTest1 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg:'您还未登录,无法查询数据！'
+                LoadingMsg: this.props.t('YANLI')//'您还未登录,无法查询数据！'
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -130,14 +132,14 @@ export class PowerTest1 extends Component<any,any> {
         this.setState({
             msgType: 1,
             visible: true,
-            LoadingMsg:'加载中...'
+            LoadingMsg: this.props.t('Loading')//'加载中...'
         }) //加载效果
-        let userId = store.getState().userReducer.userId; //用户ID
-        let deviceId = store.getState().userReducer.parameterGroup.radioGroup.selectKey; //获取设备ID
+        let userId = store.getState().userId; //用户ID
+        let deviceId = store.getState().parameterGroup.radioGroup.selectKey; //获取设备ID
         let date = that.state._date; //查询日期
         //定义图表数据
         let queryData:any = [{
-                name: "有功功率",
+                name: this.props.t('activePower'),//"有功功率",
                 state: false,
                 title: '',
                 legendData: [],
@@ -146,7 +148,7 @@ export class PowerTest1 extends Component<any,any> {
                 series: []
             },
             {
-                name: "电流",
+                name: this.props.t('current'),//"电流",
                 state: false,
                 title: '',
                 legendData: [],
@@ -155,7 +157,7 @@ export class PowerTest1 extends Component<any,any> {
                 series: []
             },
             {
-                name: "相电压",
+                name: this.props.t('phaseVoltage'),//"相电压",
                 state: false,
                 title: '',
                 legendData: [],
@@ -164,7 +166,7 @@ export class PowerTest1 extends Component<any,any> {
                 series: []
             },
             {
-                name: "线电压",
+                name: this.props.t('lineVoltage'),//"线电压",
                 state: false,
                 title: '',
                 legendData: [],
@@ -173,7 +175,7 @@ export class PowerTest1 extends Component<any,any> {
                 series: []
             },
             {
-                name: "频率",
+                name: this.props.t('frequency'),//"频率",
                 state: false,
                 title: '',
                 legendData: [],
@@ -182,7 +184,7 @@ export class PowerTest1 extends Component<any,any> {
                 series: []
             },
             {
-                name: "功率因素",
+                name: this.props.t('powerFactor'),//"功率因素",
                 state: false,
                 title: '',
                 legendData: [],
@@ -191,7 +193,7 @@ export class PowerTest1 extends Component<any,any> {
                 series: []
             },
             {
-                name: "无功功率",
+                name: this.props.t('reactivePower'),//"无功功率",
                 state: false,
                 title: '',
                 legendData: [],
@@ -200,7 +202,7 @@ export class PowerTest1 extends Component<any,any> {
                 series: []
             },
             {
-                name: "视在功率",
+                name: this.props.t('apparentPower'),//"视在功率",
                 state: false,
                 title: '',
                 legendData: [],
@@ -209,7 +211,7 @@ export class PowerTest1 extends Component<any,any> {
                 series: []
             },
             {
-                name: "三相不平衡度",
+                name: this.props.t('TPID'),//"三相不平衡度",
                 state: false,
                 title: '',
                 legendData: [],
@@ -226,7 +228,6 @@ export class PowerTest1 extends Component<any,any> {
             names: "P,Pa,Pb,Pc,Ia,Ib,Ic,Uan,Ubn,Ucn,Uab,Ubc,Uca,Fr,Pf,Q,S,IUnB,UUnB"
         }).then((res:any) => {
             console.log(res);
-            
             if (res.flag == "00") {
                 let listData = res.data.list;
                 //校验数据是否为空
@@ -239,38 +240,38 @@ export class PowerTest1 extends Component<any,any> {
                         let newName: string = '';
                         //有功功率
                         if (name == 'P' || name == 'Pa' || name == 'Pb' || name == 'Pc') {
-                            newName = name == 'P' ? "总有功功率" : name == 'Pa' ? "A相" : name == 'Pb' ? "B相" : "C相";
+                            newName = name == 'P' ? this.props.t('totalActivePower') : name == 'Pa' ? this.props.t('phaseA') : name == 'Pb' ? this.props.t('phaseB') : this.props.t('phaseC');
                             index = 0;
                             //电流
                         } else if (name == 'Ia' || name == 'Ib' || name == 'Ic') {
-                            newName = name == 'Ia' ? "A相电流" : name == 'Ib' ? "B相电流" : "C相电流";
+                            newName = name == 'Ia' ? this.props.t('PAC') : name == 'Ib' ? this.props.t('PBC') : this.props.t('PCC');
                             index = 1;
                             //相电压
                         } else if (name == 'Uan' || name == 'Ubn' || name == 'Ucn') {
-                            newName = name == 'Uan' ? "A相电压" : name == 'Ubn' ? "B相电压" : "C相电压";
+                            newName = name == 'Uan' ? this.props.t('PAV') : name == 'Ubn' ? this.props.t('PBV') : this.props.t('PCV');
                             index = 2;
                             //线电压
                         } else if (name == 'Uab' || name == 'Ubc' || name == 'Uca') {
-                            newName = name == 'Uab' ? "A线电压" : name == 'Ubc' ? "B线电压" : "C线电压";
+                            newName = name == 'Uab' ? this.props.t('LAV') : name == 'Ubc' ? this.props.t('LBV') : this.props.t('LCV');
                             index = 3;
                             //频率
                         } else if (name == 'Fr') {
-                            newName = "频率";
+                            newName = this.props.t('frequency')//"频率";
                             index = 4;
                             //功率因素
                         } else if (name == 'Pf') {
-                            newName = "功率因素";
+                            newName = this.props.t('powerFactor')//"功率因素";
                             index = 5;
                             //无功功率
                         } else if (name == 'Q') {
-                            newName = "无功功率";
+                            newName = this.props.t('reactivePower')//"无功功率";
                             index = 6;
                             //视在功率
                         } else if (name == 'S') {
-                            newName = "视在功率";
+                            newName = this.props.t('apparentPower')//"视在功率";
                             index = 7;
                         } else if (name == 'IUnB' || name == 'UUnB') {
-                            newName = name == 'IUnB' ? "电流不平衡度" : "电压不平衡度";
+                            newName = name == 'IUnB' ? this.props.t('CID') : this.props.t('VID');//"电流不平衡度":"电压不平衡度"
                             index = 8;
                         }
                         //更新数据
@@ -279,7 +280,7 @@ export class PowerTest1 extends Component<any,any> {
                             queryData[index].title = date + ' ' + res.data.name;
                             queryData[index].legendData.push(newName);
                             queryData[index].xAxisData = res.data.xAxis;
-                            queryData[index].yAxisName = "单位(" + objData.unit + ")";
+                            queryData[index].yAxisName = this.props.t('unit')+"(" + objData.unit + ")";//单位
                             queryData[index].series.push({
                                 name: newName,
                                 type: 'line',
@@ -377,6 +378,7 @@ export class PowerTest1 extends Component<any,any> {
         })
     }
     render() {
+        const { t } = this.props
         return (
             <View style={{flex: 1}}>
                 <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
@@ -390,7 +392,7 @@ export class PowerTest1 extends Component<any,any> {
                 <SafeAreaView style={{flex: 1}}>
                     {/* 引入自定义导航栏 */}
                     <Navbar 
-                        pageName={'日原数据'}
+                        pageName={t('hiharaData')}//'日原数据'
                         showBack={true}
                         showHome={false}
                         isCheck={2}
@@ -413,13 +415,13 @@ export class PowerTest1 extends Component<any,any> {
                                     <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
                                 </Pressable>
                             </View>
-                            <Text allowFontScaling={false} style={styles.button} onPress={this.getCharData}>查询</Text>
-                            <Text allowFontScaling={false} style={[styles.button,styles.buttonC1]}  onPress={this.preDate}>上一日</Text>
-                            <Text allowFontScaling={false} style={styles.button}  onPress={this.nextData}>下一日</Text>
+                            <Text allowFontScaling={false} style={styles.button} onPress={this.getCharData}>{t('inquire')}</Text>{/*查询*/}
+                            <Text allowFontScaling={false} style={[styles.button,styles.buttonC1]}  onPress={this.preDate}>{t('topDay')}</Text>{/*上一日*/}
+                            <Text allowFontScaling={false} style={styles.button}  onPress={this.nextData}>{t('nextDay')}</Text>{/*下一日*/}
                         </View>
                         <ScrollView style={styles.echarts_con} >
                             {this.state.optionData.length == 0?
-                                <Text allowFontScaling={false} style={styles.empty}>暂无数据</Text>:''
+                                <Text allowFontScaling={false} style={styles.empty}>{t('noData')}</Text>:''//暂无数据
                             }
                             {this.state.optionData.map((data:any, index:any) => {
                                 return(
@@ -569,4 +571,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default PowerTest1
+export default withTranslation()(PowerTest1)

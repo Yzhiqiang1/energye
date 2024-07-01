@@ -4,11 +4,12 @@ import styleg from '../../../indexCss'
 import MyCanvas from '../../../component/my-canvas/MyCanvas'
 import util from '../../../utils/util'
 import Picker from '../../../component/Picker/Picker'//选择器
-import store from '../../../redux/store'
+import { store } from '../../../redux/storer'
 import { HttpService } from '../../../utils/http'
 import Navbars from '../../../component/Navbars/Navbars'
 import Loading from '../../../component/Loading/Loading'
 import PickerBut from '../../../component/PickerBut/PickerBut'
+import { withTranslation } from 'react-i18next';//语言包
 const api = require('../../../utils/api')
 const Fs = Dimensions.get('window').width*0.8
 
@@ -29,7 +30,7 @@ export class History_leakage extends Component<any,any> {
         }
     }
     componentDidMount(): void {
-        let deviceid = this.props.route.params.deviceid ? this.props.route.params.deviceid : "获取参数失败";
+        let deviceid = this.props.route.params.deviceid ? this.props.route.params.deviceid : this.props.t('getNotData');//"获取参数失败";
         this.setState({
             deviceid: deviceid
         }, () => {
@@ -74,7 +75,7 @@ export class History_leakage extends Component<any,any> {
     //获取历史数据
     getHistory=()=>{
         let that = this;
-        let userId = store.getState().userReducer.userId; //用户ID
+        let userId = store.getState().userId; //用户ID
         let deviceId = that.state.deviceid; //获取设备id
         let date = that.state._date; //查询日期
         /**
@@ -84,29 +85,29 @@ export class History_leakage extends Component<any,any> {
         let queryData:any = [{ //漏电流
                 state: true,
                 title: '', //跟上面选择的时间一致
-                name: "漏电流",
+                name: this.props.t('leakageCurrent'),//"漏电流",
                 xAxisData: [], //x轴信息
                 series: [{ //y轴信息
                     type: 'line',
                     data: [],
                     connectNulls: true
                 }],
-                yAxisName: "单位：(mA)", //y轴单位
+                yAxisName: this.props.t('unit')+"：(mA)", //y轴单位
             },
             { //温度
                 state: true,
                 legendData: [],
                 title: [], //跟上面选择的时间一致
-                name: "温度",
+                name: this.props.t('temperature'),//"温度",
                 xAxisData: [], //x轴信息
                 series: [], //y轴信息
-                yAxisName: "单位：(℃)", //y轴单位
+                yAxisName: this.props.t('unit')+"：(℃)", //y轴单位
             }
         ];
        this.setState({
             msgType: 1,
             visible: true,
-            LoadingMsg: '加载中...'
+            LoadingMsg: this.props.t('Loading'),//'加载中...'
        })
         HttpService.apiPost(api.ldjc_getVoltage, {
             userId: userId,
@@ -276,6 +277,7 @@ export class History_leakage extends Component<any,any> {
     }
 
     render() {
+        const { t } = this.props
         return (
             <View style={{flex: 1}}>
                 <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
@@ -288,7 +290,7 @@ export class History_leakage extends Component<any,any> {
                 </Loading>
                 <SafeAreaView style={{flex: 1}}>
                     <Navbars
-                        name={'历史查询'}
+                        name={t('historicalQuery')}//'历史查询'
                         showHome={false}
                         showBack={true}
                         props={this.props}>
@@ -309,14 +311,14 @@ export class History_leakage extends Component<any,any> {
                                     <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
                                 </Pressable>
                             </View>
-                            <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>查询</Text>
-                            <Text allowFontScaling={false} style={[styles.button,styles.buttonC1]} onPress={this.preDate}>上一日</Text>
-                            <Text allowFontScaling={false} style={styles.button} onPress={this.nextData}>下一日</Text>
+                            <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>{t('inquire')}</Text>
+                            <Text allowFontScaling={false} style={[styles.button,styles.buttonC1]} onPress={this.preDate}>{t('topDay')}</Text>
+                            <Text allowFontScaling={false} style={styles.button} onPress={this.nextData}>{t('nextDay')}</Text>
                         </View>
                         
                         <ScrollView style={styles.echartsCon}>
                             {this.state.optionData.length == 0?
-                                <Text allowFontScaling={false} style={styles.empty}>暂无漏电信息数据</Text> : ''
+                                <Text allowFontScaling={false} style={styles.empty}>{t('NoLeakage')}</Text> : ''//暂无漏电信息数据
                             }
                             {this.state.optionData.map((item:any,index:number)=>{
                                 return(
@@ -453,4 +455,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default History_leakage
+export default withTranslation()(History_leakage)

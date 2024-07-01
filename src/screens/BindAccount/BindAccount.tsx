@@ -3,9 +3,11 @@ import React, { Component,} from 'react'
 import {HttpService} from '../../utils/http'
 import LoginNavbar from '../../component/loginNavbar/loginNavbar'
 import Loading from '../../component/Loading/Loading';
-import store from '../../redux/store';
-import { Set_State, Set_accessToken } from '../../redux/actions/user';
+// import { Set_State } from '../../redux/actions/user';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { connect } from 'react-redux';
+import { Set_State } from '../../redux/reducers/counterSlice'
+import { withTranslation  } from 'react-i18next';//语言包
 
 const Fs = Dimensions.get('window').width*0.8
 let api = require('../../utils/api')
@@ -14,7 +16,10 @@ let api = require('../../utils/api')
 const height = Dimensions.get('window').height
 
 export class BindAccount extends Component<any,any> {
-
+    componentDidMount(): void {
+        console.log();
+        
+    }
     constructor(props: any) {
         super(props);
         this.state = {  
@@ -43,7 +48,7 @@ export class BindAccount extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '请输入账号！'
+                LoadingMsg: this.props.t('Pleaseente')//请输入账号！
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -56,7 +61,7 @@ export class BindAccount extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '请输入密码！'
+                LoadingMsg: this.props.t('pleaseEnterYourPassword')//'请输入密码！'
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -72,7 +77,7 @@ export class BindAccount extends Component<any,any> {
         this.setState({
             msgType: 1,
             visible: true,
-            LoadingMsg: '登录中...'
+            LoadingMsg: '登录中...'//this.props.t('beLoggingIn')
         })
         var userName = this.state.userName;
         var password = this.state.password;
@@ -87,7 +92,8 @@ export class BindAccount extends Component<any,any> {
                         intercept: true,
                     })
                     //保存登录信息到全局
-                    store.dispatch(Set_State(res))
+                    // store.dispatch(Set_State(res))
+                    this.props.Set_State(res)
                     const saveData = async () => {
                         try {
                           // 将对象转换为JSON字符串
@@ -120,7 +126,7 @@ export class BindAccount extends Component<any,any> {
                 this.setState({
                     msgType: 2,
                     visible: true,
-                    LoadingMsg: '登录异常，检查账号是否正确',
+                    LoadingMsg: this.props.t('LECW'),//'登录异常，检查账号是否正确',
                     intercept: true,
                 },()=>{
                     setTimeout(()=>{
@@ -134,7 +140,7 @@ export class BindAccount extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '登录异常，检查网络是否连接',
+                LoadingMsg: this.props.t('loginError'),//'登录异常，检查网络是否连接',
                 intercept: true,
             },()=>{
                 setTimeout(()=>{
@@ -168,7 +174,7 @@ export class BindAccount extends Component<any,any> {
     }
   render() {
     return (
-        <View style={{flex: 1}} >
+        <View style={{flex: 1}}>
             {/* 弹窗效果组件 */}
            <Loading 
                 type={this.state.msgType} 
@@ -181,7 +187,7 @@ export class BindAccount extends Component<any,any> {
             <SafeAreaView style={styles.view}>
                 <LoginNavbar
                     props={this.props}
-                    name={'账号登入'}   
+                    name={'账号登录'}   //this.props.t('accountLogin')
                     showBack={false}
                     showHome={true}
                 ></LoginNavbar>
@@ -189,37 +195,37 @@ export class BindAccount extends Component<any,any> {
                     <View style={styles.con}>
                         <View  style={styles.list}>
                             <Image style={styles.Img} source={require('../../image/dl_user.png')}></Image>
-                            <TextInput style={styles.Input} allowFontScaling={false} placeholder='输入用户名' onChangeText={this.userNameChangeSearch} ></TextInput>
+                            <TextInput style={styles.Input} allowFontScaling={false} placeholder={'输入用户名'} onChangeText={this.userNameChangeSearch} ></TextInput>
                         </View>
                         <View  style={styles.list}>
                             <Image style={styles.Img} source={require('../../image/dl_password.png')}></Image>
-                            <TextInput style={styles.Input} allowFontScaling={false} placeholder='输入密码' onChangeText={this.passwordChangeSearch} secureTextEntry={true} ></TextInput>
+                            <TextInput style={styles.Input} allowFontScaling={false} placeholder={'输入密码'} onChangeText={this.passwordChangeSearch} secureTextEntry={true} ></TextInput>
                         </View>
                         <View style={styles.forget}>
                             <TouchableOpacity >
-                                <Text style={{color:'#2EA4FF'}} allowFontScaling={false} onPress={()=>this.props.navigation.navigate('GetPassword')}>忘记密码?</Text>
+                                <Text style={{color:'#2EA4FF'}} allowFontScaling={false} onPress={()=>this.props.navigation.navigate('GetPassword')}>忘记密码</Text>{/*{this.props.t('forgotPassword')}*/}
                             </TouchableOpacity>
                         </View>
                         <View  style={styles.butList}>
                             <Pressable style={({ pressed })=>[{backgroundColor: pressed ? '#f3f3f3' : '#eeeeee'},styles.button]} onPress={()=>this.props.navigation.navigate('Tabbar')}>
-                                <Text style={styles.buttonL} allowFontScaling={false} >取消登录</Text>
+                                <Text style={styles.buttonL} allowFontScaling={false} >取消登录</Text>{/*{this.props.t('cancelLogin')}*/}
                             </Pressable>
                             <Pressable style={({ pressed })=>[{backgroundColor: pressed ? '#2da2fe' : '#1890FF'},styles.button]} onPress={this.Login}>
-                                <Text style={styles.buttonR} allowFontScaling={false} >登录</Text>
+                                <Text style={styles.buttonR} allowFontScaling={false} >登录</Text>{/*{this.props.t('logIn')}*/}
                             </Pressable>
                         </View>
                         <View style={styles.link}>
                             <TouchableOpacity style={styles.Url}  onPress={()=>this.props.navigation.navigate('BindPhone')}>
-                                <Text style={{color: '#01AAED',fontSize:Fs/18}}>短信登录</Text>
+                                <Text style={{color: '#01AAED',fontSize:Fs/18}}>短信登录</Text>{/*{this.props.t('SMSlogin')}*/}
                             </TouchableOpacity>
                             <TouchableOpacity style={styles.Url} onPress={()=>this.props.navigation.navigate('AccountRegister')}>
-                                <Text style={{color: '#01AAED',fontSize:Fs/18}}>注册账号</Text>
+                                <Text style={{color: '#01AAED',fontSize:Fs/18}}>注册账号</Text>{/*{this.props.t('registerAnAccount')}*/}
                             </TouchableOpacity>
                         </View>
                         <View style={styles.Tourist}>
                             <Pressable style={styles.experience} onPress={this.touristLongin}>
                                 <Image style={{width:30,height:30}} source={require('../../image/Tourist.png')}></Image>
-                                <Text style={styles.Text} allowFontScaling={false} >体验账号登录</Text>
+                                <Text style={styles.Text} allowFontScaling={false}>体验账号登录</Text>{/*{this.props.t('Experience')}*/}
                             </Pressable> 
                         </View>
                     </View>
@@ -405,4 +411,12 @@ const styles = StyleSheet.create({
     },
 })
 
-export default BindAccount
+const mapStateToProps = (state:any)=>{
+    return {
+        state
+    }
+}
+const mapDispatchToProps = {
+    Set_State
+}
+export default connect(mapStateToProps,mapDispatchToProps)(BindAccount);

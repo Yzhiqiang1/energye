@@ -4,11 +4,11 @@ import Navbar from '../../../component/navbar/navbar'
 import styleg from '../../../indexCss'
 import util from '../../../utils/util'
 import { Register } from '../../../utils/app'
-import store from '../../../redux/store'
+import { store } from '../../../redux/storer'
 import { HttpService } from '../../../utils/http'
 import Loading from '../../../component/Loading/Loading'
-import Picker from '../../../component/Picker/Picker'
 import PickerBut from '../../../component/PickerBut/PickerBut'
+import { withTranslation } from 'react-i18next';//语言包
 const api = require('../../../utils/api')
 const Fs = Dimensions.get('window').width*0.8
 
@@ -53,7 +53,7 @@ export class PowerAnalysis7 extends Component<any,any> {
      * *****************************/
     check_ok=()=>{
         let that = this;
-        let parameterGrou = store.getState().userReducer.parameterGroup; //获取选中组和设备信息
+        let parameterGrou = store.getState().parameterGroup; //获取选中组和设备信息
         if (parameterGrou.multiGroup.selectKey != '') {
             //查询数据
             that.getData();
@@ -62,7 +62,7 @@ export class PowerAnalysis7 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '获取参数失败！'
+                LoadingMsg: this.props.t('getNotData')//'获取参数失败！'
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -101,7 +101,7 @@ export class PowerAnalysis7 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '开始日期不能大于结束日期!'
+                LoadingMsg: this.props.t('TSDMN')//'开始日期不能大于结束日期!'
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -123,7 +123,7 @@ export class PowerAnalysis7 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '您还未登录,无法查询数据！'
+                LoadingMsg: this.props.t('YANLIA')//'您还未登录,无法查询数据！'
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -136,11 +136,11 @@ export class PowerAnalysis7 extends Component<any,any> {
         this.setState({
             msgType: 1,
             visible: true,
-            LoadingMsg: '加载中...'
+            LoadingMsg: this.props.t('Loading')//'加载中...'
         }); //加载效果
-        let userId = store.getState().userReducer.userId; //用户ID
+        let userId = store.getState().userId; //用户ID
         //查询设备ID
-        let ObjdeviceId = store.getState().userReducer.parameterGroup.multiGroup.selectKey;
+        let ObjdeviceId = store.getState().parameterGroup.multiGroup.selectKey;
         let strdeviceId = "";
         for (let i in ObjdeviceId) {
             strdeviceId += strdeviceId == "" ? ObjdeviceId[i] : ',' + ObjdeviceId[i];
@@ -224,6 +224,7 @@ export class PowerAnalysis7 extends Component<any,any> {
         });
     }
     render() {
+        const { t } = this.props
         return (
             <View style={{flex: 1}}>
                 <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
@@ -237,7 +238,7 @@ export class PowerAnalysis7 extends Component<any,any> {
                 <SafeAreaView style={{flex: 1}}>
                     {/* 引入自定义导航栏 */}
                     <Navbar 
-                        pageName={'最大需量'}
+                        pageName={t('maximumDemand')}//'最大需量'
                         showBack={true}
                         showHome={false}
                         isCheck={3}
@@ -261,7 +262,7 @@ export class PowerAnalysis7 extends Component<any,any> {
                                 </Pressable>
                             </View>
                             <Text allowFontScaling={false} style={styles.text}>
-                                至
+                                {t('to')}
                             </Text>
                             <View style={styles.flex}>
                                 {/* <Picker
@@ -275,15 +276,15 @@ export class PowerAnalysis7 extends Component<any,any> {
                                     <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
                                 </Pressable>
                             </View>
-                            <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>查询</Text>
+                            <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>{t('inquire')}</Text>
                         </View>
                         
                         <ScrollView style={styles.echarts_con}>
                             {this.state.optionData.length == 0?
-                                <Text allowFontScaling={false} style={styles.empty}>暂无数据</Text>:
+                                <Text allowFontScaling={false} style={styles.empty}>{t('noData')}</Text>://暂无数据
                                 <View style={styles.item}>
                                     <Text allowFontScaling={false} style={styles.name}>
-                                        最大需量数据统计
+                                        {t('MDDS')}
                                     </Text>
                                     <View style={styles.table}>
                                         {this.state.optionData.map((top_item: any,top_index: number)=>{
@@ -300,12 +301,12 @@ export class PowerAnalysis7 extends Component<any,any> {
                                                     <View style={styles.label}></View>
                                                     <View style={styles.cellflex}>
                                                         <View style={styles.cellCen}>
-                                                            <Text allowFontScaling={false} style={styles.value}>数值</Text>
+                                                            <Text allowFontScaling={false} style={styles.value}>{t('numericalValue')}</Text>{/*数值*/}
                                                         </View>
                                                     </View>
                                                     <View style={styles.cellflex}>
                                                         <View style={styles.cellCen}>
-                                                            <Text allowFontScaling={false} style={styles.value}>时间</Text>
+                                                            <Text allowFontScaling={false} style={styles.value}>{t('Time')}</Text>{/*时间*/}
                                                         </View>
                                                     </View>
                                                 </View>
@@ -316,7 +317,7 @@ export class PowerAnalysis7 extends Component<any,any> {
                                                             <View style={styles.cell}>
                                                                 <View style={styles.label}>
                                                                     <View style={styles.cellCen}>
-                                                                        <Text allowFontScaling={false} style={styles.value}>{top_item2.month+'月'}</Text>
+                                                                        <Text allowFontScaling={false} style={styles.value}>{top_item2.month+t('month')}</Text>
                                                                     </View>
                                                                 </View>
                                                                 <View style={styles.cellflex}>
@@ -545,4 +546,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default PowerAnalysis7
+export default withTranslation()(PowerAnalysis7)

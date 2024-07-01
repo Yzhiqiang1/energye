@@ -4,11 +4,12 @@ import { Register } from '../../../utils/app'
 import Navbar from '../../../component/navbar/navbar'
 import styleg from '../../../indexCss'
 import util, { plusReduceData } from '../../../utils/util'
-import store from '../../../redux/store'
+import { store } from '../../../redux/storer'
 import { HttpService } from '../../../utils/http'
 import Loading from '../../../component/Loading/Loading'
-import Picker from '../../../component/Picker/Picker'
 import PickerBut from '../../../component/PickerBut/PickerBut'
+import { withTranslation } from 'react-i18next';//语言包
+
 const api = require('../../../utils/api')
 const Fs = Dimensions.get('window').width*0.8
 
@@ -54,7 +55,7 @@ export class GasAnalysis4 extends Component<any,any> {
      * *****************************/
     check_ok=()=>{
         let that = this;
-        let parameterGrou = store.getState().userReducer.parameterGroup; //获取选中组和设备信息
+        let parameterGrou = store.getState().parameterGroup; //获取选中组和设备信息
         if (parameterGrou.radioGroup.selectKey != '') {
             //查询数据
             that.getData();
@@ -63,7 +64,7 @@ export class GasAnalysis4 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '获取参数失败！'
+                LoadingMsg: this.props.t('getNotData')//'获取参数失败！'
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -103,7 +104,7 @@ export class GasAnalysis4 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '开始日期不能大于结束日期!'
+                LoadingMsg: this.props.t('TSDMN')//'开始日期不能大于结束日期!'
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -124,7 +125,7 @@ export class GasAnalysis4 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '您还未登录,无法查询数据!'
+                LoadingMsg: this.props.t('YANLI')//'您还未登录,无法查询数据!'
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -137,10 +138,10 @@ export class GasAnalysis4 extends Component<any,any> {
         this.setState({
             msgType: 1,
             visible: true,
-            LoadingMsg: '加载中...'
+            LoadingMsg: this.props.t('Loading')//'加载中...'
         }); //加载效果
-        let userId = store.getState().userReducer.userId; //用户ID
-        let deviceId = store.getState().userReducer.parameterGroup.radioGroup.selectKey; //获取设备ID
+        let userId = store.getState().userId; //用户ID
+        let deviceId = store.getState().parameterGroup.radioGroup.selectKey; //获取设备ID
         let start = that.state.start //开始日期
         let end = that.state.end; //结束日期
         //定义图表数据
@@ -219,6 +220,7 @@ export class GasAnalysis4 extends Component<any,any> {
     }
 
     render() {
+        const { t } = this.props
         return (
             <View style={{flex: 1}}>
                 <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
@@ -232,7 +234,7 @@ export class GasAnalysis4 extends Component<any,any> {
                 <SafeAreaView style={{flex: 1}}>
                     {/* 引入自定义导航栏 */}
                     <Navbar 
-                        pageName={"损耗分析"}
+                        pageName={t('lossAnalysis')}//"损耗分析"
                         showBack={true}
                         showHome={false}
                         isCheck={2}
@@ -256,7 +258,7 @@ export class GasAnalysis4 extends Component<any,any> {
                                 </Pressable>
                             </View>
                             <Text allowFontScaling={false} style={styles.text}>
-                                至
+                                {t('to')}
                             </Text>
                             <View style={styles.flex}>
                                 {/* <Picker
@@ -270,32 +272,32 @@ export class GasAnalysis4 extends Component<any,any> {
                                     <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
                                 </Pressable>
                             </View>
-                            <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>查询</Text>
+                            <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>{t('inquire')}</Text>
                         </View>
                         
                         <View style={styles.echarts_con}>
                             {this.state.optionData.length == 0?
-                                <Text allowFontScaling={false} style={styles.empty}>暂无数据</Text>:
+                                <Text allowFontScaling={false} style={styles.empty}>{t('noData')}</Text>://暂无数据
                                 <View style={styles.item}>
                                     <Text allowFontScaling={false} style={styles.name}>
-                                        损耗分析数据统计
+                                        {t('lossData')}
                                     </Text>
                                     <View style={styles.table}>
                                         <View style={styles.row}>
-                                            <Text allowFontScaling={false} style={styles.th}>回柜名称</Text>
-                                            <Text allowFontScaling={false} style={styles.th}>当前支路能耗</Text>
-                                            <Text allowFontScaling={false} style={styles.th}>下级支路能耗合计</Text>
-                                            <Text allowFontScaling={false} style={styles.th}>当前和下级差值</Text>
-                                            <Text allowFontScaling={false} style={styles.th}>相差百分比</Text>
+                                            <Text allowFontScaling={false} style={styles.th}>{t('returnCabinetName')}</Text>{/*回柜名称*/}
+                                            <Text allowFontScaling={false} style={styles.th}>{t('CBEC')}</Text>{/*当前支路能耗*/}
+                                            <Text allowFontScaling={false} style={styles.th}>{t('TTEC')}</Text>{/*下级支路能耗合计*/}
+                                            <Text allowFontScaling={false} style={styles.th}>{t('CASD')}</Text>{/*当前和下级差值*/}
+                                            <Text allowFontScaling={false} style={styles.th}>{t('PercentageDifference')}</Text>{/*相差百分比*/}
                                         </View>
                                         {this.state.optionData.map((item:any,index:number)=>{
                                             return(
                                                 <View key={index} style={[styles.row,index%2 == 0? styles.b1 : null]}>
                                                     <Text allowFontScaling={false} style={[styles.td,styles.c1]}>{item.name}</Text>
-                                                    <View style={styles.td}>{item.energy}</View>
-                                                    <View style={styles.td}>{item.total}</View>
-                                                    <View style={styles.td}>{item.residue}</View>
-                                                    <View style={styles.td}>{item.percentage}</View>
+                                                    <Text allowFontScaling={false} style={styles.td}>{item.energy}</Text>
+                                                    <Text allowFontScaling={false} style={styles.td}>{item.total}</Text>
+                                                    <Text allowFontScaling={false} style={styles.td}>{item.residue}</Text>
+                                                    <Text allowFontScaling={false} style={styles.td}>{item.percentage}</Text>
                                                 </View>
                                             )
                                         })}
@@ -514,4 +516,4 @@ const styles = StyleSheet.create({
 })
 
 
-export default GasAnalysis4
+export default withTranslation()(GasAnalysis4)

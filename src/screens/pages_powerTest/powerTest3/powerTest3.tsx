@@ -3,12 +3,12 @@ import React, { Component } from 'react'
 import Navbar from '../../../component/navbar/navbar'
 import styleg from '../../../indexCss';
 import MyCanvas from '../../../component/my-canvas/MyCanvas';
-import store from '../../../redux/store'
+import { store } from '../../../redux/storer'
 import { Register } from '../../../utils/app';
 import { HttpService } from '../../../utils/http';
-import { Picker } from '../../../component/Picker/Picker'//选择器
 import { PickerBut } from '../../../component/PickerBut/PickerBut'//选择器
 import Loading from '../../../component/Loading/Loading'//加载组件
+import { withTranslation } from 'react-i18next';//语言包
 let util = require('../../../utils/util.js');
 const api = require('../../../utils/api')
 const Fs = Dimensions.get('window').width*0.8
@@ -22,7 +22,8 @@ export class PowerTest3 extends Component<any,any> {
 
             _date: util.nowDate(), //日期选择
             //时间选择
-            _timeArr: ["一分钟", "五分钟", "十五分钟", "半小时", "一个小时"],
+            // _timeArr: ["一分钟", "五分钟", "十五分钟", "半小时", "一个小时"],
+            _timeArr: [this.props.t('oneMinute'),this.props.t('fiveMinutes'),this.props.t('fifteenMinutes'),this.props.t('HalfAnHour'),this.props.t('anHour'),],
             _timeIn: 3,
             //数据项
             optionData: [],
@@ -59,7 +60,7 @@ export class PowerTest3 extends Component<any,any> {
      * *****************************/
     check_ok=()=>{
         let that = this;
-        let parameterGrou = store.getState().userReducer.parameterGroup; //获取选中组和设备信息
+        let parameterGrou = store.getState().parameterGroup; //获取选中组和设备信息
         if (parameterGrou.multiGroup.selectKey) {
             //查询电量数据
             that.getTbaleData();
@@ -68,7 +69,7 @@ export class PowerTest3 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg:'获取参数失败！'
+                LoadingMsg: this.props.t('getNotData')//'获取参数失败！'
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -109,7 +110,7 @@ export class PowerTest3 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg:'您还未登录,无法查询数据！'
+                LoadingMsg: this.props.t('YANLI')//'您还未登录,无法查询数据！'
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -122,11 +123,11 @@ export class PowerTest3 extends Component<any,any> {
         this.setState({
             msgType: 1,
             visible: true,
-            LoadingMsg:'加载中...'
+            LoadingMsg: this.props.t('Loading')//'加载中...'
         })//加载效果
-        let userId = store.getState().userReducer.userId; //用户ID
+        let userId = store.getState().userId; //用户ID
         //处理设备ID
-        let ObjdeviceId = store.getState().userReducer.parameterGroup.multiGroup.selectKey;
+        let ObjdeviceId = store.getState().parameterGroup.multiGroup.selectKey;
         let strdeviceId = "";
         for (let i in ObjdeviceId) {
             strdeviceId += strdeviceId == "" ? ObjdeviceId[i] : ',' + ObjdeviceId[i];
@@ -155,12 +156,12 @@ export class PowerTest3 extends Component<any,any> {
                         //初始化变量
                         if (queryIs[objData.id] == undefined) {
                             let querylist = {
-                                name: "用电总量",
+                                name: this.props.t('TEC'),//"用电总量",
                                 state: true,
                                 title: date + ' ' + objData.deviceName,
                                 legendData: ["Epi"],
                                 xAxisData: [],
-                                yAxisName: ["单位(" + objData.Epi_unit + ")"],
+                                yAxisName: [this.props.t('unit')+"(" + objData.Epi_unit + ")"],
                                 series: [{
                                     name: "Epi",
                                     type: 'line',
@@ -254,6 +255,7 @@ export class PowerTest3 extends Component<any,any> {
         })
     }
     render() {
+        const { t } = this.props
         return (
             <View style={{flex: 1}}>
                 <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
@@ -267,7 +269,7 @@ export class PowerTest3 extends Component<any,any> {
                 <SafeAreaView style={{flex: 1}}>
                     {/* 引入自定义导航栏 */}
                     <Navbar 
-                        pageName={'电力运作报表'}
+                        pageName={t('PowerOperationReport')}//'电力运作报表'
                         showBack={true}
                         showHome={false}
                         isCheck={3}
@@ -301,11 +303,11 @@ export class PowerTest3 extends Component<any,any> {
                                 <Text allowFontScaling={false} style={styleg.TextButton}>{this.state._timeArr[this.state._timeIn]}</Text>
                                 <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
                             </Pressable>
-                            <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>查询</Text>
+                            <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>{t('inquire')}</Text>
                         </View>
                         <ScrollView style={styles.echarts_con}>
                             {this.state.optionData == 0?
-                                <Text allowFontScaling={false} style={styles.empty}>暂无数据</Text>:""
+                                <Text allowFontScaling={false} style={styles.empty}>{t('noData')}</Text>:""
                             }
                             {this.state.optionData.map((data:any,index:number)=>{
                                 return(
@@ -444,4 +446,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default PowerTest3
+export default withTranslation()(PowerTest3)

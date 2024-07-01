@@ -4,12 +4,13 @@ import React, { Component } from 'react'
 import Navbar from '../../../component/navbar/navbar'
 import styleg from '../../../indexCss'
 import { Register } from '../../../utils/app';
-import store from '../../../redux/store';
+import { store } from '../../../redux/storer';
 import { HttpService } from '../../../utils/http';
 import { Switch } from '@rneui/themed';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Loading from '../../../component/Loading/Loading';
-import { localSocket } from '../../../redux/actions/user';
+import { localSocket } from '../../../redux/reducers/counterSlice';
+import { withTranslation } from 'react-i18next';//语言包
 const api = require('../../../utils/api')
 const Fs = Dimensions.get('window').width*0.8
 
@@ -93,7 +94,7 @@ export class Security5 extends Component<any,any> {
      * *****************************/
     check_ok=()=>{
         let that = this;
-        let parameterGrou = store.getState().userReducer.parameterGroup; //获取选中组和设备信息
+        let parameterGrou = store.getState().parameterGroup; //获取选中组和设备信息
         if (parameterGrou.radioSonGroup.selectKey) {
             //获取传感器数据-数据
             that.getSwitchData();
@@ -104,7 +105,7 @@ export class Security5 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '获取参数失败！'
+                LoadingMsg: this.props.t('getNotData')//'获取参数失败！'
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -191,8 +192,8 @@ export class Security5 extends Component<any,any> {
     getSwitchData=()=>{
         dataPos = {}//清空
         let that = this;
-        let userId = store.getState().userReducer.userId; //用户ID
-        let deviceIds = store.getState().userReducer.parameterGroup.radioSonGroup.selectKey; //获取设备ID----【单选-父含子】
+        let userId = store.getState().userId; //用户ID
+        let deviceIds = store.getState().parameterGroup.radioSonGroup.selectKey; //获取设备ID----【单选-父含子】
         deviceIds = Object.keys(deviceIds).join(",")
         HttpService.apiPost(api.kgjc_getData, {
             userId: userId,
@@ -259,6 +260,7 @@ export class Security5 extends Component<any,any> {
     }
 
     render() {
+        const { t } = this.props
         return (
             <View style={{flex: 1}}>
                 <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
@@ -272,7 +274,7 @@ export class Security5 extends Component<any,any> {
                 <SafeAreaView style={{flex: 1}}>
                     {/* 引入自定义导航栏 */}
                     <Navbar 
-                        pageName={'开关监测'}
+                        pageName={t('SwitchMonitoring')}//'开关监测'
                         showBack={true}
                         showHome={false}
                         isCheck={5}
@@ -285,7 +287,7 @@ export class Security5 extends Component<any,any> {
                     <View style={styleg.containerMini}>
                         <View style={styles.containerMini}>
                             {this.state.sensorArr.length==0?
-                                <Text allowFontScaling={false} style={styles.empty}>没有对应传感器</Text>:''
+                                <Text allowFontScaling={false} style={styles.empty}>{t('noSensor')}</Text>:''//没有对应传感器
                             }
                             {/* 面板item */}
                             {this.state.sensorArr.map((top_item:any,top_index:number)=>{
@@ -296,7 +298,7 @@ export class Security5 extends Component<any,any> {
                                             <Image source={require('../../../image/switch1.png')} style={styles.devieceImg}></Image>
                                             <View style={styles.devieceInfo}>
                                                 <Text allowFontScaling={false} style={styles.devieceName} onPress={()=>this.setState({dateShow: !this.state.dateShow})}>{top_item.deviceName}</Text>
-                                                <Text allowFontScaling={false}>更新时间: 
+                                                <Text allowFontScaling={false}>{t('updateTime')}: 
                                                     <Text allowFontScaling={false} style={styles.lastTime}>{top_item.updateTime ? top_item.updateTime :'暂无数据'}</Text>
                                                 </Text>
                                             </View>
@@ -305,12 +307,12 @@ export class Security5 extends Component<any,any> {
                                                 style={styles.search}
                                                 onPress={()=>this.historySearch(top_index)}
                                             >
-                                            查询
+                                            {t('inquire')}
                                             </Text>
                                         </View>
                                         {/* 传感器信息行 */}
                                         {top_item.sensorList.length==0?
-                                            <Text allowFontScaling={false}>暂无数据</Text>:''
+                                            <Text allowFontScaling={false}>{t('noData')}</Text>:''//暂无数据
                                         }
                                         {top_item.sensorList.map((item:any,index:number)=>{
                                             return(
@@ -484,4 +486,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default Security5
+export default withTranslation()(Security5)

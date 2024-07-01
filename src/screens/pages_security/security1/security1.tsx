@@ -3,10 +3,12 @@ import React, { Component } from 'react'
 import Navbar from '../../../component/navbar/navbar'
 import styleg from '../../../indexCss'
 import { Register } from '../../../utils/app'
-import store from '../../../redux/store'
 import { HttpService } from '../../../utils/http'
-import { localSocket } from '../../../redux/actions/user'
 import Loading from '../../../component/Loading/Loading'
+import { store } from '../../../redux/storer'
+import { localSocket } from '../../../redux/reducers/counterSlice'
+import { withTranslation } from 'react-i18next';//语言包
+
 const api = require('../../../utils/api')
 const Fs = Dimensions.get('window').width*0.8
 
@@ -45,7 +47,7 @@ export class Security2 extends Component<any,any> {
             //校验登录成功后执行
             if (res == true) {
                 //向自定义导航传递登录状态
-                this.setState({
+                this.setState({ 
                     LoginStatus: 2,
                     socketTask: true,
                 }, () => {
@@ -87,6 +89,7 @@ export class Security2 extends Component<any,any> {
         this.refreshData()
         // 组件销毁禁止再次循坏创建连接
         store.dispatch(localSocket({inSocket: false}))
+        // this.props.localSocket({inSocket: false})
         //销毁运行状态监听
         eventListener.remove();
     }
@@ -95,7 +98,7 @@ export class Security2 extends Component<any,any> {
      * *****************************/
     check_ok=()=>{
         let that = this;
-        let parameterGrou = store.getState().userReducer.parameterGroup; //获取选中组和设备信息
+        let parameterGrou = store.getState().parameterGroup; //获取选中组和设备信息
         if (parameterGrou.onlyGroup.groupId) {
             //获取漏电检测数据
             that.getData();
@@ -106,7 +109,7 @@ export class Security2 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '获取参数失败！'
+                LoadingMsg: this.props.t('getNotData')//'获取参数失败！'
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -154,19 +157,21 @@ export class Security2 extends Component<any,any> {
                 }
             }
         }
+        // this.props.localSocket({localSocket:socket})
         store.dispatch(localSocket({localSocket:socket}))
+
     }
     /***************************
      *     获取漏电检测数据
      * *************************/
     getData=()=>{
         let that = this;
-        let userId = store.getState().userReducer.userId; //用户ID
-        let groupId =store.getState().userReducer.parameterGroup.onlyGroup.groupId;
+        let userId = store.getState().userId; //用户ID
+        let groupId =store.getState().parameterGroup.onlyGroup.groupId;
         this.setState({
             msgType: 1,
             visible: true,
-            LoadingMsg: '加载中...'
+            LoadingMsg: this.props.t('Loading')//'加载中...'
         })
         HttpService.apiPost(api.ldjc_getData, {
             userId: userId,
@@ -264,6 +269,7 @@ export class Security2 extends Component<any,any> {
         this.props.navigation.navigate('History_leakage',{deviceid:deviceid})
     }
     render() {
+        const { t } = this.props
         return (
             <View style={{flex: 1}}>
                 <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
@@ -277,7 +283,7 @@ export class Security2 extends Component<any,any> {
                 <SafeAreaView style={{flex: 1}}>
                     {/* 引入自定义导航栏 */}
                     <Navbar 
-                        pageName={'漏电检测'}
+                        pageName={t('ELD')}//'漏电检测'
                         showBack={true}
                         showHome={false}
                         isCheck={4}
@@ -291,7 +297,7 @@ export class Security2 extends Component<any,any> {
                         <ScrollView contentContainerStyle={styles.containerMini}>
                             {/* 面板item */}
                             {this.state.leakageArr.length == 0?
-                                <Text allowFontScaling={false} style={styles.empty}>没有对应传感器</Text>:
+                                <Text allowFontScaling={false} style={styles.empty}>{t('noSensor')}</Text>://没有对应传感器
                                 this.state.leakageArr.map((top_item:any,top_index:number)=>{
                                     return(
                                         <View style={styles.indexMini} key={top_index}>
@@ -304,12 +310,12 @@ export class Security2 extends Component<any,any> {
                                                 </Image>
                                                 <View style={styles.devieceInfo}>
                                                     <Text allowFontScaling={false} style={styles.devieceName}>{top_item.deviceName}</Text>
-                                                    <Text allowFontScaling={false} style={styles.lastTime}>更新时间:
-                                                        <Text allowFontScaling={false} style={styles.lastTime}>{top_item.time ? top_item.time :'暂无数据'}</Text>
+                                                    <Text allowFontScaling={false} style={styles.lastTime}>{t('updateTime')}:
+                                                        <Text allowFontScaling={false} style={styles.lastTime}>{top_item.time ? top_item.time : t('noData')}</Text>
                                                     </Text>
                                                 </View>
                                                 <Text allowFontScaling={false} style={styles.search} onPress={()=>this.historySearch(top_index)}>
-                                                    查询
+                                                    {t('inquire')}
                                                 </Text>
                                             </View>
         
@@ -319,7 +325,7 @@ export class Security2 extends Component<any,any> {
                                                 <View style={styles.current}>
                                                     <View style={styles.currentUp}>
                                                         <Image style={styles.img} resizeMode='contain' source={require('../../../image/ld_2.png')}></Image>
-                                                        <Text allowFontScaling={false} style={styles.name}>漏电流</Text>
+                                                        <Text allowFontScaling={false} style={styles.name}>{t('leakageCurrent')}</Text>
                                                     </View>
                                                     <View style={styles.currentDown}>
                                                         <Text allowFontScaling={false} style={styles.DownText}>{top_item.In.value}</Text>
@@ -330,7 +336,7 @@ export class Security2 extends Component<any,any> {
                                                 <View style={styles.cable}>
                                                     <View style={styles.cableUp}>
                                                         <Image style={styles.img} resizeMode='contain' source={require('../../../image/ld_3.png')}></Image>
-                                                        <Text allowFontScaling={false} style={styles.name}>线缆温度</Text>
+                                                        <Text allowFontScaling={false} style={styles.name}>{t('cableCable')}</Text>
                                                     </View>
                                                     <View style={styles.cableDown}>
                                                         <View style={styles.temperature}>
@@ -521,4 +527,4 @@ const styles = StyleSheet.create({
     },
 },)
 
-export default Security2
+export default withTranslation()(Security2)

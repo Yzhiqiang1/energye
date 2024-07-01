@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import Navbar from '../../../component/navbar/navbar'
 import styleg from '../../../indexCss'
 import { Register } from '../../../utils/app'
-import store from '../../../redux/store'
+import { store } from '../../../redux/storer'
 import { HttpService } from '../../../utils/http'
 import Loading from '../../../component/Loading/Loading'
 const api = require('../../../utils/api')
@@ -47,7 +47,7 @@ export class Security4 extends Component<any,any> {
      * *****************************/
     check_ok=()=>{
         let that = this;
-        let parameterGrou = store.getState().userReducer.parameterGroup; //获取选中组和设备信息
+        let parameterGrou = store.getState().parameterGroup; //获取选中组和设备信息
         if (parameterGrou.onlyGroup.groupId) {
             that.getLoadList();
         } else {
@@ -94,8 +94,8 @@ export class Security4 extends Component<any,any> {
             visible: true,
             LoadingMsg: '加载中...'
         }); //加载效果
-        let userId = store.getState().userReducer.userId; //用户ID
-        let groupId = store.getState().userReducer.parameterGroup.onlyGroup.groupId; //获取组ID
+        let userId = store.getState().userId; //用户ID
+        let groupId = store.getState().parameterGroup.onlyGroup.groupId; //获取组ID
         //查询数据
         HttpService.apiPost(api.xdl_getLoadList, {
             userId: userId,

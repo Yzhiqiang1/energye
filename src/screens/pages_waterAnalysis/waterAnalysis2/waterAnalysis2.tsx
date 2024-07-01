@@ -5,11 +5,11 @@ import styleg from '../../../indexCss'
 import MyCanvas from '../../../component/my-canvas/MyCanvas'
 import util from '../../../utils/util'
 import { Register } from '../../../utils/app'
-import store from '../../../redux/store'
+import { store } from '../../../redux/storer'
 import { HttpService } from '../../../utils/http'
 import Loading from '../../../component/Loading/Loading'
-import Picker from '../../../component/Picker/Picker'
 import PickerBut from '../../../component/PickerBut/PickerBut'
+import { withTranslation } from 'react-i18next';//语言包
 const api = require('../../../utils/api')
 const Fs = Dimensions.get('window').width*0.8
 
@@ -54,7 +54,7 @@ export class WaterAnalysis2 extends Component<any,any> {
      * *****************************/
     check_ok=()=>{
         let that = this;
-        let parameterGrou = store.getState().userReducer.parameterGroup; //获取选中组和设备信息
+        let parameterGrou = store.getState().parameterGroup; //获取选中组和设备信息
         if (parameterGrou.radioGroup.selectKey) {
             that.getData();
         } else {
@@ -62,7 +62,7 @@ export class WaterAnalysis2 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '获取参数失败！'
+                LoadingMsg: this.props.t('getNotData')//'获取参数失败！'
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -120,7 +120,7 @@ export class WaterAnalysis2 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '您还未登录,无法查询数据！'
+                LoadingMsg: this.props.t('YANLI')//'您还未登录,无法查询数据！'
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -133,29 +133,29 @@ export class WaterAnalysis2 extends Component<any,any> {
         this.setState({
             msgType: 1,
             visible: true,
-            LoadingMsg: '加载中...'
+            LoadingMsg: this.props.t('Loading')//'加载中...'
         }); //加载效果
-        let userId = store.getState().userReducer.userId; //用户ID
-        let deviceId =store.getState().userReducer.parameterGroup.radioGroup.selectKey;; //获取设备ID
+        let userId = store.getState().userId; //用户ID
+        let deviceId = store.getState().parameterGroup.radioGroup.selectKey; //获取设备ID
         let date = that.state._date; //查询日期
 
         //定义图表数据
         let queryData:any = [
         {
-            name: "柱状图",
+            name: this.props.t('barChart'),//"柱状图",
             state: true,
             type: 2,
-            title: date + "年",
-            legendData: ['本期', '同期'],
+            title: date +  this.props.t('years'),//"年",
+            legendData: [this.props.t('currentPeriod'),this.props.t('theSamePeriod')],
             xAxisData: [],
             xAxisDataIs: false,
             yAxisName: [""],
             series: [{
-                name: '本期',
+                name: this.props.t('currentPeriod'),//'本期',
                 type: 'bar',
                 data: []
             }, {
-                name: '同期',
+                name: this.props.t('theSamePeriod'),//'同期',
                 type: 'bar',
                 data: []
             }]
@@ -182,7 +182,6 @@ export class WaterAnalysis2 extends Component<any,any> {
                             // 同期
                             queryData[0].series[1].data.push(objData.cha2);
                         }
-                       
                     }
                     that.setState({
                         optionData: queryData,
@@ -241,6 +240,7 @@ export class WaterAnalysis2 extends Component<any,any> {
         });
     }
     render() {
+        const { t } = this.props
         return (
             <View style={{flex: 1}}>
                 <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
@@ -254,7 +254,7 @@ export class WaterAnalysis2 extends Component<any,any> {
                 <SafeAreaView style={{flex: 1}}>
                     {/* 引入自定义导航栏 */}
                     <Navbar 
-                        pageName={'同比分析'}
+                        pageName={t('yearyearAnalysis')}//{'同比分析'}
                         showBack={true}
                         showHome={false}
                         isCheck={2}
@@ -278,13 +278,13 @@ export class WaterAnalysis2 extends Component<any,any> {
                                     <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
                                 </Pressable>
                             </View>
-                            <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>查询</Text>
-                            <Text allowFontScaling={false} style={[styles.button,styles.buttonC1]} onPress={this.preDate}>上一年</Text>
-                            <Text allowFontScaling={false} style={styles.button} onPress={this.nextData}>下一年</Text>
+                            <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>{t('inquire')}</Text>{/*查询*/}
+                            <Text allowFontScaling={false} style={[styles.button,styles.buttonC1]} onPress={this.preDate}>{t('thePreviousYear')}</Text>{/*上一年*/}
+                            <Text allowFontScaling={false} style={styles.button} onPress={this.nextData}>{t('nextYear')}</Text>{/*下一年*/}
                         </View>
                         <View style={styles.echarts_con}>
                             {this.state.optionData.length == 0?
-                                <Text allowFontScaling={false} style={styles.empty}>暂无数据</Text>:''
+                                <Text allowFontScaling={false} style={styles.empty}>{t('noData')}</Text>:''//暂无数据
                             }
                             {/* 柱形图 */}
                             {this.state.optionData.map((item:any,index:number)=>{
@@ -305,16 +305,16 @@ export class WaterAnalysis2 extends Component<any,any> {
                                 return(
                                     <View style={styles.item} key={index}>
                                         <Text allowFontScaling={false} style={styles.name}>
-                                            列表
+                                            {t('list')}
                                         </Text>
                                         <View style={styles.echarts}>
                                             <View style={styles.table}>
                                                 <View style={styles.row}>
-                                                    <Text allowFontScaling={false} style={styles.th}>月份</Text>
-                                                    <Text allowFontScaling={false} style={styles.th}>本期</Text>
-                                                    <Text allowFontScaling={false} style={styles.th}>同期</Text>
-                                                    <Text allowFontScaling={false} style={styles.th}>同比(%)</Text>
-                                                    <Text allowFontScaling={false} style={styles.th}>累计同比(%)</Text>
+                                                    <Text allowFontScaling={false} style={styles.th}>{t('months')}</Text>{/*月份*/}
+                                                    <Text allowFontScaling={false} style={styles.th}>{t('currentPeriod')}</Text>{/*本期*/}
+                                                    <Text allowFontScaling={false} style={styles.th}>{t('theSamePeriod')}</Text>{/*同期*/}
+                                                    <Text allowFontScaling={false} style={styles.th}>{t('YearYear')}(%)</Text>{/*同比*/}
+                                                    <Text allowFontScaling={false} style={styles.th}>{t('Cumulative')}(%)</Text>{/*累计同比*/}
                                                 </View>
                                                 {this.state.optionData2.map((item:any,index1:Number)=>{
                                                     return(
@@ -522,4 +522,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default WaterAnalysis2
+export default withTranslation()(WaterAnalysis2)

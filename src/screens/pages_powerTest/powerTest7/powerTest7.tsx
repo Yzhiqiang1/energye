@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 //方法
 import styleg from '../../../indexCss'
 import { Register } from '../../../utils/app'
-import store from '../../../redux/store'
+import { store } from '../../../redux/storer'
 import { HttpService } from '../../../utils/http'
 import util, { plusReduceData } from '../../../utils/util'
 // 组件
@@ -13,6 +13,8 @@ import MyLegend from '../../../component/my-legend/MyLegend'
 import Loading from '../../../component/Loading/Loading'//加载动画组件
 import Picker from '../../../component/Picker/Picker'//选择器
 import PickerBut from '../../../component/PickerBut/PickerBut'
+import { withTranslation } from 'react-i18next';//语言包
+
 const api = require('../../../utils/api')
 const Fs = Dimensions.get('window').width*0.8
 
@@ -24,7 +26,7 @@ export class PowerTest7 extends Component<any,any> {
             start: plusReduceData(util.nowDate(), 1, 5), //查询日期-5天内的日期
             end: util.nowDate(), //结束日期
             optionData: [{
-                    name: "电流谐波",
+                    name: this.props.t('HOC'),//"电流谐波",
                     state: true,
                     title: '',
                     legendData: [],
@@ -33,7 +35,7 @@ export class PowerTest7 extends Component<any,any> {
                     series: []
                 },
                 {
-                    name: "电压谐波",
+                    name: this.props.t('HOV'),//"电压谐波",
                     state: true,
                     title: '',
                     legendData: [],
@@ -81,7 +83,7 @@ export class PowerTest7 extends Component<any,any> {
      * *****************************/
     check_ok=()=> {
         let that = this;
-        let parameterGrou = store.getState().userReducer.parameterGroup; //获取选中组和设备信息
+        let parameterGrou = store.getState().parameterGroup; //获取选中组和设备信息
         if (parameterGrou.radioGroup.selectKey) {
             that.getTbaleHarmonicData(0);
         } else {
@@ -89,7 +91,7 @@ export class PowerTest7 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg:'获取参数失败！'
+                LoadingMsg: this.props.t('getNotData')//'获取参数失败！'
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -128,7 +130,7 @@ export class PowerTest7 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg:'开始日期不能大于结束日期'
+                LoadingMsg: this.props.t('TSDMN')//'开始日期不能大于结束日期'
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -180,7 +182,7 @@ export class PowerTest7 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg:'您还未登录,无法查询数据！'
+                LoadingMsg:  this.props.t('YANLIA')//'您还未登录,无法查询数据！'
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -190,8 +192,8 @@ export class PowerTest7 extends Component<any,any> {
             })
             return false;
         }
-        let userId = store.getState().userReducer.userId; //用户ID
-        let deviceId = store.getState().userReducer.parameterGroup.radioGroup.selectKey; //获取设备ID----【单选】
+        let userId = store.getState().userId; //用户ID
+        let deviceId = store.getState().parameterGroup.radioGroup.selectKey; //获取设备ID----【单选】
 
         let start = that.state.start + " " + "00:00:00" //开始日期
         let end = that.state.end + " " + "23:59:59"; //结束日期
@@ -202,7 +204,7 @@ export class PowerTest7 extends Component<any,any> {
 
         //初始图表值【加载页面时没有数据的返回空的图表，防止空白页面】
         let queryData = [{
-            name: "电流谐波",
+            name: this.props.t('HOC'),//"电流谐波",
             state: true,
             title: '',
             legendData: [],
@@ -210,7 +212,7 @@ export class PowerTest7 extends Component<any,any> {
             yAxisName: "",
             series: []
         }, {
-            name: "电压谐波",
+            name: this.props.t('HOV'),//"电压谐波",
             state: true,
             title: '',
             legendData: [],
@@ -222,7 +224,7 @@ export class PowerTest7 extends Component<any,any> {
         this.setState({
             msgType: 1,
             visible: true,
-            LoadingMsg:'加载中...'
+            LoadingMsg: this.props.t('Loading')//'加载中...'
         });
         /**
          * 查询数据
@@ -287,7 +289,7 @@ export class PowerTest7 extends Component<any,any> {
                     if (listData.length > 0) {
                         let labelName = JSON.stringify(res.data.labelName).replace(/\[|\]|\"/g, "").split(",");
                         let open:any = {
-                            name: _index == 0 ? "电流谐波" : "电压谐波",
+                            name: _index == 0 ? that.props.t('HOC') : that.props.t('HOC'),// "电流谐波" : "电压谐波",
                             state: true,
                             title: "",
                             legendData: labelName,
@@ -383,7 +385,7 @@ export class PowerTest7 extends Component<any,any> {
                 that.setState({
                     msgType: 2,
                     visible: true,
-                    LoadingMsg:  '请求出错',
+                    LoadingMsg:  that.props.t('request'),//'请求出错',
                 },()=>{
                     setTimeout(()=>{
                         that.setState({
@@ -395,6 +397,7 @@ export class PowerTest7 extends Component<any,any> {
         }
     }
     render() {
+        const { t } = this.props
         return (
             <View style={{flex: 1}}>
                 <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
@@ -408,7 +411,7 @@ export class PowerTest7 extends Component<any,any> {
                 <SafeAreaView style={{flex: 1}}>
                     {/* 引入自定义导航栏 */}
                     <Navbar
-                        pageName={'谐波检测'}
+                        pageName={this.props.t('harmonicDetection')}//'谐波检测'
                         showBack={true}
                         showHome={false}
                         isCheck={2}
@@ -432,7 +435,7 @@ export class PowerTest7 extends Component<any,any> {
                                 </Pressable>
                             </View>
                             <Text allowFontScaling={false} style={styles.text}>
-                                至
+                                {t('to')}
                             </Text>
                             <View style={styles.flex}>
                                 {/* <Picker
@@ -446,7 +449,7 @@ export class PowerTest7 extends Component<any,any> {
                                     <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
                                 </Pressable>
                             </View>
-                            <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>查询</Text>
+                            <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>{t('inquire')}</Text>
                         </View>
 
                         
@@ -570,4 +573,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default PowerTest7
+export default withTranslation()(PowerTest7)

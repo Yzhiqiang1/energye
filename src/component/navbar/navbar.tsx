@@ -2,12 +2,14 @@ import { StackNavigationProp } from '@react-navigation/stack'
 import React from 'react'
 import { Text, View, StyleSheet, TouchableOpacity, ActivityIndicator,
 Image, Pressable, Dimensions, DeviceEventEmitter, ScrollView, Animated, Modal } from 'react-native'
-import store from '../../redux/store'//全局数据管理
 import { HttpService } from '../../utils/http'//网络请求服务
-import { parameter_Group } from '../../redux/actions/user'
 import { Icon } from '@rneui/themed';
 import Tree from '../tree/Tree'
 import Loading from '../Loading/Loading'
+import { parameter_Group } from '../../redux/reducers/counterSlice'
+import { store } from '../../redux/storer'
+import { withTranslation  } from 'react-i18next';//语言包内容
+
 const api = require( '../../utils/api')//接口文件
 const ht = Dimensions.get('window').height*0.8
 const Fs = Dimensions.get('window').width*0.8
@@ -67,7 +69,7 @@ export class Navbar extends React.Component<any,any> {
                 },() => {
                     // 获取摄像头数据列表
                     if (this.props.isCheck == 6 || this.props.isCheck == 1) {
-                        if (this.props.isCheck == 1 && store.getState().userReducer.parameterGroup.monitorGroup.selectKey == '') {
+                        if (this.props.isCheck == 1 && store.getState().parameterGroup.monitorGroup.selectKey == '') {
                             this.getMonitor();
                         } else {
                             this.getMonitor();
@@ -154,7 +156,8 @@ export class Navbar extends React.Component<any,any> {
                     isGroup: index,
                 }, () => {})
                 //更新全局变量
-                store.dispatch(parameter_Group({onlyGroupId:this.state.arrGroup[index].id})) 
+                store.dispatch(parameter_Group({onlyGroupId:this.state.arrGroup[index].id}))
+                // this.props.parameter_Group({onlyGroupId:this.state.arrGroup[index].id})
                 //向父组件传递参数
                 if(this.props.choiceGroup){
                     this.props.choiceGroup({type:true})
@@ -173,6 +176,11 @@ export class Navbar extends React.Component<any,any> {
                 selectKey: e.id,
                 name: '/' + e.title
             }))
+            // this.props.parameter_Group({
+            //     groupId:this.state.arrGroup[isGroup].id,
+            //     selectKey: e.id,
+            //     name: '/' + e.title
+            // })
             //更新数据
             this.setState({
                 treeName: this.state.arrGroup[isGroup].name + '/' + e.title,
@@ -181,17 +189,23 @@ export class Navbar extends React.Component<any,any> {
             //多选
         } else if (isCheck == 3) { //多选
             let id = e.id; //子组件传递过来的ID
-            let selectKey = store.getState().userReducer.parameterGroup.multiGroup.selectKey;
+            let selectKey = {...store.getState().parameterGroup.multiGroup.selectKey}
             if (selectKey[id] == undefined) {
-                let appIsGroup = store.getState().userReducer.parameterGroup.multiGroup.isGroup;
+                let appIsGroup = store.getState().parameterGroup.multiGroup.isGroup;
                 if (appIsGroup != isGroup) {
                     selectKey = {};
-                    store.dispatch(parameter_Group({
-                        multiIsGroup: isGroup,
-                        multiGroupId: this.state.arrGroup[isGroup].id
-                    }))
+                    store.dispatch(
+                        parameter_Group({
+                            multiIsGroup: isGroup,
+                            multiGroupId: this.state.arrGroup[isGroup].id
+                        })
+                    )
+                    // this.props.parameter_Group({
+                    //     multiIsGroup: isGroup,
+                    //     multiGroupId: this.state.arrGroup[isGroup].id
+                    // })
                 }
-                selectKey[id] = id;
+                selectKey[id] = id
             } else {
                 if (Object.keys(selectKey).length > 1) {
                     delete selectKey[id];
@@ -213,10 +227,16 @@ export class Navbar extends React.Component<any,any> {
                 }
             }
             //更新数据
-            store.dispatch(parameter_Group({
-                multiSelectKey: selectKey,
-                multiselectName: '/选中' + Object.keys(selectKey).length + '个设备'
-            }))
+            store.dispatch(
+                parameter_Group({
+                    multiSelectKey: selectKey,
+                    multiselectName: '/选中' + Object.keys(selectKey).length + '个设备'
+                })
+            )
+            // this.props.parameter_Group({
+            //     multiSelectKey: selectKey,
+            //     multiselectName: '/选中' + Object.keys(selectKey).length + '个设备'
+            // })
             this.setState({
                 selectKey: selectKey,
                 treeName: this.state.arrGroup[isGroup].name + '/选中' + Object.keys(selectKey).length + '个设备',
@@ -225,18 +245,25 @@ export class Navbar extends React.Component<any,any> {
             let id = e.id; //子组件传递过来的ID
             let selectKey = this.getChild(this.state.dataTree, id);
             //更新数据
-            store.dispatch(parameter_Group({
-                radioSonGroupId: this.state.arrGroup[isGroup].id,
-                radioSonSelectKey: selectKey,
-                radioSonSelectName: '/选中' + Object.keys(selectKey).length + '个设备'
-            }))
+            store.dispatch(
+                parameter_Group({
+                    radioSonGroupId: this.state.arrGroup[isGroup].id,
+                    radioSonSelectKey: selectKey,
+                    radioSonSelectName: '/选中' + Object.keys(selectKey).length + '个设备'
+                })
+            )
+            // this.props.parameter_Group({
+            //     radioSonGroupId: this.state.arrGroup[isGroup].id,
+            //     radioSonSelectKey: selectKey,
+            //     radioSonSelectName: '/选中' + Object.keys(selectKey).length + '个设备'
+            // })
             this.setState({
                 selectKey: selectKey,
                 treeName: this.state.arrGroup[this.state.isGroup].name + '/选中' + Object.keys(selectKey).length + '个设备',
             })
         } else if (isCheck == 6) { //摄像头设备
             let id = e.id; //子组件传递过来的ID
-            let selectKey = store.getState().userReducer.parameterGroup.monitorGroup.selectKey;
+            let selectKey = store.getState().parameterGroup.monitorGroup.selectKey;
             if (selectKey[id] == undefined) {
                 selectKey[id] = id;
             } else {
@@ -260,10 +287,16 @@ export class Navbar extends React.Component<any,any> {
                 }
             }
             //更新数据
-            store.dispatch(parameter_Group({
-                monitorSelectKey: selectKey,
-                monitorSelectName: '选中' + Object.keys(selectKey).length + '个设备'
-            }))
+            store.dispatch(
+                parameter_Group({
+                    monitorSelectKey: selectKey,
+                    monitorSelectName: '选中' + Object.keys(selectKey).length + '个设备'
+                })
+            )
+            // this.props.parameter_Group({
+            //     monitorSelectKey: selectKey,
+            //     monitorSelectName: '选中' + Object.keys(selectKey).length + '个设备'
+            // })
             this.setState({
                 selectKey: selectKey,
                 treeName: '选中' + Object.keys(selectKey).length + '个设备',
@@ -281,11 +314,13 @@ export class Navbar extends React.Component<any,any> {
      * ****/
     getGroup(){
         //请求参数
-        let userId = store.getState().userReducer.userId //用户ID
+        let userId = store.getState().userId //用户ID
         let isCheck = this.props.isCheck; //选中类型
         HttpService.apiPost(api.getGroup, {
             userId: userId,
         }).then((res:any)=>{
+            console.log(res);
+            
             if (res.flag == '00') {
                 if (res.data.length > 0) {
                     //获取选中设备组位置(选中组下标)
@@ -336,7 +371,7 @@ export class Navbar extends React.Component<any,any> {
         //获取选中类型
         let isCheck = this.props.isCheck;
         //请求参数
-        let userId = store.getState().userReducer.userId//用户ID
+        let userId = store.getState().userId//用户ID
         let deviceIds = that.state.arrGroup[that.state.isGroup]?.deviceIds; //设备ID
         HttpService.apiPost(api.getTree, {
             userId: userId,
@@ -354,47 +389,54 @@ export class Navbar extends React.Component<any,any> {
                     let name1 = ''; //下拉框名字
                     let selectKey1 = ''; //处理单选选中数据
                     if (isCheck == 1 || isCheck == 2) {
-                        if (store.getState().userReducer.parameterGroup.radioGroup.selectKey == '') {
+                        if (store.getState().parameterGroup.radioGroup.selectKey == '') {
                             selectKey1 = res.data[0].id;
                             name1 = '/' + res.data[0].title;
                             //更新全局变量
                             store.dispatch(parameter_Group({selectKey:selectKey1,name:name1}))
-                           
+                            // this.props.parameter_Group({selectKey:selectKey1,name:name1})
                         } else {
-                            selectKey1 = store.getState().userReducer.parameterGroup.radioGroup.selectKey;
-                            name1 = store.getState().userReducer.parameterGroup.radioGroup.selectName;
+                            selectKey1 = store.getState().parameterGroup.radioGroup.selectKey;
+                            name1 = store.getState().parameterGroup.radioGroup.selectName;
                         }
                     }
                     //多选
                     let name2:string = ''; //下拉框名字
                     let selectKey2:any = {}; //处理多选选中数据
                     if (isCheck == 1 || isCheck == 3) {
-                        if (store.getState().userReducer.parameterGroup.multiGroup.selectKey == '') {
+                        if (store.getState().parameterGroup.multiGroup.selectKey == '') {
                             selectKey2[res.data[0].id] = res.data[0].id;
                             name2 = '/选中' + Object.keys(selectKey2).length + '个设备';
                             //更新全局变量
+                            // this.props.parameter_Group({multiSelectKey:selectKey2,multiselectName:name2})
                             store.dispatch(parameter_Group({multiSelectKey:selectKey2,multiselectName:name2}))
                         } else {
-                            selectKey2 = store.getState().userReducer.parameterGroup.multiGroup.selectKey;
-                            name2 = store.getState().userReducer.parameterGroup.multiGroup.selectName;
+                            selectKey2 = store.getState().parameterGroup.multiGroup.selectKey;
+                            name2 = store.getState().parameterGroup.multiGroup.selectName;
                         }
                     }
                     //单选包含子组件
                     let name3 = ''; //下拉框名字
                     let selectKey3 = {}; //处理选中数据
                     if (isCheck == 1 || isCheck == 5) {
-                        if (store.getState().userReducer.parameterGroup.radioSonGroup.selectKey == '') {
+                        if (store.getState().parameterGroup.radioSonGroup.selectKey == '') {
                             //默认选中第一个以及所有子元素
                             selectKey3 = that.getChild(res.data, res.data[0].id)
                             name3 = '/选中' + Object.keys(selectKey3).length + '个设备';
                             //更新全局变量
-                            store.dispatch(parameter_Group({
-                                radioSonSelectKey:selectKey3,
-                                radioSonSelectName:name3
-                            }))
+                            store.dispatch(
+                                parameter_Group({
+                                    radioSonSelectKey:selectKey3,
+                                    radioSonSelectName:name3
+                                })
+                            )
+                            // this.props.parameter_Group({
+                            //     radioSonSelectKey:selectKey3,
+                            //     radioSonSelectName:name3
+                            // })
                         } else {
-                            selectKey3 = store.getState().userReducer.parameterGroup.radioSonGroup.selectKey;
-                            name3 = store.getState().userReducer.parameterGroup.radioSonGroup.selectName;
+                            selectKey3 = store.getState().parameterGroup.radioSonGroup.selectKey;
+                            name3 = store.getState().parameterGroup.radioSonGroup.selectName;
                         }
                     }
                     //整理数据
@@ -446,7 +488,7 @@ export class Navbar extends React.Component<any,any> {
     getMonitor() {
         let that = this;
         //请求参数
-        let userId = store.getState().userReducer.userId; //用户ID
+        let userId = store.getState().userId; //用户ID
         this.setState({
             msgType: 1,
             visible: true,//打开加载窗口
@@ -460,16 +502,22 @@ export class Navbar extends React.Component<any,any> {
             if (res.flag == '00' && res.data.LayuiTree.length > 0) {
                 let name:string = ''; //下拉框名字
                 let selectKey:any = {}; //处理多选选中数据
-                if (store.getState().userReducer.parameterGroup.monitorGroup.selectKey == '') {
+                if (store.getState().parameterGroup.monitorGroup.selectKey == '') {
                     selectKey[res.data.LayuiTree[0].id] = res.data.LayuiTree[0].id; //默认选中第一个
                     name = "选中一个设备";
-                    store.dispatch(parameter_Group({
-                        monitorSelectKey: selectKey,
-                        monitorSelectName: name
-                    }))
+                    store.dispatch(
+                        parameter_Group({
+                            monitorSelectKey: selectKey,
+                            monitorSelectName: name
+                        })
+                    )
+                    // this.props.parameter_Group({
+                    //     monitorSelectKey: selectKey,
+                    //     monitorSelectName: name
+                    // })
                 } else {
-                    selectKey =store.getState().userReducer.parameterGroup.monitorGroup.selectKey;
-                    name = store.getState().userReducer.parameterGroup.monitorGroup.selectName;
+                    selectKey = store.getState().parameterGroup.monitorGroup.selectKey;
+                    name = store.getState().parameterGroup.monitorGroup.selectName;
                 }
                
                 //更新数据 
@@ -515,9 +563,9 @@ export class Navbar extends React.Component<any,any> {
         //单选
         if (isCheck == 1 || isCheck == 2) {
             let isGroup_2 = 0;
-            if (store.getState().userReducer.parameterGroup.radioGroup.groupId != '') {
+            if (store.getState().parameterGroup.radioGroup.groupId != '') {
                 for (let a = 0; a < res.length; a++) {
-                    if (res[a].id == store.getState().userReducer.parameterGroup.radioGroup.groupId) {
+                    if (res[a].id == store.getState().parameterGroup.radioGroup.groupId) {
                         isGroup_2 = a;
                         break;
                     }
@@ -525,13 +573,14 @@ export class Navbar extends React.Component<any,any> {
             }
             isGroup = isGroup_2;
             store.dispatch(parameter_Group({groupId:res[isGroup_2].id}))
+            // this.props.parameter_Group({groupId:res[isGroup_2].id})
         }
         //多选
         if (isCheck == 1 || isCheck == 3) {
             let isGroup_3 = 0;
-            if (store.getState().userReducer.parameterGroup.multiGroup.groupId != '') {
+            if (store.getState().parameterGroup.multiGroup.groupId != '') {
                 for (let a = 0; a < res.length; a++) {
-                    if (res[a].id == store.getState().userReducer.parameterGroup.multiGroup.groupId) {
+                    if (res[a].id == store.getState().parameterGroup.multiGroup.groupId) {
                         isGroup_3 = a;
                         break;
                     }
@@ -539,14 +588,15 @@ export class Navbar extends React.Component<any,any> {
             }
 
             if (isCheck == 3) isGroup = isGroup_3;
+            // this.props.parameter_Group({multiIsGroup:isGroup_3,multiGroupId:res[isGroup_3].id})
             store.dispatch(parameter_Group({multiIsGroup:isGroup_3,multiGroupId:res[isGroup_3].id}))
         }
         //仅设备
         if (isCheck == 1 || isCheck == 4) {
             let isGroup_4 = 0;
-            if (store.getState().userReducer.parameterGroup.onlyGroup.groupId != '') {
+            if (store.getState().parameterGroup.onlyGroup.groupId != '') {
                 for (let a = 0; a < res.length; a++) {
-                    if (res[a].id == store.getState().userReducer.parameterGroup.onlyGroup.groupId) {
+                    if (res[a].id == store.getState().parameterGroup.onlyGroup.groupId) {
                         isGroup_4 = a;
                         break;
                     }
@@ -554,19 +604,21 @@ export class Navbar extends React.Component<any,any> {
             }
             if (isCheck == 4) isGroup = isGroup_4;
             store.dispatch(parameter_Group({onlyGroupId:res[isGroup_4].id}))
+            // this.props.parameter_Group({onlyGroupId:res[isGroup_4].id})
         }
         //单选包含子组件
         if (isCheck == 1 || isCheck == 5) {
             let isGroup_5 = 0;
-            if (store.getState().userReducer.parameterGroup.radioSonGroup.groupId != '') {
+            if (store.getState().parameterGroup.radioSonGroup.groupId != '') {
                 for (let a = 0; a < res.length; a++) {
-                    if (res[a].id == store.getState().userReducer.parameterGroup.radioSonGroup.groupId) {
+                    if (res[a].id == store.getState().parameterGroup.radioSonGroup.groupId) {
                         isGroup_5 = a;
                         break;
                     }
                 }
             }
             if (isCheck == 5) isGroup = isGroup_5;
+            // this.props.parameter_Group({radioSonGroupId:res[isGroup_5].id})
             store.dispatch(parameter_Group({radioSonGroupId:res[isGroup_5].id}))
         }
         return isGroup;
@@ -611,66 +663,111 @@ export class Navbar extends React.Component<any,any> {
     render() {
         const {navigation,}: { navigation?: StackNavigationProp<any, any> } = this.props.props
         return (
-            <View style={[styles.navbar,{height: ht/9, pointerEvents: 'auto'}]}>
-                <View>
-                    <View style={[styles.navbar_head]}>
-                        {this.props.showBack?
-                            <Pressable style={styles.navbar_left} onPress={this.navBack}>
-                                <Icon
-                                    name='left'
-                                    type='antdesign'
-                                    color='#333'
-                                    size={22}
-                                />
-                            </Pressable>:''
-                        }
-                        {this.props.showHome?
-                            <Pressable style={styles.navbar_left} onPress={this.navHome}>
-                                <Icon
-                                    name='home'
-                                    type='antdesign'
-                                    color='#333'
-                                    size={22}
-                                />
-                            </Pressable>:''
-                        }
-                        <Text allowFontScaling={false} style={styles.navbar_text}>{this.props.pageName}</Text>
-                        {this.props.LoginStatus == 1?
-                            <TouchableOpacity style={styles.treeSelect} onPress={()=>{navigation?.navigate('BindAccount')}}>
-                                <Text allowFontScaling={false} style={[styles.navbar_text,{fontSize:Fs/22,color:'#2EA4FF',fontWeight: '400'}]}>您还未登录,点击登录</Text>
-                            </TouchableOpacity> : ''
-                        }
-                        {this.props.LoginStatus == 2?
-                            <Pressable style={styles.treeSelect} onPress={this.treeSelectClick}>
-                                {this.state.treeLoading?
-                                    <ActivityIndicator color="#1989fa"/> :
+            <View style={{zIndex: 999999,width: '100%'}}>
+                {/* { */}
+                <View style={[styles.navbar,{height: ht/9, pointerEvents: 'auto'}]}>
+                <View style={[styles.navbar_head]}>
+                    {this.props.showBack?
+                        <Pressable style={styles.navbar_left} onPress={this.navBack}>
+                            <Icon
+                                name='left'
+                                type='antdesign'
+                                color='#333'
+                                size={22}
+                            />
+                        </Pressable>:''
+                    }
+                    {this.props.showHome?
+                        <Pressable style={styles.navbar_left} onPress={this.navHome}>
+                            <Icon
+                                name='home'
+                                type='antdesign'
+                                color='#333'
+                                size={22}
+                            />
+                        </Pressable>:''
+                    }
+                    <Text allowFontScaling={false} style={styles.navbar_text}>{this.props.pageName}</Text>
+                    {this.props.LoginStatus == 1?
+                        <TouchableOpacity style={styles.treeSelect} onPress={()=>{navigation?.navigate('BindAccount')}}>
+                            <Text allowFontScaling={false} style={[styles.navbar_text,{fontSize:Fs/22,color:'#2EA4FF',fontWeight: '400'}]}>您还未登录,点击登录</Text>
+                        </TouchableOpacity> : ''
+                    }
+                    {this.props.LoginStatus == 2?
+                        <Pressable style={styles.treeSelect} onPress={this.treeSelectClick}>
+                            {this.state.treeLoading?
+                                <ActivityIndicator color="#1989fa"/> :
+                                <View style={styles.test}>
                                     <View style={styles.test}>
-                                        <View style={styles.test}>
-                                            <Text allowFontScaling={false} numberOfLines={1} ellipsizeMode="tail" style={styles.testName}>{this.state.treeName}</Text>
-                                            <Animated.View style={[styles.ico,{transform: [{rotate: this.state.rotate}]}]}>
-                                                <Image style={styles.img} source={require("../../image/down.png")}></Image>
-                                            </Animated.View>
-                                        </View>
+                                        <Text allowFontScaling={false} numberOfLines={1} ellipsizeMode="tail" style={styles.testName}>{this.state.treeName}</Text>
+                                        <Animated.View style={[styles.ico,{transform: [{rotate: this.state.rotate}]}]}>
+                                            <Image style={styles.img} source={require("../../image/down.png")}></Image>
+                                        </Animated.View>
                                     </View>
-                                }
-                            </Pressable>:''
-                        }
+                                </View>
+                            }
+                        </Pressable>:''
+                    }
+                </View>
+                {/* <Modal
+                    transparent={true}
+                    visible={this.state.showTree}
+                    onRequestClose={this.handleOnRequestClose}
+                    presentationStyle={'overFullScreen'}
+                    hardwareAccelerated={true}
+                >
+                    <View style={[styles.modalBox,{top: ht/9}]}>
+                    <Pressable style={{width: '100%',height: '100%'}} onPress={this.treeSelectClick}>
+                    </Pressable>
+                    <View style={styles.con}>
+                        <View style={styles.boxs}>
+                            {this.state.isCheck != 6?
+                                <View style={[styles.left,this.props.isCheck==4?styles.leftW100:null]}>
+                                    <ScrollView>
+                                        {this.state.arrGroup.map((data:any, index:any) => {
+                                            return(
+                                                <Text allowFontScaling={false} key={index} 
+                                                    style={[styles.list,index == this.state.isGroup?styles.listIs:null]}
+                                                    onPress={()=>this.choiceGroup(index)}
+                                                >{data.name}</Text>
+                                            )
+                                        })}
+                                    </ScrollView>
+                                </View>
+                                :''
+                            }
+                            {this.props.isCheck == 1 || this.props.isCheck == 2 ||
+                            this.props.isCheck == 3 || this.props.isCheck == 5 ||
+                            this.props.isCheck == 6 ?
+                                <ScrollView>
+                                    <View style={styles.right}>
+                                        <ScrollView 
+                                        horizontal={true}
+                                        showsHorizontalScrollIndicator={false}
+                                        >
+                                            <Tree
+                                                dataTree={this.state.dataTree}
+                                                selectKey={this.state.selectKey}
+                                                isChecks={this.props.isCheck}
+                                                isOpenAll={true}
+                                                handleSelect={this.handleSelect}
+                                            ></Tree>
+                                        </ScrollView>
+                                    </View>
+                                </ScrollView>
+                                : ''
+                            }
+                        </View>
                     </View>
-                    {/* <Modal
-                        transparent={true}
-                        visible={this.state.showTree}
-                        onRequestClose={this.handleOnRequestClose}
-                        presentationStyle={'overFullScreen'}
-                        hardwareAccelerated={true}
-                    > */}
-                    {/* </Modal> */}
-                    {/* 弹窗效果组件 */}
-                    <Loading 
-                        type={this.state.msgType} 
-                        visible={this.state.visible} 
-                        LoadingMsg={this.state.LoadingMsg}
-                    >
-                    </Loading>
+                </View>
+                </Modal> */}
+                {/* 弹窗效果组件 */}
+                <Loading 
+                    type={this.state.msgType} 
+                    visible={this.state.visible} 
+                    LoadingMsg={this.state.LoadingMsg}
+                >
+                </Loading>
                 </View>
                 {/* 设备选择弹窗 */}
                 {this.state.showTree?
@@ -719,6 +816,7 @@ export class Navbar extends React.Component<any,any> {
                         </View>
                     </View>:''
                 }
+                {/* } */}
             </View>
         )
     }
@@ -880,11 +978,11 @@ const styles = StyleSheet.create({
         position: 'absolute',
         height: Dimensions.get('screen').height,
         width: Dimensions.get('screen').width,
-        zIndex: 99999,
+        zIndex: 999999,
         backgroundColor: 'rgba(0, 0, 0, 0.4)',
         justifyContent: "center",
         alignItems: "center",
     },
 })
 
-export default Navbar
+export default withTranslation()(Navbar)

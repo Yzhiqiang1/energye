@@ -4,11 +4,11 @@ import Navbar from '../../../component/navbar/navbar'
 import styleg from '../../../indexCss'
 import util from '../../../utils/util'
 import { Register } from '../../../utils/app'
-import store from '../../../redux/store'
+import {store} from '../../../redux/storer'
 import { HttpService } from '../../../utils/http'
 import Loading from '../../../component/Loading/Loading'
-import Picker from '../../../component/Picker/Picker'
 import PickerBut from '../../../component/PickerBut/PickerBut'
+import { withTranslation } from 'react-i18next';//语言包
 const api = require('../../../utils/api')
 const Fs = Dimensions.get('window').width*0.8
 
@@ -31,7 +31,7 @@ export class GasAnalysis3 extends Component<any,any> {
             _weekTime: getWeek.value,
             _weekTimeDate: getWeek.data,
             _weekTimeIn: 0,
-            _weekSeveral: ['第一周','第二周','第三周','第四周'],
+            _weekSeveral: [this.props.t('FirstWeek'),this.props.t('secondWeek'),this.props.t('thirdWeek'),this.props.t('fourthWeek')],
             //月报处理
             _month: util.nowDate(1),
             //数据项
@@ -69,7 +69,7 @@ export class GasAnalysis3 extends Component<any,any> {
      * *****************************/
     check_ok=()=>{
         let that = this;
-        let parameterGrou = store.getState().userReducer.parameterGroup; //获取选中组和设备信息
+        let parameterGrou = store.getState().parameterGroup; //获取选中组和设备信息
 
         if (parameterGrou.multiGroup.selectKey) {
             //查询数据
@@ -79,7 +79,7 @@ export class GasAnalysis3 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '获取参数失败！'
+                LoadingMsg: this.props.t('getNotData')//'获取参数失败！'
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -159,7 +159,7 @@ export class GasAnalysis3 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '您还未登录,无法查询数据！'
+                LoadingMsg: this.props.t('YANLIA')//'您还未登录,无法查询数据！'
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -172,12 +172,12 @@ export class GasAnalysis3 extends Component<any,any> {
         this.setState({
             msgType: 1,
             visible: true,
-            LoadingMsg: '加载中...'
+            LoadingMsg: this.props.t('Loading')//'加载中...'
         })
         //用户ID
-        let userId = store.getState().userReducer.userId;
+        let userId = store.getState().userId;
         //查询设备ID
-        let ObjdeviceId = store.getState().userReducer.parameterGroup.multiGroup.selectKey;
+        let ObjdeviceId = store.getState().parameterGroup.multiGroup.selectKey;
         let strdeviceId = "";
         for (let i in ObjdeviceId) {
             strdeviceId += strdeviceId == "" ? ObjdeviceId[i] : ',' + ObjdeviceId[i];
@@ -195,13 +195,13 @@ export class GasAnalysis3 extends Component<any,any> {
         let dataName:any = [];
         if (dataSwitchIn == 0) {
             parameter.date = that.state._day;
-            dataName = ['回路名称','当日用电(gc·h)', '上日用电  (gc·h)', '增加值','环比(%)'];
+            dataName = [this.props.t('LoopName'),this.props.t('DEC')+'(gc·h)', this.props.t('UDE')+'(gc·h)', this.props.t('valueAdded'),this.props.t('Chain')+'(%)'];
         } else if (dataSwitchIn == 1) {
             parameter.date = that.state._weekTimeDate[that.state._weekTimeIn][1];
-            dataName = ['回路名称','当月' + that.state._weekTimeDate[that.state._weekTimeIn][0]+'(gc·h)', '上月' + that.state._weekTimeDate[that.state._weekTimeIn][0]+'(gc·h)', '增加值','环比(%)'];
+            dataName = [this.props.t('LoopName'),this.props.t('ofMonth') + that.state._weekTimeDate[that.state._weekTimeIn][0]+'(gc·h)', this.props.t('lastMonth') + that.state._weekTimeDate[that.state._weekTimeIn][0]+'(gc·h)', this.props.t('valueAdded'),this.props.t('Chain')+'(%)'];
         } else if (dataSwitchIn == 2) {
             parameter.date = that.state._month;
-            dataName = ['回路名称','当月用电(gc·h)', '上月用电(gc·h)', '增加值','环比(%)'];
+            dataName = [this.props.t('LoopName'),this.props.t('ECOTF')+'(gc·h)', this.props.t('ECLM')+'(gc·h)', this.props.t('valueAdded'),this.props.t('Chain')+'(%)'];
         }
         that.setState({
             titleData:dataName
@@ -293,6 +293,7 @@ export class GasAnalysis3 extends Component<any,any> {
         });
     }
     render() {
+        const { t } = this.props
         return (
             <View style={{flex: 1}}>
                 <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
@@ -306,7 +307,7 @@ export class GasAnalysis3 extends Component<any,any> {
                 <SafeAreaView style={{flex: 1}}>
                     {/* 引入自定义导航栏 */}
                     <Navbar 
-                        pageName={'环比分析'}
+                        pageName={t('sequentialAnalysis')}//环比分析
                         showBack={true}
                         showHome={false}
                         isCheck={3}
@@ -319,9 +320,9 @@ export class GasAnalysis3 extends Component<any,any> {
                         {/* 查询框 */}
                         <View style={styles.query_head}>
                             <View style={styles.tab}>
-                                <Text allowFontScaling={false} style={[styles.tabFlex,this.state.dataSwitchIn == 0 ? styles.flexIs : null]} onPress={()=>this.clickDataSwitch(0)}>日</Text>
-                                <Text allowFontScaling={false} style={[styles.tabFlex,this.state.dataSwitchIn == 1 ? styles.flexIs : null]} onPress={()=>this.clickDataSwitch(1)}>周</Text>
-                                <Text allowFontScaling={false} style={[styles.tabFlex,this.state.dataSwitchIn == 2 ? styles.flexIs : null]} onPress={()=>this.clickDataSwitch(2)}>月</Text>
+                                <Text allowFontScaling={false} style={[styles.tabFlex,this.state.dataSwitchIn == 0 ? styles.flexIs : null]} onPress={()=>this.clickDataSwitch(0)}>{t('day')}</Text>{/*日*/}
+                                <Text allowFontScaling={false} style={[styles.tabFlex,this.state.dataSwitchIn == 1 ? styles.flexIs : null]} onPress={()=>this.clickDataSwitch(1)}>{t('week')}</Text>{/*周*/}
+                                <Text allowFontScaling={false} style={[styles.tabFlex,this.state.dataSwitchIn == 2 ? styles.flexIs : null]} onPress={()=>this.clickDataSwitch(2)}>{t('month')}</Text>{/*月*/}
                             </View>
                             {/* 日报处理 */}
                             {this.state.dataSwitchIn == 0?
@@ -380,15 +381,15 @@ export class GasAnalysis3 extends Component<any,any> {
                                         </Pressable>
                                     </View>:''
                                 }
-                            <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>查询</Text>
+                            <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>{t('inquire')}</Text>{/*查询*/}
                         </View>
 
                         <View style={styles.echarts_con}>
                             {this.state.optionData.length == 0?
-                                <Text allowFontScaling={false} style={styles.empty}>暂无数据</Text>:
+                                <Text allowFontScaling={false} style={styles.empty}>{t('noData')}</Text>://暂无数据
                                 <View style={styles.item}>
                                     <Text allowFontScaling={false} style={styles.name}>
-                                        环比分析数据
+                                        {t('Analyze')}
                                     </Text>
                                     <View style={styles.table}>
                                         <View style={styles.row}>
@@ -647,4 +648,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default GasAnalysis3
+export default withTranslation()(GasAnalysis3)

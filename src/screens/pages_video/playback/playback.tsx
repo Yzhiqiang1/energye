@@ -1,6 +1,5 @@
 import { Image, ImageBackground, StyleSheet, View, Platform, Pressable, NativeModules, StatusBar, Text, SafeAreaView, } from 'react-native'
 import React, { Component } from 'react'
-import Picker from '../../../component/Picker/Picker'
 import { Register } from '../../../utils/app'
 import Navbars from '../../../component/Navbars/Navbars';
 import TimeLine from '../../../component/timeLine/timeLine'
@@ -11,6 +10,7 @@ import { Dimensions } from 'react-native'
 import NetInfo from "@react-native-community/netinfo";
 import styleg from '../../../indexCss';
 import PickerBut from '../../../component/PickerBut/PickerBut';
+import { withTranslation } from 'react-i18next';//语言包
 const api = require('../../../utils/api')
 const { StatusBarManager } = NativeModules;
 const STATUS_BAR_HEIGHT = Platform.OS === 'android' ? StatusBar.currentHeight : StatusBarManager.HEIGHT;//状态栏高度
@@ -26,7 +26,7 @@ export class Playback extends Component<any,any> {
     constructor(props:any){
         super(props)
         this.state = {
-            title: '加载中...',
+            title: this.props.t('Loading'),//'加载中...',
             sensorName: '', //传感器名称
             accessToken: '', //accessToken
             deviceSerial: '', //设备序列号
@@ -59,7 +59,7 @@ export class Playback extends Component<any,any> {
             playCode: 0, // 当前播放错误码
             recType: 2, // 1-云存储，2-本地录像
             type: 2, // 2-本地录像回放，3-云存储录像回放
-            storageType: ['本地存储', '云存储'],
+            storageType: [this.props.t('local'),this.props.t('cloud')],//['本地存储', '云存储'],
             storageIn: 0, // true-本地存储，false-云存储
 
             param: {}, //获取播放片段参数
@@ -108,7 +108,7 @@ export class Playback extends Component<any,any> {
                     this.setState({
                         msgType: 1,
                         visible: true,
-                        LoadingMsg: '本地存储查询中'
+                        LoadingMsg: this.props.t('LSQ')//'本地存储查询中'
                     })
                     that.check_ok();
                 } else {
@@ -116,7 +116,7 @@ export class Playback extends Component<any,any> {
                     this.setState({
                         msgType: 2,
                         visible: true,
-                        LoadingMsg: '获取视频信息失败！提示：视频回放必须设置监控地址'
+                        LoadingMsg: this.props.t('FTRVI')//'获取视频信息失败！提示：视频回放必须设置监控地址'
                     },()=>{
                         setTimeout(()=>{
                             this.setState({
@@ -136,7 +136,7 @@ export class Playback extends Component<any,any> {
                     Internet: false,
                     msgType: 2,
                     visible: true,
-                    LoadingMsg: '当前网络异常',
+                    LoadingMsg: this.props.t('anomaly'),//'当前网络异常',
                     videoNetWorkError: true,
                     videoLoadingStatus: 100,
                 },()=>{
@@ -198,7 +198,7 @@ export class Playback extends Component<any,any> {
                 this.setState({
                     msgType: 1,
                     visible: true,
-                    LoadingMsg: '查询中'
+                    LoadingMsg: this.props.t('inTheQuery')//'查询中'
                 })
                 this.setState({
                     storageIn: e,
@@ -211,7 +211,7 @@ export class Playback extends Component<any,any> {
                 this.setState({
                     msgType: 1,
                     visible: true,
-                    LoadingMsg: '查询中'
+                    LoadingMsg: this.props.t('inTheQuery')//'查询中'
                 })
                 this.setState({
                     storageIn: e,
@@ -275,7 +275,7 @@ export class Playback extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '网络异常'
+                LoadingMsg: this.props.t('networkAnomaly')//'网络异常'
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -371,7 +371,7 @@ export class Playback extends Component<any,any> {
                 that.setState({
                     msgType: 2,
                     visible: true,
-                    LoadingMsg: '当前网络异常'
+                    LoadingMsg: that.props.t('anomaly')//'当前网络异常'
                 },()=>{
                     setTimeout(()=>{
                         that.setState({
@@ -467,7 +467,7 @@ export class Playback extends Component<any,any> {
         this.setState({
             msgType: 1,
             visible: true,
-            LoadingMsg: '查询中...'
+            LoadingMsg: this.props.t('inTheQuery')//'查询中...'
         })
         this.setState({
             date: e
@@ -553,7 +553,7 @@ export class Playback extends Component<any,any> {
                     this.setState({
                         msgType: 2,
                         visible: true,
-                        LoadingMsg: '暂无录像片段'
+                        LoadingMsg: this.props.t('NVFIA')//'暂无录像片段'
                     },()=>{
                         setTimeout(()=>{
                             this.setState({
@@ -572,7 +572,7 @@ export class Playback extends Component<any,any> {
                 this.setState({
                     msgType: 2,
                     visible: true,
-                    LoadingMsg: 'accessToken过期或异常'
+                    LoadingMsg: this.props.t('ATEF')//'accessToken过期或异常'
                 },()=>{
                     setTimeout(()=>{
                         this.setState({
@@ -590,7 +590,7 @@ export class Playback extends Component<any,any> {
                 this.setState({
                     msgType: 2,
                     visible: true,
-                    LoadingMsg: '获取播放时间片段失败(设备不存在)'
+                    LoadingMsg: this.props.t('ATEF')//'获取播放时间片段失败(设备不存在)'
                 },()=>{
                     setTimeout(()=>{
                         this.setState({
@@ -610,7 +610,7 @@ export class Playback extends Component<any,any> {
                 this.setState({
                     msgType: 2,
                     visible: true,
-                    LoadingMsg: '获取播放时间片段失败(设备不在线)'
+                    LoadingMsg: this.props.t('NOdevice')//'获取播放时间片段失败(设备不在线)'
                 },()=>{
                     setTimeout(()=>{
                         this.setState({
@@ -628,7 +628,7 @@ export class Playback extends Component<any,any> {
                 this.setState({
                     msgType: 2,
                     visible: true,
-                    LoadingMsg: '获取播放时间片段失败'
+                    LoadingMsg: this.props.t('FTTF')//'获取播放时间片段失败'
                 },()=>{
                     setTimeout(()=>{
                         this.setState({
@@ -700,7 +700,7 @@ export class Playback extends Component<any,any> {
                 this.setState({
                     msgType: 2,
                     visible: true,
-                    LoadingMsg: '获取播放地址失败(设备不在线)'
+                    LoadingMsg: this.props.t('FTGPA')//'获取播放地址失败(设备不在线)'
                 },()=>{
                     setTimeout(()=>{
                         this.setState({
@@ -713,7 +713,7 @@ export class Playback extends Component<any,any> {
                 this.setState({
                     msgType: 2,
                     visible: true,
-                    LoadingMsg: '获取播放地址失败(设备不存在)'
+                    LoadingMsg: this.props.t('notExist')//'(获取播放地址失败设备不存在)'
                 },()=>{
                     setTimeout(()=>{
                         this.setState({
@@ -726,7 +726,7 @@ export class Playback extends Component<any,any> {
                 this.setState({
                     msgType: 2,
                     visible: true,
-                    LoadingMsg: '获取播放地址失败(摄像头不存在)'
+                    LoadingMsg: this.props.t('notCamera')//'获取播放地址失败(摄像头不存在)'
                 },()=>{
                     setTimeout(()=>{
                         this.setState({
@@ -739,7 +739,7 @@ export class Playback extends Component<any,any> {
                 this.setState({
                     msgType: 2,
                     visible: true,
-                    LoadingMsg: '获取播放地址失败(用户不拥有该设备)'
+                    LoadingMsg: this.props.t('userNot')//'获取播放地址失败(用户不拥有该设备)'
                 },()=>{
                     setTimeout(()=>{
                         this.setState({
@@ -752,7 +752,7 @@ export class Playback extends Component<any,any> {
                 this.setState({
                     msgType: 2,
                     visible: true,
-                    LoadingMsg: '获取播放地址失败(参数错误)'
+                    LoadingMsg: this.props.t('parameterError')//'获取播放地址失败(参数错误)'
                 },()=>{
                     setTimeout(()=>{
                         this.setState({
@@ -765,7 +765,7 @@ export class Playback extends Component<any,any> {
                 this.setState({
                     msgType: 2,
                     visible: true,
-                    LoadingMsg: '获取播放地址失败(设备已被加密，无法继续查看，请前往萤石云app解密。)'
+                    LoadingMsg: this.props.t('please')//'获取播放地址失败(设备已被加密，无法继续查看，请前往萤石云app解密。)'
                 },()=>{
                     setTimeout(()=>{
                         this.setState({
@@ -778,7 +778,7 @@ export class Playback extends Component<any,any> {
                 this.setState({
                     msgType: 2,
                     visible: true,
-                    LoadingMsg: `获取播放地址失败(${response.msg})`
+                    LoadingMsg: this.props.t('GTPA')+`(${response.msg})`
                 },()=>{
                     setTimeout(()=>{
                         this.setState({
@@ -812,6 +812,7 @@ export class Playback extends Component<any,any> {
     }
     
     render() {
+        const { t } = this.props
         return (
             <View style={{flex: 1}}>
                 <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
@@ -865,7 +866,7 @@ export class Playback extends Component<any,any> {
                                         '':
                                         <View style={styles.videoLoaing}>
                                             <Image style={styles.loadingGif} source={require('../image/live/loading_grey.gif')}></Image>
-                                            <Text allowFontScaling={false} style={styles.videoLoadingText} >视频安全传输中...</Text>
+                                            <Text allowFontScaling={false} style={styles.videoLoadingText} >{t('VST')}</Text>
                                         </View>
                                     }
                             </View>
@@ -874,15 +875,15 @@ export class Playback extends Component<any,any> {
                                 '':
                                 <View style={styles.mesh}>
                                     <Image style={{width:36,height:36}} source={require('../image/live/preview_fail.png')}></Image>
-                                    <Text allowFontScaling={false} style={styles.meshHint}>网络不稳定，加载失败</Text>
-                                    <Text allowFontScaling={false} style={styles.meshBut} onPress={this.reconnect}>重试</Text>
+                                    <Text allowFontScaling={false} style={styles.meshHint}>{t('loadFailure')}</Text>{/*网络不稳定，加载失败*/}
+                                    <Text allowFontScaling={false} style={styles.meshBut} onPress={this.reconnect}>{t('Retry')}</Text>{/*重试*/}
                                 </View>
                             }
                             {/* 设备不在线 */}
                             {this.state.deviceOffline?'':
                                 <View style={styles.videoLoaing}>
                                     <Image style={[styles.loadingGif,{marginBottom:10}]} source={require('../image/live/preview_fail_offline.png')}></Image>
-                                    <Text allowFontScaling={false} style={styles.videoLoadingText}>设备不在线</Text>
+                                    <Text allowFontScaling={false} style={styles.videoLoadingText}>{t('online')}</Text>{/*设备不在线*/}
                                 </View>
                             }
                             <View style={styles.videoPlay} >
@@ -1459,4 +1460,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default Playback
+export default withTranslation()(Playback)

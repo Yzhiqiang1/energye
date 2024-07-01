@@ -4,13 +4,13 @@ import Navbar from '../../../component/navbar/navbar'
 import styleg from '../../../indexCss'
 import util from '../../../utils/util'
 import { Register } from '../../../utils/app'
-import store from '../../../redux/store'
+import {store} from '../../../redux/storer'
 import tool from '../../../utils/tool'
 import { HttpService } from '../../../utils/http'
 import MyCanvas from '../../../component/my-canvas/MyCanvas'//数据图组件
 import Loading from '../../../component/Loading/Loading'//加载组件
-import { Picker } from '../../../component/Picker/Picker'
 import PickerBut from '../../../component/PickerBut/PickerBut'
+import { withTranslation } from 'react-i18next';//语言包
 const api = require('../../../utils/api')
 const Fs = Dimensions.get('window').width*0.8
 
@@ -89,7 +89,7 @@ export class PowerAnalysis1 extends Component<any,any> {
      * *****************************/
     check_ok=()=>{
         let that = this;
-        let parameterGrou = store.getState().userReducer.parameterGroup; //获取选中组和设备信息
+        let parameterGrou = store.getState().parameterGroup; //获取选中组和设备信息
         if (parameterGrou.multiGroup.selectKey) {
             //查询数据
             that.getData();
@@ -272,9 +272,9 @@ export class PowerAnalysis1 extends Component<any,any> {
             LoadingMsg: '加载中...'
         })//加载效果
         //用户ID
-        let userId = store.getState().userReducer.userId;
+        let userId = store.getState().userId;
         //查询设备ID
-        let ObjdeviceId = store.getState().userReducer.parameterGroup.multiGroup.selectKey;
+        let ObjdeviceId = store.getState().parameterGroup.multiGroup.selectKey;
         let strdeviceId = "";
         for (let i in ObjdeviceId) {
             if (i != "isGroup") {
@@ -851,4 +851,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default PowerAnalysis1
+export default withTranslation()(PowerAnalysis1)

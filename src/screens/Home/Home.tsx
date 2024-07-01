@@ -1,8 +1,10 @@
-import { Text, View, Dimensions, Image, ScrollView, Pressable, SafeAreaView, StyleSheet} from 'react-native'
+import { Text, View, Dimensions, Image, ScrollView, Pressable, SafeAreaView, StyleSheet, Modal} from 'react-native'
 import React, { Component } from 'react'
 import Navbar from '../../component/navbar/navbar'
 import { Register } from '../../utils/app'
-import Loading from '../../component/Loading/Loading'
+import { withTranslation  } from 'react-i18next';//语言包内容
+import i18n from 'i18next';//中英文切换
+import { store } from '../../redux/storer';
 const Fs = Dimensions.get('window').width*0.8//屏幕宽比 
 export class Index extends Component<any,any> {
     constructor(props: any){
@@ -10,10 +12,14 @@ export class Index extends Component<any,any> {
         this.state = {
             LoginStatus: 1,//登录状态
             objType:1,
-            boxHeight: 0
+            boxHeight: 0,
+
+            visible: false
         } 
     }
     componentDidMount(){
+        console.log(store.getState().firstApp);
+        
         // 验证登录
         Register.userSignIn(false).then(res => {            
             //校验登录成功后执行
@@ -36,6 +42,18 @@ export class Index extends Component<any,any> {
             boxHeight: newHeight
         })
     }
+    bot=()=>{
+        console.log(this.props.i18n.language); 
+        let language = this.props.i18n.language == 'zh'? 'en':'zh'
+        i18n.changeLanguage(language).then(() => {
+            console.log('中英文切换');
+        });
+    }
+    policy=(e: any)=>{
+        this.setState({
+            visible: false
+        })
+    }
     render() {
         return (
             <View style={{flex: 1}}>
@@ -48,7 +66,7 @@ export class Index extends Component<any,any> {
                     <Navbar 
                     showBack={false} 
                     showHome={false}
-                    pageName={'首页'}
+                    pageName={this.props.t('home')}
                     LoginStatus={this.state.LoginStatus}  
                     props={this.props}
                     ></Navbar>
@@ -58,21 +76,21 @@ export class Index extends Component<any,any> {
                             {/* 设备概括 */}
                             <View style={styles.indexUl}>
                                 <Text allowFontScaling={false} style={styles.title}>
-                                    设备概况
+                                    {this.props.t('equipmentProfile')} {/* 设备概况 */}
                                 </Text>
                                 <View style={styles.con}>
                                     <View style={[styles.list,styles.row33]}>
                                         <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'},styles.overview]}
                                             onPress={()=>this.props.navigation.navigate('Survey')}>
                                             <Image style={styles.img} resizeMode='contain' source={require('../../image/overview_1.png')} />
-                                            <Text allowFontScaling={false} style={styles.size19}>用能概况</Text>
+                                            <Text allowFontScaling={false} style={styles.size19}>{this.props.t('overviewOfEnergy')}</Text>{/*用能概况*/}
                                         </Pressable>
                                     </View>
                                     <View style={[styles.list,styles.row33]}>
                                         <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'},styles.overview]}
                                             onPress={()=>this.props.navigation.navigate('Scanqr')}>
                                             <Image style={styles.img} resizeMode='contain' source={require('../../image/scanqr.png')} />
-                                            <Text allowFontScaling={false} style={styles.size19}>创建设备</Text>
+                                            <Text allowFontScaling={false} style={styles.size19}>{this.props.t('createDevice')}</Text>{/*创建设备*/}
                                         </Pressable>
                                     </View>
                                 </View>
@@ -80,7 +98,7 @@ export class Index extends Component<any,any> {
                             {/* 电力测试 */}
                             <View style={styles.indexUl}>
                                 <Text allowFontScaling={false} style={styles.title}>
-                                    电力测试
+                                    {this.props.t('electricPowerTest')}{/*电力测试*/}
                                 </Text>
                             <View style={[styles.con,styles.bac]}>
                                     <View style={[styles.list,styles.item]}>
@@ -89,7 +107,7 @@ export class Index extends Component<any,any> {
                                                 onPress={()=>this.props.navigation.navigate('PowerTest1')}>
                                                 <View style={styles.box}>
                                                     <Image style={styles.img} resizeMode='contain' source={require('../../image/dl_1.png')}></Image>
-                                                    <Text allowFontScaling={false} style={styles.size22}>日原数据</Text>
+                                                    <Text allowFontScaling={false} style={styles.size22}>{this.props.t('hiharaData')}</Text>{/*日原数据*/}
                                                 </View>
                                             </Pressable>
                                         </View>
@@ -98,7 +116,7 @@ export class Index extends Component<any,any> {
                                                 onPress={()=>this.props.navigation.navigate('PowerTest2')}>
                                                 <View style={styles.box}>
                                                     <Image style={styles.img} resizeMode='contain' source={require('../../image/dl_2.png')}></Image>
-                                                    <Text allowFontScaling={false} style={styles.size22}>逐日极值数据</Text>
+                                                    <Text allowFontScaling={false} style={styles.size22}>{this.props.t('Devd')}</Text>{/* 逐日极值数据*/}
                                                 </View>
                                             </Pressable>
                                         </View>
@@ -107,7 +125,7 @@ export class Index extends Component<any,any> {
                                                 onPress={()=>this.props.navigation.navigate('PowerTest3')}>
                                                 <View style={styles.box}>
                                                     <Image style={styles.img} resizeMode='contain' source={require('../../image/dl_3.png')}></Image>
-                                                    <Text allowFontScaling={false} style={styles.size22}>电力运行报表</Text>
+                                                    <Text allowFontScaling={false} style={styles.size22}>{this.props.t('powerOperationreport')}</Text>{/*电力运行报表*/}
                                                 </View>
                                             </Pressable>
                                         </View>
@@ -118,7 +136,7 @@ export class Index extends Component<any,any> {
                                                 onPress={()=>this.props.navigation.navigate('PowerTest4')}>
                                                 <View style={styles.box}>
                                                     <Image style={styles.img} resizeMode='contain' source={require('../../image/dl_4.png')}></Image>
-                                                    <Text allowFontScaling={false} style={styles.size22}>电力极值报表</Text>
+                                                    <Text allowFontScaling={false} style={styles.size22}>{this.props.t('powerExtremeReport')}</Text>{/*电力极值报表*/}
                                                 </View>
                                             </Pressable>
                                         </View>
@@ -128,7 +146,7 @@ export class Index extends Component<any,any> {
                                                 onPress={()=>this.props.navigation.navigate('PowerTest5')}>
                                                     <View style={styles.box}>
                                                         <Image style={styles.img} resizeMode='contain' source={require('../../image/dl_5.png')}></Image>
-                                                        <Text allowFontScaling={false} style={styles.size22}>平均功率因数</Text>
+                                                        <Text allowFontScaling={false} style={styles.size22}>{this.props.t('averagePowerFactor')}</Text>{/*平均功率因数*/}
                                                     </View>
                                             </Pressable>
                                         </View>
@@ -137,7 +155,7 @@ export class Index extends Component<any,any> {
                                                 onPress={()=>this.props.navigation.navigate('PowerTest6')}>
                                                     <View style={styles.box}>
                                                         <Image style={styles.img} resizeMode='contain' source={require('../../image/dl_6.png')} ></Image>
-                                                        <Text allowFontScaling={false} style={styles.size22}>电力运行日报</Text>
+                                                        <Text allowFontScaling={false} style={styles.size22}>{this.props.t('Dropo')}</Text>{/*电力运行日报*/}
                                                     </View>
                                             </Pressable>
                                         </View>
@@ -148,7 +166,7 @@ export class Index extends Component<any,any> {
                                                 onPress={()=>this.props.navigation.navigate('PowerTest7')}>
                                                     <View style={styles.box}>
                                                         <Image style={styles.img} resizeMode='contain' source={require('../../image/dl_7.png')}></Image>
-                                                        <Text allowFontScaling={false} style={styles.size22}>谐波检测</Text>
+                                                        <Text allowFontScaling={false} style={styles.size22}>{this.props.t('harmonicDetection')}</Text>{/*谐波检测*/}
                                                     </View>
                                             </Pressable>
                                         </View>
@@ -158,7 +176,7 @@ export class Index extends Component<any,any> {
                             {/* 用电分析 */}
                             <View style={styles.indexUl}>
                                 <Text allowFontScaling={false} style={styles.title}>
-                                    用电分析
+                                    {this.props.t('electricityAnalysis')}{/*用电分析*/}
                                 </Text>
                                 <View style={[styles.con,styles.bac]}>
                                     <View style={[styles.list,styles.item]}>
@@ -167,7 +185,7 @@ export class Index extends Component<any,any> {
                                                 onPress={()=>this.props.navigation.navigate('powerAnalysis1')}>
                                                     <View style={styles.box}>
                                                         <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_1.png')}></Image>
-                                                        <Text allowFontScaling={false} style={styles.size22}>用能报表</Text>
+                                                        <Text allowFontScaling={false} style={styles.size22}>{this.props.t('energyConsumptionReport')}</Text>{/*用能报表*/}
                                                     </View>
                                             </Pressable>
                                         </View>
@@ -176,7 +194,7 @@ export class Index extends Component<any,any> {
                                                 onPress={()=>this.props.navigation.navigate('powerAnalysis2')}>
                                                     <View style={styles.box}>
                                                         <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_2.png')}></Image>
-                                                        <Text allowFontScaling={false} style={styles.size22}>同比分析</Text>
+                                                        <Text allowFontScaling={false} style={styles.size22}>{this.props.t('yearyearAnalysis')}</Text>{/*同比分析*/}
                                                     </View>
                                             </Pressable>
                                         </View>
@@ -185,7 +203,7 @@ export class Index extends Component<any,any> {
                                                 onPress={()=>this.props.navigation.navigate('powerAnalysis3')}>
                                                 <View style={styles.box}>
                                                     <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_3.png')}></Image>
-                                                    <Text allowFontScaling={false} style={styles.size22}>环比分析</Text>
+                                                    <Text allowFontScaling={false} style={styles.size22}>{this.props.t('sequentialAnalysis')}</Text>{/*环比分析*/}
                                                 </View>
                                             </Pressable>
                                         </View>
@@ -194,7 +212,7 @@ export class Index extends Component<any,any> {
                                                 onPress={()=>this.props.navigation.navigate('powerAnalysis4')}>
                                                 <View style={styles.box}>
                                                     <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_4.png')}></Image>
-                                                    <Text allowFontScaling={false} style={styles.size22}>损耗分析</Text>
+                                                    <Text allowFontScaling={false} style={styles.size22}>{this.props.t('lossAnalysis')}</Text>{/*损耗分析*/}
                                                 </View>
                                             </Pressable>
                                         </View>
@@ -205,7 +223,7 @@ export class Index extends Component<any,any> {
                                             onPress={()=>this.props.navigation.navigate('powerAnalysis5')}>
                                                 <View style={styles.box}>
                                                     <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_5.png')}></Image>
-                                                    <Text allowFontScaling={false} style={styles.size22}>电能集抄</Text>
+                                                    <Text allowFontScaling={false} style={styles.size22}>{this.props.t('energyPooling')}</Text>{/*电能集抄*/}
                                                 </View>
                                             </Pressable>
                                         </View>
@@ -214,7 +232,7 @@ export class Index extends Component<any,any> {
                                                 onPress={()=>this.props.navigation.navigate('powerAnalysis6')}>
                                                 <View style={styles.box}>
                                                     <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_6.png')}></Image>
-                                                    <Text allowFontScaling={false} style={styles.size22}>尖峰平谷</Text>
+                                                    <Text allowFontScaling={false} style={styles.size22}>{this.props.t('PeaksValleys')}</Text>{/*尖峰平谷*/}
                                                 </View>
                                             </Pressable>
                                         </View>
@@ -224,7 +242,7 @@ export class Index extends Component<any,any> {
                                                 onPress={()=>this.props.navigation.navigate('powerAnalysis7')}>
                                                 <View style={styles.box}>
                                                     <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_8.png')}></Image>
-                                                    <Text allowFontScaling={false} style={styles.size22}>最大需量</Text>
+                                                    <Text allowFontScaling={false} style={styles.size22}>{this.props.t('maximumDemand')}</Text>{/*最大需量*/}
                                                 </View>
                                             </Pressable>
                                         </View>
@@ -234,7 +252,7 @@ export class Index extends Component<any,any> {
                             {/* 用水分析 */}
                             <View style={styles.indexUl}>
                                 <Text allowFontScaling={false} style={styles.title}>
-                                    用水分析
+                                    {this.props.t('waterUseAnalysis')}{/*用水分析*/}
                                 </Text>
                                 <View style={[styles.con,styles.bac]}>
                                     <View style={[styles.list,styles.item]}>
@@ -243,7 +261,7 @@ export class Index extends Component<any,any> {
                                                 onPress={()=>this.props.navigation.navigate('waterAnalysis1')}>
                                                 <View style={styles.box}>
                                                     <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_1.png')}></Image>
-                                                    <Text allowFontScaling={false} style={styles.size22}>用水报表</Text>
+                                                    <Text allowFontScaling={false} style={styles.size22}>{this.props.t('waterConsumptionEeport')}</Text>{/*用水报表*/}
                                                 </View>
                                             </Pressable>
                                         </View>
@@ -252,7 +270,7 @@ export class Index extends Component<any,any> {
                                                 onPress={()=>this.props.navigation.navigate('waterAnalysis2')}>
                                                 <View style={styles.box}>
                                                     <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_2.png')}></Image>
-                                                    <Text allowFontScaling={false} style={styles.size22}>同比分析</Text>
+                                                    <Text allowFontScaling={false} style={styles.size22}>{this.props.t('yearyearAnalysis')}</Text>{/*同比分析*/}
                                                 </View>
                                             </Pressable>
                                         </View>
@@ -261,7 +279,7 @@ export class Index extends Component<any,any> {
                                                 onPress={()=>this.props.navigation.navigate('waterAnalysis3')}>
                                                 <View style={styles.box}>
                                                     <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_3.png')}></Image>
-                                                    <Text allowFontScaling={false} style={styles.size22}>环比分析</Text>
+                                                    <Text allowFontScaling={false} style={styles.size22}>{this.props.t('sequentialAnalysis')}</Text>{/*环比分析*/}
                                                 </View>
                                             </Pressable>
                                         </View>
@@ -270,7 +288,7 @@ export class Index extends Component<any,any> {
                                                 onPress={()=>this.props.navigation.navigate('waterAnalysis4')}>
                                                 <View style={styles.box}>
                                                     <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_4.png')}></Image>
-                                                    <Text allowFontScaling={false} style={styles.size22}>损耗分析</Text>
+                                                    <Text allowFontScaling={false} style={styles.size22}>{this.props.t('lossAnalysis')}</Text>{/*损耗分析*/}
                                                 </View>
                                             </Pressable>
                                         </View>
@@ -281,7 +299,7 @@ export class Index extends Component<any,any> {
                                                 onPress={()=>this.props.navigation.navigate('waterAnalysis5')}>
                                                 <View style={styles.box}>
                                                     <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_5.png')}></Image>
-                                                    <Text allowFontScaling={false} style={styles.size22}>水能集抄</Text>
+                                                    <Text allowFontScaling={false} style={styles.size22}>{this.props.t('WaterEnergyCollection')}</Text>{/*水能集抄*/}
                                                 </View>
                                             </Pressable>
                                         </View>
@@ -292,7 +310,7 @@ export class Index extends Component<any,any> {
                             {/* 用气分析 */}
                             <View style={styles.indexUl}>
                                 <Text allowFontScaling={false} style={styles.title}>
-                                    用气分析
+                                    {this.props.t('gasAnalysis')}{/*用气分析*/}
                                 </Text>
                                 <View style={[styles.con,styles.bac]}>
                                     <View style={[styles.list,styles.item]}>
@@ -301,7 +319,7 @@ export class Index extends Component<any,any> {
                                                 onPress={()=>this.props.navigation.navigate('gasAnalysis1')}>
                                                 <View style={styles.box}>
                                                     <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_1.png')}></Image>
-                                                    <Text allowFontScaling={false} style={styles.size22}>用气报表</Text>
+                                                    <Text allowFontScaling={false} style={styles.size22}>{this.props.t('gasReport')}</Text>{/*用气报表*/}
                                                 </View>
                                             </Pressable>
                                         </View>
@@ -310,7 +328,7 @@ export class Index extends Component<any,any> {
                                                 onPress={()=>this.props.navigation.navigate('gasAnalysis2')}>
                                                 <View style={styles.box}>
                                                     <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_2.png')}></Image>
-                                                    <Text allowFontScaling={false} style={styles.size22}>同比分析</Text>
+                                                    <Text allowFontScaling={false} style={styles.size22}>{this.props.t('yearyearAnalysis')}</Text>{/*同比分析*/}
                                                 </View>
                                             </Pressable>
                                         </View>
@@ -319,7 +337,7 @@ export class Index extends Component<any,any> {
                                                 onPress={()=>this.props.navigation.navigate('gasAnalysis3')}>
                                                 <View style={styles.box}>
                                                     <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_3.png')}></Image>
-                                                    <Text allowFontScaling={false} style={styles.size22}>环比分析</Text>
+                                                    <Text allowFontScaling={false} style={styles.size22}>{this.props.t('sequentialAnalysis')}</Text>{/*环比分析*/}
                                                 </View>
                                             </Pressable>
                                         </View>
@@ -328,7 +346,7 @@ export class Index extends Component<any,any> {
                                                 onPress={()=>this.props.navigation.navigate('gasAnalysis4')}>
                                                 <View style={styles.box}>
                                                     <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_4.png')}></Image>
-                                                    <Text allowFontScaling={false} style={styles.size22}>损耗分析</Text>
+                                                    <Text allowFontScaling={false} style={styles.size22}>{this.props.t('lossAnalysis')}</Text>{/*损耗分析*/}
                                                 </View>
                                             </Pressable>
                                         </View>
@@ -339,7 +357,7 @@ export class Index extends Component<any,any> {
                                                 onPress={()=>this.props.navigation.navigate('gasAnalysis5')}>
                                                 <View style={styles.box}>
                                                     <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_5.png')}></Image>
-                                                    <Text allowFontScaling={false} style={styles.size22}>气能集抄</Text>
+                                                    <Text allowFontScaling={false} style={styles.size22}>{this.props.t('gasEnergyCollection')}</Text>{/*气能集抄*/}
                                                 </View>
                                             </Pressable>
                                         </View>
@@ -349,7 +367,7 @@ export class Index extends Component<any,any> {
                             {/* 安全分析 */}
                             <View style={styles.indexUl}>
                                 <Text allowFontScaling={false} style={styles.title}>
-                                    安全用电
+                                {this.props.t('SUOE')}{/*安全用电*/}
                                 </Text>
                                 <View style={[styles.con,styles.bac]}>
                                     <View style={[styles.list,styles.item]}>
@@ -358,7 +376,7 @@ export class Index extends Component<any,any> {
                                                 onPress={()=>this.props.navigation.navigate('security1')}>
                                                     <View style={styles.box}>
                                                         <Image style={styles.imgMini}  resizeMode='contain' source={require('../../image/aq1.png')}></Image>
-                                                        <Text allowFontScaling={false} style={styles.size22}>漏电/温度监测</Text>
+                                                        <Text allowFontScaling={false} style={styles.size22}>{this.props.t('Leakage')}</Text>{/*漏电/温度监测*/}
                                                     </View>
                                             </Pressable>
                                         </View>
@@ -367,7 +385,7 @@ export class Index extends Component<any,any> {
                                                 onPress={()=>this.props.navigation.navigate('security2')}>
                                                 <View style={styles.box}>
                                                     <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/aq2.png')} ></Image>
-                                                    <Text allowFontScaling={false} style={styles.size22}>开关控制</Text>
+                                                    <Text allowFontScaling={false} style={styles.size22}>{this.props.t('onoffControl')}</Text>{/*开关控制*/}
                                                 </View>
                                             </Pressable>
                                         </View>
@@ -376,7 +394,7 @@ export class Index extends Component<any,any> {
                                                 onPress={()=>this.props.navigation.navigate('security5')}>
                                                 <View style={styles.box}>
                                                     <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/switch-monitor.png')} ></Image>
-                                                    <Text allowFontScaling={false} style={styles.size22}>开关监测</Text>
+                                                    <Text allowFontScaling={false} style={styles.size22}>{this.props.t('SwitchMonitoring')}</Text>{/*开关监测*/}
                                                 </View>
                                             </Pressable>
                                         </View>
@@ -386,7 +404,7 @@ export class Index extends Component<any,any> {
                                                 onPress={()=>this.props.navigation.navigate('security3')}>
                                                 <View style={styles.box}>
                                                     <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/aq3.png')}></Image>
-                                                    <Text allowFontScaling={false} style={styles.size22}>摄像头</Text>
+                                                    <Text allowFontScaling={false} style={styles.size22}>{this.props.t('camera')}</Text>{/*摄像头*/}
                                                 </View>
                                             </Pressable>
                                         </View>
@@ -496,10 +514,13 @@ const styles = StyleSheet.create({
     size19: {
         fontSize: Fs/19,
         color: '#333',
+        textAlign: 'center'
     },
     size22: {
         fontSize: Fs/22,
         color: '#333',
-    } 
+        textAlign: 'center'
+    },
+
 })
-export default Index
+export default withTranslation()(Index)

@@ -10,10 +10,11 @@ import LinearGradient from 'react-native-linear-gradient';
 import Navbars from '../../component/Navbars/Navbars';
 import Loading from '../../component/Loading/Loading';
 import { Register } from '../../utils/app';
-import store from '../../redux/store';
+import { store } from '../../redux/storer';
 import { HttpService } from '../../utils/http';
 import { useIsFocused } from "@react-navigation/native";
-import { scene } from '../../redux/actions/user';
+import { Scene } from '../../redux/reducers/counterSlice';
+import { withTranslation } from 'react-i18next';//语言包
 const LocalBarcodeRecognizer = require('react-native-local-barcode-recognizer');
 const CTSD = require('../../utils/CTSD.js'); //引入坐标转换文件
 const api = require('../../utils/api')//引入接口文件
@@ -220,7 +221,7 @@ export class Scanqr extends Component<any,any> {
         this.setState({
             msgType: 1,
             visible: true,
-            LoadingMsg: '加载中...'
+            LoadingMsg: this.props.t('Loading')//'加载中...'
         }) //加载效果
         //调用登录验证
         Register.userSignIn(false).then(res => {
@@ -232,11 +233,11 @@ export class Scanqr extends Component<any,any> {
              * 用户已登录
              * **/
             if (res) {
-                let userId = store.getState().userReducer.userId; //用户ID
+                let userId = store.getState().userId; //用户ID
                 /** * 
                  * 登录后  之前没有存储参数
                  * **/
-                if (store.getState().userReducer.scene.length == 0) {
+                if (store.getState().scene.length == 0) {
                     this.setState({
                         visible: false,
                     })
@@ -244,9 +245,9 @@ export class Scanqr extends Component<any,any> {
                      * 登录后  之前有存储参数
                      * **/
                 } else {
-                    let scene_id = store.getState().userReducer.scene[0];
-                    let bd_lng = store.getState().userReducer.scene[1];
-                    let bd_lat = store.getState().userReducer.scene[2];
+                    let scene_id = store.getState().scene[0];
+                    let bd_lng = store.getState().scene[1];
+                    let bd_lat = store.getState().scene[2];
                     //调用创建设备
                     that.greateDevice(userId, scene_id, bd_lng, bd_lat);
                     //更新数据
@@ -301,7 +302,7 @@ export class Scanqr extends Component<any,any> {
                             that.setState({
                                 msgType: 2,
                                 visible: true,
-                                LoadingMsg: '获取定位失败，请检查手机是否打开位置信息'
+                                LoadingMsg: that.props.t('FTOL')//'获取定位失败，请检查手机是否打开位置信息'
                             },()=>{
                                 setTimeout(()=>{
                                     that.setState({
@@ -350,7 +351,7 @@ export class Scanqr extends Component<any,any> {
                 this.setState({
                     msgType: 1,
                     visible: true,
-                    LoadingMsg: '查询中...'
+                    LoadingMsg: this.props.t('inTheQuery')//'查询中...'
                 })
 
                 //天地图地点搜索
@@ -424,7 +425,7 @@ export class Scanqr extends Component<any,any> {
                             this.setState({
                                 msgType: 2,
                                 visible: true,
-                                LoadingMsg: '查询失败'
+                                LoadingMsg: this.props.t('queryFailure')//'查询失败'
                             },()=>{
                                 setTimeout(()=>{
                                     this.setState({
@@ -463,7 +464,7 @@ export class Scanqr extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '关键字不能为空'
+                LoadingMsg: this.props.t('TKCBE')//'关键字不能为空'
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -560,13 +561,13 @@ export class Scanqr extends Component<any,any> {
                 visible: false,
             })
             if (response.status == 0) {
-                let address = response.result.formatted_address + '附近';
+                let address = response.result.formatted_address + this.props.t('Nearby');
                 that.setState({
                     manualAddress: address
                 }); //更新地址
             }else {
                 that.setState({
-                    manualAddress: '查询地址失败'
+                    manualAddress: this.props.t('noAddress')//'查询地址失败'
                 }) //更新地址
             }
         }).catch((error) => {
@@ -639,7 +640,7 @@ export class Scanqr extends Component<any,any> {
         let bd_lat = gcj02tobd09[1];
         //获取登录状态
         let loginStatus = that.state.loginStatus;
-        let userId = store.getState().userReducer.userId; //用户ID
+        let userId = store.getState().userId; //用户ID
         //二维码ID
         let scene_id = ''
         let path = res ? res : '';
@@ -656,7 +657,7 @@ export class Scanqr extends Component<any,any> {
                     this.setState({
                         msgType: 2,
                         visible: true,
-                        LoadingMsg: '请检查二维码，您扫描的是非设备二维码！'
+                        LoadingMsg: this.props.t('PCTQ')//'请检查二维码，您扫描的是非设备二维码！'
                     },()=>{
                         setTimeout(()=>{
                             this.setState({
@@ -695,7 +696,7 @@ export class Scanqr extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '请检查二维码，您扫描的是非设备二维码！'
+                LoadingMsg: this.props.t('PCTQ')//'请检查二维码，您扫描的是非设备二维码！'
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -712,7 +713,7 @@ export class Scanqr extends Component<any,any> {
         this.setState({
             msgType: 1,
             visible: true,
-            LoadingMsg: '创建中...'
+            LoadingMsg: this.props.t('Create')//'创建中...'
         })
         HttpService.apiPost(api.appScanCodeCreateDevice, {
             userId: userId,
@@ -724,7 +725,7 @@ export class Scanqr extends Component<any,any> {
             that.setState({
                 qRcodeId: ''
             });
-            store.dispatch((scene({scene:[]})))
+            store.dispatch(Scene({scene:[]}))
             if (data.flag == '00') {
                 this.setState({
                     visible: false,
@@ -732,7 +733,7 @@ export class Scanqr extends Component<any,any> {
                 this.setState({
                     msgType: 2,
                     visible: true,
-                    LoadingMsg: '设备创建成功'
+                    LoadingMsg: this.props.t('Success')//'设备创建成功'
                 },()=>{
                     setTimeout(()=>{
                         this.setState({
@@ -768,7 +769,7 @@ export class Scanqr extends Component<any,any> {
             that.setState({
                 qRcodeId: ''
             });
-            store.dispatch((scene({scene:[]})))
+            store.dispatch(Scene({scene:[]}))
             //关闭加载效果
             this.setState({
                 visible: false,
@@ -789,7 +790,7 @@ export class Scanqr extends Component<any,any> {
     // 跳转登录页
     GoLogIn=()=>{
         let data = this.state
-        store.dispatch(scene({scene:[
+        store.dispatch(Scene({scene:[
             data.scene_id,data.longitude,data.latitude
         ]}))
         this.props.navigation.navigate('BindAccount')
@@ -805,6 +806,7 @@ export class Scanqr extends Component<any,any> {
         })
     }
     render() {
+        const { t } = this.props
         return (
             <View style={{flex: 1}}>
                 <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
@@ -817,7 +819,7 @@ export class Scanqr extends Component<any,any> {
                 <SafeAreaView style={{flex: 1}} onLayout={(event) => this.boxH(event)}>
                     {!this.state.camera?
                         <Navbars
-                            name={'扫码创建设备'}
+                            name={t('SCTCD')}//扫码创建设备
                             showHome={false}
                             showBack={true}
                             props={this.props}
@@ -861,7 +863,7 @@ export class Scanqr extends Component<any,any> {
                             {/* 底部弹窗 */}
                             <Animated.View style={[styles.btmDialog,{transform:[{translateY:this.translateY}]}]}>
                                 <View style={styles.popupHead}>
-                                    <Text allowFontScaling={false} style={styles.text}>选择位置</Text>
+                                    <Text allowFontScaling={false} style={styles.text}>{t('location')}</Text>{/*选择位置*/}
                                     <Pressable style={styles.popupClose} onPress={this.onClose}>
                                         <Image style={styles.ico} source={require('../../image/search-close.png')}></Image>
                                     </Pressable>
@@ -908,20 +910,20 @@ export class Scanqr extends Component<any,any> {
                 {this.state.alertShow?
                     <View style={styles.shade}>
                         <View style={styles.frame}>
-                            <Text allowFontScaling={false} style={{fontSize: Fs/20,fontWeight:"600",color: '#333',marginBottom: 15}}>提示</Text>
+                            <Text allowFontScaling={false} style={{fontSize: Fs/20,fontWeight:"600",color: '#333',marginBottom: 15}}>{t('Tips')}</Text>{/*提示*/}
                             <Text allowFontScaling={false} style={{fontSize: Fs/24,color: '#333'}}>
-                                当前摄像头权限已拒绝，无法使用扫码创建设备功能，是否去设置开启
-                            </Text>
+                                {t('cameraReject')}
+                            </Text>{/*当前摄像头权限已拒绝，无法使用扫码创建设备功能，是否去设置开启*/}
                             <View style={styles.frameBtm}>
                                 <Text 
                                 onPress={()=>{this.setState({alertShow: false})}} 
                                 style={{fontSize: Fs/22,color: '#0da5b6',marginRight: 20}}>
-                                取消</Text>
+                                {t('cancel')}</Text>
 
                                 <Text 
                                 onPress={()=>openSettings().catch(() => console.warn('cannot open settings'))} 
                                 style={{fontSize: Fs/22,color: '#0da5b6'}}>
-                                去设置</Text>
+                                {t('toSett')}</Text>{/*去设置*/}
                             </View>
                         </View>
                     </View>:''
@@ -931,18 +933,18 @@ export class Scanqr extends Component<any,any> {
                         <View style={styles.frame}>
                             <Text allowFontScaling={false} style={{fontSize: Fs/20,fontWeight:"600",color: '#333',marginBottom: 15}}>未登录</Text>
                             <Text allowFontScaling={false} style={{fontSize: Fs/24,color: '#333'}}>
-                                你还未登录点击去登录按钮登录，登录后进行创建设备，点击取消放弃创建
-                            </Text>
+                                {t('youNotLog')}
+                            </Text>{/*你还未登录点击去登录按钮登录，登录后进行创建设备，点击取消放弃创建*/}
                             <View style={styles.frameBtm}>
                                 <Text 
                                 onPress={()=>{this.setState({loginPrompt: false,scene_id: ''})}} 
                                 style={{fontSize: Fs/22,color: '#0da5b6',marginRight: 20}}>
-                                取消</Text>
+                                {t('cancel')}</Text>
 
                                 <Text 
                                 onPress={()=>{this.GoLogIn()}} 
                                 style={{fontSize: Fs/22,color: '#0da5b6'}}>
-                                去登录</Text>
+                                {t('toLogin')}</Text>{/*去登录*/}
                             </View>
                         </View>
                     </View>:''
@@ -1306,4 +1308,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default Scanqr
+export default withTranslation()(Scanqr)

@@ -4,9 +4,11 @@ import { StyleSheet } from 'react-native'
 import styleg from '../../indexCss'//公共样式
 import {HttpService} from '../../utils/http'
 import { Register } from '../../utils/app'
-import store from '../../redux/store'
+import { store } from '../../redux/storer'
 import Loading from '../../component/Loading/Loading'
 import { Shadow } from 'react-native-shadow-2';
+import { withTranslation  } from 'react-i18next';//语言包
+
 const api = require('../../utils/api')
 const Fs = Dimensions.get('window').width*0.8
 const ht = Dimensions.get('window').height*0.8
@@ -67,7 +69,7 @@ export class Configuration extends Component<any,any> {
     this.setState({
         msgType: 1,
         visible: true,
-        LoadingMsg: '查询中...'
+        LoadingMsg: this.props.t('inTheQuery')//'查询中...'
     })
     //查询数据
     that.setState({
@@ -93,7 +95,7 @@ export class Configuration extends Component<any,any> {
         this.setState({
           msgType: 2,
           visible: true,
-          LoadingMsg: '关键字不能为空'
+          LoadingMsg: this.props.t('TKCBE')//'关键字不能为空'
         },()=>{
             setTimeout(()=>{
                 this.setState({
@@ -138,7 +140,7 @@ export class Configuration extends Component<any,any> {
   //查询云组态列表
   yunzutaiList(type: number){
     let that = this;
-    let userId = store.getState().userReducer.userId; //用户ID
+    let userId = store.getState().userId; //用户ID
     let page = that.state.page; //当前分页
     let pageSize = that.state.pageSize; //每页条数
     let keywords = that.state.searchVal; //关键字
@@ -206,7 +208,7 @@ export class Configuration extends Component<any,any> {
               <Pressable style={({ pressed })=>[{backgroundColor: pressed? '#c3c3c3' : '#b4b4b4'},styles.navLeft]} onPress={()=>{this.props.navigation.navigate('HomeBar')}}>
                 <Image style={styles.navImg} source={require('../../image/Home.png')}></Image>
               </Pressable>
-              <Text style={styles.navName} allowFontScaling={false}>云组态</Text>
+              <Text style={styles.navName} allowFontScaling={false}>{this.props.t('configuration')}</Text>{/*云组态*/}
             </View>
 
             <View style={styles.head}>
@@ -222,23 +224,23 @@ export class Configuration extends Component<any,any> {
                   <TouchableHighlight style={styles.button} onPress={this.searchSubmit} underlayColor={'#2da2fe'}>
                       <View style={{width: '100%', height: '100%'}} >
                         <Image style={styles.ico} source={require('../../image/searcha.png')} ></Image>
-                        <Text style={styles.searchT} allowFontScaling={false}>搜索</Text>
+                        <Text style={styles.searchT} allowFontScaling={false}>{this.props.t('search')}</Text>{/*搜索*/}
                       </View>
                   </TouchableHighlight>
               </View>
               <View style={styles.allowance}>
-                  <Text style={styles.name} allowFontScaling={false}>我的组态</Text>
+                  <Text style={styles.name} allowFontScaling={false}>{this.props.t('myConfiguration')}</Text>{/*我的组态*/}
                   <View style={styles.number}>
                     <View style={styles.numberSpot1}></View>
-                    <Text style={styles.Spot} allowFontScaling={false}>总计 {this.state.objList.cfgnum}</Text>
+                    <Text style={styles.Spot} allowFontScaling={false}>{this.props.t('total')} {this.state.objList.cfgnum}</Text>{/*总计*/}
                   </View>
                   <View style={styles.number}>
                     <View style={styles.numberSpot2}></View>
-                    <Text style={styles.Spot} allowFontScaling={false}>已用 {this.state.objList.count}</Text>
+                    <Text style={styles.Spot} allowFontScaling={false}>{this.props.t('used')} {this.state.objList.count}</Text>{/*已用*/}
                   </View>
                   <View style={styles.number}>
                     <View style={styles.numberSpot3}></View>
-                    <Text style={styles.Spot} allowFontScaling={false}>剩余 {this.state.objList ? this.state.objList.cfgnum - this.state.objList.count:''}</Text>
+                    <Text style={styles.Spot} allowFontScaling={false}>{this.props.t('Remaining')} {this.state.objList ? this.state.objList.cfgnum - this.state.objList.count:''}</Text>
                   </View>
               </View>
             </View>
@@ -266,13 +268,13 @@ export class Configuration extends Component<any,any> {
                   <View>
                     {this.state.objArr.length > 0 && this.state.isLastPage == true?
                       <Text style={styles.isPageTxt} allowFontScaling={false}>
-                          已加载所有数据
+                          {this.props.t('ADHBL')}
                       </Text> : ''
                     }
                   
                     {this.state.objArr.length == 0 && this.state.isPageLoad == true?
                       <Text style={styles.nothing} allowFontScaling={false}>
-                        未查询到数据
+                        {this.props.t('NoData')}
                       </Text>:''
                     }
                     
@@ -283,9 +285,9 @@ export class Configuration extends Component<any,any> {
                     }
                   </View> :
                     <Text style={styles.notLoggedIn} allowFontScaling={false}>
-                      您还未登录，
-                      {/*  */}
-                        <Text style={styles.url} onPress={()=>this.props.navigation.navigate('BindAccount')}>点击登录</Text>
+                      {this.props.t('youNotlogin')}
+                      {/* 您还未登录 */}
+                        <Text style={styles.url} onPress={()=>this.props.navigation.navigate('BindAccount')}>{this.props.t('clickLogIn')}</Text>{/*点击登录*/}
                     </Text> 
                 }
             </ScrollView>
@@ -570,4 +572,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default Configuration
+export default withTranslation()(Configuration)

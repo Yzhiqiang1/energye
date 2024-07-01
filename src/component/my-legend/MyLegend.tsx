@@ -2,6 +2,7 @@ import { Dimensions, Image, Pressable, StyleSheet, Text, View, Modal } from 'rea
 import * as React from 'react';
 import styleg from '../../indexCss'
 import { CheckBox, Dialog } from '@rneui/base';
+import { withTranslation  } from 'react-i18next';//语言包内容
 const Fs = Dimensions.get('window').width*0.8
 
 export class MyLegend extends React.Component<any,any> {
@@ -16,13 +17,13 @@ export class MyLegend extends React.Component<any,any> {
             show2: false,
             contentSel: [],
             actions: [{
-                    name: '选项1',
+                    name: this.props.t('Options')+'1',//选项1
                 },
                 {
-                    name: '选项2',
+                    name: this.props.t('Options')+'2',//选项2
                 },
                 {
-                    name: '选项3',
+                    name: this.props.t('Options')+'3',//选项3
                 },
             ],
             allCheck: '0', // 取消0  全选1
@@ -117,6 +118,7 @@ export class MyLegend extends React.Component<any,any> {
         });
     }
     render=()=> {
+        const { t } = this.props
         return (
         <View>
             <View style={styles.query_head}>
@@ -125,25 +127,25 @@ export class MyLegend extends React.Component<any,any> {
                     <CheckBox
                     checked={this.state.result.includes('a')}
                     onPress={()=>this.onChange('a')}
-                    title={'A相'}
+                    title={t('phaseA')}//'A相'
                     containerStyle={styles.CheckBox}
                     />
                     <CheckBox
                     checked={this.state.result.includes('b')}
                     onPress={()=>this.onChange('b')}
-                    title={'B相'}
+                    title={t('phaseB')}//'B相'
                     containerStyle={styles.CheckBox}
                     />
                     <CheckBox
                     checked={this.state.result.includes('c')}
                     onPress={()=>this.onChange('c')}
-                    title={'C相'}
+                    title={t('phaseC')}//'C相'
                     containerStyle={styles.CheckBox}
                     />
                 </View>
                 {/* 弹出框按钮  contentSel.length*/}
                 <Pressable style={styles.dial} onPress={this.showPopup}>
-                    <Text allowFontScaling={false} style={styles.dialText}>已选中{this.state.n}种谐波含量</Text>
+                    <Text allowFontScaling={false} style={styles.dialText}>{t('Selected')}{this.state.n}{t('Kind')}</Text>
                     <Image style={styleg.ico} source={require('../../image/down.png')}></Image>
                 </Pressable>
 
@@ -211,14 +213,14 @@ export class MyLegend extends React.Component<any,any> {
                                                     <CheckBox
                                                     checked={this.state.result2.includes(data)}
                                                     onPress={()=>this.onChange2(data)}
-                                                    title={`总谐波`}
+                                                    title={t('Total')}//`总谐波`
                                                     containerStyle={styles.CheckBox}
                                                     size={15}
                                                     />:
                                                     <CheckBox
                                                     checked={this.state.result2.includes(data)}
                                                     onPress={()=>this.onChange2(data)}
-                                                    title={`${data}次谐波`}
+                                                    title={`${data}`+t('wave')}//次谐波
                                                     containerStyle={styles.CheckBox}
                                                     size={15}
                                                     />
@@ -230,7 +232,7 @@ export class MyLegend extends React.Component<any,any> {
                                         <CheckBox
                                         checked={this.state.result2.length == 31}
                                         onPress={()=>this.setAllCheck(this.state.result2.length)}
-                                        title={`全选`}
+                                        title={t('selectAll')}//`全选`
                                         containerStyle={styles.CheckBox}
                                         iconType="material-community"
                                         checkedIcon="checkbox-marked"
@@ -382,4 +384,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default MyLegend
+export default withTranslation()(MyLegend)

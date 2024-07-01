@@ -2,13 +2,15 @@ import { AppState, DeviceEventEmitter, Dimensions, Image, SafeAreaView, StyleShe
 import React, { Component } from 'react'
 import Navbar from '../../../component/navbar/navbar'
 import { Register } from '../../../utils/app'
-import store from '../../../redux/store'
 import { HttpService } from '../../../utils/http'
 import styleg from '../../../indexCss'
 import { Switch } from '@rneui/themed';
 import { Dialog } from '@rneui/themed';
 import Loading from '../../../component/Loading/Loading'
-import { localSocket } from '../../../redux/actions/user'
+
+import { store } from '../../../redux/storer'
+import { localSocket } from '../../../redux/reducers/counterSlice'
+import { withTranslation } from 'react-i18next';//语言包
 const api = require('../../../utils/api')
 const Fs = Dimensions.get('window').width*0.8
 
@@ -97,7 +99,7 @@ export class Security1 extends Component<any,any> {
      * *****************************/
     check_ok=()=>{
         let that = this;
-        let parameterGrou = store.getState().userReducer.parameterGroup; //获取选中组和设备信息
+        let parameterGrou = store.getState().parameterGroup; //获取选中组和设备信息
         if (parameterGrou.radioSonGroup.selectKey) {
             //获取传感器数据-数据
             that.getSwitchData();
@@ -108,7 +110,7 @@ export class Security1 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '获取参数失败！'
+                LoadingMsg: this.props.t('getNotData')//'获取参数失败！'
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -179,8 +181,8 @@ export class Security1 extends Component<any,any> {
      *     获取传感器数据
      * *************************/
     getSwitchData=()=>{
-        let userId = store.getState().userReducer.userId; //用户ID
-        let deviceIds = store.getState().userReducer.parameterGroup.radioSonGroup.selectKey; //获取设备ID----【单选-父含子】
+        let userId = store.getState().userId; //用户ID
+        let deviceIds = store.getState().parameterGroup.radioSonGroup.selectKey; //获取设备ID----【单选-父含子】
         deviceIds = Object.keys(deviceIds).join(",")
         HttpService.apiPost(api.kgkz_getData, {
             userId: userId,
@@ -249,7 +251,7 @@ export class Security1 extends Component<any,any> {
     // 确定操作
     confirm=()=>{
         let data = this.state.switchData
-        let userId = store.getState().userReducer.userId; //用户ID
+        let userId = store.getState().userId; //用户ID
         let devieceNo = data.devieceNo
         let sensorId = data.sensorid
         let switchs = data.switchs
@@ -258,7 +260,7 @@ export class Security1 extends Component<any,any> {
         this.setState({
             msgType: 1,
             visible: true,
-            LoadingMsg: '加载中...'
+            LoadingMsg: this.props.t('Loading')//'加载中...'
         })
         HttpService.apiPost(api.kgkz_sendData, {
             userId: userId,
@@ -273,7 +275,7 @@ export class Security1 extends Component<any,any> {
                 this.setState({
                     msgType: 2,
                     visible: true,
-                    LoadingMsg: '操作下发成功,请等待设备回传!'
+                    LoadingMsg: this.props.t('TOWSI')//'操作下发成功,请等待设备回传!'
                 },()=>{
                     setTimeout(()=>{
                         this.setState({
@@ -318,6 +320,7 @@ export class Security1 extends Component<any,any> {
         this.props.navigation.navigate('History',{sids:sids})
     }
     render() {
+        const { t } = this.props
         return (
             <View style={{flex: 1}}>
                 <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
@@ -331,7 +334,7 @@ export class Security1 extends Component<any,any> {
                 <SafeAreaView style={{flex: 1}}>
                     {/* 引入自定义导航栏 */}
                     <Navbar 
-                        pageName={'开关控制'}
+                        pageName={t('onoffControl')}//开关控制
                         showBack={true}
                         showHome={false}
                         isCheck={5}
@@ -344,7 +347,7 @@ export class Security1 extends Component<any,any> {
                     <View style={styleg.containerMini}>
                         <View style={styles.containerMini}>
                             {this.state.sensorArr.length==0?
-                                <Text allowFontScaling={false} style={styles.empty}>没有对应传感器</Text>:''
+                                <Text allowFontScaling={false} style={styles.empty}>{t('noSensor')}</Text>:''//没有对应传感器
                             }
                             {/* 面板item */}
                             {this.state.sensorArr.map((top_item:any,top_index:number)=>{
@@ -355,20 +358,20 @@ export class Security1 extends Component<any,any> {
                                             <Image source={require('../../../image/switch1.png')} resizeMode='contain' style={styles.devieceImg}></Image>
                                             <View style={styles.devieceInfo}>
                                                 <Text allowFontScaling={false} style={styles.devieceName}>{top_item.deviceName}</Text>
-                                                <Text allowFontScaling={false}>更新时间: 
-                                                    <Text allowFontScaling={false} style={styles.lastTime}>{top_item.updateTime ? top_item.updateTime :'暂无数据'}</Text>
+                                                <Text allowFontScaling={false}>{t('updateTime')}: 
+                                                    <Text allowFontScaling={false} style={styles.lastTime}>{top_item.updateTime ? top_item.updateTime : t('noData')}</Text>
                                                 </Text>
                                             </View>
                                             <Text allowFontScaling={false} 
                                                 style={styles.search}
                                                 onPress={()=>this.historySearch(top_index)}
                                             >
-                                            查询
+                                            {t('inquire')}
                                             </Text>
                                         </View>
                                         {/* 传感器信息行 */}
                                         {top_item.sensorList.length==0?
-                                            <Text allowFontScaling={false}>暂无数据</Text>:''
+                                            <Text allowFontScaling={false}>{t('noData')}</Text>:''//暂无数据
                                         }
                                         {top_item.sensorList.map((item:any,index:number)=>{
                                             return(
@@ -392,11 +395,11 @@ export class Security1 extends Component<any,any> {
                                 overlayStyle={styles.overlay}
                                 backdropStyle={{height:'120%'}}
                                 >
-                                <Text allowFontScaling={false} style={styles.SwitchText}>确定操作设备开关吗？</Text>
+                                <Text allowFontScaling={false} style={styles.SwitchText}>{t('AYSTOT')}</Text>{/*确定操作设备开关吗？*/}
                                 <Dialog.Actions>
                                     <View style={styles.actions}>
-                                        <Text allowFontScaling={false} style={[styles.Dialog,styles.cancel]} onPress={this.cancel}>取消</Text>
-                                        <Text allowFontScaling={false} style={[styles.Dialog,styles.confirm]} onPress={this.confirm}>确定</Text>
+                                        <Text allowFontScaling={false} style={[styles.Dialog,styles.cancel]} onPress={this.cancel}>{t('cancel')}</Text>{/*取消*/}
+                                        <Text allowFontScaling={false} style={[styles.Dialog,styles.confirm]} onPress={this.confirm}>{t('confirm')}</Text>{/*确定*/}
                                     </View>
                                 </Dialog.Actions>
                             </Dialog>
@@ -546,4 +549,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default Security1
+export default withTranslation()(Security1)

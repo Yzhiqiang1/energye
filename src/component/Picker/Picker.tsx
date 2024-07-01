@@ -385,8 +385,8 @@ export class Picker extends Component<any,any> {
                         </Pressable>
                         <View style={[styles.dialogBox,{position: 'absolute',zIndex: 99999}]}>
                             <View style={styles.butTop}>
-                                <Text allowFontScaling={false} style={styles.bot} onPress={()=>{this.setState({open:false})}}>取消</Text>
-                                <Text allowFontScaling={false} style={[styles.bot,styles.right]} onPress={this.dataConfirm}>确定</Text>
+                                <Text allowFontScaling={false} style={styles.bot} onPress={()=>{this.setState({open:false})}}>{this.props.t('cancel')}</Text>{/*取消*/}
+                                <Text allowFontScaling={false} style={[styles.bot,styles.right]} onPress={this.dataConfirm}>{this.props.t('confirm')}</Text>{/*取消*/}
                             </View>
 
                             <View>

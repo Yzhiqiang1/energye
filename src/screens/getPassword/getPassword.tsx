@@ -83,7 +83,6 @@ export class GetPassword extends Component<any,any> {
                         intercept: true,
                     })
                     //保存登录信息到全局
-                    store.dispatch(Set_State('Set_State',res))
                     //跳转首页关闭之前的所有页面
                     this.props.navigation.reset({index: 0,routes: [{ name: 'Tabbar' }]})
                 }else{

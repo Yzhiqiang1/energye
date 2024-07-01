@@ -5,18 +5,17 @@ import styleg from '../../../indexCss'
 import MyCanvas from '../../../component/my-canvas/MyCanvas'
 import util from '../../../utils/util'
 import { Register } from '../../../utils/app'
-import store from '../../../redux/store'
+import {store} from '../../../redux/storer'
 import tool from '../../../utils/tool'
 import { HttpService } from '../../../utils/http'
 import Loading from '../../../component/Loading/Loading'
-import Picker from '../../../component/Picker/Picker'
 import PickerBut from '../../../component/PickerBut/PickerBut'
+import { withTranslation } from 'react-i18next';//语言包
 const api = require('../../../utils/api')
 const Fs = Dimensions.get('window').width*0.8
 
 export class GasAnalysis1 extends Component<any,any> {
     _s = util.oneData(3) < 10 ? '0' + util.oneData(3) : util.oneData(3);
-
     constructor(props:any){
         super(props)
         this.state={
@@ -83,7 +82,7 @@ export class GasAnalysis1 extends Component<any,any> {
      * *****************************/
     check_ok=()=>{
         let that = this;
-        let parameterGrou = store.getState().userReducer.parameterGroup; //获取选中组和设备信息
+        let parameterGrou = store.getState().parameterGroup; //获取选中组和设备信息
         if (parameterGrou.multiGroup.selectKey) {
             //查询数据
             that.getData();
@@ -92,7 +91,7 @@ export class GasAnalysis1 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '获取参数失败！'
+                LoadingMsg: this.props.t('getNotData')//'获取参数失败！'
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -156,7 +155,7 @@ export class GasAnalysis1 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '开始日期不得大于结束日期！'
+                LoadingMsg: this.props.t('TSDMN')//'开始日期不得大于结束日期！'
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -187,7 +186,7 @@ export class GasAnalysis1 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '开始月份不得大于结束月份！'
+                LoadingMsg: this.props.t('TBMMN')//'开始月份不得大于结束月份！'
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -214,7 +213,7 @@ export class GasAnalysis1 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '您还未登录,无法查询数据！'
+                LoadingMsg: this.props.t('YANLIA')//'您还未登录,无法查询数据！'
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -230,12 +229,12 @@ export class GasAnalysis1 extends Component<any,any> {
         this.setState({
             msgType: 1,
             visible: true,
-            LoadingMsg: '加载中...'
+            LoadingMsg: this.props.t('Loading')//'加载中...'
         })
         //用户ID
-        let userId = store.getState().userReducer.userId;
+        let userId = store.getState().userId;
         //查询设备ID
-        let ObjdeviceId = store.getState().userReducer.parameterGroup.multiGroup.selectKey;
+        let ObjdeviceId:any = store.getState().parameterGroup.multiGroup.selectKey;
         let strdeviceId = "";
         for (let i in ObjdeviceId) {
             if (i != "isGroup") {
@@ -274,7 +273,7 @@ export class GasAnalysis1 extends Component<any,any> {
             {
                 id: tool.randomNum(6),
                 type: 1,
-                name: '折线报表',
+                name: this.props.t('brokenReport'),//'折线报表',
                 state: true,
                 title: '',
                 legendData: [],
@@ -286,7 +285,7 @@ export class GasAnalysis1 extends Component<any,any> {
             {
                 id: tool.randomNum(6),
                 type: 2,
-                name: '用气占比',
+                name: this.props.t('gasUsed'),//'用气占比',
                 state: true,
                 title: '',
                 total: 0,
@@ -317,7 +316,7 @@ export class GasAnalysis1 extends Component<any,any> {
                         data: []
                     },
                     {
-                        name: '总计',
+                        name: this.props.t('total'),//'总计',
                         type: 'pie',
                         center: ['50%', '55%'],
                         radius: ['34%', '35%'],
@@ -353,11 +352,11 @@ export class GasAnalysis1 extends Component<any,any> {
                             };
                             /*循环处理数据*/
                             let arrData = objData.data; //对象数据
-                            let dataName = dataSwitchIn == 0 ? "时" : dataSwitchIn == 1 ? "日" : '月';
+                            let dataName = dataSwitchIn == 0 ? this.props.t('hour') : dataSwitchIn == 1 ? this.props.t('day') : this.props.t('month');
                             ///////////////////
                             //处理折线数据,
                             // 日报
-                            if (dataName == '时') {
+                            if (dataName == this.props.t('hour')) {
                                 // x轴数据
                                 queryData[0].xAxisData = allTime;
                                 var keys = Object.keys(arrData);
@@ -365,7 +364,7 @@ export class GasAnalysis1 extends Component<any,any> {
                                 queryData[0].series[i].data = values;
                             }
                             //月报
-                            else if (dataName == '日') {
+                            else if (dataName == this.props.t('day')) {
                                 for (let a = 0; a < 32; a++) {
                                     let num = a < 10 ? '0' + a : a;
                                     if (arrData[num] != undefined) {
@@ -375,7 +374,7 @@ export class GasAnalysis1 extends Component<any,any> {
                                             if (queryData[0].xAxisData.length < arrData.length) {
                                                 queryData[0].xAxisDataIs = false;
                                                 queryData[0].xAxisData = [];
-                                                queryData[0].xAxisData.push(a + '时');
+                                                queryData[0].xAxisData.push(a + this.props.t('hour'));
                                             }
                                         }
                                         queryData[0].series[i].data.push(arrData[num]);
@@ -386,7 +385,7 @@ export class GasAnalysis1 extends Component<any,any> {
                                 }
                             }
                             //年报
-                            else if (dataName == '月') {
+                            else if (dataName == this.props.t('month')) {
                                 for (let a = 0; a < 12; a++) {
                                     let num = a < 10 ? '0' + a : a;
                                     if (arrData[num] != undefined) {
@@ -396,7 +395,7 @@ export class GasAnalysis1 extends Component<any,any> {
                                             if (queryData[0].xAxisData.length < arrData.length) {
                                                 queryData[0].xAxisDataIs = false;
                                                 queryData[0].xAxisData = [];
-                                                queryData[0].xAxisData.push(a + '时');
+                                                queryData[0].xAxisData.push(a + this.props.t('hour'));
                                             }
                                         }
                                         queryData[0].series[i].data.push(arrData[num]);
@@ -420,7 +419,7 @@ export class GasAnalysis1 extends Component<any,any> {
                         if (i == (listData.length - 1)) {
                             queryData[1].series[1].data.push({
                                 value: queryData[1].total,
-                                name: "总计"
+                                name: this.props.t('total')//"总计"
                             });
                         }
 
@@ -481,20 +480,16 @@ export class GasAnalysis1 extends Component<any,any> {
         });
     }
     render() {
+        const { t } = this.props
         return (
             <View style={{flex: 1}}>
                 <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
                 </View>
-                {/* 弹窗效果 */}
-                <Loading 
-                    type={this.state.msgType} 
-                    visible={this.state.visible} 
-                    LoadingMsg={this.state.LoadingMsg}>
-                </Loading>
+                
                 <SafeAreaView style={{flex: 1}}>
                     {/* 引入自定义导航栏 */}
                     <Navbar 
-                        pageName={'用气报表'}
+                        pageName={t('gasReport')}//'用气报表'
                         showBack={true}
                         showHome={false}
                         isCheck={3}
@@ -506,9 +501,9 @@ export class GasAnalysis1 extends Component<any,any> {
                     <View style={styleg.container}>
                         {/* 选项卡 */}
                         <View style={styles.tab}>
-                            <Text allowFontScaling={false} style={[styles.tabflex,this.state.dataSwitchIn == 0 ? styles.flexIs : null]} onPress={()=>this.clickDataSwitch(0)}>日报</Text>
-                            <Text allowFontScaling={false} style={[styles.tabflex,this.state.dataSwitchIn == 1 ? styles.flexIs : null]} onPress={()=>this.clickDataSwitch(1)}>月报</Text>
-                            <Text allowFontScaling={false} style={[styles.tabflex,this.state.dataSwitchIn == 2 ? styles.flexIs : null]} onPress={()=>this.clickDataSwitch(2)}>年报</Text>
+                            <Text allowFontScaling={false} style={[styles.tabflex,this.state.dataSwitchIn == 0 ? styles.flexIs : null]} onPress={()=>this.clickDataSwitch(0)}>{t('dailyReport')}</Text>{/*日报*/}
+                            <Text allowFontScaling={false} style={[styles.tabflex,this.state.dataSwitchIn == 1 ? styles.flexIs : null]} onPress={()=>this.clickDataSwitch(1)}>{t('monthlyReport')}</Text>{/*月报*/}
+                            <Text allowFontScaling={false} style={[styles.tabflex,this.state.dataSwitchIn == 2 ? styles.flexIs : null]} onPress={()=>this.clickDataSwitch(2)}>{t('annualReport')}</Text>{/*年报*/}
                         </View>
                         {/* 查询框 */}
                         <View style={styles.query_head}>
@@ -524,7 +519,7 @@ export class GasAnalysis1 extends Component<any,any> {
                                     ></Picker> */}
                                     <Pressable style={styleg.button} onPress={()=>this.setState({open: true,typePk: 1})}>
                                         <Text allowFontScaling={false} style={styleg.TextButton}>
-                                            {this.state.start+' '+this.state.start_HH+'时'}
+                                            {this.state.start+' '+this.state.start_HH+t('hour')}
                                         </Text>
                                         <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
                                     </Pressable>
@@ -538,7 +533,7 @@ export class GasAnalysis1 extends Component<any,any> {
                                     ></Picker> */}
                                     <Pressable style={styleg.button} onPress={()=>this.setState({open: true,typePk: 2})}>
                                         <Text allowFontScaling={false} style={styleg.TextButton}>
-                                            {this.state.end+' '+this.state.end_HH+'时'}
+                                            {this.state.end+' '+this.state.end_HH+t('hour')}
                                         </Text>
                                         <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
                                     </Pressable>
@@ -573,7 +568,7 @@ export class GasAnalysis1 extends Component<any,any> {
                                     ></Picker> */}
                                     <Pressable style={styleg.button} onPress={()=>this.setState({open: true,typePk: 4})}>
                                         <Text allowFontScaling={false} style={styleg.TextButton}>
-                                            {this.state._monthTime[0][this.state._monthTimeIn[0]]+'日 至 '+this.state._monthTime[1][this.state._monthTimeIn[1]]+'日'}
+                                            {this.state._monthTime[0][this.state._monthTimeIn[0]]+t('day')+' '+t('to')+' '+this.state._monthTime[1][this.state._monthTimeIn[1]]+t('day')}
                                         </Text>
                                         <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
                                     </Pressable>
@@ -609,18 +604,18 @@ export class GasAnalysis1 extends Component<any,any> {
                                     ></Picker> */}
                                     <Pressable style={styleg.button} onPress={()=>this.setState({open: true,typePk: 6})}>
                                         <Text allowFontScaling={false} style={styleg.TextButton}>
-                                            {this.state._yearTime[0][this.state._yearTimeIn[0]]+'月 至 '+this.state._yearTime[1][this.state._yearTimeIn[1]]+'月'}
+                                            {this.state._yearTime[0][this.state._yearTimeIn[0]]+t('month')+' '+t('to')+' '+this.state._yearTime[1][this.state._yearTimeIn[1]]+t('month')}
                                         </Text>
                                         <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
                                     </Pressable>
                                 </View>
                             </View>:''
                         }
-                        <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>查询</Text>
+                        <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>{t('inquire')}</Text>{/**/}
                         </View>
                         <ScrollView style={styles.echarts_con}>
                             {this.state.optionData.length == 0?
-                                <Text allowFontScaling={false} style={styles.empty}>暂无数据</Text>:''
+                                <Text allowFontScaling={false} style={styles.empty}>{t('noData')}</Text>:''//暂无数据
                             }
                             {this.state.optionData.map((item: any,index: number)=>{
                                 return(
@@ -637,6 +632,15 @@ export class GasAnalysis1 extends Component<any,any> {
                             })}
                         </ScrollView>
                     </View>
+                    {/* 弹窗效果 */}
+                    {this.state.visible?
+                    <Loading 
+                        type={this.state.msgType} 
+                        visible={this.state.visible} 
+                        LoadingMsg={this.state.LoadingMsg}>
+                    </Loading>:''
+                    }
+                   
                     {/* 日期选择 */}
                     {this.state.open?
                         this.state.typePk==1?
@@ -821,4 +825,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default GasAnalysis1
+export default withTranslation()(GasAnalysis1)

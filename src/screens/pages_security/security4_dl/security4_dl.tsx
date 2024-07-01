@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import styleg from '../../../indexCss'
 import util from '../../../utils/util'
 import { Register } from '../../../utils/app'
-import store from '../../../redux/store'
+import {store} from '../../../redux/storer'
 import { HttpService } from '../../../utils/http'
 import Loading from '../../../component/Loading/Loading'
 const api = require('../../../utils/api')
@@ -165,7 +165,7 @@ export class Security4_dl extends Component<any,any> {
             visible: true,
             LoadingMsg: '加载中...'
         }); //加载效果
-        let userId = store.getState().userReducer.userId; //用户ID
+        let userId = store.getState().userId; //用户ID
         let deviceId = that.state.deviceId; //获取设备ID
         let start = that.state.start; //开始日期
         let end = that.state.end; //结束日期

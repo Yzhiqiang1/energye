@@ -5,13 +5,15 @@ import LoginNavbar from '../../component/loginNavbar/loginNavbar'
 import Loading from '../../component/Loading/Loading'
 import tool from '../../utils/tool'
 import store from '../../redux/store'
-import { Set_State } from '../../redux/actions/user'
+import { connect } from 'react-redux';
+import { Set_State } from '../../redux/reducers/counterSlice'
+const height = Dimensions.get('window').height
 let api = require('../../utils/api')
-
 const Fs = Dimensions.get('window').width*0.8
 
 //全屏幕宽高
-const height = Dimensions.get('window').height
+import { withTranslation  } from 'react-i18next';//语言包
+
 export class BindPhone extends Component<any,any> {
     constructor(props: any) {
         super(props);
@@ -49,7 +51,7 @@ export class BindPhone extends Component<any,any> {
                 this.setState({
                     msgType: 2,
                     visible: true,
-                    LoadingMsg:'请输入手机号！'
+                    LoadingMsg: '请输入手机号！'
                 },()=>{
                     setTimeout(()=>{
                         this.setState({
@@ -62,7 +64,7 @@ export class BindPhone extends Component<any,any> {
                 this.setState({
                     msgType: 2,
                     visible: true,
-                    LoadingMsg:'手机号格式错误！'
+                    LoadingMsg: '手机号格式错误！'
                 },()=>{
                     setTimeout(()=>{
                         this.setState({
@@ -75,7 +77,7 @@ export class BindPhone extends Component<any,any> {
             this.setState({
                 msgType: 1,
                 visible: true,
-                LoadingMsg:'发送中...'
+                LoadingMsg: '发送中...'
             }); //加载效果
             var down = that.state.count;
             HttpService.Post(api.getVerifyCode, {
@@ -85,7 +87,7 @@ export class BindPhone extends Component<any,any> {
                     this.setState({
                         msgType: 2,
                         visible: true,
-                        LoadingMsg:'发送成功！'
+                        LoadingMsg: '发送成功！'
                     },()=>{
                         setTimeout(()=>{
                             this.setState({
@@ -101,13 +103,13 @@ export class BindPhone extends Component<any,any> {
                     var interval = setInterval(function () {
                         down--;
                         that.setState({
-                            mobiletitle: '重新获取(' + down + ')'
+                            mobiletitle: that.props.t('reacquire')+'(' + down + ')'
                         })
                         if (down == 0) {
                             clearInterval(interval)
                             that.setState({
                                 isCode: true,
-                                mobiletitle: '重新获取验证码'
+                                mobiletitle: that.props.t('getVerification')//'重新获取验证码'
                             })
                         }
                     }, 1000)
@@ -119,7 +121,7 @@ export class BindPhone extends Component<any,any> {
                     this.setState({
                         msgType: 2,
                         visible: true,
-                        LoadingMsg:'获取验证码失败！'
+                        LoadingMsg: '获取验证码失败！'
                     },()=>{
                         setTimeout(()=>{
                             this.setState({
@@ -158,7 +160,7 @@ export class BindPhone extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg:'请输入手机号！'
+                LoadingMsg: '请输入手机号！'
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -171,7 +173,7 @@ export class BindPhone extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg:'手机号格式错误！'
+                LoadingMsg: '手机号格式错误！'
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -184,7 +186,7 @@ export class BindPhone extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg:'请输入验证码！'
+                LoadingMsg: '请输入验证码！'
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -212,7 +214,8 @@ export class BindPhone extends Component<any,any> {
             console.log(res, "登录获取的数据!！")
             if (res.flag == '00') {
                 //保存登录信息
-                store.dispatch(Set_State('Set_State',res))
+                // store.dispatch(Set_State('Set_State',res))
+                this.props.Set_State(res)
                 //跳转首页关闭之前的所有页面
                 this.props.navigation.reset({index: 0,routes: [{ name: 'Tabbar' }]})
             }else{
@@ -252,7 +255,7 @@ export class BindPhone extends Component<any,any> {
                 <SafeAreaView style={styles.view}>
                     <LoginNavbar
                         props={this.props}
-                        name={'短信登录'}   
+                        name={'短信登录'}  //短信登录
                         showBack={true}
                         showHome={false}
                     ></LoginNavbar>
@@ -264,32 +267,32 @@ export class BindPhone extends Component<any,any> {
                                 <TextInput 
                                 allowFontScaling={false}
                                 style={styles.Input} 
-                                placeholder='输入手机号' 
+                                placeholder={'输入手机号'} 
                                 onChangeText={this.mobileChangeSearch} 
                                 keyboardType='numeric'>
                                 </TextInput>
                             </View>
                             <View  style={styles.list}>
                                 <Image style={styles.Img} source={require('../../image/dl_password.png')}></Image>
-                                <TextInput allowFontScaling={false} style={styles.Input} placeholder='输入验证码' onChangeText={this.codeChangeSearch}></TextInput>
+                                <TextInput allowFontScaling={false} style={styles.Input} placeholder={'输入验证码'} onChangeText={this.codeChangeSearch}></TextInput>
                                 <Text allowFontScaling={false} style={styles.Code} onPress={this.gainCode}>{this.state.mobiletitle}</Text>
                             </View>
                             <View style={styles.forget}>
                             </View>
                             <View  style={styles.butList}>
                                 <Pressable style={({ pressed })=>[{backgroundColor: pressed? '#f3f3f3' : '#eeeeee'},styles.button]} onPress={()=>this.props.navigation.navigate('Tabbar')}>
-                                    <Text allowFontScaling={false} style={styles.buttonL} >取消登录</Text>
+                                    <Text allowFontScaling={false} style={styles.buttonL} >{'取消登录'}</Text>{/*取消登录*/}
                                 </Pressable>
                                 <Pressable style={({ pressed })=>[{backgroundColor: pressed? '#2da2fe' : '#1890FF'},styles.button]} onPress={this.Login}>
-                                    <Text allowFontScaling={false} style={styles.buttonR}>登录</Text>
+                                    <Text allowFontScaling={false} style={styles.buttonR}>{'登录'}</Text>{/*登录*/}
                                 </Pressable>
                             </View>
                             <View style={styles.link}>
                                 <TouchableOpacity style={styles.Url} onPress={()=>this.props.navigation.navigate('BindAccount')}>
-                                    <Text allowFontScaling={false} style={{color: '#01AAED',fontSize:Fs/22}}>账号登入</Text>
+                                    <Text allowFontScaling={false} style={{color: '#01AAED',fontSize:Fs/22}}>{'账号登录'}</Text>{/**/}
                                 </TouchableOpacity>
                                 <TouchableOpacity style={styles.Url} onPress={()=>this.props.navigation.navigate('AccountRegister')}>
-                                    <Text allowFontScaling={false} style={{color: '#01AAED',fontSize:Fs/22}}>注册账号</Text>
+                                    <Text allowFontScaling={false} style={{color: '#01AAED',fontSize:Fs/22}}>{'注册账号'}</Text>{/*注册账号*/}
                                 </TouchableOpacity>
                             </View>
                         </View>
@@ -459,4 +462,13 @@ const styles = StyleSheet.create({
     },
 })
 
-export default BindPhone
+const mapStateToProps = (state:any)=>{
+    return {
+        state
+    }
+}
+const mapDispatchToProps = {
+    Set_State
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(BindPhone)

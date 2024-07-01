@@ -4,14 +4,15 @@ import { Register } from '../../utils/app'
 import Navbar from '../../component/navbar/navbar'
 import styleg from '../../indexCss'
 import { Image } from '@rneui/base'
-import store from '../../redux/store'
+import { store } from '../../redux/storer'
 import {HttpService} from '../../utils/http'
 import { CheckBox } from '@rneui/themed';
 import MyCanvas from '../../component/my-canvas/MyCanvas'
 import Loading from '../../component/Loading/Loading'
+import { withTranslation } from 'react-i18next';//语言包
+
 const api = require('../../utils/api')
 const Fs = Dimensions.get('window').width*0.8
-let cs: any
 
 export class Survey extends Component<any,any> {
   constructor(props:any){
@@ -57,7 +58,7 @@ export class Survey extends Component<any,any> {
   }
   check_ok(){
     let that = this;
-    let parameterGrou = store.getState().userReducer.parameterGroup//获取选中组和设备信息
+    let parameterGrou = store.getState().parameterGroup//获取选中组和设备信息
     if (parameterGrou.multiGroup.selectKey) {
         that.getPart();
     } else {
@@ -65,7 +66,7 @@ export class Survey extends Component<any,any> {
         this.setState({
           msgType: 2,
           visible: true,
-          LoadingMsg: '获取参数失败！'
+          LoadingMsg: this.props.t('getNotData')//'获取参数失败！'
         },()=>{
             setTimeout(()=>{
                 this.setState({
@@ -95,12 +96,12 @@ export class Survey extends Component<any,any> {
     this.setState({
       msgType: 1,
       visible: true,
-      LoadingMsg: '加载中...'
+      LoadingMsg: this.props.t('Loading')//'加载中...'
     })
     //用户ID
-    let userId = store.getState().userReducer.userId;
+    let userId = store.getState().userId;
     //查询设备ID
-    let ObjdeviceId = store.getState().userReducer.parameterGroup.multiGroup.selectKey;
+    let ObjdeviceId = store.getState().parameterGroup.multiGroup.selectKey;
     let ids = "";
     for (let i in ObjdeviceId) {
         //有更新
@@ -161,9 +162,9 @@ export class Survey extends Component<any,any> {
   getDayLoad(){
     let that = this;
         //用户ID
-        let userId = store.getState().userReducer.userId;
+        let userId = store.getState().userId;
         //查询设备ID
-        let ObjdeviceId = store.getState().userReducer.parameterGroup.multiGroup.selectKey;
+        let ObjdeviceId = store.getState().parameterGroup.multiGroup.selectKey;
         let ids = "";
         for (let i in ObjdeviceId) {
             ids += ids == "" ? ObjdeviceId[i] : ',' + ObjdeviceId[i];
@@ -181,10 +182,10 @@ export class Survey extends Component<any,any> {
                 let queryData:any = {
                     name: "",
                     state: true,
-                    title: '日平均负荷曲线',
+                    title: this.props.t('DALC'),//'日平均负荷曲线',
                     legendData: [],
                     xAxisData: [],
-                    yAxisName: "单位(Kw)",
+                    yAxisName: this.props.t('unit')+"(Kw)",
                     series: [{
                         name: '',
                         type: 'line',
@@ -248,14 +249,14 @@ export class Survey extends Component<any,any> {
         this.setState({
           msgType: 1,
           visible: true,
-          LoadingMsg: '加载中...'
+          LoadingMsg: this.props.t('Loading')//'加载中...'
         })
     };
     let that = this;
     //用户ID
-    let userId = store.getState().userReducer.userId;
+    let userId = store.getState().userId;
     //查询设备ID
-    let ObjdeviceId =store.getState().userReducer.parameterGroup.multiGroup.selectKey;
+    let ObjdeviceId =store.getState().parameterGroup.multiGroup.selectKey;
     let ids = "";
     for (let i in ObjdeviceId) {
         ids += ids == "" ? ObjdeviceId[i] : ',' + ObjdeviceId[i];
@@ -275,10 +276,10 @@ export class Survey extends Component<any,any> {
             let queryData:any = {
                 name: "",
                 state: true,
-                title: '历史趋势',
+                title: this.props.historicalTrends,//'历史趋势',
                 legendData: [],
                 xAxisData: [],
-                yAxisName: "单位(Kw)",
+                yAxisName: this.props.t('unit')+"(Kw)",
                 series: [{
                     name: '',
                     type: 'line',
@@ -338,6 +339,7 @@ export class Survey extends Component<any,any> {
     });
   }
   render() {
+    const { t } = this.props
     return (
       <View style={{flex: 1}}>
         <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
@@ -351,7 +353,7 @@ export class Survey extends Component<any,any> {
         <SafeAreaView style={{flex: 1}}>
           {/* 引入自定义导航栏 */}
           <Navbar 
-              pageName={"用能概况"}
+              pageName={t('overviewOfEnergy')}//"用能概况"
               showBack={true}
               showHome={false}
               isCheck={3}
@@ -363,14 +365,14 @@ export class Survey extends Component<any,any> {
           {/* 内容区 */}
           <ScrollView style={styleg.container}>
               <View style={styles.list}>
-                  <Text allowFontScaling={false} style={[styles.title]}>环比(单位：kW·h)</Text>
+                  <Text allowFontScaling={false} style={[styles.title]}>{t('Chain')}({t('unit')}：kW·h)</Text>
                   <View style={styles.con}>
                       <View style={styles.row}>
                           <View style={[styles.row33,styles.pl]}>
                               <View style={styles.item}>
                                   <View style={styles.name}>
                                       <Image style={styles.img} source={require('../../image/survey_ico1.png')}></Image>
-                                      <Text allowFontScaling={false}style={styles.test}>当日用能</Text>
+                                      <Text allowFontScaling={false}style={styles.test}>{t('dailyEnergy')}</Text>{/*当日用能*/}
                                   </View>
                                   <View style={styles.value}>
                                       <Text allowFontScaling={false}style={styles.test}>{this.state.toDay}</Text>
@@ -382,7 +384,7 @@ export class Survey extends Component<any,any> {
                               <View style={styles.item}>
                                   <View style={styles.name}>
                                       <Image style={styles.img} source={require('../../image/survey_ico2.png')}></Image>
-                                      <Text allowFontScaling={false}style={styles.test}>昨日同期</Text>
+                                      <Text allowFontScaling={false}style={styles.test}>{t('samePeriod')}</Text>{/*昨日同期*/}
                                   </View>
                                   <View style={styles.value}>
                                       <Text allowFontScaling={false}style={styles.test}>{this.state.lastDay}</Text>
@@ -394,7 +396,7 @@ export class Survey extends Component<any,any> {
                               <View style={styles.item}>
                                   <View style={styles.name}>
                                       <Image style={styles.img} source={require('../../image/survey_ico3.png')}></Image>
-                                      <Text allowFontScaling={false}style={styles.test}>日趋势</Text>
+                                      <Text allowFontScaling={false}style={styles.test}>{t('dailyTrend')}</Text>{/*日趋势*/}
                                   </View>
                                   <View style={styles.value}>
                                       <Text allowFontScaling={false}style={styles.test}>{this.state.dayTendency}%</Text>
@@ -424,7 +426,7 @@ export class Survey extends Component<any,any> {
                               <View style={styles.item}>
                                   <View style={styles.name}>
                                       <Image style={styles.img} source={require('../../image/survey_ico1.png')}></Image>
-                                      <Text allowFontScaling={false}style={styles.test}>当月用能</Text>
+                                      <Text allowFontScaling={false}style={styles.test}>{t('theMonth')}</Text>{/*当月用能*/}
                                   </View>
                                   <View style={styles.value}>
                                       <Text allowFontScaling={false}style={styles.test}>{this.state.toMonth}</Text>
@@ -436,7 +438,7 @@ export class Survey extends Component<any,any> {
                               <View style={styles.item}>
                                   <View style={styles.name}>
                                       <Image style={styles.img} source={require('../../image/survey_ico2.png')}></Image>
-                                      <Text allowFontScaling={false}style={styles.test}>上月同期</Text>
+                                      <Text allowFontScaling={false}style={styles.test}>{t('monthPeriod')}</Text>{/*上月同期*/}
                                   </View>
                                   <View style={styles.value}>
                                       <Text allowFontScaling={false}style={styles.test}>{this.state.lastMonth}</Text>
@@ -448,7 +450,7 @@ export class Survey extends Component<any,any> {
                               <View style={styles.item}>
                               <View style={styles.name}>
                                       <Image style={styles.img} source={require('../../image/survey_ico3.png')}></Image>
-                                      <Text allowFontScaling={false}style={styles.test}>月趋势</Text>
+                                      <Text allowFontScaling={false}style={styles.test}>{t('monthlyTrend')}</Text>{/*月趋势*/}
                                   </View>
                                   <View style={styles.value}>
                                       <Text allowFontScaling={false}style={styles.test}>{this.state.monthTendency}%</Text>
@@ -478,7 +480,7 @@ export class Survey extends Component<any,any> {
               </View>
               {this.state.optionData_1.length > 0?
                 <View style={styles.list}>
-                  <Text allowFontScaling={false}style={styles.title}>日平均负荷曲线</Text>
+                  <Text allowFontScaling={false}style={styles.title}>{t('DALC')}</Text>{/*日平均负荷曲线*/}
                   <View style={styles.echarts}>
                       {/* <my-canvas obj-data="{{optionData_1[0]}}"></my-canvas> */}
                       <MyCanvas objData={this.state.optionData_1[0]}></MyCanvas>
@@ -487,13 +489,13 @@ export class Survey extends Component<any,any> {
               }
               {this.state.optionData_2.length > 0?
                 <View style={styles.list}>
-                  <Text allowFontScaling={false}style={styles.title}>历史趋势</Text>
+                  <Text allowFontScaling={false}style={styles.title}>{t('historicalTrends')}</Text>{/*历史趋势*/}
                   <View style={styles.radio}>
                       <CheckBox
                         containerStyle={styles.radioCk}
                         checked={this.state._radio === '48h'}
                         onPress={() => this.onChange('48h')}
-                        title={'过去48时'}
+                        title={t('Past48')}//过去48时
                         size={16}
                         checkedIcon="dot-circle-o"
                         uncheckedIcon="circle-o"
@@ -502,7 +504,7 @@ export class Survey extends Component<any,any> {
                         containerStyle={styles.radioCk}
                         checked={this.state._radio === '31d'}
                         onPress={() => this.onChange('31d')}
-                        title={'过去31天'}
+                        title={t('last31')}//'过去31天'
                         size={16}
                         checkedIcon="dot-circle-o"
                         uncheckedIcon="circle-o"
@@ -511,7 +513,7 @@ export class Survey extends Component<any,any> {
                         containerStyle={styles.radioCk}
                         checked={this.state._radio === '12M'}
                         onPress={() => this.onChange('12M')}
-                        title={'过去12月'}
+                        title={t('M12')}//'过去12月'
                         size={16}
                         checkedIcon="dot-circle-o"
                         uncheckedIcon="circle-o"
@@ -520,7 +522,7 @@ export class Survey extends Component<any,any> {
                         containerStyle={styles.radioCk}
                         checked={this.state._radio === '3y'}
                         onPress={() => this.onChange('3y')}
-                        title={'过去3年'}
+                        title={t('Y3')}//'过去3年'
                         size={16}
                         checkedIcon="dot-circle-o"
                         uncheckedIcon="circle-o"
@@ -667,4 +669,4 @@ const styles  = StyleSheet.create({
   },
 })
 
-export default Survey
+export default withTranslation()(Survey)

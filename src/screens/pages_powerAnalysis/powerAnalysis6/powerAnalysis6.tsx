@@ -4,10 +4,10 @@ import Navbar from '../../../component/navbar/navbar'
 import styleg from '../../../indexCss'
 import util, { plusReduceData } from '../../../utils/util'
 import { Register } from '../../../utils/app'
-import store from '../../../redux/store'
+import { store } from '../../../redux/storer'
 import { HttpService } from '../../../utils/http'
 import Loading from '../../../component/Loading/Loading'
-import Picker from '../../../component/Picker/Picker'
+import { withTranslation } from 'react-i18next';//语言包
 import PickerBut from '../../../component/PickerBut/PickerBut'
 const api = require('../../../utils/api')
 const Fs = Dimensions.get('window').width*0.8
@@ -53,7 +53,7 @@ export class PowerAnalysis6 extends Component<any,any> {
      * *****************************/
     check_ok=()=>{
         let that = this;
-        let parameterGrou = store.getState().userReducer.parameterGroup; //获取选中组和设备信息
+        let parameterGrou = store.getState().parameterGroup; //获取选中组和设备信息
         if (parameterGrou.multiGroup.selectKey != '') {
             //查询数据
             that.getData();
@@ -62,7 +62,7 @@ export class PowerAnalysis6 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '获取参数失败！'
+                LoadingMsg: this.props.t('getNotData')//'获取参数失败！'
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -101,7 +101,7 @@ export class PowerAnalysis6 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '开始日期不能大于结束日期!'
+                LoadingMsg: this.props.t('TSDMN')//'开始日期不能大于结束日期!'
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -123,7 +123,7 @@ export class PowerAnalysis6 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '您还未登录,无法查询数据!'
+                LoadingMsg: this.props.t('YANLI')//'您还未登录,无法查询数据!'
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -136,11 +136,11 @@ export class PowerAnalysis6 extends Component<any,any> {
         this.setState({
             msgType: 1,
             visible: true,
-            LoadingMsg: '加载中...'
+            LoadingMsg: this.props.t('Loading')//'加载中...'
         }); //加载效果
-        let userId = store.getState().userReducer.userId; //用户ID
+        let userId = store.getState().userId; //用户ID
         //查询设备ID
-        let ObjdeviceId = store.getState().userReducer.parameterGroup.multiGroup.selectKey;
+        let ObjdeviceId = store.getState().parameterGroup.multiGroup.selectKey;
         let strdeviceId = "";
         for (let i in ObjdeviceId) {
             strdeviceId += strdeviceId == "" ? ObjdeviceId[i] : ',' + ObjdeviceId[i];
@@ -221,6 +221,7 @@ export class PowerAnalysis6 extends Component<any,any> {
         });
     }
     render() {
+        const { t } = this.props
         return (
             <View style={{flex: 1}}>
                 <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
@@ -234,7 +235,7 @@ export class PowerAnalysis6 extends Component<any,any> {
                 <SafeAreaView style={{flex: 1}}>
                     {/* 引入自定义导航栏 */}
                     <Navbar 
-                        pageName={'尖峰平谷'}
+                        pageName={t('PeaksValleys')}//'尖峰平谷'
                         showBack={true}
                         showHome={false}
                         isCheck={3}
@@ -258,7 +259,7 @@ export class PowerAnalysis6 extends Component<any,any> {
                                 </Pressable>
                             </View>
                             <Text allowFontScaling={false} style={styles.text}>
-                                至
+                                {t('to')}
                             </Text>
                             <View style={styles.flex1}>
                                 {/* <Picker
@@ -272,15 +273,15 @@ export class PowerAnalysis6 extends Component<any,any> {
                                     <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
                                 </Pressable>
                             </View>
-                            <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>查询</Text>
+                            <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>{t('inquire')}</Text>{/*inquire*/}
                         </View>
                         
                         <View style={styles.echarts_con}>
                             {this.state.optionData.length == 0?
-                                <Text allowFontScaling={false} style={styles.empty}>暂无数据</Text>:
+                                <Text allowFontScaling={false} style={styles.empty}>{t('noData')}</Text>://暂无数据
                                 <ScrollView style={styles.item}>
                                     <View style={styles.name}>
-                                        <Text allowFontScaling={false} style={styles.nameText}>尖峰平谷数据统计</Text>
+                                        <Text allowFontScaling={false} style={styles.nameText}>{t('SOPA')}</Text>{/*尖峰平谷数据统计*/}
                                     </View>
                                     <View style={styles.table}>
                                         {this.state.optionData.map((item:any,index:number)=>{
@@ -297,22 +298,22 @@ export class PowerAnalysis6 extends Component<any,any> {
                                                         <View style={styles.label}></View>
                                                         <View style={styles.flex}>
                                                             <View style={styles.cellCen}>
-                                                                <Text allowFontScaling={false} style={styles.value}>尖</Text>
+                                                                <Text allowFontScaling={false} style={styles.value}>{t('theTip')}</Text>{/*尖*/}
                                                             </View>
                                                         </View>
                                                         <View style={styles.flex}>
                                                             <View style={styles.cellCen}>
-                                                                <Text allowFontScaling={false} style={styles.value}>峰</Text>
+                                                                <Text allowFontScaling={false} style={styles.value}>{t('peak')}</Text>{/*峰*/}
                                                             </View>
                                                         </View>
                                                         <View style={styles.flex}>
                                                             <View style={styles.cellCen}>
-                                                                <Text allowFontScaling={false} style={styles.value}>平</Text>
+                                                                <Text allowFontScaling={false} style={styles.value}>{t('flat')}</Text>{/*平*/}
                                                             </View>
                                                         </View>
                                                         <View style={styles.flex}>
                                                             <View style={styles.cellCen}>
-                                                                <Text allowFontScaling={false} style={styles.value}>谷</Text>
+                                                                <Text allowFontScaling={false} style={styles.value}>{t('ththeValleyeTip')}</Text>{/*谷*/}
                                                             </View>
                                                         </View>
                                                     </View>
@@ -320,7 +321,7 @@ export class PowerAnalysis6 extends Component<any,any> {
                                                     <View style={styles.cell}>
                                                         <View style={styles.label}>
                                                             <View style={styles.cellCen}>
-                                                                <Text allowFontScaling={false} style={styles.value}>电量</Text>
+                                                                <Text allowFontScaling={false} style={styles.value}>{t('Power')}</Text>{/*电量*/}
                                                             </View>
                                                         </View>
                                                         <View style={styles.flex}>
@@ -349,7 +350,7 @@ export class PowerAnalysis6 extends Component<any,any> {
                                                     
                                                         <View style={styles.label}>
                                                             <View style={styles.cellCen}>
-                                                                <Text allowFontScaling={false} style={styles.value}>单价</Text>
+                                                                <Text allowFontScaling={false} style={styles.value}>{t('unitPrice')}</Text>{/*单价*/}
                                                             </View>
                                                         </View>
                                                         <View style={styles.flex}>
@@ -377,7 +378,7 @@ export class PowerAnalysis6 extends Component<any,any> {
                                                     <View style={styles.cell}>
                                                         <View style={styles.label}>
                                                             <View style={styles.cellCen}>
-                                                                <Text allowFontScaling={false} style={styles.value}>金额</Text>
+                                                                <Text allowFontScaling={false} style={styles.value}>{t('Amount')}</Text>{/*金额*/}
                                                             </View>
                                                         </View>
                                                         <View style={styles.flex}>
@@ -405,12 +406,12 @@ export class PowerAnalysis6 extends Component<any,any> {
                                                     <View style={styles.cell}>
                                                         <View style={styles.label}>
                                                             <View style={styles.cellCen}>
-                                                                <Text allowFontScaling={false} style={styles.value}>合计</Text>
+                                                                <Text allowFontScaling={false} style={styles.value}>{t('sumUp')}</Text>{/*合计*/}
                                                             </View>
                                                         </View>
                                                         <View style={styles.flex}>
                                                             <View style={styles.cellCen}>
-                                                            <Text allowFontScaling={false} style={styles.value}>电量:{item.DL}  金额:{item.ZJE}</Text>
+                                                            <Text allowFontScaling={false} style={styles.value}>{t('Power')}:{item.DL}  {t('Amount')}:{item.ZJE}</Text>
                                                             </View>
                                                         </View>
                                                     </View>
@@ -620,4 +621,4 @@ const styles = StyleSheet.create({
         overflow: 'hidden',
     },
 })
-export default PowerAnalysis6
+export default withTranslation()(PowerAnalysis6)
