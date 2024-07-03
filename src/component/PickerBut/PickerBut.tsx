@@ -395,7 +395,7 @@ const styles = StyleSheet.create({
     },
     modalBack:{
         position: 'absolute',
-        zIndex: 99999,
+        zIndex: 9999999,
         top: 0,
         width: Dimensions.get('screen').width,
         height: Dimensions.get('screen').height,

@@ -77,7 +77,7 @@ export class BindAccount extends Component<any,any> {
         this.setState({
             msgType: 1,
             visible: true,
-            LoadingMsg: '登录中...'//this.props.t('beLoggingIn')
+            LoadingMsg: '登录中...'
         })
         var userName = this.state.userName;
         var password = this.state.password;
@@ -85,7 +85,7 @@ export class BindAccount extends Component<any,any> {
             userName: userName,
             password: password
         }).then((res:any)=>{
-            console.log(res, "登录获取的数据!！!")
+            console.log(res, "登录获取的数据!!!")
             if(res.flag){
                 if (res.flag == '00') {
                     this.setState({
@@ -195,11 +195,11 @@ export class BindAccount extends Component<any,any> {
                     <View style={styles.con}>
                         <View  style={styles.list}>
                             <Image style={styles.Img} source={require('../../image/dl_user.png')}></Image>
-                            <TextInput style={styles.Input} allowFontScaling={false} placeholder={'输入用户名'} onChangeText={this.userNameChangeSearch} ></TextInput>
+                            <TextInput style={styles.Input} placeholder={'输入用户名'} onChangeText={this.userNameChangeSearch} ></TextInput>
                         </View>
                         <View  style={styles.list}>
                             <Image style={styles.Img} source={require('../../image/dl_password.png')}></Image>
-                            <TextInput style={styles.Input} allowFontScaling={false} placeholder={'输入密码'} onChangeText={this.passwordChangeSearch} secureTextEntry={true} ></TextInput>
+                            <TextInput style={styles.Input} placeholder={'输入密码'} onChangeText={this.passwordChangeSearch} secureTextEntry={true} ></TextInput>
                         </View>
                         <View style={styles.forget}>
                             <TouchableOpacity >
