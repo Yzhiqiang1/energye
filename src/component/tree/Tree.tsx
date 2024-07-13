@@ -78,13 +78,9 @@ export class Tree extends Component<any,any> {
 
                             {/* <!-- 节点状态图标 --> */}
                             <View  style={styles.node}>
-                                {/* <block wx:if="{{item.children && item.children.length > 0}}"> */}
                                 {data.children && data.children.length > 0?
                                     <View>
-                                        {data.open?
-                                            <Image style={styles.img} source={require('../../image/node_y2.png')}></Image>:
-                                            <Image style={styles.img} source={require('../../image/node_y1.png')}></Image>
-                                        }
+                                        <Image style={styles.img} source={require('../../image/node_y.png')}></Image>
                                     </View>
                                     :
                                     <Image style={styles.img} source={require('../../image/node_n.png')}></Image>
@@ -98,8 +94,12 @@ export class Tree extends Component<any,any> {
                                         <CheckBox
                                             onPress={()=>this.select(index)}
                                             checked={this.props.selectKey == data.id ? true : false}
-                                            checkedIcon="dot-circle-o"
-                                            uncheckedIcon="circle-o"
+                                            checkedIcon={
+                                                <Image
+                                                    style={styles.img} 
+                                                    source={require('../../image/unche.png')}
+                                                />
+                                            }
                                             size={14}
                                             containerStyle={styles.container}
                                         />
@@ -108,17 +108,25 @@ export class Tree extends Component<any,any> {
                                         <CheckBox
                                             onPress={()=>this.select(index)}
                                             checked={this.props.selectKey[data.id] != undefined ? true : false}
-                                            iconType="material-community"
-                                            checkedIcon="checkbox-marked"
-                                            uncheckedIcon="checkbox-blank-outline"
+                                            checkedIcon={
+                                                <Image
+                                                    style={styles.img} 
+                                                    source={require('../../image/unche.png')}
+                                                />
+                                            }
+                                            checkedColor="#00A1C9"
                                             size={14}
                                             containerStyle={styles.container}
                                         />:this.props.isChecks == 5?
                                         <CheckBox
                                             onPress={()=>this.select(index)}
                                             checked={this.props.selectKey[data.id] != undefined ? true : false}
-                                            checkedIcon="dot-circle-o"
-                                            uncheckedIcon="circle-o"
+                                            checkedIcon={
+                                                <Image
+                                                    style={styles.img} 
+                                                    source={require('../../image/unche.png')}
+                                                />
+                                            }
                                             size={14}
                                             containerStyle={styles.container}
                                         />:''
@@ -131,6 +139,7 @@ export class Tree extends Component<any,any> {
                                     </Text>
                                 </View>
                             </Pressable>
+                            
                         </View>
                         {data.children && data.children.length > 0 && data.open?
                             <Tree

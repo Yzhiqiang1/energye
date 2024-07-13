@@ -8,7 +8,6 @@ import { store } from '../../../redux/storer'
 import { HttpService } from '../../../utils/http'
 import Loading from '../../../component/Loading/Loading'
 import PickerBut from '../../../component/PickerBut/PickerBut'
-import { withTranslation } from 'react-i18next';//语言包
 const api = require('../../../utils/api')
 const Fs = Dimensions.get('window').width*0.8
 
@@ -31,8 +30,7 @@ export class WaterAnalysis3 extends Component<any,any> {
             _weekTime: getWeek.value,
             _weekTimeDate: getWeek.data,
             _weekTimeIn: 0,
-            // _weekSeveral: ['第一周','第二周','第三周','第四周'],
-            _weekSeveral: [this.props.t('FirstWeek'),this.props.t('secondWeek'),this.props.t('thirdWeek'),this.props.t('fourthWeek')],
+            _weekSeveral: ['第一周','第二周','第三周','第四周','第五周'],
             //月报处理
             _month: util.nowDate(1),
             //数据项
@@ -78,7 +76,7 @@ export class WaterAnalysis3 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: this.props.t('getNotData')//'获取参数失败！'
+                LoadingMsg: '获取参数失败！'
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -156,7 +154,7 @@ export class WaterAnalysis3 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: this.props.t('YANLIA')//'您还未登录,无法查询数据！'
+                LoadingMsg: '您还未登录,无法查询数据！'
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -169,7 +167,7 @@ export class WaterAnalysis3 extends Component<any,any> {
         this.setState({
             msgType: 1,
             visible: true,
-            LoadingMsg: this.props.t('Loading')//'加载中...'
+            LoadingMsg: '加载中...'
         }); //加载效果
         //用户ID
         let userId = store.getState().userId;
@@ -192,13 +190,13 @@ export class WaterAnalysis3 extends Component<any,any> {
         let dataName:any = [];
         if (dataSwitchIn == 0) {
             parameter.date = that.state._day;
-            dataName = [this.props.t('LoopName'),this.props.t('DEC')+'(kc·h)', this.props.t('UDE')+'(kc·h)', this.props.t('valueAdded'),this.props.t('Chain')+'(%)'];
+            dataName = ['回路名称','当日用电(kc·h)', '上日用电(kc·h)', '增加值','环比(%)'];
         } else if (dataSwitchIn == 1) {
             parameter.date = that.state._weekTimeDate[that.state._weekTimeIn][1];
-            dataName = [this.props.t('LoopName'),this.props.t('ofMonth') + that.state._weekTimeDate[that.state._weekTimeIn][0]+'(kc·h)', this.props.t('lastMonth') + that.state._weekTimeDate[that.state._weekTimeIn][0]+'(kc·h)', this.props.t('valueAdded'),this.props.t('Chain')+'(%)'];
+            dataName = ['回路名称','当月' + that.state._weekTimeDate[that.state._weekTimeIn][0]+'(kc·h)', '上月' + that.state._weekTimeDate[that.state._weekTimeIn][0]+'(kc·h)', '增加值','环比(%)'];
         } else if (dataSwitchIn == 2) {
             parameter.date = that.state._month;
-            dataName = [this.props.t('LoopName'),this.props.t('ECOTF')+'(kc·h)', this.props.t('ECLM')+'(kc·h)', this.props.t('valueAdded'),this.props.t('Chain')+'(%)'];
+            dataName = ['回路名称','当月用电(kc·h)', '上月用电(kc·h)', '增加值','环比(%)'];
         }
         that.setState({
             titleData:dataName
@@ -289,7 +287,6 @@ export class WaterAnalysis3 extends Component<any,any> {
         });
     }
     render() {
-        const { t } = this.props
         return (
             <View style={{flex: 1}}>
                 <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
@@ -303,7 +300,7 @@ export class WaterAnalysis3 extends Component<any,any> {
                 <SafeAreaView style={{flex: 1}}>
                     {/* 引入自定义导航栏 */}
                     <Navbar 
-                        pageName={t('sequentialAnalysis')}//'环比分析'
+                        pageName={'环比分析'}
                         showBack={true}
                         showHome={false}
                         isCheck={3}
@@ -316,9 +313,9 @@ export class WaterAnalysis3 extends Component<any,any> {
                         {/* 查询框 */}
                         <View style={styles.query_head}>
                             <View style={styles.tab}>
-                                <Text allowFontScaling={false} style={[styles.tabFlex,this.state.dataSwitchIn == 0 ? styles.flexIs : null]} onPress={()=>this.clickDataSwitch(0)}>{t('day')}</Text>{/*日*/}
-                                <Text allowFontScaling={false} style={[styles.tabFlex,this.state.dataSwitchIn == 1 ? styles.flexIs : null]} onPress={()=>this.clickDataSwitch(1)}>{t('week')}</Text>{/*周*/}
-                                <Text allowFontScaling={false} style={[styles.tabFlex,this.state.dataSwitchIn == 2 ? styles.flexIs : null]} onPress={()=>this.clickDataSwitch(2)}>{t('month')}</Text>{/*月*/}
+                                <Text allowFontScaling={false} style={[styles.tabFlex,this.state.dataSwitchIn == 0 ? styles.flexIs : null]} onPress={()=>this.clickDataSwitch(0)}>日</Text>
+                                <Text allowFontScaling={false} style={[styles.tabFlex,this.state.dataSwitchIn == 1 ? styles.flexIs : null]} onPress={()=>this.clickDataSwitch(1)}>周</Text>
+                                <Text allowFontScaling={false} style={[styles.tabFlex,this.state.dataSwitchIn == 2 ? styles.flexIs : null]} onPress={()=>this.clickDataSwitch(2)}>月</Text>
                             </View>
                             {/* 日报处理 */}
                             {this.state.dataSwitchIn == 0?
@@ -378,15 +375,15 @@ export class WaterAnalysis3 extends Component<any,any> {
                                     </Pressable>
                                 </View>:''
                             }
-                            <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>{t('inquire')}</Text>{/*查询*/}
+                            <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>查询</Text>
                         </View>
 
                         <View style={styles.echarts_con}>
                             {this.state.optionData.length == 0?
-                                <Text allowFontScaling={false} style={styles.empty}>{t('noData')}</Text>://暂无数据
+                                <Text allowFontScaling={false} style={styles.empty}>暂无数据</Text>:
                                 <View style={styles.item}>
                                     <Text allowFontScaling={false} style={styles.name}>
-                                        {t('Analyze')}{/*环比分析数据*/}
+                                        环比分析数据
                                         <View style={styles.down}>
                                             <Image style={styles.img} src='../../image/download.png'></Image>
                                         </View>
@@ -460,7 +457,7 @@ const styles = StyleSheet.create({
     tab:{
         position: 'relative',
         width: 120,
-        height:30,
+        height:35,
         paddingLeft:10,
         paddingRight:10,
         marginRight: 5,
@@ -471,7 +468,7 @@ const styles = StyleSheet.create({
         borderStyle:'solid',
         borderColor:'#d9d9d9',
         borderWidth:1,
-        borderRadius: 5,
+        borderRadius: 2,
     },
     tabFlex:{
         position: 'relative',
@@ -521,8 +518,8 @@ const styles = StyleSheet.create({
     button:{
         position: 'relative',
         width: 'auto',
-        height: 30,
-        lineHeight: 30,
+        height: 35,
+        lineHeight: 35,
         textAlignVertical: 'center',
         paddingLeft: 12,
         paddingRight: 12,
@@ -531,7 +528,7 @@ const styles = StyleSheet.create({
         borderStyle:'solid',
         borderWidth: 1,
         borderColor: '#d9d9d9',
-        borderRadius: 5,
+        borderRadius: 2,
         marginLeft: 7,
         overflow: 'hidden',
     },
@@ -646,4 +643,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default withTranslation()(WaterAnalysis3)
+export default WaterAnalysis3

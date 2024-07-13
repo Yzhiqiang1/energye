@@ -88,7 +88,7 @@ export const counterSlice = createSlice({
         state.userId = data.payload.userId
         state.userName = data.payload.userName
         state.websocket_key = data.payload.websocket_key
-        state.avatar = data.payload.avatar ? data.payload.avatar : require('../../image/logo.png')
+        state.avatar = data.payload.avatar ? data.payload.avatar : ''
     },
     // 设备组，树更改
     parameter_Group: (state,data) => {

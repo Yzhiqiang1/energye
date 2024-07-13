@@ -2,9 +2,6 @@ import { Text, View, Dimensions, Image, ScrollView, Pressable, SafeAreaView, Sty
 import React, { Component } from 'react'
 import Navbar from '../../component/navbar/navbar'
 import { Register } from '../../utils/app'
-import { withTranslation  } from 'react-i18next';//语言包内容
-import i18n from 'i18next';//中英文切换
-import { store } from '../../redux/storer';
 const Fs = Dimensions.get('window').width*0.8//屏幕宽比 
 export class Index extends Component<any,any> {
     constructor(props: any){
@@ -13,13 +10,10 @@ export class Index extends Component<any,any> {
             LoginStatus: 1,//登录状态
             objType:1,
             boxHeight: 0,
-
             visible: false
         } 
     }
     componentDidMount(){
-        console.log(store.getState().firstApp);
-        
         // 验证登录
         Register.userSignIn(false).then(res => {            
             //校验登录成功后执行
@@ -42,13 +36,6 @@ export class Index extends Component<any,any> {
             boxHeight: newHeight
         })
     }
-    bot=()=>{
-        console.log(this.props.i18n.language); 
-        let language = this.props.i18n.language == 'zh'? 'en':'zh'
-        i18n.changeLanguage(language).then(() => {
-            console.log('中英文切换');
-        });
-    }
     policy=(e: any)=>{
         this.setState({
             visible: false
@@ -66,7 +53,7 @@ export class Index extends Component<any,any> {
                     <Navbar 
                     showBack={false} 
                     showHome={false}
-                    pageName={this.props.t('home')}
+                    pageName={'首页'}
                     LoginStatus={this.state.LoginStatus}  
                     props={this.props}
                     ></Navbar>
@@ -75,338 +62,350 @@ export class Index extends Component<any,any> {
                         <View style={styles.indexMini}>
                             {/* 设备概括 */}
                             <View style={styles.indexUl}>
-                                <Text allowFontScaling={false} style={styles.title}>
-                                    {this.props.t('equipmentProfile')} {/* 设备概况 */}
-                                </Text>
-                                <View style={styles.con}>
-                                    <View style={[styles.list,styles.row33]}>
-                                        <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'},styles.overview]}
-                                            onPress={()=>this.props.navigation.navigate('Survey')}>
-                                            <Image style={styles.img} resizeMode='contain' source={require('../../image/overview_1.png')} />
-                                            <Text allowFontScaling={false} style={styles.size19}>{this.props.t('overviewOfEnergy')}</Text>{/*用能概况*/}
-                                        </Pressable>
-                                    </View>
-                                    <View style={[styles.list,styles.row33]}>
-                                        <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'},styles.overview]}
-                                            onPress={()=>this.props.navigation.navigate('Scanqr')}>
-                                            <Image style={styles.img} resizeMode='contain' source={require('../../image/scanqr.png')} />
-                                            <Text allowFontScaling={false} style={styles.size19}>{this.props.t('createDevice')}</Text>{/*创建设备*/}
-                                        </Pressable>
+                                <View style={styles.back}>
+                                    <Text allowFontScaling={false} style={styles.title}>
+                                        设备概况
+                                    </Text>
+                                    <View style={[styles.con,{justifyContent: 'space-between'}]}>
+                                        <View style={[styles.listTop,styles.row48]}>
+                                            <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#b5e3fd': '#76cffb'},styles.overview]}
+                                                onPress={()=>this.props.navigation.navigate('Survey')}>
+                                                <Text allowFontScaling={false} style={styles.size19}>用能概况</Text>
+                                                <Image style={{width: 40}} resizeMode='contain' source={require('../../image/overview_1.png')} />
+                                            </Pressable>
+                                        </View>
+                                        <View style={[styles.listTop,styles.row48]}>
+                                            <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#abc7fb': '#588ff6'},styles.overview]}
+                                                onPress={()=>this.props.navigation.navigate('Scanqr')}>
+                                                <Text allowFontScaling={false} style={styles.size19}>创建设备</Text>
+                                                <Image style={{width: 40}} resizeMode='contain' source={require('../../image/scanqr.png')} />
+                                            </Pressable>
+                                        </View>
                                     </View>
                                 </View>
                             </View>
                             {/* 电力测试 */}
                             <View style={styles.indexUl}>
-                                <Text allowFontScaling={false} style={styles.title}>
-                                    {this.props.t('electricPowerTest')}{/*电力测试*/}
-                                </Text>
-                            <View style={[styles.con,styles.bac]}>
-                                    <View style={[styles.list,styles.item]}>
-                                        <View style={[styles.row,styles.row33]}>
-                                            <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'}]} 
-                                                onPress={()=>this.props.navigation.navigate('PowerTest1')}>
-                                                <View style={styles.box}>
-                                                    <Image style={styles.img} resizeMode='contain' source={require('../../image/dl_1.png')}></Image>
-                                                    <Text allowFontScaling={false} style={styles.size22}>{this.props.t('hiharaData')}</Text>{/*日原数据*/}
-                                                </View>
-                                            </Pressable>
-                                        </View>
-                                        <View style={[styles.row,styles.row33]}>
-                                            <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'}]} 
-                                                onPress={()=>this.props.navigation.navigate('PowerTest2')}>
-                                                <View style={styles.box}>
-                                                    <Image style={styles.img} resizeMode='contain' source={require('../../image/dl_2.png')}></Image>
-                                                    <Text allowFontScaling={false} style={styles.size22}>{this.props.t('Devd')}</Text>{/* 逐日极值数据*/}
-                                                </View>
-                                            </Pressable>
-                                        </View>
-                                        <View style={[styles.row,styles.row33]}>
-                                            <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'}]} 
-                                                onPress={()=>this.props.navigation.navigate('PowerTest3')}>
-                                                <View style={styles.box}>
-                                                    <Image style={styles.img} resizeMode='contain' source={require('../../image/dl_3.png')}></Image>
-                                                    <Text allowFontScaling={false} style={styles.size22}>{this.props.t('powerOperationreport')}</Text>{/*电力运行报表*/}
-                                                </View>
-                                            </Pressable>
-                                        </View>
-                                    </View>
-                                    <View style={[styles.list,styles.item]}>
-                                        <View style={[styles.row,styles.row33]}>
-                                            <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'}]} 
-                                                onPress={()=>this.props.navigation.navigate('PowerTest4')}>
-                                                <View style={styles.box}>
-                                                    <Image style={styles.img} resizeMode='contain' source={require('../../image/dl_4.png')}></Image>
-                                                    <Text allowFontScaling={false} style={styles.size22}>{this.props.t('powerExtremeReport')}</Text>{/*电力极值报表*/}
-                                                </View>
-                                            </Pressable>
-                                        </View>
-                                        <View style={[styles.row,styles.row33]}>
-                                            
-                                            <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'}]} 
-                                                onPress={()=>this.props.navigation.navigate('PowerTest5')}>
+                                <View style={styles.back}>
+                                    <Text allowFontScaling={false} style={styles.title}>
+                                        电力测试
+                                    </Text>
+                                    <View style={[styles.con,styles.bac]}>
+                                        <View style={[styles.list,styles.item]}>
+                                            <View style={[styles.row,styles.row33]}>
+                                                <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'},styles.BR20]} 
+                                                    onPress={()=>this.props.navigation.navigate('PowerTest1')}>
                                                     <View style={styles.box}>
-                                                        <Image style={styles.img} resizeMode='contain' source={require('../../image/dl_5.png')}></Image>
-                                                        <Text allowFontScaling={false} style={styles.size22}>{this.props.t('averagePowerFactor')}</Text>{/*平均功率因数*/}
+                                                        <Image style={styles.img} resizeMode='contain' source={require('../../image/dl_1.png')}></Image>
+                                                        <Text allowFontScaling={false} style={styles.size22}>日原数据</Text>
                                                     </View>
-                                            </Pressable>
-                                        </View>
-                                        <View style={[styles.row,styles.row33]}>
-                                            <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'}]} 
-                                                onPress={()=>this.props.navigation.navigate('PowerTest6')}>
+                                                </Pressable>
+                                            </View>
+                                            <View style={[styles.row,styles.row33]}>
+                                                <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'},styles.BR20]} 
+                                                    onPress={()=>this.props.navigation.navigate('PowerTest2')}>
                                                     <View style={styles.box}>
-                                                        <Image style={styles.img} resizeMode='contain' source={require('../../image/dl_6.png')} ></Image>
-                                                        <Text allowFontScaling={false} style={styles.size22}>{this.props.t('Dropo')}</Text>{/*电力运行日报*/}
+                                                        <Image style={styles.img} resizeMode='contain' source={require('../../image/dl_2.png')}></Image>
+                                                        <Text allowFontScaling={false} style={styles.size22}>逐日极值数据</Text>
                                                     </View>
-                                            </Pressable>
-                                        </View>
-                                    </View>
-                                    <View style={styles.list}>
-                                        <View style={[styles.row,styles.row33]}>
-                                            <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'}]} 
-                                                onPress={()=>this.props.navigation.navigate('PowerTest7')}>
+                                                </Pressable>
+                                            </View>
+                                            <View style={[styles.row,styles.row33]}>
+                                                <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'},styles.BR20]} 
+                                                    onPress={()=>this.props.navigation.navigate('PowerTest3')}>
                                                     <View style={styles.box}>
-                                                        <Image style={styles.img} resizeMode='contain' source={require('../../image/dl_7.png')}></Image>
-                                                        <Text allowFontScaling={false} style={styles.size22}>{this.props.t('harmonicDetection')}</Text>{/*谐波检测*/}
+                                                        <Image style={styles.img} resizeMode='contain' source={require('../../image/dl_3.png')}></Image>
+                                                        <Text allowFontScaling={false} style={styles.size22}>电力运行报表</Text>
                                                     </View>
-                                            </Pressable>
+                                                </Pressable>
+                                            </View>
                                         </View>
-                                    </View>
-                                </View> 
+                                        <View style={[styles.list,styles.item]}>
+                                            <View style={[styles.row,styles.row33]}>
+                                                <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'},styles.BR20]} 
+                                                    onPress={()=>this.props.navigation.navigate('PowerTest4')}>
+                                                    <View style={styles.box}>
+                                                        <Image style={styles.img} resizeMode='contain' source={require('../../image/dl_4.png')}></Image>
+                                                        <Text allowFontScaling={false} style={styles.size22}>电力极值报表</Text>
+                                                    </View>
+                                                </Pressable>
+                                            </View>
+                                            <View style={[styles.row,styles.row33]}>
+                                                
+                                                <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'},styles.BR20]} 
+                                                    onPress={()=>this.props.navigation.navigate('PowerTest5')}>
+                                                        <View style={styles.box}>
+                                                            <Image style={styles.img} resizeMode='contain' source={require('../../image/dl_5.png')}></Image>
+                                                            <Text allowFontScaling={false} style={styles.size22}>平均功率因数</Text>
+                                                        </View>
+                                                </Pressable>
+                                            </View>
+                                            <View style={[styles.row,styles.row33]}>
+                                                <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'},styles.BR20]} 
+                                                    onPress={()=>this.props.navigation.navigate('PowerTest6')}>
+                                                        <View style={styles.box}>
+                                                            <Image style={styles.img} resizeMode='contain' source={require('../../image/dl_6.png')} ></Image>
+                                                            <Text allowFontScaling={false} style={styles.size22}>电力运行日报</Text>
+                                                        </View>
+                                                </Pressable>
+                                            </View>
+                                        </View>
+                                        <View style={styles.list}>
+                                            <View style={[styles.row,styles.row33]}>
+                                                <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'},styles.BR20]} 
+                                                    onPress={()=>this.props.navigation.navigate('PowerTest7')}>
+                                                        <View style={styles.box}>
+                                                            <Image style={styles.img} resizeMode='contain' source={require('../../image/dl_7.png')}></Image>
+                                                            <Text allowFontScaling={false} style={styles.size22}>谐波检测</Text>
+                                                        </View>
+                                                </Pressable>
+                                            </View>
+                                        </View>
+                                    </View> 
+                                </View>
                             </View>
                             {/* 用电分析 */}
                             <View style={styles.indexUl}>
-                                <Text allowFontScaling={false} style={styles.title}>
-                                    {this.props.t('electricityAnalysis')}{/*用电分析*/}
-                                </Text>
-                                <View style={[styles.con,styles.bac]}>
-                                    <View style={[styles.list,styles.item]}>
-                                        <View style={[styles.row,styles.row25]}>
-                                            <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'}]} 
-                                                onPress={()=>this.props.navigation.navigate('powerAnalysis1')}>
+                                <View style={styles.back}>
+                                    <Text allowFontScaling={false} style={styles.title}>
+                                        用电分析
+                                    </Text>
+                                    <View style={[styles.con,styles.bac]}>
+                                        <View style={[styles.list,styles.item]}>
+                                            <View style={[styles.row,styles.row25]}>
+                                                <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'},styles.BR20]} 
+                                                    onPress={()=>this.props.navigation.navigate('powerAnalysis1')}>
+                                                        <View style={styles.box}>
+                                                            <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_1.png')}></Image>
+                                                            <Text allowFontScaling={false} style={styles.size22}>用能报表</Text>
+                                                        </View>
+                                                </Pressable>
+                                            </View>
+                                            <View style={[styles.row,styles.row25]}>
+                                                <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'},styles.BR20]} 
+                                                    onPress={()=>this.props.navigation.navigate('powerAnalysis2')}>
+                                                        <View style={styles.box}>
+                                                            <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_2.png')}></Image>
+                                                            <Text allowFontScaling={false} style={styles.size22}>同比分析</Text>
+                                                        </View>
+                                                </Pressable>
+                                            </View>
+                                            <View style={[styles.row,styles.row25]}>
+                                                <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'},styles.BR20]} 
+                                                    onPress={()=>this.props.navigation.navigate('powerAnalysis3')}>
                                                     <View style={styles.box}>
-                                                        <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_1.png')}></Image>
-                                                        <Text allowFontScaling={false} style={styles.size22}>{this.props.t('energyConsumptionReport')}</Text>{/*用能报表*/}
+                                                        <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_3.png')}></Image>
+                                                        <Text allowFontScaling={false} style={styles.size22}>环比分析</Text>
                                                     </View>
-                                            </Pressable>
-                                        </View>
-                                        <View style={[styles.row,styles.row25]}>
-                                            <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'}]} 
-                                                onPress={()=>this.props.navigation.navigate('powerAnalysis2')}>
+                                                </Pressable>
+                                            </View>
+                                            <View style={[styles.row,styles.row25]}>
+                                                <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'},styles.BR20]} 
+                                                    onPress={()=>this.props.navigation.navigate('powerAnalysis4')}>
                                                     <View style={styles.box}>
-                                                        <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_2.png')}></Image>
-                                                        <Text allowFontScaling={false} style={styles.size22}>{this.props.t('yearyearAnalysis')}</Text>{/*同比分析*/}
+                                                        <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_4.png')}></Image>
+                                                        <Text allowFontScaling={false} style={styles.size22}>损耗分析</Text>
                                                     </View>
-                                            </Pressable>
+                                                </Pressable>
+                                            </View>
                                         </View>
-                                        <View style={[styles.row,styles.row25]}>
-                                            <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'}]} 
-                                                onPress={()=>this.props.navigation.navigate('powerAnalysis3')}>
-                                                <View style={styles.box}>
-                                                    <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_3.png')}></Image>
-                                                    <Text allowFontScaling={false} style={styles.size22}>{this.props.t('sequentialAnalysis')}</Text>{/*环比分析*/}
-                                                </View>
-                                            </Pressable>
-                                        </View>
-                                        <View style={[styles.row,styles.row25]}>
-                                            <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'}]} 
-                                                onPress={()=>this.props.navigation.navigate('powerAnalysis4')}>
-                                                <View style={styles.box}>
-                                                    <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_4.png')}></Image>
-                                                    <Text allowFontScaling={false} style={styles.size22}>{this.props.t('lossAnalysis')}</Text>{/*损耗分析*/}
-                                                </View>
-                                            </Pressable>
-                                        </View>
-                                    </View>
-                                    <View style={[styles.list,styles.item]}>
-                                        <View style={[styles.row,styles.row25]}>
-                                        <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'}]} 
-                                            onPress={()=>this.props.navigation.navigate('powerAnalysis5')}>
-                                                <View style={styles.box}>
-                                                    <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_5.png')}></Image>
-                                                    <Text allowFontScaling={false} style={styles.size22}>{this.props.t('energyPooling')}</Text>{/*电能集抄*/}
-                                                </View>
-                                            </Pressable>
-                                        </View>
-                                        <View style={[styles.row,styles.row25]}>
-                                            <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'}]} 
-                                                onPress={()=>this.props.navigation.navigate('powerAnalysis6')}>
-                                                <View style={styles.box}>
-                                                    <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_6.png')}></Image>
-                                                    <Text allowFontScaling={false} style={styles.size22}>{this.props.t('PeaksValleys')}</Text>{/*尖峰平谷*/}
-                                                </View>
-                                            </Pressable>
-                                        </View>
+                                        <View style={[styles.list,styles.item]}>
+                                            <View style={[styles.row,styles.row25]}>
+                                            <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'},styles.BR20]} 
+                                                onPress={()=>this.props.navigation.navigate('powerAnalysis5')}>
+                                                    <View style={styles.box}>
+                                                        <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_5.png')}></Image>
+                                                        <Text allowFontScaling={false} style={styles.size22}>电能集抄</Text>
+                                                    </View>
+                                                </Pressable>
+                                            </View>
+                                            <View style={[styles.row,styles.row25]}>
+                                                <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'},styles.BR20]} 
+                                                    onPress={()=>this.props.navigation.navigate('powerAnalysis6')}>
+                                                    <View style={styles.box}>
+                                                        <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_6.png')}></Image>
+                                                        <Text allowFontScaling={false} style={styles.size22}>尖峰平谷</Text>
+                                                    </View>
+                                                </Pressable>
+                                            </View>
 
-                                        <View style={[styles.row,styles.row25]}>
-                                            <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'}]} 
-                                                onPress={()=>this.props.navigation.navigate('powerAnalysis7')}>
-                                                <View style={styles.box}>
-                                                    <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_8.png')}></Image>
-                                                    <Text allowFontScaling={false} style={styles.size22}>{this.props.t('maximumDemand')}</Text>{/*最大需量*/}
-                                                </View>
-                                            </Pressable>
+                                            <View style={[styles.row,styles.row25]}>
+                                                <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'},styles.BR20]} 
+                                                    onPress={()=>this.props.navigation.navigate('powerAnalysis7')}>
+                                                    <View style={styles.box}>
+                                                        <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_8.png')}></Image>
+                                                        <Text allowFontScaling={false} style={styles.size22}>最大需量</Text>
+                                                    </View>
+                                                </Pressable>
+                                            </View>
                                         </View>
                                     </View>
                                 </View>
                             </View>
                             {/* 用水分析 */}
                             <View style={styles.indexUl}>
-                                <Text allowFontScaling={false} style={styles.title}>
-                                    {this.props.t('waterUseAnalysis')}{/*用水分析*/}
-                                </Text>
-                                <View style={[styles.con,styles.bac]}>
-                                    <View style={[styles.list,styles.item]}>
-                                        <View style={[styles.row,styles.row25]}>
-                                            <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'}]} 
-                                                onPress={()=>this.props.navigation.navigate('waterAnalysis1')}>
-                                                <View style={styles.box}>
-                                                    <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_1.png')}></Image>
-                                                    <Text allowFontScaling={false} style={styles.size22}>{this.props.t('waterConsumptionEeport')}</Text>{/*用水报表*/}
-                                                </View>
-                                            </Pressable>
+                                <View style={styles.back}>
+                                    <Text allowFontScaling={false} style={styles.title}>
+                                        用水分析
+                                    </Text>
+                                    <View style={[styles.con,styles.bac]}>
+                                        <View style={[styles.list,styles.item]}>
+                                            <View style={[styles.row,styles.row25]}>
+                                                <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'},styles.BR20]} 
+                                                    onPress={()=>this.props.navigation.navigate('waterAnalysis1')}>
+                                                    <View style={styles.box}>
+                                                        <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_1.png')}></Image>
+                                                        <Text allowFontScaling={false} style={styles.size22}>用水报表</Text>
+                                                    </View>
+                                                </Pressable>
+                                            </View>
+                                            <View style={[styles.row,styles.row25]}>
+                                                <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'},styles.BR20]} 
+                                                    onPress={()=>this.props.navigation.navigate('waterAnalysis2')}>
+                                                    <View style={styles.box}>
+                                                        <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_2.png')}></Image>
+                                                        <Text allowFontScaling={false} style={styles.size22}>同比分析</Text>
+                                                    </View>
+                                                </Pressable>
+                                            </View>
+                                            <View style={[styles.row,styles.row25]}>
+                                                <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'},styles.BR20]} 
+                                                    onPress={()=>this.props.navigation.navigate('waterAnalysis3')}>
+                                                    <View style={styles.box}>
+                                                        <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_3.png')}></Image>
+                                                        <Text allowFontScaling={false} style={styles.size22}>环比分析</Text>
+                                                    </View>
+                                                </Pressable>
+                                            </View>
+                                            <View style={[styles.row,styles.row25]}>
+                                                <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'},styles.BR20]} 
+                                                    onPress={()=>this.props.navigation.navigate('waterAnalysis4')}>
+                                                    <View style={styles.box}>
+                                                        <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_4.png')}></Image>
+                                                        <Text allowFontScaling={false} style={styles.size22}>损耗分析</Text>
+                                                    </View>
+                                                </Pressable>
+                                            </View>
                                         </View>
-                                        <View style={[styles.row,styles.row25]}>
-                                            <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'}]} 
-                                                onPress={()=>this.props.navigation.navigate('waterAnalysis2')}>
-                                                <View style={styles.box}>
-                                                    <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_2.png')}></Image>
-                                                    <Text allowFontScaling={false} style={styles.size22}>{this.props.t('yearyearAnalysis')}</Text>{/*同比分析*/}
-                                                </View>
-                                            </Pressable>
+                                        <View style={[styles.list,styles.item]}>
+                                            <View style={[styles.row,styles.row25]}>
+                                                <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'},styles.BR20]} 
+                                                    onPress={()=>this.props.navigation.navigate('waterAnalysis5')}>
+                                                    <View style={styles.box}>
+                                                        <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_5.png')}></Image>
+                                                        <Text allowFontScaling={false} style={styles.size22}>水能集抄</Text>
+                                                    </View>
+                                                </Pressable>
+                                            </View>
+                                            
                                         </View>
-                                        <View style={[styles.row,styles.row25]}>
-                                            <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'}]} 
-                                                onPress={()=>this.props.navigation.navigate('waterAnalysis3')}>
-                                                <View style={styles.box}>
-                                                    <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_3.png')}></Image>
-                                                    <Text allowFontScaling={false} style={styles.size22}>{this.props.t('sequentialAnalysis')}</Text>{/*环比分析*/}
-                                                </View>
-                                            </Pressable>
-                                        </View>
-                                        <View style={[styles.row,styles.row25]}>
-                                            <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'}]} 
-                                                onPress={()=>this.props.navigation.navigate('waterAnalysis4')}>
-                                                <View style={styles.box}>
-                                                    <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_4.png')}></Image>
-                                                    <Text allowFontScaling={false} style={styles.size22}>{this.props.t('lossAnalysis')}</Text>{/*损耗分析*/}
-                                                </View>
-                                            </Pressable>
-                                        </View>
-                                    </View>
-                                    <View style={[styles.list,styles.item]}>
-                                        <View style={[styles.row,styles.row25]}>
-                                            <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'}]} 
-                                                onPress={()=>this.props.navigation.navigate('waterAnalysis5')}>
-                                                <View style={styles.box}>
-                                                    <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_5.png')}></Image>
-                                                    <Text allowFontScaling={false} style={styles.size22}>{this.props.t('WaterEnergyCollection')}</Text>{/*水能集抄*/}
-                                                </View>
-                                            </Pressable>
-                                        </View>
-                                        
                                     </View>
                                 </View>
                             </View>
                             {/* 用气分析 */}
                             <View style={styles.indexUl}>
-                                <Text allowFontScaling={false} style={styles.title}>
-                                    {this.props.t('gasAnalysis')}{/*用气分析*/}
-                                </Text>
-                                <View style={[styles.con,styles.bac]}>
-                                    <View style={[styles.list,styles.item]}>
-                                        <View style={[styles.row,styles.row25]}>
-                                            <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'}]} 
-                                                onPress={()=>this.props.navigation.navigate('gasAnalysis1')}>
-                                                <View style={styles.box}>
-                                                    <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_1.png')}></Image>
-                                                    <Text allowFontScaling={false} style={styles.size22}>{this.props.t('gasReport')}</Text>{/*用气报表*/}
-                                                </View>
-                                            </Pressable>
+                                <View style={styles.back}>
+                                    <Text allowFontScaling={false} style={styles.title}>
+                                        用气分析
+                                    </Text>
+                                    <View style={[styles.con,styles.bac]}>
+                                        <View style={[styles.list,styles.item]}>
+                                            <View style={[styles.row,styles.row25]}>
+                                                <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'},styles.BR20]} 
+                                                    onPress={()=>this.props.navigation.navigate('gasAnalysis1')}>
+                                                    <View style={styles.box}>
+                                                        <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_1.png')}></Image>
+                                                        <Text allowFontScaling={false} style={styles.size22}>用气报表</Text>
+                                                    </View>
+                                                </Pressable>
+                                            </View>
+                                            <View style={[styles.row,styles.row25]}>
+                                                <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'},styles.BR20]} 
+                                                    onPress={()=>this.props.navigation.navigate('gasAnalysis2')}>
+                                                    <View style={styles.box}>
+                                                        <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_2.png')}></Image>
+                                                        <Text allowFontScaling={false} style={styles.size22}>同比分析</Text>
+                                                    </View>
+                                                </Pressable>
+                                            </View>
+                                            <View style={[styles.row,styles.row25]}>
+                                                <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'},styles.BR20]} 
+                                                    onPress={()=>this.props.navigation.navigate('gasAnalysis3')}>
+                                                    <View style={styles.box}>
+                                                        <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_3.png')}></Image>
+                                                        <Text allowFontScaling={false} style={styles.size22}>环比分析</Text>
+                                                    </View>
+                                                </Pressable>
+                                            </View>
+                                            <View style={[styles.row,styles.row25]}>
+                                                <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'},styles.BR20]} 
+                                                    onPress={()=>this.props.navigation.navigate('gasAnalysis4')}>
+                                                    <View style={styles.box}>
+                                                        <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_4.png')}></Image>
+                                                        <Text allowFontScaling={false} style={styles.size22}>损耗分析</Text>
+                                                    </View>
+                                                </Pressable>
+                                            </View>
                                         </View>
-                                        <View style={[styles.row,styles.row25]}>
-                                            <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'}]} 
-                                                onPress={()=>this.props.navigation.navigate('gasAnalysis2')}>
-                                                <View style={styles.box}>
-                                                    <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_2.png')}></Image>
-                                                    <Text allowFontScaling={false} style={styles.size22}>{this.props.t('yearyearAnalysis')}</Text>{/*同比分析*/}
-                                                </View>
-                                            </Pressable>
-                                        </View>
-                                        <View style={[styles.row,styles.row25]}>
-                                            <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'}]} 
-                                                onPress={()=>this.props.navigation.navigate('gasAnalysis3')}>
-                                                <View style={styles.box}>
-                                                    <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_3.png')}></Image>
-                                                    <Text allowFontScaling={false} style={styles.size22}>{this.props.t('sequentialAnalysis')}</Text>{/*环比分析*/}
-                                                </View>
-                                            </Pressable>
-                                        </View>
-                                        <View style={[styles.row,styles.row25]}>
-                                            <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'}]} 
-                                                onPress={()=>this.props.navigation.navigate('gasAnalysis4')}>
-                                                <View style={styles.box}>
-                                                    <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_4.png')}></Image>
-                                                    <Text allowFontScaling={false} style={styles.size22}>{this.props.t('lossAnalysis')}</Text>{/*损耗分析*/}
-                                                </View>
-                                            </Pressable>
-                                        </View>
-                                    </View>
-                                    <View style={[styles.list,styles.item]}>
-                                        <View style={[styles.row,styles.row25]}>
-                                            <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'}]} 
-                                                onPress={()=>this.props.navigation.navigate('gasAnalysis5')}>
-                                                <View style={styles.box}>
-                                                    <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_5.png')}></Image>
-                                                    <Text allowFontScaling={false} style={styles.size22}>{this.props.t('gasEnergyCollection')}</Text>{/*气能集抄*/}
-                                                </View>
-                                            </Pressable>
+                                        <View style={[styles.list,styles.item]}>
+                                            <View style={[styles.row,styles.row25]}>
+                                                <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'},styles.BR20]} 
+                                                    onPress={()=>this.props.navigation.navigate('gasAnalysis5')}>
+                                                    <View style={styles.box}>
+                                                        <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_5.png')}></Image>
+                                                        <Text allowFontScaling={false} style={styles.size22}>气能集抄</Text>
+                                                    </View>
+                                                </Pressable>
+                                            </View>
                                         </View>
                                     </View>
                                 </View>
                             </View>
                             {/* 安全分析 */}
                             <View style={styles.indexUl}>
-                                <Text allowFontScaling={false} style={styles.title}>
-                                {this.props.t('SUOE')}{/*安全用电*/}
-                                </Text>
-                                <View style={[styles.con,styles.bac]}>
-                                    <View style={[styles.list,styles.item]}>
-                                        <View style={[styles.row,styles.row25]}>
-                                            <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'}]} 
-                                                onPress={()=>this.props.navigation.navigate('security1')}>
+                                <View style={styles.back}>
+                                    <Text allowFontScaling={false} style={styles.title}>
+                                        安全用电
+                                    </Text>
+                                    <View style={[styles.con,styles.bac]}>
+                                        <View style={[styles.list,styles.item]}>
+                                            <View style={[styles.row,styles.row27]}>
+                                                <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'},styles.BR20]} 
+                                                    onPress={()=>this.props.navigation.navigate('security1')}>
+                                                        <View style={styles.box}>
+                                                            <Image style={styles.imgMini}  resizeMode='contain' source={require('../../image/aq1.png')}></Image>
+                                                            <Text allowFontScaling={false} style={styles.size22}>漏电/温度监测</Text>
+                                                        </View>
+                                                </Pressable>
+                                            </View>
+                                            <View style={[styles.row,styles.row24]}>
+                                                <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'},styles.BR20]} 
+                                                    onPress={()=>this.props.navigation.navigate('security2')}>
                                                     <View style={styles.box}>
-                                                        <Image style={styles.imgMini}  resizeMode='contain' source={require('../../image/aq1.png')}></Image>
-                                                        <Text allowFontScaling={false} style={styles.size22}>{this.props.t('Leakage')}</Text>{/*漏电/温度监测*/}
+                                                        <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/aq2.png')} ></Image>
+                                                        <Text allowFontScaling={false} style={styles.size22}>开关控制</Text>
                                                     </View>
-                                            </Pressable>
-                                        </View>
-                                        <View style={[styles.row,styles.row25]}>
-                                            <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'}]} 
-                                                onPress={()=>this.props.navigation.navigate('security2')}>
-                                                <View style={styles.box}>
-                                                    <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/aq2.png')} ></Image>
-                                                    <Text allowFontScaling={false} style={styles.size22}>{this.props.t('onoffControl')}</Text>{/*开关控制*/}
-                                                </View>
-                                            </Pressable>
-                                        </View>
-                                        <View style={[styles.row,styles.row25]}>
-                                            <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'}]} 
-                                                onPress={()=>this.props.navigation.navigate('security5')}>
-                                                <View style={styles.box}>
-                                                    <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/switch-monitor.png')} ></Image>
-                                                    <Text allowFontScaling={false} style={styles.size22}>{this.props.t('SwitchMonitoring')}</Text>{/*开关监测*/}
-                                                </View>
-                                            </Pressable>
-                                        </View>
+                                                </Pressable>
+                                            </View>
+                                            <View style={[styles.row,styles.row24]}>
+                                                <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'},styles.BR20]} 
+                                                    onPress={()=>this.props.navigation.navigate('security5')}>
+                                                    <View style={styles.box}>
+                                                        <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/switch-monitor.png')} ></Image>
+                                                        <Text allowFontScaling={false} style={styles.size22}>开关监测</Text>
+                                                    </View>
+                                                </Pressable>
+                                            </View>
 
-                                        <View style={[styles.row,styles.row25]}>
-                                            <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'}]} 
-                                                onPress={()=>this.props.navigation.navigate('security3')}>
-                                                <View style={styles.box}>
-                                                    <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/aq3.png')}></Image>
-                                                    <Text allowFontScaling={false} style={styles.size22}>{this.props.t('camera')}</Text>{/*摄像头*/}
-                                                </View>
-                                            </Pressable>
+                                            <View style={[styles.row,styles.row25]}>
+                                                <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'},styles.BR20]} 
+                                                    onPress={()=>this.props.navigation.navigate('security3')}>
+                                                    <View style={styles.box}>
+                                                        <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/aq3.png')}></Image>
+                                                        <Text allowFontScaling={false} style={styles.size22}>摄像头</Text>
+                                                    </View>
+                                                </Pressable>
+                                            </View>
                                         </View>
                                     </View>
                                 </View>
@@ -422,10 +421,10 @@ const styles = StyleSheet.create({
     containerMini: {
         flex: 1,
         width: '100%',
-        backgroundColor: '#f4f4f4',
+        backgroundColor: '#eeeeee',
         zIndex: 9,
-        paddingLeft:8,
-        paddingRight:8,
+        paddingLeft: 10,
+        paddingRight: 10,
     },
     indexMini:{
         position: 'relative',
@@ -435,6 +434,14 @@ const styles = StyleSheet.create({
         position: 'relative',
         width: '100%',
         overflow: 'hidden',
+        paddingTop: 10,
+        paddingBottom: 10,
+    },
+    back: {
+        borderRadius: 10,
+        backgroundColor: '#fff',
+        paddingLeft: 10,
+        paddingRight: 10,
     },
     title:{
         position: 'relative',
@@ -446,11 +453,10 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         color: '#333',
         paddingLeft: 15,
-        marginTop: 30,
-        marginBottom: 20,
+        marginTop: 20,
         overflow: 'hidden',
         borderLeftWidth: 3,
-        borderLeftColor: '#333',
+        borderLeftColor: '#1890ff',
     },
     con: {
         position: 'relative',
@@ -459,34 +465,48 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
     },
+    listTop: {
+        position: 'relative',
+        width: '100%',
+        overflow: 'hidden',
+        marginTop:20,
+        marginBottom:15
+    },
     list: {
         position: 'relative',
         width: '100%',
         overflow: 'hidden',
-        marginRight:5,
-        marginTop:25,
-        marginBottom:15
+        marginTop: 10
     },
     row:{
         position: 'relative',
         overflow: 'hidden',
     },
+    row48: {
+        width: '48%',
+    },
     row33: {
         width: '33.333333%',
+    },
+    row24: {
+        width: '24%',
     },
     row25: {
         width: '25%',
     },
+    row27: {
+        width: '27%',
+    },
     overview: {
         position: 'relative',
         width: '100%',
+        height: 80,
         display: 'flex',
-        flexDirection: 'column',
+        flexDirection: 'row',
         alignItems: 'center',
-        padding:15,
-        paddingTop: 20,
-        paddingBottom: 10,
+        justifyContent: 'space-around',
         overflow: 'hidden',
+        borderRadius: 5,
     },
     item: {
         display: 'flex',
@@ -494,13 +514,12 @@ const styles = StyleSheet.create({
     },
     bac: {
         backgroundColor: '#fff',
-        borderRadius: 15,
         paddingBottom: 15,
         flexDirection: 'column',
         justifyContent:'space-evenly'
     },
     img: {
-        width:55
+        width: 60
     },
     box: {
         display: 'flex',
@@ -512,8 +531,8 @@ const styles = StyleSheet.create({
         width:45
     },
     size19: {
-        fontSize: Fs/19,
-        color: '#333',
+        fontSize: Fs/16,
+        color: '#fff',
         textAlign: 'center'
     },
     size22: {
@@ -521,6 +540,9 @@ const styles = StyleSheet.create({
         color: '#333',
         textAlign: 'center'
     },
+    BR20: {
+        borderRadius:20
+    }
 
 })
-export default withTranslation()(Index)
+export default Index

@@ -51,12 +51,12 @@ export class Loading extends Component<any,any> {
                         </View>
                     </View>:''
                 :
-                this.props.visible?
-                    <View style={styles.modalBox}>
-                        <View style={styles.showLoading}>
-                            <Text allowFontScaling={false} style={styles.showText}>{this.props.LoadingMsg}</Text>
-                        </View>
-                    </View>:''
+            this.props.visible?
+                <View style={styles.modalBox}>
+                    <View style={styles.showLoading}>
+                        <Text allowFontScaling={false} style={styles.showText}>{this.props.LoadingMsg}</Text>
+                    </View>
+                </View>:''
         )
     }
 }

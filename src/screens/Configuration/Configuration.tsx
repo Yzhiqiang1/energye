@@ -6,8 +6,7 @@ import {HttpService} from '../../utils/http'
 import { Register } from '../../utils/app'
 import { store } from '../../redux/storer'
 import Loading from '../../component/Loading/Loading'
-import { Shadow } from 'react-native-shadow-2';
-import { withTranslation  } from 'react-i18next';//语言包
+import { Icon } from '@rneui/base'
 
 const api = require('../../utils/api')
 const Fs = Dimensions.get('window').width*0.8
@@ -69,7 +68,7 @@ export class Configuration extends Component<any,any> {
     this.setState({
         msgType: 1,
         visible: true,
-        LoadingMsg: this.props.t('inTheQuery')//'查询中...'
+        LoadingMsg: '查询中...'
     })
     //查询数据
     that.setState({
@@ -95,7 +94,7 @@ export class Configuration extends Component<any,any> {
         this.setState({
           msgType: 2,
           visible: true,
-          LoadingMsg: this.props.t('TKCBE')//'关键字不能为空'
+          LoadingMsg: '关键字不能为空'
         },()=>{
             setTimeout(()=>{
                 this.setState({
@@ -151,12 +150,6 @@ export class Configuration extends Component<any,any> {
       keywords: keywords,
       pageSize: pageSize
     }).then((res:any)=>{
-      //取消加载效果
-      // that.setState({
-      //   isPageLoad: true,
-      //   scrollIs: true
-      // })
-      //关闭加载效果
       this.setState({
         visible: false
       })
@@ -205,16 +198,22 @@ export class Configuration extends Component<any,any> {
         <SafeAreaView style={{flex: 1}}>
           <View style={styleg.containerMax} onLayout={(event) => this.boxH(event)}>
             <View style={styles.nav}>
-              <Pressable style={({ pressed })=>[{backgroundColor: pressed? '#c3c3c3' : '#b4b4b4'},styles.navLeft]} onPress={()=>{this.props.navigation.navigate('HomeBar')}}>
-                <Image style={styles.navImg} source={require('../../image/Home.png')}></Image>
+              <Pressable style={styles.navLeft} onPress={()=>{this.props.navigation.navigate('HomeBar')}}>
+                  <Icon
+                      name='left'
+                      type='antdesign'
+                      color='#fff'
+                      size={22}
+                  />
+                  <Text allowFontScaling={false} style={styles.text}>首页</Text>
               </Pressable>
-              <Text style={styles.navName} allowFontScaling={false}>{this.props.t('configuration')}</Text>{/*云组态*/}
+              <Text style={styles.navName} allowFontScaling={false}>云组态</Text>
             </View>
 
             <View style={styles.head}>
               <View style={styles.search}>
                   <View style={styles.flex}>
-                      <TextInput style={styles.input} value={this.state.searchVal} allowFontScaling={false} placeholder='关键字搜索' onChangeText={this._search} ></TextInput>
+                      <TextInput style={styles.input} value={this.state.searchVal} placeholder='关键字搜索' onChangeText={this._search} ></TextInput>
                       {this.state.searchVal!=''?
                         <Pressable style={styles.close} onPress={this.searchClose}>
                             <Image style={styles.closeimg} source={require('../../image/search-close.png')}></Image>
@@ -224,23 +223,23 @@ export class Configuration extends Component<any,any> {
                   <TouchableHighlight style={styles.button} onPress={this.searchSubmit} underlayColor={'#2da2fe'}>
                       <View style={{width: '100%', height: '100%'}} >
                         <Image style={styles.ico} source={require('../../image/searcha.png')} ></Image>
-                        <Text style={styles.searchT} allowFontScaling={false}>{this.props.t('search')}</Text>{/*搜索*/}
+                        <Text style={styles.searchT} allowFontScaling={false}>搜索</Text>
                       </View>
                   </TouchableHighlight>
               </View>
               <View style={styles.allowance}>
-                  <Text style={styles.name} allowFontScaling={false}>{this.props.t('myConfiguration')}</Text>{/*我的组态*/}
+                  <Text style={styles.name} allowFontScaling={false}>我的组态</Text>
                   <View style={styles.number}>
                     <View style={styles.numberSpot1}></View>
-                    <Text style={styles.Spot} allowFontScaling={false}>{this.props.t('total')} {this.state.objList.cfgnum}</Text>{/*总计*/}
+                    <Text style={styles.Spot} allowFontScaling={false}>总计 {this.state.objList.cfgnum}</Text>
                   </View>
                   <View style={styles.number}>
                     <View style={styles.numberSpot2}></View>
-                    <Text style={styles.Spot} allowFontScaling={false}>{this.props.t('used')} {this.state.objList.count}</Text>{/*已用*/}
+                    <Text style={styles.Spot} allowFontScaling={false}>已用 {this.state.objList.count}</Text>
                   </View>
                   <View style={styles.number}>
                     <View style={styles.numberSpot3}></View>
-                    <Text style={styles.Spot} allowFontScaling={false}>{this.props.t('Remaining')} {this.state.objList ? this.state.objList.cfgnum - this.state.objList.count:''}</Text>
+                    <Text style={styles.Spot} allowFontScaling={false}>剩余 {this.state.objList ? this.state.objList.cfgnum - this.state.objList.count:''}</Text>
                   </View>
               </View>
             </View>
@@ -250,16 +249,17 @@ export class Configuration extends Component<any,any> {
                   <View style={styles.box}>
                   {this.state.objArr.map((data:any, index:any) => {
                     return (
-                      <Shadow distance={1} style={[styles.row,styles.rowR]}  key={index}>
-                          <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': 'white'},styles.item]}
-                            onPress={()=>{this.props.navigation.navigate('ConfigurationDetails',{url:data.url,name:data.appname})}}
-                          >
-                              <View style={styles.images}>
-                                  <Image style={styles.img} source={{uri:'https://www.energye.cn/images/zutai/Not.png'}}></Image>
-                              </View>
-                              <Text style={styles.Scrollname} allowFontScaling={false}>{data.appname}</Text>
-                          </Pressable>
-                      </Shadow>
+                        <Pressable key={index} style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': 'white'},styles.item]}
+                          onPress={()=>{this.props.navigation.navigate('ConfigurationDetails',{url:data.url,name:data.appname})}}
+                        >
+                            <View style={styles.images}>
+                                {data.appicon?
+                                  <Image style={styles.img} source={{uri: `${data.appicon}`}}></Image>:
+                                  <Image style={styles.img} source={require('../../image/Not.png')}></Image>
+                                }
+                            </View>
+                            <Text style={styles.Scrollname} allowFontScaling={false}>{data.appname}</Text>
+                        </Pressable>
                     );
                   })}
                   </View> : ''  
@@ -268,13 +268,13 @@ export class Configuration extends Component<any,any> {
                   <View>
                     {this.state.objArr.length > 0 && this.state.isLastPage == true?
                       <Text style={styles.isPageTxt} allowFontScaling={false}>
-                          {this.props.t('ADHBL')}
+                          已加载所有数据
                       </Text> : ''
                     }
                   
                     {this.state.objArr.length == 0 && this.state.isPageLoad == true?
                       <Text style={styles.nothing} allowFontScaling={false}>
-                        {this.props.t('NoData')}
+                        未查询到数据
                       </Text>:''
                     }
                     
@@ -285,9 +285,8 @@ export class Configuration extends Component<any,any> {
                     }
                   </View> :
                     <Text style={styles.notLoggedIn} allowFontScaling={false}>
-                      {this.props.t('youNotlogin')}
-                      {/* 您还未登录 */}
-                        <Text style={styles.url} onPress={()=>this.props.navigation.navigate('BindAccount')}>{this.props.t('clickLogIn')}</Text>{/*点击登录*/}
+                        您还未登录
+                        <Text style={styles.url} onPress={()=>this.props.navigation.navigate('BindAccount')}>点击登录</Text>
                     </Text> 
                 }
             </ScrollView>
@@ -306,16 +305,15 @@ const styles = StyleSheet.create({
   },
   navLeft:{
     position:'absolute',
-    left:15,
+    left: 5,
     top: '50%',
     marginTop: -15,
     zIndex:999,
-    width: 30,
+    width: 100,
     height: 30,
-    borderRadius: 20,
     display:'flex',
+    flexDirection: 'row',
     alignItems:'center',
-    justifyContent:'center',
   },
   navImg:{
     width:25,
@@ -326,7 +324,7 @@ const styles = StyleSheet.create({
     lineHeight:ht/10,
     textAlignVertical: 'center',
     textAlign:'center',
-    fontSize:Fs/18,
+    fontSize: Fs/16,
     color:'#fff'
   },
   head:{
@@ -362,7 +360,7 @@ const styles = StyleSheet.create({
     paddingLeft: 5,
     paddingRight: 5,
     color: '#333',
-    fontSize: Fs/20,
+    fontSize: Fs/16,
     borderStyle: 'solid',
     borderWidth:1,
     borderColor: '#f2f2f2',
@@ -495,24 +493,29 @@ const styles = StyleSheet.create({
     paddingRight: 5,
     paddingLeft: 5,
   },
-  rowR: {
-    marginBottom: 10,
-  },
-  row:{
-    flex: 1,
-    width: Dimensions.get('window').width/2 - 15,
-    padding: 5,
-  },
+
   item:{
     position: 'relative',
-    width: '100%',
     overflow: 'hidden',
+    width: Dimensions.get('window').width/2 - 15,
+    marginBottom: 10,
+    borderRadius: 2,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 4
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5
   },
   images:{
     position: 'relative',
     width: '100%',
     height: 110,
     overflow: 'hidden',
+    paddingLeft: 10,
+    paddingRight: 10,
   },
   img:{
     width: '100%',
@@ -570,6 +573,10 @@ const styles = StyleSheet.create({
     textDecorationLine:'underline',
     fontSize: Fs/24,
   },
+  text: {
+    fontSize: Fs/18,
+    color: '#fff'
+  }
 })
 
-export default withTranslation()(Configuration)
+export default Configuration

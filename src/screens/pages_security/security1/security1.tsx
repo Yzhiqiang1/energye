@@ -109,7 +109,7 @@ export class Security2 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: this.props.t('getNotData')//'获取参数失败！'
+                LoadingMsg: '获取参数失败！'
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -171,7 +171,7 @@ export class Security2 extends Component<any,any> {
         this.setState({
             msgType: 1,
             visible: true,
-            LoadingMsg: this.props.t('Loading')//'加载中...'
+            LoadingMsg: '加载中...'
         })
         HttpService.apiPost(api.ldjc_getData, {
             userId: userId,
@@ -269,7 +269,6 @@ export class Security2 extends Component<any,any> {
         this.props.navigation.navigate('History_leakage',{deviceid:deviceid})
     }
     render() {
-        const { t } = this.props
         return (
             <View style={{flex: 1}}>
                 <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
@@ -283,7 +282,7 @@ export class Security2 extends Component<any,any> {
                 <SafeAreaView style={{flex: 1}}>
                     {/* 引入自定义导航栏 */}
                     <Navbar 
-                        pageName={t('ELD')}//'漏电检测'
+                        pageName={'漏电检测'}
                         showBack={true}
                         showHome={false}
                         isCheck={4}
@@ -297,7 +296,7 @@ export class Security2 extends Component<any,any> {
                         <ScrollView contentContainerStyle={styles.containerMini}>
                             {/* 面板item */}
                             {this.state.leakageArr.length == 0?
-                                <Text allowFontScaling={false} style={styles.empty}>{t('noSensor')}</Text>://没有对应传感器
+                                <Text allowFontScaling={false} style={styles.empty}>没有对应传感器</Text>:
                                 this.state.leakageArr.map((top_item:any,top_index:number)=>{
                                     return(
                                         <View style={styles.indexMini} key={top_index}>
@@ -310,12 +309,12 @@ export class Security2 extends Component<any,any> {
                                                 </Image>
                                                 <View style={styles.devieceInfo}>
                                                     <Text allowFontScaling={false} style={styles.devieceName}>{top_item.deviceName}</Text>
-                                                    <Text allowFontScaling={false} style={styles.lastTime}>{t('updateTime')}:
-                                                        <Text allowFontScaling={false} style={styles.lastTime}>{top_item.time ? top_item.time : t('noData')}</Text>
+                                                    <Text allowFontScaling={false} style={styles.lastTime}>更新时间:
+                                                        <Text allowFontScaling={false} style={styles.lastTime}>{top_item.time ? top_item.time : '暂无数据'}</Text>
                                                     </Text>
                                                 </View>
                                                 <Text allowFontScaling={false} style={styles.search} onPress={()=>this.historySearch(top_index)}>
-                                                    {t('inquire')}
+                                                    查询
                                                 </Text>
                                             </View>
         
@@ -325,7 +324,7 @@ export class Security2 extends Component<any,any> {
                                                 <View style={styles.current}>
                                                     <View style={styles.currentUp}>
                                                         <Image style={styles.img} resizeMode='contain' source={require('../../../image/ld_2.png')}></Image>
-                                                        <Text allowFontScaling={false} style={styles.name}>{t('leakageCurrent')}</Text>
+                                                        <Text allowFontScaling={false} style={styles.name}>漏电流</Text>
                                                     </View>
                                                     <View style={styles.currentDown}>
                                                         <Text allowFontScaling={false} style={styles.DownText}>{top_item.In.value}</Text>
@@ -336,7 +335,7 @@ export class Security2 extends Component<any,any> {
                                                 <View style={styles.cable}>
                                                     <View style={styles.cableUp}>
                                                         <Image style={styles.img} resizeMode='contain' source={require('../../../image/ld_3.png')}></Image>
-                                                        <Text allowFontScaling={false} style={styles.name}>{t('cableCable')}</Text>
+                                                        <Text allowFontScaling={false} style={styles.name}>线缆温度</Text>
                                                     </View>
                                                     <View style={styles.cableDown}>
                                                         <View style={styles.temperature}>
@@ -386,7 +385,7 @@ const styles = StyleSheet.create({
     },
     indexMini :{
         position: 'relative',
-        width: Dimensions.get('window').width-30,
+        width: Dimensions.get('window').width-20,
         backgroundColor: '#fff',
         borderRadius: 5,
         opacity: 1,
@@ -438,8 +437,8 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: 7,
         right: 0,
-        color: 'steelblue',
-        fontSize: Fs/22
+        fontSize: Fs/22,
+        color: '#1890FF'
     },
     
     

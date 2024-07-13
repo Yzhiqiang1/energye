@@ -4,15 +4,13 @@ import {HttpService} from '../../utils/http'
 import LoginNavbar from '../../component/loginNavbar/loginNavbar'
 import Loading from '../../component/Loading/Loading'
 import tool from '../../utils/tool'
-import store from '../../redux/store'
-import { connect } from 'react-redux';
 import { Set_State } from '../../redux/reducers/counterSlice'
+import { connect } from 'react-redux'
 const height = Dimensions.get('window').height
 let api = require('../../utils/api')
 const Fs = Dimensions.get('window').width*0.8
 
 //全屏幕宽高
-import { withTranslation  } from 'react-i18next';//语言包
 
 export class BindPhone extends Component<any,any> {
     constructor(props: any) {
@@ -103,13 +101,13 @@ export class BindPhone extends Component<any,any> {
                     var interval = setInterval(function () {
                         down--;
                         that.setState({
-                            mobiletitle: that.props.t('reacquire')+'(' + down + ')'
+                            mobiletitle: '(重新获取' + down + ')'
                         })
                         if (down == 0) {
                             clearInterval(interval)
                             that.setState({
                                 isCode: true,
-                                mobiletitle: that.props.t('getVerification')//'重新获取验证码'
+                                mobiletitle: '重新获取验证码'
                             })
                         }
                     }, 1000)
@@ -265,7 +263,6 @@ export class BindPhone extends Component<any,any> {
                             <View  style={styles.list}>
                                 <Image style={styles.Img} source={require('../../image/dl_user.png')}></Image>
                                 <TextInput 
-                                allowFontScaling={false}
                                 style={styles.Input} 
                                 placeholder={'输入手机号'} 
                                 onChangeText={this.mobileChangeSearch} 
@@ -274,25 +271,25 @@ export class BindPhone extends Component<any,any> {
                             </View>
                             <View  style={styles.list}>
                                 <Image style={styles.Img} source={require('../../image/dl_password.png')}></Image>
-                                <TextInput allowFontScaling={false} style={styles.Input} placeholder={'输入验证码'} onChangeText={this.codeChangeSearch}></TextInput>
+                                <TextInput style={styles.Input} placeholder={'输入验证码'} onChangeText={this.codeChangeSearch}></TextInput>
                                 <Text allowFontScaling={false} style={styles.Code} onPress={this.gainCode}>{this.state.mobiletitle}</Text>
                             </View>
                             <View style={styles.forget}>
                             </View>
                             <View  style={styles.butList}>
                                 <Pressable style={({ pressed })=>[{backgroundColor: pressed? '#f3f3f3' : '#eeeeee'},styles.button]} onPress={()=>this.props.navigation.navigate('Tabbar')}>
-                                    <Text allowFontScaling={false} style={styles.buttonL} >{'取消登录'}</Text>{/*取消登录*/}
+                                    <Text allowFontScaling={false} style={styles.buttonL}>取消登录</Text>
                                 </Pressable>
                                 <Pressable style={({ pressed })=>[{backgroundColor: pressed? '#2da2fe' : '#1890FF'},styles.button]} onPress={this.Login}>
-                                    <Text allowFontScaling={false} style={styles.buttonR}>{'登录'}</Text>{/*登录*/}
+                                    <Text allowFontScaling={false} style={styles.buttonR}>登录</Text>
                                 </Pressable>
                             </View>
                             <View style={styles.link}>
                                 <TouchableOpacity style={styles.Url} onPress={()=>this.props.navigation.navigate('BindAccount')}>
-                                    <Text allowFontScaling={false} style={{color: '#01AAED',fontSize:Fs/22}}>{'账号登录'}</Text>{/**/}
+                                    <Text allowFontScaling={false} style={{color: '#01AAED',fontSize:Fs/22}}>账号登录</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity style={styles.Url} onPress={()=>this.props.navigation.navigate('AccountRegister')}>
-                                    <Text allowFontScaling={false} style={{color: '#01AAED',fontSize:Fs/22}}>{'注册账号'}</Text>{/*注册账号*/}
+                                    <Text allowFontScaling={false} style={{color: '#01AAED',fontSize:Fs/22}}>注册账号</Text>
                                 </TouchableOpacity>
                             </View>
                         </View>
@@ -367,7 +364,7 @@ const styles = StyleSheet.create({
         height: 50,
         lineHeight: 50,
         color: '#333333',
-        fontSize: Fs/22,
+        fontSize: Fs/18,
         paddingLeft: 80,
     },
     forget:{
@@ -393,7 +390,7 @@ const styles = StyleSheet.create({
         width: '47.5%',
         height: 40,
         color: '#333',
-        borderRadius: 10,
+        borderRadius: 3,
         padding: 0,
         overflow: 'hidden'
     },
@@ -410,7 +407,6 @@ const styles = StyleSheet.create({
         textAlignVertical: 'center',
         textAlign: 'center',
         fontSize: Fs/22,
-        borderRadius: 10,
         color:'#fff'
     },
     link:{

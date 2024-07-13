@@ -8,7 +8,6 @@ import { store } from '../../../redux/storer'
 import { HttpService } from '../../../utils/http'
 import Loading from '../../../component/Loading/Loading'
 import PickerBut from '../../../component/PickerBut/PickerBut'
-import { withTranslation } from 'react-i18next';//语言包
 const api = require('../../../utils/api')
 const Fs = Dimensions.get('window').width*0.8
 
@@ -62,7 +61,7 @@ export class PowerAnalysis7 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: this.props.t('getNotData')//'获取参数失败！'
+                LoadingMsg: '获取参数失败！'
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -101,7 +100,7 @@ export class PowerAnalysis7 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: this.props.t('TSDMN')//'开始日期不能大于结束日期!'
+                LoadingMsg: '开始日期不能大于结束日期!'
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -123,7 +122,7 @@ export class PowerAnalysis7 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: this.props.t('YANLIA')//'您还未登录,无法查询数据！'
+                LoadingMsg: '您还未登录,无法查询数据！'
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -136,7 +135,7 @@ export class PowerAnalysis7 extends Component<any,any> {
         this.setState({
             msgType: 1,
             visible: true,
-            LoadingMsg: this.props.t('Loading')//'加载中...'
+            LoadingMsg: '加载中...'
         }); //加载效果
         let userId = store.getState().userId; //用户ID
         //查询设备ID
@@ -224,7 +223,6 @@ export class PowerAnalysis7 extends Component<any,any> {
         });
     }
     render() {
-        const { t } = this.props
         return (
             <View style={{flex: 1}}>
                 <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
@@ -238,7 +236,7 @@ export class PowerAnalysis7 extends Component<any,any> {
                 <SafeAreaView style={{flex: 1}}>
                     {/* 引入自定义导航栏 */}
                     <Navbar 
-                        pageName={t('maximumDemand')}//'最大需量'
+                        pageName={'最大需量'}
                         showBack={true}
                         showHome={false}
                         isCheck={3}
@@ -250,63 +248,51 @@ export class PowerAnalysis7 extends Component<any,any> {
                     <View style={styleg.container}>
                         <View style={styles.query_head}>
                             <View style={styles.flex}>
-                                {/* <Picker
-                                    pickerType={1}
-                                    date={this.state.start}
-                                    precisionType={2}
-                                    click={this.clickStart}
-                                ></Picker> */}
                                 <Pressable style={styleg.button} onPress={()=>this.setState({open: true,typePk: 1})}>
                                     <Text allowFontScaling={false} style={styleg.TextButton}>{this.state.start}</Text>
                                     <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
                                 </Pressable>
                             </View>
                             <Text allowFontScaling={false} style={styles.text}>
-                                {t('to')}
+                                至
                             </Text>
                             <View style={styles.flex}>
-                                {/* <Picker
-                                    pickerType={1}
-                                    date={this.state.end}
-                                    precisionType={2}
-                                    click={this.clickEnd}
-                                ></Picker> */}
-                                <Pressable style={styleg.button} onPress={()=>this.setState({open: true,typePk: 1})}>
+                                <Pressable style={styleg.button} onPress={()=>this.setState({open: true,typePk: 2})}>
                                     <Text allowFontScaling={false} style={styleg.TextButton}>{this.state.end}</Text>
                                     <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
                                 </Pressable>
                             </View>
-                            <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>{t('inquire')}</Text>
+                            <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>查询</Text>
                         </View>
                         
                         <ScrollView style={styles.echarts_con}>
                             {this.state.optionData.length == 0?
-                                <Text allowFontScaling={false} style={styles.empty}>{t('noData')}</Text>://暂无数据
+                                <Text allowFontScaling={false} style={styles.empty}>暂无数据</Text>:
                                 <View style={styles.item}>
                                     <Text allowFontScaling={false} style={styles.name}>
-                                        {t('MDDS')}
+                                        最大需量数据统计
                                     </Text>
                                     <View style={styles.table}>
                                         {this.state.optionData.map((top_item: any,top_index: number)=>{
                                             return(
                                                 <View key={top_index}>
                                                 {/* // 标题 1行 */}
-                                                <View style={[styles.cell,top_index == 0?styles.cellLinTo : null]}>
+                                                <View style={[styles.cell,top_index == 0?styles.cellLinTo : null,,{backgroundColor: '#FAFAFA'}]}>
                                                     <Text allowFontScaling={false} style={styles.title}>
                                                         {top_item.deviceName}
                                                     </Text>
                                                 </View>
                                                 {/* //  数值，时间标题 2行 */}
-                                                <View style={styles.cell}>
+                                                <View style={[styles.cell,{backgroundColor: '#F3FAFF'}]}>
                                                     <View style={styles.label}></View>
                                                     <View style={styles.cellflex}>
                                                         <View style={styles.cellCen}>
-                                                            <Text allowFontScaling={false} style={styles.value}>{t('numericalValue')}</Text>{/*数值*/}
+                                                            <Text allowFontScaling={false} style={styles.value}>数值</Text>
                                                         </View>
                                                     </View>
                                                     <View style={styles.cellflex}>
                                                         <View style={styles.cellCen}>
-                                                            <Text allowFontScaling={false} style={styles.value}>{t('Time')}</Text>{/*时间*/}
+                                                            <Text allowFontScaling={false} style={styles.value}>时间</Text>
                                                         </View>
                                                     </View>
                                                 </View>
@@ -317,7 +303,7 @@ export class PowerAnalysis7 extends Component<any,any> {
                                                             <View style={styles.cell}>
                                                                 <View style={styles.label}>
                                                                     <View style={styles.cellCen}>
-                                                                        <Text allowFontScaling={false} style={styles.value}>{top_item2.month+t('month')}</Text>
+                                                                        <Text allowFontScaling={false} style={styles.value}>{top_item2.month+'月'}</Text>
                                                                     </View>
                                                                 </View>
                                                                 <View style={styles.cellflex}>
@@ -381,8 +367,8 @@ const styles = StyleSheet.create({
     },
     button:{
         position: 'relative',
-        height: 30,
-        lineHeight: 30,
+        height: 35,
+        lineHeight: 35,
         textAlignVertical: 'center',
         paddingLeft: 12,
         paddingRight: 12,
@@ -391,7 +377,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#d9d9d9',
         borderStyle: 'solid',
-        borderRadius: 5,
+        borderRadius: 2,
         marginLeft: 7,
         overflow: 'hidden',
     },
@@ -546,4 +532,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default withTranslation()(PowerAnalysis7)
+export default PowerAnalysis7

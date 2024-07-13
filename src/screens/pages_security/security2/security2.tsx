@@ -1,4 +1,4 @@
-import { AppState, DeviceEventEmitter, Dimensions, Image, SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import { AppState, DeviceEventEmitter, StatusBar, Dimensions, Image, SafeAreaView, StyleSheet, Text, View, Platform, NativeModules, Pressable } from 'react-native'
 import React, { Component } from 'react'
 import Navbar from '../../../component/navbar/navbar'
 import { Register } from '../../../utils/app'
@@ -10,9 +10,11 @@ import Loading from '../../../component/Loading/Loading'
 
 import { store } from '../../../redux/storer'
 import { localSocket } from '../../../redux/reducers/counterSlice'
-import { withTranslation } from 'react-i18next';//语言包
+const { StatusBarManager } = NativeModules;
+const STATUS_BAR_HEIGHT = Platform.OS === 'ios' ? StatusBar.currentHeight : StatusBarManager.HEIGHT;//状态栏高度
 const api = require('../../../utils/api')
 const Fs = Dimensions.get('window').width*0.8
+const H = Dimensions.get('screen').height
 
 let dataPos:any = {}; //dataPOS:{a:{},b:{}}
 let eventListener:any = {}
@@ -110,7 +112,7 @@ export class Security1 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: this.props.t('getNotData')//'获取参数失败！'
+                LoadingMsg: '获取参数失败！'
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -239,7 +241,7 @@ export class Security1 extends Component<any,any> {
                 this.setState({
                     visibleM: true,
                 })
-            },1000)
+            })
         })
     }
     // 取消操作
@@ -260,7 +262,7 @@ export class Security1 extends Component<any,any> {
         this.setState({
             msgType: 1,
             visible: true,
-            LoadingMsg: this.props.t('Loading')//'加载中...'
+            LoadingMsg: '加载中...'
         })
         HttpService.apiPost(api.kgkz_sendData, {
             userId: userId,
@@ -275,7 +277,7 @@ export class Security1 extends Component<any,any> {
                 this.setState({
                     msgType: 2,
                     visible: true,
-                    LoadingMsg: this.props.t('TOWSI')//'操作下发成功,请等待设备回传!'
+                    LoadingMsg: '操作下发成功,请等待设备回传!'
                 },()=>{
                     setTimeout(()=>{
                         this.setState({
@@ -320,7 +322,6 @@ export class Security1 extends Component<any,any> {
         this.props.navigation.navigate('History',{sids:sids})
     }
     render() {
-        const { t } = this.props
         return (
             <View style={{flex: 1}}>
                 <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
@@ -334,7 +335,7 @@ export class Security1 extends Component<any,any> {
                 <SafeAreaView style={{flex: 1}}>
                     {/* 引入自定义导航栏 */}
                     <Navbar 
-                        pageName={t('onoffControl')}//开关控制
+                        pageName={'开关控制'}
                         showBack={true}
                         showHome={false}
                         isCheck={5}
@@ -347,7 +348,7 @@ export class Security1 extends Component<any,any> {
                     <View style={styleg.containerMini}>
                         <View style={styles.containerMini}>
                             {this.state.sensorArr.length==0?
-                                <Text allowFontScaling={false} style={styles.empty}>{t('noSensor')}</Text>:''//没有对应传感器
+                                <Text allowFontScaling={false} style={styles.empty}>{'没有对应传感器'}</Text>:''
                             }
                             {/* 面板item */}
                             {this.state.sensorArr.map((top_item:any,top_index:number)=>{
@@ -358,20 +359,20 @@ export class Security1 extends Component<any,any> {
                                             <Image source={require('../../../image/switch1.png')} resizeMode='contain' style={styles.devieceImg}></Image>
                                             <View style={styles.devieceInfo}>
                                                 <Text allowFontScaling={false} style={styles.devieceName}>{top_item.deviceName}</Text>
-                                                <Text allowFontScaling={false}>{t('updateTime')}: 
-                                                    <Text allowFontScaling={false} style={styles.lastTime}>{top_item.updateTime ? top_item.updateTime : t('noData')}</Text>
+                                                <Text allowFontScaling={false}>更新时间: 
+                                                    <Text allowFontScaling={false} style={styles.lastTime}>{top_item.updateTime ? top_item.updateTime : '暂无数据'}</Text>
                                                 </Text>
                                             </View>
                                             <Text allowFontScaling={false} 
                                                 style={styles.search}
                                                 onPress={()=>this.historySearch(top_index)}
                                             >
-                                            {t('inquire')}
+                                            查询
                                             </Text>
                                         </View>
                                         {/* 传感器信息行 */}
                                         {top_item.sensorList.length==0?
-                                            <Text allowFontScaling={false}>{t('noData')}</Text>:''//暂无数据
+                                            <Text allowFontScaling={false}>暂无数据</Text>:''
                                         }
                                         {top_item.sensorList.map((item:any,index:number)=>{
                                             return(
@@ -379,33 +380,40 @@ export class Security1 extends Component<any,any> {
                                                     <Text allowFontScaling={false} style={styles.sensorName}>{item.sensorname}</Text>
                                                     {/* 开关 */}
                                                     <Switch
-                                                    value={item.switch == 1}
-                                                    onValueChange={() => this.showPopup(top_index,index,item.switch==1 ?  0 : 1,top_item.devieceNo,item.sensorid)}
-                                                    style={styles.btn}
-                                                    color={'#1989fa'}/>
+                                                        value={item.switch == 1}
+                                                        onValueChange={() => this.showPopup(top_index,index,item.switch==1 ?  0 : 1,top_item.devieceNo,item.sensorid)}
+                                                        style={styles.btn}
+                                                        color={'#1989fa'}/>
                                                 </View>
                                             )
                                         })}
                                     </View>
                                 )
                             })}
-                            {/* 对话框 */}
-                            <Dialog
-                                isVisible={this.state.visibleM}
-                                overlayStyle={styles.overlay}
-                                backdropStyle={{height:'120%'}}
-                                >
-                                <Text allowFontScaling={false} style={styles.SwitchText}>{t('AYSTOT')}</Text>{/*确定操作设备开关吗？*/}
-                                <Dialog.Actions>
-                                    <View style={styles.actions}>
-                                        <Text allowFontScaling={false} style={[styles.Dialog,styles.cancel]} onPress={this.cancel}>{t('cancel')}</Text>{/*取消*/}
-                                        <Text allowFontScaling={false} style={[styles.Dialog,styles.confirm]} onPress={this.confirm}>{t('confirm')}</Text>{/*确定*/}
-                                    </View>
-                                </Dialog.Actions>
-                            </Dialog>
                         </View>
                     </View>
                 </SafeAreaView>
+
+                 {/* 对话框 */}
+                 <Dialog
+                    isVisible={this.state.visibleM}
+                    overlayStyle={styles.overlay}
+                    backdropStyle={{height:'120%'}}
+                    >
+                    <Text allowFontScaling={false} style={styles.SwitchText}>确定操作设备开关吗？</Text>
+
+                    <View style={styles.actions}>
+                        <Pressable style={styles.but}>
+                            <Text allowFontScaling={false} style={styles.bot} onPress={()=>this.cancel()}>取消</Text>
+                        </Pressable>
+                        <Pressable style={[styles.but,{backgroundColor: '#1890FF',}]}>
+                            <Text allowFontScaling={false}
+                            style={[styles.bot,{color: '#fff'}]} 
+                            onPress={()=>{this.confirm()}}
+                            >确定</Text>
+                        </Pressable>
+                    </View>
+                </Dialog>
             </View>
         )
     }
@@ -474,7 +482,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: 7,
         right: 0,
-        color: 'steelblue',
+        color: '#1890FF',
         fontSize: Fs/22
     },
     sensor:{
@@ -516,23 +524,31 @@ const styles = StyleSheet.create({
     SwitchText:{
         width: '100%',
         textAlign: 'center',
-        height: 80,
-        lineHeight: 80,
+        height: H/7/2,
+        lineHeight: H/7/2,
         fontSize: Fs/22,
         color: '#333',
         fontWeight: '700',
-        borderBottomWidth: 1,
-        borderBottomColor: '#f2f2f2',
-        borderStyle: 'solid'
+        borderBottomWidth: 7,
+        borderBottomColor: '#F4F4F4',
+        borderStyle: 'solid',
     },
     overlay:{
-        borderRadius: 20
+        borderRadius: 20,
+        overflow: 'hidden',
+        position: 'absolute',
+        top: H - STATUS_BAR_HEIGHT - H/7,
+        width: '100%',
+        height: H/7 + 20,
+        padding: 0,
     },
     actions:{
         width: '100%',
         display:'flex',
         flexDirection: 'row',
-        justifyContent: 'space-around'
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        height: H/7/2 - 5,
     },
     Dialog:{
         width: '50%',
@@ -547,6 +563,21 @@ const styles = StyleSheet.create({
     confirm:{
         color: '#576b95'
     },
+    but: {
+        display: 'flex',
+        justifyContent: 'center',
+        width: '40%',
+        height: '70%',
+        borderRadius: 5,
+        borderStyle: 'solid',
+        borderWidth: 1,
+        borderColor: '#1890FF',
+    },
+    bot: {
+        fontSize: Fs/22,
+        textAlign: 'center',
+        color: '#1890FF',
+    },
 })
 
-export default withTranslation()(Security1)
+export default Security1

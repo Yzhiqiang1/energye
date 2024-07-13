@@ -8,7 +8,6 @@ import { HttpService } from '../../../utils/http'
 import util, { plusReduceData } from '../../../utils/util'
 import Loading from '../../../component/Loading/Loading'
 import PickerBut from '../../../component/PickerBut/PickerBut'
-import { withTranslation } from 'react-i18next';//语言包
 const api = require('../../../utils/api')
 const Fs = Dimensions.get('window').width*0.8
 
@@ -62,7 +61,7 @@ export class PowerAnalysis4 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: this.props.t('getNotData')//'获取参数失败！'
+                LoadingMsg: '获取参数失败！'
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -103,7 +102,7 @@ export class PowerAnalysis4 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: this.props.t('TSDMN')//'开始日期不能大于结束日期!'
+                LoadingMsg: '开始日期不能大于结束日期!'
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -125,7 +124,7 @@ export class PowerAnalysis4 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: this.props.t('YANLIA')//'您还未登录,无法查询数据！'
+                LoadingMsg: '您还未登录,无法查询数据！'
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -138,7 +137,7 @@ export class PowerAnalysis4 extends Component<any,any> {
         this.setState({
             msgType: 1,
             visible: true,
-            LoadingMsg: this.props.t('Loading')//'加载中...'
+            LoadingMsg: '加载中...'
         }); //加载效果
         let userId = store.getState().userId; //用户ID
         let deviceId = store.getState().parameterGroup.radioGroup.selectKey; //获取设备ID
@@ -221,7 +220,6 @@ export class PowerAnalysis4 extends Component<any,any> {
     }
 
     render() {
-        const { t } = this.props
         return (
             <View style={{flex: 1}}>
                 <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
@@ -235,7 +233,7 @@ export class PowerAnalysis4 extends Component<any,any> {
                 <SafeAreaView style={{flex: 1}}>
                     {/* 引入自定义导航栏 */}
                     <Navbar 
-                        pageName={t('lossAnalysis')}//'损耗分析'
+                        pageName={'损耗分析'}
                         showBack={true}
                         showHome={false}
                         isCheck={2}
@@ -247,49 +245,37 @@ export class PowerAnalysis4 extends Component<any,any> {
                     <View style={styleg.container}>
                         <View style={styles.query_head}>
                             <View style={styles.flex}>
-                                {/* <Picker
-                                    pickerType={1}
-                                    date={this.state.start}
-                                    precisionType={1}
-                                    click={this.clickStart}
-                                ></Picker> */}
                                 <Pressable style={styleg.button} onPress={()=>this.setState({open: true,typePk: 1})}>
                                     <Text allowFontScaling={false} style={styleg.TextButton}>{this.state.start}</Text>
                                     <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
                                 </Pressable>
                             </View>
                             <Text allowFontScaling={false} style={styles.text}>
-                                {t('to')}
+                                至
                             </Text>
                             <View style={styles.flex}>
-                                {/* <Picker
-                                    pickerType={1}
-                                    date={this.state.end}
-                                    precisionType={1}
-                                    click={this.clickEnd}
-                                ></Picker> */}
                                 <Pressable style={styleg.button} onPress={()=>this.setState({open: true,typePk: 2})}>
                                     <Text allowFontScaling={false} style={styleg.TextButton}>{this.state.end}</Text>
                                     <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
                                 </Pressable>
                             </View>
-                            <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>{t('inquire')}</Text>
+                            <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>查询</Text>
                         </View>
                         
                         <View style={styles.echarts_con}>
                             {this.state.optionData.length == 0?
-                                <Text allowFontScaling={false} style={styles.empty}>{t('noData')}</Text>://暂无数据
+                                <Text allowFontScaling={false} style={styles.empty}>暂无数据</Text>:
                                 <View style={styles.item}>
                                     <View style={styles.name}>
-                                        <Text allowFontScaling={false} style={styles.nameText}>{t('lossData')}</Text>{/*损耗分析数据统计*/}
+                                        <Text allowFontScaling={false} style={styles.nameText}>损耗分析数据统计</Text>
                                     </View>
                                     <View style={styles.table}>
                                         <View style={styles.row}>
-                                            <Text allowFontScaling={false} style={styles.th}>{t('returnCabinetName')}</Text>{/*回柜名称*/}
-                                            <Text allowFontScaling={false} style={styles.th}>{t('CBEC')}</Text>{/*当前支路能耗*/}
-                                            <Text allowFontScaling={false} style={styles.th}>{t('TTEC')}</Text>{/*下级支路能耗合计*/}
-                                            <Text allowFontScaling={false} style={styles.th}>{t('CASD')}</Text>{/*当前和下级差值*/}
-                                            <Text allowFontScaling={false} style={styles.th}>{t('PercentageDifference')}</Text>{/*相差百分比*/}
+                                            <Text allowFontScaling={false} style={styles.th}>回柜名称</Text>
+                                            <Text allowFontScaling={false} style={styles.th}>当前支路能耗</Text>
+                                            <Text allowFontScaling={false} style={styles.th}>下级支路能耗合计</Text>
+                                            <Text allowFontScaling={false} style={styles.th}>当前和下级差值</Text>
+                                            <Text allowFontScaling={false} style={styles.th}>相差百分比</Text>
                                         </View>
                                         {this.state.optionData.map((item: any,index: number)=>{
                                             return(
@@ -385,7 +371,7 @@ const styles = StyleSheet.create({
     button:{
         position: 'relative',
         width: 'auto',
-        height: 30,
+        height: 35,
         lineHeight: 34,
         paddingLeft: 12,
         paddingRight: 12,
@@ -394,7 +380,7 @@ const styles = StyleSheet.create({
         borderStyle:'solid',
         borderWidth: 1,
         borderColor: '#d9d9d9',
-        borderRadius: 5,
+        borderRadius: 2,
         marginLeft: 7,
         overflow: 'hidden',
     },
@@ -523,4 +509,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default withTranslation()(PowerAnalysis4)
+export default PowerAnalysis4

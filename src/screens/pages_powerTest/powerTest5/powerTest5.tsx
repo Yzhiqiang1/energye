@@ -9,7 +9,6 @@ import { store } from '../../../redux/storer'
 import { HttpService } from '../../../utils/http'
 import Loading from '../../../component/Loading/Loading'//加载组件
 import PickerBut from '../../../component/PickerBut/PickerBut'
-import { withTranslation } from 'react-i18next';//语言包
 
 const api = require('../../../utils/api')
 const Fs = Dimensions.get('window').width*0.8
@@ -22,8 +21,7 @@ export class PowerTest5 extends Component<any,any> {
             LoginStatus: 1, //登录状态 默认未登录
     
             //日月切换
-            // dataSwitch: ["月报", "年报"],
-            dataSwitch: [this.props.t('monthlyReport'), this.props.t('annualReport')],
+            dataSwitch: ["月报", "年报"],
             dataSwitchIn: 0,
             //日期选择
             _date: util.nowDate(1),
@@ -69,7 +67,7 @@ export class PowerTest5 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: this.props.t('getNotData')//'获取参数失败！'
+                LoadingMsg: '获取参数失败！'
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -118,7 +116,7 @@ export class PowerTest5 extends Component<any,any> {
              this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: this.props.t('YANLI')//'您还未登录,无法查询数据！'
+                LoadingMsg: '您还未登录,无法查询数据！'
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -131,7 +129,7 @@ export class PowerTest5 extends Component<any,any> {
         this.setState({
             msgType: 1,
             visible: true,
-            LoadingMsg: this.props.t('Loading')//'加载中...'
+            LoadingMsg: '加载中...'
         }); //加载效果
         //用户ID
         let userId = store.getState().userId;
@@ -143,28 +141,27 @@ export class PowerTest5 extends Component<any,any> {
         let date = that.state._date;
         //定义图表数据
         let queryData:any = [{
-                name: this.props.t('lineChart'),//"折线图",
+                name: "折线图",
                 state: true,
                 type: 1,
                 title: "",
-                legendData: [this.props.t('averagePowerFactor'), ],//'平均功率因数'
+                legendData: ['平均功率因数'],
                 xAxisData: [],
                 xAxisDataIs: false,
                 yAxisName: [""],
                 series: [{
-                    name: this.props.t('averagePowerFactor'),//'平均功率因数',
+                    name: '平均功率因数',
                     type: 'line',
                     connectNulls: true,
                     data: []
                 }]
             },
             {
-                name: this.props.t('barChart'),//"柱状图",
+                name: "柱状图",
                 state: true,
                 type: 3,
                 title: "",
-                // legendData: ['正向有功电度', '反向有功电度', '正向无功电度', '反向无功电度'],
-                legendData: [this.props.t('Positive'),this.props.t('ReverseD'),this.props.t('Forward'),this.props.t('Reverse')],
+                legendData: ['正向有功电度', '反向有功电度', '正向无功电度', '反向无功电度'],
                 gridData: [],
                 xAxisData: [],
                 yAxisData: [],
@@ -263,7 +260,7 @@ export class PowerTest5 extends Component<any,any> {
                         //处理数据
                         if (objSeries[0] == undefined) {
                             objSeries[0] = {
-                                name: this.props.t('Positive'),//"正向有功电度",
+                                name: "正向有功电度",
                                 type: 'bar',
                                 barGap: 0, //不同系列的柱间距离
                                 showBackground: true,
@@ -284,7 +281,7 @@ export class PowerTest5 extends Component<any,any> {
 
                         if (objSeries[1] == undefined) {
                             objSeries[1] = {
-                                name: this.props.t('ReverseD'),//"反向有功电度",
+                                name: "反向有功电度",
                                 type: 'bar',
                                 barGap: 0,
                                 showBackground: true,
@@ -305,7 +302,7 @@ export class PowerTest5 extends Component<any,any> {
 
                         if (objSeries[2] == undefined) {
                             objSeries[2] = {
-                                name: this.props.t('Forward'),//"正向无功电度",
+                                name: "正向无功电度",
                                 type: 'bar',
                                 barGap: 0,
                                 showBackground: true,
@@ -326,7 +323,7 @@ export class PowerTest5 extends Component<any,any> {
 
                         if (objSeries[3] == undefined) {
                             objSeries[3] = {
-                                name: this.props.t('Reverse'),//"反向无功电度",
+                                name: "反向无功电度",
                                 type: 'bar',
                                 barGap: 0,
                                 showBackground: true,
@@ -418,7 +415,6 @@ export class PowerTest5 extends Component<any,any> {
         });
     }
   render() {
-    const { t } = this.props
     return (
         <View style={{flex: 1}}>
             <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
@@ -432,7 +428,7 @@ export class PowerTest5 extends Component<any,any> {
             <SafeAreaView style={{flex: 1}}>
                 {/* 引入自定义导航栏 */}
                 <Navbar
-                    pageName={t('averagePowerFactor')}//'平均功率因数'
+                    pageName={'平均功率因数'}
                     showBack={true}
                     showHome={false}
                     isCheck={2}
@@ -469,11 +465,11 @@ export class PowerTest5 extends Component<any,any> {
                                 <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
                             </Pressable>
                     </View>
-                        <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>{t('inquire')}</Text>
+                        <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>查询</Text>
                     </View>
                     <ScrollView style={styles.echarts_con}>
                         {this.state.optionData.length == 0?
-                            <Text allowFontScaling={false} style={styles.empty}>{t('noData')}</Text>:''//暂无数据
+                            <Text allowFontScaling={false} style={styles.empty}>暂无数据</Text>:''
                         }
                         {this.state.optionData.map((data:any,index:any)=>{
                             return(
@@ -535,8 +531,8 @@ const styles = StyleSheet.create({
     button:{
         position: 'relative',
         width: 'auto',
-        height: 30,
-        lineHeight: 30,
+        height: 35,
+        lineHeight: 35,
         textAlignVertical: 'center',
         paddingLeft: 12,
         paddingRight: 12,
@@ -545,7 +541,7 @@ const styles = StyleSheet.create({
         borderStyle:'solid',
         borderWidth: 1,
         borderColor: '#d9d9d9',
-        borderRadius: 5,
+        borderRadius: 2,
         overflow: 'hidden',
     },
     echarts_con:{
@@ -590,4 +586,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default withTranslation()(PowerTest5)
+export default PowerTest5

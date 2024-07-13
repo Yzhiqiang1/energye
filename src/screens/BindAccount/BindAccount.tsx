@@ -3,11 +3,9 @@ import React, { Component,} from 'react'
 import {HttpService} from '../../utils/http'
 import LoginNavbar from '../../component/loginNavbar/loginNavbar'
 import Loading from '../../component/Loading/Loading';
-// import { Set_State } from '../../redux/actions/user';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { connect } from 'react-redux';
-import { Set_State } from '../../redux/reducers/counterSlice'
-import { withTranslation  } from 'react-i18next';//语言包
+import { Set_State } from '../../redux/reducers/counterSlice';
 
 const Fs = Dimensions.get('window').width*0.8
 let api = require('../../utils/api')
@@ -48,7 +46,7 @@ export class BindAccount extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: this.props.t('Pleaseente')//请输入账号！
+                LoadingMsg: "请输入账号！"
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -61,7 +59,7 @@ export class BindAccount extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: this.props.t('pleaseEnterYourPassword')//'请输入密码！'
+                LoadingMsg: '请输入密码！'
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -92,7 +90,6 @@ export class BindAccount extends Component<any,any> {
                         intercept: true,
                     })
                     //保存登录信息到全局
-                    // store.dispatch(Set_State(res))
                     this.props.Set_State(res)
                     const saveData = async () => {
                         try {
@@ -126,7 +123,7 @@ export class BindAccount extends Component<any,any> {
                 this.setState({
                     msgType: 2,
                     visible: true,
-                    LoadingMsg: this.props.t('LECW'),//'登录异常，检查账号是否正确',
+                    LoadingMsg: '登录异常，检查账号是否正确',
                     intercept: true,
                 },()=>{
                     setTimeout(()=>{
@@ -140,7 +137,7 @@ export class BindAccount extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: this.props.t('loginError'),//'登录异常，检查网络是否连接',
+                LoadingMsg: '登录异常，检查网络是否连接',
                 intercept: true,
             },()=>{
                 setTimeout(()=>{
@@ -187,7 +184,7 @@ export class BindAccount extends Component<any,any> {
             <SafeAreaView style={styles.view}>
                 <LoginNavbar
                     props={this.props}
-                    name={'账号登录'}   //this.props.t('accountLogin')
+                    name={'账号登录'}
                     showBack={false}
                     showHome={true}
                 ></LoginNavbar>
@@ -203,29 +200,29 @@ export class BindAccount extends Component<any,any> {
                         </View>
                         <View style={styles.forget}>
                             <TouchableOpacity >
-                                <Text style={{color:'#2EA4FF'}} allowFontScaling={false} onPress={()=>this.props.navigation.navigate('GetPassword')}>忘记密码</Text>{/*{this.props.t('forgotPassword')}*/}
+                                {/* <Text style={{color:'#2EA4FF'}} allowFontScaling={false} onPress={()=>this.props.navigation.navigate('GetPassword')}>忘记密码</Text> */}
                             </TouchableOpacity>
                         </View>
                         <View  style={styles.butList}>
                             <Pressable style={({ pressed })=>[{backgroundColor: pressed ? '#f3f3f3' : '#eeeeee'},styles.button]} onPress={()=>this.props.navigation.navigate('Tabbar')}>
-                                <Text style={styles.buttonL} allowFontScaling={false} >取消登录</Text>{/*{this.props.t('cancelLogin')}*/}
+                                <Text style={styles.buttonL} allowFontScaling={false} >取消登录</Text>
                             </Pressable>
                             <Pressable style={({ pressed })=>[{backgroundColor: pressed ? '#2da2fe' : '#1890FF'},styles.button]} onPress={this.Login}>
-                                <Text style={styles.buttonR} allowFontScaling={false} >登录</Text>{/*{this.props.t('logIn')}*/}
+                                <Text style={styles.buttonR} allowFontScaling={false} >登录</Text>
                             </Pressable>
                         </View>
                         <View style={styles.link}>
                             <TouchableOpacity style={styles.Url}  onPress={()=>this.props.navigation.navigate('BindPhone')}>
-                                <Text style={{color: '#01AAED',fontSize:Fs/18}}>短信登录</Text>{/*{this.props.t('SMSlogin')}*/}
+                                <Text style={{color: '#01AAED',fontSize:Fs/18}}>短信登录</Text>
                             </TouchableOpacity>
                             <TouchableOpacity style={styles.Url} onPress={()=>this.props.navigation.navigate('AccountRegister')}>
-                                <Text style={{color: '#01AAED',fontSize:Fs/18}}>注册账号</Text>{/*{this.props.t('registerAnAccount')}*/}
+                                <Text style={{color: '#01AAED',fontSize:Fs/18}}>注册账号</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styles.Tourist}>
                             <Pressable style={styles.experience} onPress={this.touristLongin}>
                                 <Image style={{width:30,height:30}} source={require('../../image/Tourist.png')}></Image>
-                                <Text style={styles.Text} allowFontScaling={false}>体验账号登录</Text>{/*{this.props.t('Experience')}*/}
+                                <Text style={styles.Text} allowFontScaling={false}>体验账号登录</Text>
                             </Pressable> 
                         </View>
                     </View>
@@ -326,7 +323,7 @@ const styles = StyleSheet.create({
         height: 50,
         lineHeight: 50,
         color: '#333333',
-        fontSize: Fs/22,
+        fontSize: Fs/17,
         paddingLeft: 80,
     },
     forget:{
@@ -352,8 +349,7 @@ const styles = StyleSheet.create({
         width: '47.5%',
         height: 40,
         color: '#333',
-        // backgroundColor: '#eee',
-        borderRadius: 10,
+        borderRadius: 3,
         padding: 0,
         overflow:'hidden'
     },

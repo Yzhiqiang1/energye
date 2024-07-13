@@ -11,9 +11,7 @@ import Navbar from '../../../component/navbar/navbar'
 import MyCanvas from '../../../component/my-canvas/MyCanvas'
 import MyLegend from '../../../component/my-legend/MyLegend'
 import Loading from '../../../component/Loading/Loading'//加载动画组件
-import Picker from '../../../component/Picker/Picker'//选择器
 import PickerBut from '../../../component/PickerBut/PickerBut'
-import { withTranslation } from 'react-i18next';//语言包
 
 const api = require('../../../utils/api')
 const Fs = Dimensions.get('window').width*0.8
@@ -26,7 +24,7 @@ export class PowerTest7 extends Component<any,any> {
             start: plusReduceData(util.nowDate(), 1, 5), //查询日期-5天内的日期
             end: util.nowDate(), //结束日期
             optionData: [{
-                    name: this.props.t('HOC'),//"电流谐波",
+                    name: "电流谐波",
                     state: true,
                     title: '',
                     legendData: [],
@@ -35,7 +33,7 @@ export class PowerTest7 extends Component<any,any> {
                     series: []
                 },
                 {
-                    name: this.props.t('HOV'),//"电压谐波",
+                    name: "电压谐波",
                     state: true,
                     title: '',
                     legendData: [],
@@ -91,7 +89,7 @@ export class PowerTest7 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: this.props.t('getNotData')//'获取参数失败！'
+                LoadingMsg: '获取参数失败！'
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -130,7 +128,7 @@ export class PowerTest7 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: this.props.t('TSDMN')//'开始日期不能大于结束日期'
+                LoadingMsg: '开始日期不能大于结束日期'
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -182,7 +180,7 @@ export class PowerTest7 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg:  this.props.t('YANLIA')//'您还未登录,无法查询数据！'
+                LoadingMsg: '您还未登录,无法查询数据！'
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -204,7 +202,7 @@ export class PowerTest7 extends Component<any,any> {
 
         //初始图表值【加载页面时没有数据的返回空的图表，防止空白页面】
         let queryData = [{
-            name: this.props.t('HOC'),//"电流谐波",
+            name: "电流谐波",
             state: true,
             title: '',
             legendData: [],
@@ -212,7 +210,7 @@ export class PowerTest7 extends Component<any,any> {
             yAxisName: "",
             series: []
         }, {
-            name: this.props.t('HOV'),//"电压谐波",
+            name: "电压谐波",
             state: true,
             title: '',
             legendData: [],
@@ -224,7 +222,7 @@ export class PowerTest7 extends Component<any,any> {
         this.setState({
             msgType: 1,
             visible: true,
-            LoadingMsg: this.props.t('Loading')//'加载中...'
+            LoadingMsg: '加载中...'
         });
         /**
          * 查询数据
@@ -397,7 +395,6 @@ export class PowerTest7 extends Component<any,any> {
         }
     }
     render() {
-        const { t } = this.props
         return (
             <View style={{flex: 1}}>
                 <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
@@ -411,7 +408,7 @@ export class PowerTest7 extends Component<any,any> {
                 <SafeAreaView style={{flex: 1}}>
                     {/* 引入自定义导航栏 */}
                     <Navbar
-                        pageName={this.props.t('harmonicDetection')}//'谐波检测'
+                        pageName={'谐波检测'}
                         showBack={true}
                         showHome={false}
                         isCheck={2}
@@ -435,7 +432,7 @@ export class PowerTest7 extends Component<any,any> {
                                 </Pressable>
                             </View>
                             <Text allowFontScaling={false} style={styles.text}>
-                                {t('to')}
+                                至
                             </Text>
                             <View style={styles.flex}>
                                 {/* <Picker
@@ -449,7 +446,7 @@ export class PowerTest7 extends Component<any,any> {
                                     <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
                                 </Pressable>
                             </View>
-                            <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>{t('inquire')}</Text>
+                            <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>查询</Text>
                         </View>
 
                         
@@ -514,8 +511,8 @@ const styles = StyleSheet.create({
     button:{
         position: 'relative',
         width: 'auto',
-        height: 30,
-        lineHeight: 30,
+        height: 35,
+        lineHeight: 35,
         textAlignVertical: 'center',
         paddingLeft: 12,
         paddingRight: 12,
@@ -524,7 +521,7 @@ const styles = StyleSheet.create({
         borderStyle:'solid',
         borderWidth: 1,
         borderColor: '#d9d9d9',
-        borderRadius: 5,
+        borderRadius: 2,
         marginLeft: 7,
         overflow: 'hidden',
     },
@@ -573,4 +570,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default withTranslation()(PowerTest7)
+export default PowerTest7

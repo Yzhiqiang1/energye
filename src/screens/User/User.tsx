@@ -9,7 +9,6 @@ import Loading from '../../component/Loading/Loading'//加载窗口组件
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { LogOut } from '../../redux/reducers/counterSlice'
 import { store } from '../../redux/storer'
-import { withTranslation } from 'react-i18next';//语言包
 
 const api = require('../..//utils/api')
 const Fs = Dimensions.get('window').width*0.8
@@ -26,7 +25,7 @@ export class User extends Component<any,any> {
         /**
          * 用户名头像相关信息
          */
-        userImg: require('../../image/logo.png'), //用户头像
+        userImg: '../../image/logo.png', //用户头像
         userName: '', //账号名称
         userId: '', //账号ID
 
@@ -68,7 +67,7 @@ export class User extends Component<any,any> {
     this.setState({
       msgType: 1,
       visible: true,
-      LoadingMsg: this.props.t('Inlogout')//'注销中...'
+      LoadingMsg: '注销中...'
     })
     let userId = store.getState().userId;
     HttpService.apiPost(api.appSignOut,{
@@ -104,7 +103,7 @@ export class User extends Component<any,any> {
         this.setState({
           msgType: 2,
           visible: true,
-          LoadingMsg: this.props.t('onLogout')//'注销失败'
+          LoadingMsg: '注销失败'
         },()=>{
           setTimeout(()=>{
               this.setState({
@@ -133,7 +132,6 @@ export class User extends Component<any,any> {
     })
   }
   render() {
-    const { t } = this.props
     return (
       <View style={{flex: 1}}>
         <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#2da2fe'}}>
@@ -150,38 +148,46 @@ export class User extends Component<any,any> {
               <Pressable style={({ pressed })=>[{backgroundColor: pressed? '#c3c3c3' : '#b4b4b4'  },styles.navLeft]} onPress={()=>{this.props.navigation.navigate('HomeBar')}}>
                 <Image style={styles.navImg} source={require('../../image/Home.png')}></Image>
               </Pressable>
-              <Text allowFontScaling={false}style={styles.navName}>{t('Mine')}</Text>{/*我的*/}
+              <Text allowFontScaling={false}style={styles.navName}>我的</Text>
             </View>
-
+            
             <Pressable style={styles.user}>
-              <Image style={styles.logo} source={this.state.userImg}></Image>
+                {
+                this.state.logonStatus?
+                  this.state.userImg?
+                    <Image style={styles.logo} source={{uri: `${this.state.userImg}`}}></Image> :
+                    <Image style={styles.logo} source={require('../../image/logo.png')}></Image>
+                  :
+                  <Image style={styles.logo} source={require('../../image/logo.png')}></Image>
+                }
                 {this.state.logonStatus?
                   <View style={styles.text}>
                       <Text allowFontScaling={false}style={styles.name}>
                           {this.state.userName}
                       </Text>
                       <Text allowFontScaling={false}style={styles.id}>
-                          {t('AccountID')}：{this.state.userId}
-                      </Text>{/*账号ID*/}
+                        账号ID：{this.state.userId}
+                      </Text>
                   </View>
                     :
                   <Pressable style={styles.text} onPress={()=>this.props.navigation.navigate('BindAccount')}>
                     <Text allowFontScaling={false}style={styles.name}>
-                        {t('onLog')}
-                    </Text>{/*您还没有登录*/}
+                        您还没有登录
+                    </Text>
                     <Text allowFontScaling={false}style={styles.id}>
-                        {t('clickLogin')}
-                    </Text>{/*点击登录或注册账号*/}
+                        点击登录或注册账号
+                    </Text>
                   </Pressable>
                   }
               <Image style={styles.rightIco} source={require('../../image/right.png')}></Image>
             </Pressable>
+
             <View style={styles.con}>
               {this.state.logonStatus?
                 <TouchableHighlight style={styles.signOut} onPress={this.signOut} underlayColor={'#2da2fe'}>
                   <Text allowFontScaling={false} style={styles.signOutText}>
-                  {t('logOut')}
-                  </Text>{/*退出登录*/}
+                    退出登录
+                  </Text>
                 </TouchableHighlight>
                 : ''
               }
@@ -313,4 +319,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default withTranslation()(User)
+export default User

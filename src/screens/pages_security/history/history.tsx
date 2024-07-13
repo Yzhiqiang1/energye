@@ -7,9 +7,7 @@ import { store } from '../../../redux/storer'
 import { HttpService } from '../../../utils/http'
 import Navbars from '../../../component/Navbars/Navbars'
 import Loading from '../../../component/Loading/Loading'
-import Picker from '../../../component/Picker/Picker'
 import PickerBut from '../../../component/PickerBut/PickerBut'
-import { withTranslation } from 'react-i18next';//语言包
 const api = require('../../../utils/api')
 const Fs = Dimensions.get('window').width*0.8
 
@@ -25,7 +23,7 @@ export class History extends Component<any,any> {
         }
     }
     componentDidMount(): void {
-        let sids = this.props.route.params.sids ? this.props.route.params.sids : this.props.t('getNotData');//获取参数失败 
+        let sids = this.props.route.params.sids ? this.props.route.params.sids : '获取参数失败';
         this.setState({
             sids: sids
         }, () => {
@@ -59,7 +57,7 @@ export class History extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: this.props.t('TSDMN')//'开始日期不能大于结束日期！'
+                LoadingMsg: '开始日期不能大于结束日期！'
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -90,7 +88,7 @@ export class History extends Component<any,any> {
         this.setState({
             msgType: 1,
             visible: true,
-            LoadingMsg: this.props.t('Loading')//'加载中...'
+            LoadingMsg: '加载中...'
         })
         HttpService.apiPost(api.kgkz_getHistory, {
             userId: userId,
@@ -171,7 +169,6 @@ export class History extends Component<any,any> {
         })
     }
     render() {
-        const { t } = this.props
         return (
             <View style={{flex: 1}}>
                 <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
@@ -184,7 +181,7 @@ export class History extends Component<any,any> {
                 </Loading>
                 <SafeAreaView style={{flex: 1}}>
                     <Navbars
-                        name={t('historicalQuery')}
+                        name={'历史查询'}
                         showHome={false}
                         showBack={true}
                         props={this.props}>
@@ -206,7 +203,7 @@ export class History extends Component<any,any> {
                                 </Pressable>
                             </View>
                             <Text allowFontScaling={false} style={styles.text}>
-                                {t('to')}
+                                至
                             </Text>
                             <View style={styles.flex}>
                                 {/* <Picker
@@ -221,12 +218,12 @@ export class History extends Component<any,any> {
                                     <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
                                 </Pressable>
                             </View>
-                            <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>{t('inquire')}</Text>
+                            <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>查询</Text>
                         </View>
                         
                         <ScrollView style={styles.echartsCon}>
                             {this.state.optionData.length == 0?
-                                <Text allowFontScaling={false} style={styles.empty}>{t('noData')}</Text>:''
+                                <Text allowFontScaling={false} style={styles.empty}>暂无数据</Text>:''
                             }
                             {this.state.optionData.map((item:any,index:number)=>{
                                 return(
@@ -283,8 +280,8 @@ const styles = StyleSheet.create({
     button:{
         position: 'relative',
         width: 'auto',
-        height: 30,
-        lineHeight: 30,
+        height: 35,
+        lineHeight: 35,
         textAlignVertical: 'center',
         paddingLeft: 12,
         paddingRight: 12,
@@ -293,7 +290,7 @@ const styles = StyleSheet.create({
         borderStyle: 'solid',
         borderWidth: 1,
         borderColor: '#d9d9d9',
-        borderRadius: 5,
+        borderRadius: 2,
         marginLeft: 7,
         overflow: 'hidden',
     },
@@ -309,8 +306,7 @@ const styles = StyleSheet.create({
         width: 'auto',
         height: 30,
         lineHeight: 30,
-        paddingLeft: 10,
-        paddingRight: 10,
+        paddingRight: 5,
         fontSize: Fs/24,
         color: '#666666',
         overflow: 'hidden',
@@ -346,13 +342,13 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 40,
         lineHeight: 45,
-        fontSize: Fs/22,
-        fontWeight: '600',
+        fontSize: Fs/20,
         textAlign: 'center',
         borderStyle: 'solid',
         borderBottomWidth: 1,
         borderBottomColor: '#E5E5E5',
         overflow: 'hidden',
+        color: '#333333'
     },
     echarts:{
         position: 'relative',
@@ -371,4 +367,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default withTranslation()(History)
+export default History

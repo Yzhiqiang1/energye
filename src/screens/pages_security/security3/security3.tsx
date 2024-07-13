@@ -7,7 +7,6 @@ import { store } from '../../../redux/storer'
 import { HttpService } from '../../../utils/http'
 import Loading from '../../../component/Loading/Loading'
 import VideoPlayer from 'react-native-video-controls';
-import { withTranslation } from 'react-i18next';//语言包
 
 const api = require('../../../utils/api')
 const Fs = Dimensions.get('window').width*0.8
@@ -83,7 +82,7 @@ export class Security3 extends Component<any,any> {
             this.setState({
               msgType: 2,
               visible: true,
-              LoadingMsg: this.props.t('getNotData')//'获取参数失败！'
+              LoadingMsg: '获取参数失败！'
           },()=>{
               setTimeout(()=>{
                   this.setState({
@@ -295,7 +294,6 @@ export class Security3 extends Component<any,any> {
 
     }
     render() {
-      const { t } = this.props
         return (
           <View style={{flex: 1}}>
               <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
@@ -309,7 +307,7 @@ export class Security3 extends Component<any,any> {
               <SafeAreaView style={{flex: 1}}>
                   {/* 引入自定义导航栏 */}
                   <Navbar 
-                      pageName={t('camera')}//摄像头
+                      pageName={'摄像头'}
                       showBack={true}
                       showHome={false}
                       isCheck={6}
@@ -323,7 +321,7 @@ export class Security3 extends Component<any,any> {
                           <View style={styles.listMasonry}>
                               {/* 判断下所选设备有无传感器数据 */}
                               {this.state.sensorArr.length == 0?
-                                  <Text allowFontScaling={false} style={styles.empty}>{t('TANS')}</Text>:''//当前设备下没有传感器
+                                  <Text allowFontScaling={false} style={styles.empty}>当前设备下没有传感器</Text>:''
                               }
                               {/* 循环传感器 */}
                               {this.state.sensorArr.map((top_item:any,top_index:number)=>{
@@ -369,7 +367,7 @@ export class Security3 extends Component<any,any> {
                                                           </VideoPlayer>
                                                         :''} 
                                                         {top_item.value == ''?
-                                                          <Text allowFontScaling={false} style={styles.videoNone}>{t('AOSLAH')}</Text>:''//小程序仅支持直播地址HLS
+                                                          <Text allowFontScaling={false} style={styles.videoNone}>小程序仅支持直播地址HLS</Text>:''
                                                         }
                                                       </View>:''
                                                   }
@@ -394,7 +392,7 @@ export class Security3 extends Component<any,any> {
                       {/* 加载所有数据文字提示 */}
                       {this.state.isPage_test?
                         <Text allowFontScaling={false} style={styles.isPageTxt} onPress={()=>console.log(this.state.isPage_test)}>
-                            {t('ADHBL')}
+                            已加载所有数据
                         </Text>:''//已加载所有数据
                       }
                   </View>
@@ -628,4 +626,4 @@ const styles = StyleSheet.create({
       },
 })
 
-export default withTranslation()(Security3)
+export default Security3

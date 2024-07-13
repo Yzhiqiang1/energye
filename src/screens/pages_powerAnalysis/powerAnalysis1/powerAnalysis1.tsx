@@ -10,7 +10,6 @@ import { HttpService } from '../../../utils/http'
 import MyCanvas from '../../../component/my-canvas/MyCanvas'//数据图组件
 import Loading from '../../../component/Loading/Loading'//加载组件
 import PickerBut from '../../../component/PickerBut/PickerBut'
-import { withTranslation } from 'react-i18next';//语言包
 const api = require('../../../utils/api')
 const Fs = Dimensions.get('window').width*0.8
 
@@ -558,24 +557,12 @@ export class PowerAnalysis1 extends Component<any,any> {
                             {this.state.dataSwitchIn == 0?
                                 <View style={styles.timing}>
                                     <View style={styles.flex}>
-                                        {/* <Picker
-                                            pickerType={1}
-                                            date={[this.state.start,this.state.start_HH]}
-                                            precisionType={3}
-                                            click={this.startConfirm}
-                                        ></Picker> */}
                                         <Pressable style={styleg.button} onPress={()=>this.setState({open: true, typePk: 1})}>
                                             <Text allowFontScaling={false} style={styleg.TextButton}>{this.state.start+' '+this.state.start_HH+'时'}</Text>
                                             <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
                                         </Pressable>
                                     </View>
                                     <View style={styles.flex}>
-                                        {/* <Picker
-                                            pickerType={1}
-                                            date={[this.state.end,this.state.end_HH]}
-                                            precisionType={3}
-                                            click={this.endConfirm}
-                                        ></Picker> */}
                                         <Pressable style={styleg.button} onPress={()=>this.setState({open: true, typePk: 2})}>
                                             <Text allowFontScaling={false} style={styleg.TextButton}>{this.state.end+' '+this.state.end_HH+'时'}</Text>
                                             <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
@@ -794,8 +781,8 @@ const styles = StyleSheet.create({
     button:{
         position: 'relative',
         width: 'auto',
-        height: 30,
-        lineHeight: 30,
+        height: 35,
+        lineHeight: 35,
         textAlignVertical: 'center',
         paddingLeft: 12,
         paddingRight: 12,
@@ -804,7 +791,7 @@ const styles = StyleSheet.create({
         borderStyle:'solid',
         borderWidth: 1,
         borderColor: '#d9d9d9',
-        borderRadius: 5,
+        borderRadius: 2,
         marginLeft: 7,
         overflow: 'hidden',
     },
@@ -851,4 +838,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default withTranslation()(PowerAnalysis1)
+export default PowerAnalysis1

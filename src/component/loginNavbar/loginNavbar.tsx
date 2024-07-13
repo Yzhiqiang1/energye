@@ -1,4 +1,4 @@
-import { Dimensions, Image, Pressable, StyleSheet, Text, View } from 'react-native'
+import { Dimensions, Pressable, StyleSheet, Text, View } from 'react-native'
 import React, { Component } from 'react'
 import { Icon } from '@rneui/themed';//ico图标
 const Fs = Dimensions.get('window').width*0.8
@@ -10,19 +10,26 @@ export class LoginNavbar extends Component<any,any> {
     return (
         <View style={styles.nav}>
             {this.props.showHome ?
-              <Pressable style={styles.navLeft} onPress={()=>{this.props.props.navigation.navigate('Tabbar')}}>
-                <Image style={styles.navImg} source={require('../../image/Home.png')}></Image>
-              </Pressable> : ''
-            }
-            {this.props.showBack ?
-              <Pressable style={styles.navbar_left} onPress={()=>{this.props.props.navigation.goBack()}}>
-              <Icon
+              <Pressable style={styles.navbar_left} onPress={()=>{this.props.props.navigation.navigate('Tabbar')}}>
+                <Icon
                   name='left'
                   type='antdesign'
                   color='#fff'
                   size={22}
               />
-          </Pressable>:''
+              <Text style={styles.text}>首页</Text>
+              </Pressable> : ''
+            }
+            {this.props.showBack ?
+              <Pressable style={styles.navbar_left} onPress={()=>{this.props.props.navigation.goBack()}}>
+                <Icon
+                    name='left'
+                    type='antdesign'
+                    color='#fff'
+                    size={22}
+                />
+                <Text style={styles.text}>返回</Text>
+            </Pressable>:''
             }
           <Text allowFontScaling={false} style={styles.navName}>{this.props.name}</Text>
       </View>
@@ -61,18 +68,25 @@ const styles = StyleSheet.create({
         lineHeight: ht/10,
         textAlignVertical: 'center',
         textAlign:'center',
-        fontSize: Fs/18,
-        color:'#fff'
+        fontSize: Fs/17,
+        color:'#fff',
+        fontWeight: '600'
       },
       navbar_left: {
         position: 'absolute',
         top: '50%',
         marginTop: -15,
-        width:30,
+        width:100,
         height:30,
         left: 5,
-        zIndex:999
+        zIndex:999,
+        display: 'flex',
+        flexDirection: 'row'
       },
+      text: {
+        fontSize: Fs/16,
+        color: '#fff'
+      }
 })
 
 export default LoginNavbar

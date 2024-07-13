@@ -127,18 +127,27 @@ export class MyLegend extends React.Component<any,any> {
                     <CheckBox
                     checked={this.state.result.includes('a')}
                     onPress={()=>this.onChange('a')}
+                    iconType="material-community"
+                    checkedIcon="checkbox-marked"
+                    uncheckedIcon="checkbox-blank-outline"
                     title={t('phaseA')}//'A相'
                     containerStyle={styles.CheckBox}
                     />
                     <CheckBox
                     checked={this.state.result.includes('b')}
                     onPress={()=>this.onChange('b')}
+                    iconType="material-community"
+                    checkedIcon="checkbox-marked"
+                    uncheckedIcon="checkbox-blank-outline"
                     title={t('phaseB')}//'B相'
                     containerStyle={styles.CheckBox}
                     />
                     <CheckBox
                     checked={this.state.result.includes('c')}
                     onPress={()=>this.onChange('c')}
+                    iconType="material-community"
+                    checkedIcon="checkbox-marked"
+                    uncheckedIcon="checkbox-blank-outline"
                     title={t('phaseC')}//'C相'
                     containerStyle={styles.CheckBox}
                     />
@@ -148,55 +157,6 @@ export class MyLegend extends React.Component<any,any> {
                     <Text allowFontScaling={false} style={styles.dialText}>{t('Selected')}{this.state.n}{t('Kind')}</Text>
                     <Image style={styleg.ico} source={require('../../image/down.png')}></Image>
                 </Pressable>
-
-                {/* <Dialog 
-                    isVisible={this.state.show}
-                    backdropStyle={{height:'120%',padding:0,margin:0}}
-                    overlayStyle={styles.dialogBox}
-                    onBackdropPress={()=>this.setState({show: false})}
-                >
-                    <View style={styles.dialogCont}>
-                        <View style={[styles.tr,styles.bgG]}>
-                            {this.state.result2for.map((data:any,index:number)=>{
-                                return(
-                                    <View style={styles.Box} key={index}>
-                                        {index==0?
-                                            <CheckBox
-                                            checked={this.state.result2.includes(data)}
-                                            onPress={()=>this.onChange2(data)}
-                                            title={`总谐波`}
-                                            containerStyle={styles.CheckBox}
-                                            size={15}
-                                            />:
-                                            <CheckBox
-                                            checked={this.state.result2.includes(data)}
-                                            onPress={()=>this.onChange2(data)}
-                                            title={`${data}次谐波`}
-                                            containerStyle={styles.CheckBox}
-                                            size={15}
-                                            />
-                                        }
-                                    </View>
-                                )
-                            })}
-                            <View style={styles.dialogBottom}>
-                                <CheckBox
-                                checked={this.state.result2.length == 31}
-                                onPress={()=>this.setAllCheck(this.state.result2.length)}
-                                title={`全选`}
-                                containerStyle={styles.CheckBox}
-                                iconType="material-community"
-                                checkedIcon="checkbox-marked"
-                                uncheckedIcon="checkbox-blank-outline"
-                                size={20}
-                                />
-                                <View style={styles.dialBottom}>
-                                    <Text allowFontScaling={false} style={styles.button} onPress={this.onTap}>确定</Text>
-                                </View>
-                            </View>
-                        </View>
-                    </View>
-                </Dialog> */}
                 <Modal 
                     transparent={true}
                     visible={this.state.show}
@@ -213,16 +173,22 @@ export class MyLegend extends React.Component<any,any> {
                                                     <CheckBox
                                                     checked={this.state.result2.includes(data)}
                                                     onPress={()=>this.onChange2(data)}
+                                                    iconType="material-community"
+                                                    checkedIcon="checkbox-marked"
+                                                    uncheckedIcon="checkbox-blank-outline"
                                                     title={t('Total')}//`总谐波`
                                                     containerStyle={styles.CheckBox}
-                                                    size={15}
+                                                    size={20}
                                                     />:
                                                     <CheckBox
                                                     checked={this.state.result2.includes(data)}
                                                     onPress={()=>this.onChange2(data)}
+                                                    iconType="material-community"
+                                                    checkedIcon="checkbox-marked"
+                                                    uncheckedIcon="checkbox-blank-outline"
                                                     title={`${data}`+t('wave')}//次谐波
                                                     containerStyle={styles.CheckBox}
-                                                    size={15}
+                                                    size={20}
                                                     />
                                                 }
                                             </View>
@@ -332,7 +298,7 @@ const styles = StyleSheet.create({
         lineHeight: 30,
         textAlignVertical: 'center',
         color: '#fff',
-        backgroundColor: '#07c160',
+        backgroundColor: '#1890FF',
         borderRadius: 5,
         fontSize: Fs/20,
         textAlign: 'center',
@@ -372,7 +338,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: -20,
         width: '100%',
-        height: 350,
+        height: 400,
         borderRadius: 10,
         backgroundColor:'#fff'
     },

@@ -212,14 +212,15 @@ export class MyCanvas extends React.Component<any,any> {
   };
   render() {
     return (
-        <View style = {[styles.my_canvas,this.props.objType == 3?{height:this.props.objHeight}:null]}>
-            {this.state.ecLine?
-                <RNEChartsPro
-                  option={ this.state.option }
-                  height={ this.props.objType == 3?this.props.objHeight: 300 }
-                ></RNEChartsPro>:''
-            }
-        </View>
+      <View style = {[styles.my_canvas,this.props.objType == 3?{height:this.props.objHeight}:null]}>
+        {this.state.ecLine?
+          <RNEChartsPro
+            option={ this.state.option }
+            height={ this.props.objType == 3?this.props.objHeight: 300 }
+          ></RNEChartsPro>
+          :''
+        }
+      </View>
     )
   }
 }
@@ -229,6 +230,8 @@ const styles = StyleSheet.create({
     width: '100%',
     marginBottom: 10,
     backgroundColor: "white",
+    borderRadius: 10,
+    overflow: 'hidden',
 
     shadowColor: "#000",
     shadowOffset: {
@@ -238,7 +241,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5
-  },
+  }
 })
 
 export default MyCanvas

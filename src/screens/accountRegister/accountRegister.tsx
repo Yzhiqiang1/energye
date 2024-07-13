@@ -7,7 +7,6 @@ import { HttpService } from '../../utils/http';
 import Loading from '../../component/Loading/Loading';
 const api = require('../../utils/api')
 const Fs = Dimensions.get('window').width*0.8
-import { withTranslation  } from 'react-i18next';//语言包
 
 export class AccountRegister extends Component<any,any> {
     constructor(props: any){
@@ -35,8 +34,6 @@ export class AccountRegister extends Component<any,any> {
         this.setState({
             mobile: e
         })
-        console.log(this.state.mobile);
-        
     }
     //输入密码
     bindPassword=(e:any)=>{
@@ -342,7 +339,6 @@ export class AccountRegister extends Component<any,any> {
         }
     }
     render() {
-        const { t } = this.props
         return (
         <View style={{flex: 1}}>
             <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
@@ -355,7 +351,7 @@ export class AccountRegister extends Component<any,any> {
             <SafeAreaView style={styles.box}>
                 <Navbar
                     props={this.props}
-                    pageName={t('registerAnAccount')}//注册账号
+                    pageName={'注册账号'}
                     showBack={true}     
                     showHome={false}
                     LoginStatus={3}
@@ -364,20 +360,20 @@ export class AccountRegister extends Component<any,any> {
                     <View style={styles.con} >
                         <View style={styles.list} >
                             <Image style={styles.Img} source={require('../../image/zc_phone1x.png')}></Image>
-                            <TextInput style={styles.Input} allowFontScaling={false} placeholder={t('enterMobileNumber')} keyboardType='numeric' onChangeText={this.bindMobile}></TextInput>
+                            <TextInput style={styles.Input} placeholder={"输入手机号"} keyboardType='numeric' onChangeText={this.bindMobile}></TextInput>
                         </View>
                         <View style={styles.list} >
                             <Image style={styles.Img} source={require('../../image/dl_password.png')}></Image>
-                            <TextInput style={styles.Input} allowFontScaling={false} placeholder={t('enterPassword')} onChangeText={this.bindPassword} secureTextEntry={true}></TextInput>
+                            <TextInput style={styles.Input} placeholder={"输入密码"} onChangeText={this.bindPassword} secureTextEntry={true}></TextInput>
                         </View>
                         <View style={styles.list} >
                             <Image style={styles.Img} source={require('../../image/dl_password.png')}></Image>
-                            <TextInput style={styles.Input} allowFontScaling={false} placeholder={t('confirmPassword')} onChangeText={this.bindconfirmPsw} secureTextEntry={true}></TextInput>
+                            <TextInput style={styles.Input} placeholder={"确认密码"} onChangeText={this.bindconfirmPsw} secureTextEntry={true}></TextInput>
                         </View>
                         <View style={styles.list} >
                             <Image style={styles.Img} source={require('../../image/dl_code.png')}></Image>
-                            <TextInput style={styles.Input} allowFontScaling={false} placeholder={t('enterVerificationCode')} onChangeText={this.bindCode}></TextInput>
-                            <Text style={styles.Code} allowFontScaling={false}>{t('getVerificationCode')}</Text>{/*获取验证码*/}
+                            <TextInput style={styles.Input} placeholder={"输入验证码"} onChangeText={this.bindCode}></TextInput>
+                            <Text style={styles.Code} allowFontScaling={false}>{"获取验证码"}</Text>
                         </View>
                         <View style={[styles.lists,{marginTop: 25,}]}>
                             <CheckBox
@@ -388,26 +384,26 @@ export class AccountRegister extends Component<any,any> {
                             uncheckedIcon={'checkbox-blank-outline'}
                             containerStyle={styles.CheckBox}
                             />
-                            <Text style={styles.agree} allowFontScaling={false}>{t('IAgree')}</Text>{/*我已阅读并同意*/}
+                            <Text style={styles.agree} allowFontScaling={false}>{"我已阅读并同意"}</Text>
                             <Text style={styles.service} allowFontScaling={false}
                                 onPress={()=>this.props.navigation.navigate('ServiceInfo')}
-                            >{t('TLINK')}</Text>{/*《TLINK物联网平台服务条款》*/}
+                            >{'TLINK物联网平台服务条款》'}</Text>
                         </View>
 
                         <View style={styles.butList}>
                             <Pressable style={({ pressed })=>[{backgroundColor: pressed ? '#f3f3f3' : '#eeeeee'},styles.buttonL]} onPress={()=>this.props.navigation.navigate('Tabbar')}>
-                                <Text style={styles.buttonText} allowFontScaling={false}>{t('cancelRegister')}</Text>{/*取消注册*/}
+                                <Text style={styles.buttonText} allowFontScaling={false}>取消注册</Text>
                             </Pressable>
                             <Pressable style={({ pressed })=>[{backgroundColor: pressed ? '#2da2fe' : '#1890FF'},styles.buttonR]} onPress={this.register} >
-                                <Text style={[styles.buttonText,{color: '#fff'}]} allowFontScaling={false}>{t('register')}</Text>{/*注册*/}
+                                <Text style={[styles.buttonText,{color: '#fff'}]} allowFontScaling={false}>注册账号</Text>
                             </Pressable>
                         </View>
                         <View style={styles.link} >
                             <TouchableOpacity>
-                                <Text style={styles.Url} onPress={()=>{this.props.navigation.navigate('BindPhone')}} allowFontScaling={false}>{t('SMSlogin')}</Text>{/*短信登录*/}
+                                <Text style={styles.Url} onPress={()=>{this.props.navigation.navigate('BindPhone')}} allowFontScaling={false}>短信登录</Text>
                             </TouchableOpacity>
                             <TouchableOpacity>
-                                <Text style={styles.Url} onPress={()=>{this.props.navigation.navigate('BindAccount')}} allowFontScaling={false}>{t('AccountLogin')}</Text>{/*账号登录*/}
+                                <Text style={styles.Url} onPress={()=>{this.props.navigation.navigate('BindAccount')}} allowFontScaling={false}>账号登录</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -481,7 +477,7 @@ const styles = StyleSheet.create({
         height: 50,
         lineHeight: 50,
         color: '#333333',
-        fontSize: Fs/22,
+        fontSize: Fs/18,
         paddingLeft: 40,
     },
     agree:{
@@ -507,7 +503,7 @@ const styles = StyleSheet.create({
         position: 'relative',
         width: '40.5%',
         height: 40,
-        borderRadius: 10,
+        borderRadius: 3,
         padding: 0,
     },
     buttonText:{
@@ -522,7 +518,7 @@ const styles = StyleSheet.create({
         position: 'relative',
         width: '40.5%',
         height: 40,
-        borderRadius: 10,
+        borderRadius: 3,
         padding: 0,
         verticalAlign: 'middle',
     },
@@ -543,4 +539,4 @@ const styles = StyleSheet.create({
         marginTop: 15
     },
 }) 
-export default withTranslation()(AccountRegister)
+export default AccountRegister

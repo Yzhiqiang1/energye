@@ -1,7 +1,8 @@
 import { StackNavigationProp } from '@react-navigation/stack'
 import React from 'react'
 import { Text, View, StyleSheet, TouchableOpacity, ActivityIndicator,
-Image, Pressable, Dimensions, DeviceEventEmitter, ScrollView, Animated, Modal } from 'react-native'
+Image, Pressable, Dimensions, DeviceEventEmitter, Animated, Modal, 
+ScrollView} from 'react-native'
 import { HttpService } from '../../utils/http'//网络请求服务
 import { Icon } from '@rneui/themed';
 import Tree from '../tree/Tree'
@@ -157,7 +158,6 @@ export class Navbar extends React.Component<any,any> {
                 }, () => {})
                 //更新全局变量
                 store.dispatch(parameter_Group({onlyGroupId:this.state.arrGroup[index].id}))
-                // this.props.parameter_Group({onlyGroupId:this.state.arrGroup[index].id})
                 //向父组件传递参数
                 if(this.props.choiceGroup){
                     this.props.choiceGroup({type:true})
@@ -664,52 +664,111 @@ export class Navbar extends React.Component<any,any> {
         const {navigation,}: { navigation?: StackNavigationProp<any, any> } = this.props.props
         return (
             <View style={{zIndex: 999999,width: '100%'}}>
-                {/* { */}
                 <View style={[styles.navbar,{height: ht/9, pointerEvents: 'auto'}]}>
-                <View style={[styles.navbar_head]}>
-                    {this.props.showBack?
-                        <Pressable style={styles.navbar_left} onPress={this.navBack}>
-                            <Icon
-                                name='left'
-                                type='antdesign'
-                                color='#333'
-                                size={22}
-                            />
-                        </Pressable>:''
-                    }
-                    {this.props.showHome?
-                        <Pressable style={styles.navbar_left} onPress={this.navHome}>
-                            <Icon
-                                name='home'
-                                type='antdesign'
-                                color='#333'
-                                size={22}
-                            />
-                        </Pressable>:''
-                    }
-                    <Text allowFontScaling={false} style={styles.navbar_text}>{this.props.pageName}</Text>
-                    {this.props.LoginStatus == 1?
-                        <TouchableOpacity style={styles.treeSelect} onPress={()=>{navigation?.navigate('BindAccount')}}>
-                            <Text allowFontScaling={false} style={[styles.navbar_text,{fontSize:Fs/22,color:'#2EA4FF',fontWeight: '400'}]}>您还未登录,点击登录</Text>
-                        </TouchableOpacity> : ''
-                    }
-                    {this.props.LoginStatus == 2?
-                        <Pressable style={styles.treeSelect} onPress={this.treeSelectClick}>
-                            {this.state.treeLoading?
-                                <ActivityIndicator color="#1989fa"/> :
-                                <View style={styles.test}>
+                    <View style={[styles.navbar_head]}>
+                        {this.props.showBack?
+                            <Pressable style={styles.navbar_left} onPress={this.navBack}>
+                                <Icon
+                                    name='left'
+                                    type='antdesign'
+                                    color='#333'
+                                    size={22}
+                                />
+                                <Text allowFontScaling={false} style={styles.text}>返回</Text>
+                            </Pressable>:''
+                        }
+                        {this.props.showHome?
+                            <Pressable style={styles.navbar_left} onPress={this.navHome}>
+                                <Icon
+                                    name='left'
+                                    type='antdesign'
+                                    color='#333'
+                                    size={22}
+                                />
+                                <Text style={styles.text}>首页</Text>
+                            </Pressable>:''
+                        }
+                        <Text allowFontScaling={false} style={styles.navbar_text}>{this.props.pageName}</Text>
+                        {this.props.LoginStatus == 1?
+                            <TouchableOpacity style={styles.treeSelect} onPress={()=>{navigation?.navigate('BindAccount')}}>
+                                <Text allowFontScaling={false} style={[styles.navbar_text,{fontSize:Fs/22,color:'#2EA4FF',fontWeight: '400'}]}>您还未登录,点击登录</Text>
+                        </TouchableOpacity>
+                        : ''
+                        }
+                        {this.props.LoginStatus == 2?
+                            <Pressable style={styles.treeSelect} onPress={this.treeSelectClick}>
+                                {this.state.treeLoading?
+                                    <ActivityIndicator color="#1989fa"/> :
                                     <View style={styles.test}>
-                                        <Text allowFontScaling={false} numberOfLines={1} ellipsizeMode="tail" style={styles.testName}>{this.state.treeName}</Text>
+                                        <Text allowFontScaling={false} style={styles.testName}>{this.state.treeName}</Text>
                                         <Animated.View style={[styles.ico,{transform: [{rotate: this.state.rotate}]}]}>
                                             <Image style={styles.img} source={require("../../image/down.png")}></Image>
                                         </Animated.View>
                                     </View>
-                                </View>
-                            }
-                        </Pressable>:''
-                    }
+                                }
+                            </Pressable>: ''
+                        }
+                    </View>
+
+                    
                 </View>
-                {/* <Modal
+                {/* 设备选择弹窗 */}
+                {/* {this.state.showTree?
+                    <View style={[styles.modalBox,{top: ht/9}]}>
+                        <Pressable style={{width: '100%',height: '100%'}} onPress={this.treeSelectClick}>
+                        </Pressable>
+                        <View style={styles.con}>
+                            <View style={styles.boxs}>
+                                {this.state.isCheck != 6?
+                                    <View style={[styles.left,this.props.isCheck==4?styles.leftW100:null]}>
+                                        <ScrollView>
+                                            {this.state.arrGroup.map((data:any, index:any) => {
+                                                return(
+                                                    <Text allowFontScaling={false} key={index} 
+                                                        style={[styles.list,index == this.state.isGroup?styles.listIs:null]}
+                                                        onPress={()=>this.choiceGroup(index)}
+                                                    >{data.name}</Text>
+                                                )
+                                            })}
+                                        </ScrollView>
+                                    </View>
+                                    :''
+                                }
+                                {this.props.isCheck == 1 || this.props.isCheck == 2 ||
+                                this.props.isCheck == 3 || this.props.isCheck == 5 ||
+                                this.props.isCheck == 6 ?
+                                    <ScrollView>
+                                        <View style={styles.right}>
+                                            <ScrollView 
+                                            horizontal={true}
+                                            showsHorizontalScrollIndicator={false}
+                                            >
+                                                <Tree
+                                                    dataTree={this.state.dataTree}
+                                                    selectKey={this.state.selectKey}
+                                                    isChecks={this.props.isCheck}
+                                                    isOpenAll={true}
+                                                    handleSelect={this.handleSelect}
+                                                ></Tree>
+                                            </ScrollView>
+                                        </View>
+                                    </ScrollView>
+                                    : ''
+                                }
+                            </View>
+                        </View>
+                    </View>:''
+                } */}
+
+                {/* 弹窗效果组件 */}
+                <Loading 
+                    type={this.state.msgType} 
+                    visible={this.state.visible} 
+                    LoadingMsg={this.state.LoadingMsg}
+                >
+                </Loading>
+
+                <Modal
                     transparent={true}
                     visible={this.state.showTree}
                     onRequestClose={this.handleOnRequestClose}
@@ -760,63 +819,7 @@ export class Navbar extends React.Component<any,any> {
                         </View>
                     </View>
                 </View>
-                </Modal> */}
-                {/* 弹窗效果组件 */}
-                <Loading 
-                    type={this.state.msgType} 
-                    visible={this.state.visible} 
-                    LoadingMsg={this.state.LoadingMsg}
-                >
-                </Loading>
-                </View>
-                {/* 设备选择弹窗 */}
-                {this.state.showTree?
-                    <View style={[styles.modalBox,{top: ht/9}]}>
-                        <Pressable style={{width: '100%',height: '100%'}} onPress={this.treeSelectClick}>
-                        </Pressable>
-                        <View style={styles.con}>
-                            <View style={styles.boxs}>
-                                {this.state.isCheck != 6?
-                                    <View style={[styles.left,this.props.isCheck==4?styles.leftW100:null]}>
-                                        <ScrollView>
-                                            {this.state.arrGroup.map((data:any, index:any) => {
-                                                return(
-                                                    <Text allowFontScaling={false} key={index} 
-                                                        style={[styles.list,index == this.state.isGroup?styles.listIs:null]}
-                                                        onPress={()=>this.choiceGroup(index)}
-                                                    >{data.name}</Text>
-                                                )
-                                            })}
-                                        </ScrollView>
-                                    </View>
-                                    :''
-                                }
-                                {this.props.isCheck == 1 || this.props.isCheck == 2 ||
-                                this.props.isCheck == 3 || this.props.isCheck == 5 ||
-                                this.props.isCheck == 6 ?
-                                    <ScrollView>
-                                        <View style={styles.right}>
-                                            <ScrollView 
-                                            horizontal={true}
-                                            showsHorizontalScrollIndicator={false}
-                                            >
-                                                <Tree
-                                                    dataTree={this.state.dataTree}
-                                                    selectKey={this.state.selectKey}
-                                                    isChecks={this.props.isCheck}
-                                                    isOpenAll={true}
-                                                    handleSelect={this.handleSelect}
-                                                ></Tree>
-                                            </ScrollView>
-                                        </View>
-                                    </ScrollView>
-                                    : ''
-                                }
-                            </View>
-                        </View>
-                    </View>:''
-                }
-                {/* } */}
+                </Modal>
             </View>
         )
     }
@@ -845,22 +848,24 @@ const styles = StyleSheet.create({
     },
     navbar_left: {
         position: 'absolute',
-        width:30,
         height:30,
         left: 5,
-        zIndex:9
+        zIndex:9,
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center'
     },
     navbar_text:{
         width: '100%',
         textAlign:'center',
-        fontSize: Fs/20,
+        fontSize: Fs/17,
         fontWeight: '600',
         color: '#333'
     },
     treeSelect:{
         position: 'relative',
         margin: 'auto',
-        width: 178,
+        width: '100%',
         height: 28,
         lineHeight: 28,
         color:' #666',
@@ -875,19 +880,19 @@ const styles = StyleSheet.create({
         lineHeight: 28,
         color: '#666',
         overflow: 'hidden',
-        justifyContent:'center'
+        justifyContent:'center',
     },
     testBox:{
         display:'flex',
         flexDirection:'row',
     },
     testName:{
-        maxWidth:150,
         height: 28,
         lineHeight: 28,
         fontSize: Fs/24,
         color:'#666',
         overflow: 'hidden',
+        marginRight: 10
     },
     ico:{
         display:'flex',
@@ -982,6 +987,10 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0.4)',
         justifyContent: "center",
         alignItems: "center",
+    },
+    text: {
+        color: '#333',
+        fontSize: Fs/18
     },
 })
 
