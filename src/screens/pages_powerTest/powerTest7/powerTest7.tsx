@@ -287,7 +287,7 @@ export class PowerTest7 extends Component<any,any> {
                     if (listData.length > 0) {
                         let labelName = JSON.stringify(res.data.labelName).replace(/\[|\]|\"/g, "").split(",");
                         let open:any = {
-                            name: _index == 0 ? that.props.t('HOC') : that.props.t('HOC'),// "电流谐波" : "电压谐波",
+                            name: _index == 0 ? "电流谐波" : "电压谐波",
                             state: true,
                             title: "",
                             legendData: labelName,
@@ -361,7 +361,7 @@ export class PowerTest7 extends Component<any,any> {
                     that.setState({
                         visible: false
                     })
-                    // //错误提示信息
+                    //错误提示信息
                     that.setState({
                         msgType: 2,
                         visible: true,
@@ -383,7 +383,7 @@ export class PowerTest7 extends Component<any,any> {
                 that.setState({
                     msgType: 2,
                     visible: true,
-                    LoadingMsg:  that.props.t('request'),//'请求出错',
+                    LoadingMsg: '请求出错',
                 },()=>{
                     setTimeout(()=>{
                         that.setState({

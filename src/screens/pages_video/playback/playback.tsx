@@ -1,4 +1,4 @@
-import { Image, ImageBackground, StyleSheet, View, Platform, Pressable, NativeModules, StatusBar, Text, SafeAreaView, } from 'react-native'
+import { Image, ImageBackground, StyleSheet, View, Platform, Pressable, NativeModules, StatusBar, Text, SafeAreaView, ScrollView, ActivityIndicator, } from 'react-native'
 import React, { Component } from 'react'
 import { Register } from '../../../utils/app'
 import Navbars from '../../../component/Navbars/Navbars';
@@ -10,6 +10,8 @@ import { Dimensions } from 'react-native'
 import NetInfo from "@react-native-community/netinfo";
 import styleg from '../../../indexCss';
 import PickerBut from '../../../component/PickerBut/PickerBut';
+import { store } from '../../../redux/storer';
+import { Slider, Icon } from '@rneui/themed';
 const api = require('../../../utils/api')
 const { StatusBarManager } = NativeModules;
 const STATUS_BAR_HEIGHT = Platform.OS === 'android' ? StatusBar.currentHeight : StatusBarManager.HEIGHT;//状态栏高度
@@ -33,7 +35,7 @@ export class Playback extends Component<any,any> {
             appkey: '',
             secret: '',
             LoginStatus: 1, //登录状态
-            videoSrc: 's', //播放地址
+            videoSrc: '', //播放地址
 
             //播放器宽高
             playW: '100%',
@@ -73,21 +75,28 @@ export class Playback extends Component<any,any> {
             visible: false,
             LoadingMsg: '',
 
-            Internet: false//网络状态
+            Internet: false,//网络状态
+
+            vertValue: 20,//滑块
+            playIf: false,
+
+            /** 云台操作 */
+            ptzctrl: false,//否正在进行
         }
     }
     componentDidMount(): void {
         Register.userSignIn(false).then(res => {
+            this.getTodayDate()
             //校验登录成功后执行
             if (res) {
                 //优先处理url传参
                 let that = this;
-                let sensorName = this.props.sensorName ? this.props.sensorName : '';
-                let accessToken = this.props.accessToken ? this.props.accessToken : '';
-                let deviceSerial = this.props.deviceSerial ? this.props.deviceSerial : '';
-                let channelNo = this.props.channelNo ? this.props.channelNo : '';
-                let appkey = this.props.appkey ? this.props.appkey : '';
-                let secret = this.props.secret ? this.props.secret : '';
+                let sensorName = store.getState().sensorName ? store.getState().sensorName : '';
+                let accessToken = store.getState().accessToken ? store.getState().accessToken : '';
+                let deviceSerial = store.getState().deviceSerial ? store.getState().deviceSerial : '';
+                let channelNo = store.getState().channelNo ? store.getState().channelNo : '';
+                let appkey = store.getState().appkey ? store.getState().appkey : '';
+                let secret = store.getState().secret ? store.getState().secret : '';
                 if (sensorName && accessToken && deviceSerial && channelNo && appkey && secret) {
                     //更新数据
                     that.setState({
@@ -154,8 +163,6 @@ export class Playback extends Component<any,any> {
     }
 
     check_ok=()=>{
-        //获取当前日期
-        this.getTodayDate();
         this.getAccessToken();
     }
     //获取最新accessToken
@@ -174,7 +181,31 @@ export class Playback extends Component<any,any> {
             }), //提交的参数
         }).then(response => response.json()) //数据解析的方式，json解析
         .then(response => {
+            console.log('getAccessToken',response);
+             // console.log(res)
+             if (response.data.code == 200) {
+                that.setState({
+                    accessToken: response.data.data.accessToken
+                }, () => {
+                    //获取时间轴
+                    this.getTimeLine();
+                })
+            } else {
+                //信息提示
+                this.setState({
+                    msgType: 2,
+                    visible: true,
+                    LoadingMsg: 'accessToken异常(请求accessToken失败!)'
+                },()=>{
+                    setTimeout(()=>{
+                        this.setState({
+                            visible: false,
+                        })
+                    },3000)
+                })
+            }
         }).catch((error) => {
+            console.log('error',error);
             //信息提示
             this.setState({
                 msgType: 2,
@@ -185,7 +216,7 @@ export class Playback extends Component<any,any> {
                     this.setState({
                         visible: false,
                     })
-                },5000)
+                },3000)
             })
         })
     }
@@ -230,6 +261,7 @@ export class Playback extends Component<any,any> {
         var m = time.getMonth() + 1;
         var d = time.getDate();
         let date = (h > 9 ? h : '0' + h) + '-' + (m > 9 ? m : '0' + m) + '-' + (d > 9 ? d : '0' + d);
+        console.log('date',date);
         this.setState({
             date: date,
         });
@@ -370,7 +402,7 @@ export class Playback extends Component<any,any> {
                 that.setState({
                     msgType: 2,
                     visible: true,
-                    LoadingMsg: that.props.t('anomaly')//'当前网络异常'
+                    LoadingMsg: '当前网络异常'
                 },()=>{
                     setTimeout(()=>{
                         that.setState({
@@ -809,7 +841,80 @@ export class Playback extends Component<any,any> {
     onLoad=(data:any)=>{
         console.log('onLoad触发',data);
     }
-    
+
+    setVertValue=(e: any)=>{
+        console.log(1);
+        this.setState({
+            vertValue:  e
+        })
+    }
+
+    play=()=>{
+        this.setState({
+            playIf: true
+        })
+    }
+
+    // 云台方向开始操作
+    cloudDirection=(type: number)=>{
+        if(this.state.accessToken){
+            this.setState({
+                ptzctrl: true
+            })
+            let direction = type==1? 'left' : type==2? 'right' : type==2? 'up' : 'down'
+            fetch( api.videoTime, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'accessToken': this.state.accessToken
+                },
+                body: JSON.stringify({
+                    cmd: "start",
+                    channelNo: 1,
+                    direction: direction,
+                }), //提交的参数
+            }).then(response => response.json()) //数据解析的方式，json解析
+            .then(response => {
+                console.log('操作中',);
+            }).catch((error) => {
+                console.log('error',error);
+            })
+        }else {
+            console.log('accessToken异常');
+        }
+    }
+
+    // 云台方向结束操作
+    cloudDirectionFinish=(type: number)=>{
+        if(this.state.ptzctrl){
+            let direction = type==1? 'left' : type==2? 'right' : type==2? 'up' : 'down'
+            fetch( api.videoTime, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'accessToken': this.state.accessToken
+                },
+                body: JSON.stringify({
+                    cmd: "stop",
+                    channelNo: 1,
+                    direction: direction,
+                }), //提交的参数
+            }).then(response => response.json()) //数据解析的方式，json解析
+            .then(response => {
+                console.log('停止');
+            }).catch((error) => {
+                console.log('error',error);
+            })
+            this.setState({
+                ptzctrl: false
+            })
+        }
+    }
+
+    videoCapture=()=>{
+
+    }
+
     render() {
         return (
             <View style={{flex: 1}}>
@@ -910,48 +1015,161 @@ export class Playback extends Component<any,any> {
                                 </Pressable>
                             }
                         </View>
-
+                        {
+                        // <View style={styles.controlArea}>
+                        //     <View style={styles.cloudSwitch}>
+                        //         {/* 选择日期 */}
+                        //         {/* <Picker
+                        //             pickerType={1}
+                        //             date={this.state.date}
+                        //             precisionType={1}
+                        //             click={this.bindDateChange}
+                        //         ></Picker> */}
+                        //         <Pressable style={styleg.button} onPress={()=>this.setState({open: true,typePk: 1})}>
+                        //             <Text allowFontScaling={false} style={styleg.TextButton}>{this.state.date}</Text>
+                        //             <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
+                        //         </Pressable>
+                        //         {/* <Picker
+                        //             pickerType={4}
+                        //             dataSwitch={this.state.storageType}
+                        //             dataSwitchIn={this.state.storageIn}
+                        //             click={this.storageChange}
+                        //         >
+                        //         </Picker> */}
+                        //         <Pressable style={styleg.button} onPress={()=>this.setState({open: true,typePk: 2})}>
+                        //             <Text allowFontScaling={false} style={styleg.TextButton}>{this.state.storageType[this.state.storageIn]}</Text>
+                        //             <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
+                        //         </Pressable>
+                        //     </View>
+                        //     {/* 时间轴 */}
+                        //     <View style={styles.timeAxis}>
+                        //         <TimeLine 
+                        //             getPalyParam={this.getPalyParam}
+                        //             playCode={this.state.playCode}
+                        //             dateLine={this.state.dateLine}>
+                        //         </TimeLine>
+                        //     </View>
+                        // </View>
+                        }
+                        {/** 控制台*/}
                         <View style={styles.controlArea}>
-                            <View style={styles.cloudSwitch}>
-                                {/* 选择日期 */}
-                                {/* <Picker
-                                    pickerType={1}
-                                    date={this.state.date}
-                                    precisionType={1}
-                                    click={this.bindDateChange}
-                                ></Picker> */}
-                                <Pressable style={styleg.button} onPress={()=>this.setState({open: true,typePk: 1})}>
-                                    <Text allowFontScaling={false} style={styleg.TextButton}>{this.state.start}</Text>
-                                    <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
-                                </Pressable>
-                                {/* <Picker
-                                    pickerType={4}
-                                    dataSwitch={this.state.storageType}
-                                    dataSwitchIn={this.state.storageIn}
-                                    click={this.storageChange}
-                                >
-                                </Picker> */}
-                                <Pressable style={styleg.button} onPress={()=>this.setState({open: true,typePk: 2})}>
-                                    <Text allowFontScaling={false} style={styleg.TextButton}>{this.state.start}</Text>
-                                    <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
+                            <View style={styles.cloudeRvices}>
+                                <View style={styles.operate}>
+                                    <Image style={styles.img} source={require('../../../image/around.png')}></Image>
+                                    <Text allowFontScaling={false}>左右翻转</Text>
+                                </View>
+                                <View style={styles.operate}>
+                                    <Image style={styles.img} source={require('../../../image/fluctuate.png')}></Image>
+                                    <Text allowFontScaling={false}>上下翻转</Text>
+                                </View>
+                                <View style={styles.operate}>
+                                    <Image style={styles.img} source={require('../../../image/turn.png')}></Image>
+                                    <Text allowFontScaling={false}>中心翻转</Text>
+                                </View>
+                                <Pressable style={styles.operate} onPress={this.videoCapture}>
+                                    <View style={[styles.img,{padding: '5%'}]}>
+                                        <Image style={{width: '100%',height: '100%'}} source={require('../../../image/screenshot.png')}></Image>
+                                    </View>
+                                    <Text allowFontScaling={false}>抓拍图片</Text>
                                 </Pressable>
                             </View>
-                            {/* 时间轴 */}
-                            <View style={styles.timeAxis}>
-                                <TimeLine 
-                                    getPalyParam={this.getPalyParam}
-                                    playCode={this.state.playCode}
-                                    dateLine={this.state.dateLine}>
-                                </TimeLine>
+
+                            <View style={styles.controlBox}>
+                                <View style={[styles.box,{flex: 1}]}>
+                                    <Text allowFontScaling={false} style={styles.text}>聚焦</Text>
+                                    <View style={styles.verticalContent}>
+                                        <Slider
+                                            value={this.state.vertValue}
+                                            onValueChange={()=>this.setVertValue}
+                                            maximumValue={50}
+                                            minimumValue={0}
+                                            step={1}
+                                            orientation="vertical"
+                                            thumbStyle={styles.slider}
+                                            trackStyle={styles.stripe}
+                                            minimumTrackTintColor='#2EA4FF'
+                                            maximumTrackTintColor='#d7d7d9'
+                                        />
+                                    </View>
+                                </View>
+                                <View style={[styles.box,{flex: 3}]}>
+                                    <Text allowFontScaling={false} style={styles.text}>云台方向</Text>
+                                    <View style={[styles.verticalContent,styles.wt]}>
+                                        <View style={styles.direction}>
+                                            <View style={styles.roundWire}>
+                                                <View style={styles.centreBut}>
+                                                    <Text allowFontScaling={false} style={{fontSize: Fs/20}}>正常</Text>
+                                                </View>
+                                                <Pressable  
+                                                    style={styles.angleL}
+                                                    delayLongPress={200} //按住0.2秒后开始onLongPress操作
+                                                    onLongPress={()=>this.cloudDirection(1)}
+                                                    onPressOut={()=>this.cloudDirectionFinish(1)}>
+                                                    <Image resizeMode='contain' style={{width: 20}} source={require('../../../image/jt.png')}></Image>
+                                                </Pressable>
+                                                <Image resizeMode='contain' style={[styles.angleR,{width: 20}]} source={require('../../../image/jt.png')}></Image>
+                                                <Image resizeMode='contain' style={[styles.angleT,{width: 20}]} source={require('../../../image/jt.png')}></Image>
+                                                <Image resizeMode='contain' style={[styles.angleB,{width: 20}]} source={require('../../../image/jt.png')}></Image>
+                                                {/* <Image resizeMode='contain' style={[styles.angleTL,styles.arrows]} source={require('../../../image/jt.png')}></Image>
+                                                <Image resizeMode='contain' style={[styles.angleTR,styles.arrows]} source={require('../../../image/jt.png')}></Image>
+                                                <Image resizeMode='contain' style={[styles.angleBL,styles.arrows]} source={require('../../../image/jt.png')}></Image>
+                                                <Image resizeMode='contain' style={[styles.angleBR,styles.arrows]} source={require('../../../image/jt.png')}></Image> */}
+                                            </View>
+                                        </View>
+                                    </View>
+                                </View>
+                                <View style={[styles.box,{flex: 1}]}>
+                                    <Text allowFontScaling={false} style={styles.text}>大小</Text>
+                                    <View style={styles.verticalContent}>
+                                        <Slider
+                                            value={this.state.vertValue}
+                                            onValueChange={()=>this.setVertValue}
+                                            maximumValue={50}
+                                            minimumValue={0}
+                                            step={1}
+                                            orientation="vertical"
+                                            thumbStyle={styles.slider}
+                                            trackStyle={styles.stripe}
+                                            minimumTrackTintColor='#2EA4FF'
+                                            maximumTrackTintColor='#d7d7d9'
+                                        />
+                                    </View>
+                                </View>
+                            </View>
+
+                            {/** 日期回放*/}
+                            <View style={{flex: 1}}>
+                                <ScrollView style={styles.playbackTime}>
+                                    <Text allowFontScaling={false} style={{textAlign: 'center',fontSize: Fs/20,marginTop: 10}}>视频回放</Text>
+                                    {this.state.dateLine.length!=0?
+                                        this.state.dateLine.map((data:any, index:any) => {
+                                            return(
+                                                <View key={index} style={[styles.List,styles.flex]}>
+                                                    <View style={styles.flex}>
+                                                        <Image resizeMode='contain' style={{height: ht/30,marginRight: 10}} source={require('../../../image/calendar.png')} />
+                                                        <Text allowFontScaling={false} style={{fontSize: ht/30}}>sssssssssssssss</Text>
+                                                    </View>
+                                                    <View style={{width: '10%',justifyContent: 'center'}}>
+                                                        {this.state.playIf?
+                                                            <ActivityIndicator size={24} color={'#666666'}/>:
+                                                            <Pressable onPress={this.play}>
+                                                                <Image resizeMode='contain' style={{height: ht/26}} source={require('../../../image/play.png')} />
+                                                            </Pressable>
+                                                        }
+                                                    </View>
+                                                </View>
+                                        )}):<Text allowFontScaling={false} style={{textAlign: 'center',margin: 10,fontSize: Fs/20}}>暂无数据</Text>
+                                    }
+                                </ScrollView>
                             </View>
                         </View>
                     </View>
                     {/* 弹窗效果 */}
-                    <Loading 
+                    {/* <Loading 
                         type={this.state.msgType} 
                         visible={this.state.visible} 
                         LoadingMsg={this.state.LoadingMsg}>
-                    </Loading>
+                    </Loading> */}
                     {/* 日期选择 */}
                     {this.state.open ? 
                         this.state.typePk==1?
@@ -1005,8 +1223,6 @@ const styles = StyleSheet.create({
         height: 210,
         zIndex: 0,
     },
-      
-      
       
     hide :{
         display: 'none',
@@ -1251,7 +1467,6 @@ const styles = StyleSheet.create({
     voiceListTitle :{
         fontSize: 24,
         color: '#333333',
-        // letter-spacing: 0,
         lineHeight: 22,
         marginBottom: 10,
         marginTop: 10,
@@ -1349,7 +1564,6 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         paddingRight: 35,
         paddingLeft: 5,
-        // transition: all 0.3s,
         marginTop: 3,
         overflow: 'hidden',
     },
@@ -1456,6 +1670,202 @@ const styles = StyleSheet.create({
         borderColor: '#fff',
         borderRadius: 100,
     },
+    cloudeRvices: {
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'row',
+        height: 100,
+    },
+    operate: {
+        flex: 1,
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    img: {
+        width: '60%',
+        height: '60%',
+    },
+    controlBox: {
+        width: '100%',
+        height: size.height*0.3,
+        display: 'flex',
+        flexDirection: 'row',
+        marginBottom: 10
+    },
+    box: {
+        height: '100%',
+        display: 'flex',
+        alignItems: 'center'
+    },
+    slider: { 
+        height: 26,
+        width: 26,
+        backgroundColor: '#2EA4FF',
+        borderWidth: 3,
+        borderStyle: 'solid',
+        borderColor: '#fff' 
+    },
+    stripe: {
+        width: 16,
+        borderRadius: 10,
+        borderWidth: 3,
+        borderStyle: 'solid',
+        borderColor: '#fff',
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 4
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5
+    },
+    text: {
+        height: 20,
+        marginTop: 10,
+    },
+
+    contentView: {
+        width: '100%',
+        justifyContent: 'center',
+        alignItems: 'stretch',
+    },
+    verticalContent: {
+        padding: 10,
+        flex: 1,
+        flexDirection: 'row',
+        height: '100%',
+        justifyContent: 'center',
+        alignItems: 'stretch',
+    },
+    subHeader: {
+        backgroundColor : "#2089dc",
+        color : "white",
+        textAlign : "center",
+        marginBottom : 10
+    },
+    wt: {
+        width: size.height*0.3-30
+    },
+    direction: {
+        width: '100%',
+        height: '100%',
+        padding: 10,
+        flex: 1,
+        borderRadius: size.height*0.3-50,
+        backgroundColor: '#fff',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 4
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5
+    },
+    roundWire: {
+        width: "95%",
+        height: "95%",
+        borderRadius: size.height*0.3,
+        borderWidth: 1,
+        borderColor: '#2EA4FF',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    centreBut: {
+        width: "50%",
+        height: "50%",
+        borderRadius: size.height*0.3,
+        borderWidth: 10,
+        borderColor: '#ECEBEB',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    angleL: {
+        position: 'absolute',
+        transform: [
+            { translateX: -size.height*0.3/4 },
+            { rotate: '-180deg' }
+        ],
+    },
+    angleR: {
+        position: 'absolute',
+        transform: [
+            { translateX: size.height*0.3/4 }, 
+            { rotate: '0deg' }
+        ],
+    },
+    angleT: {
+        position: 'absolute',
+        transform: [
+            { translateY: -size.height*0.3/4 }, 
+            { rotate: '-90deg' }
+        ],
+    },
+    angleB: {
+        position: 'absolute',
+        transform: [
+            { translateY: size.height*0.3/4 },
+            { rotate: '90deg' }
+        ],
+    },
+    angleTL: {
+        position: 'absolute',
+        transform: [
+            { translateX: -size.height*0.3/5.5 },
+            { translateY: -size.height*0.3/5.5 },
+            { rotate: '-135deg' }
+        ],
+    },
+    angleTR: {
+        position: 'absolute',
+        transform: [
+            { translateX: size.height*0.3/5.5 },
+            { translateY: -size.height*0.3/5.5 },
+            { rotate: '-45deg' }
+        ],
+    },
+    angleBL: {
+        position: 'absolute',
+        transform: [
+            { translateX: -size.height*0.3/5.5 },
+            { translateY: size.height*0.3/5.5 },
+            { rotate: '135deg' }
+        ],
+    },
+    angleBR: {
+        position: 'absolute',
+        transform: [
+            { translateX: size.height*0.3/5.5 },
+            { translateY: size.height*0.3/5.5 },
+            { rotate: '45deg' }
+        ],
+    },
+
+    playbackTime: {
+        borderTopWidth: 1,
+        borderTopColor: '#E5E5E5',
+    },
+    List: {
+        padding: 20,
+        paddingTop: 10,
+        paddingBottom: 10,
+        borderBottomWidth: 1,
+        borderBottomColor: '#E5E5E5'
+    },
+    flex: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+    }
 })
 
 export default Playback

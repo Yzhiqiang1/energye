@@ -213,7 +213,7 @@ export class Configuration extends Component<any,any> {
             <View style={styles.head}>
               <View style={styles.search}>
                   <View style={styles.flex}>
-                      <TextInput style={styles.input} value={this.state.searchVal} placeholder='关键字搜索' onChangeText={this._search} ></TextInput>
+                      <TextInput allowFontScaling={false} style={styles.input} value={this.state.searchVal} placeholder='关键字搜索' onChangeText={this._search} ></TextInput>
                       {this.state.searchVal!=''?
                         <Pressable style={styles.close} onPress={this.searchClose}>
                             <Image style={styles.closeimg} source={require('../../image/search-close.png')}></Image>
@@ -360,7 +360,7 @@ const styles = StyleSheet.create({
     paddingLeft: 5,
     paddingRight: 5,
     color: '#333',
-    fontSize: Fs/16,
+    fontSize: Fs/20,
     borderStyle: 'solid',
     borderWidth:1,
     borderColor: '#f2f2f2',

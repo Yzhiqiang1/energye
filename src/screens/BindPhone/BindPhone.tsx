@@ -263,6 +263,7 @@ export class BindPhone extends Component<any,any> {
                             <View  style={styles.list}>
                                 <Image style={styles.Img} source={require('../../image/dl_user.png')}></Image>
                                 <TextInput 
+                                allowFontScaling={false}
                                 style={styles.Input} 
                                 placeholder={'输入手机号'} 
                                 onChangeText={this.mobileChangeSearch} 
@@ -271,7 +272,7 @@ export class BindPhone extends Component<any,any> {
                             </View>
                             <View  style={styles.list}>
                                 <Image style={styles.Img} source={require('../../image/dl_password.png')}></Image>
-                                <TextInput style={styles.Input} placeholder={'输入验证码'} onChangeText={this.codeChangeSearch}></TextInput>
+                                <TextInput allowFontScaling={false} style={styles.Input} placeholder={'输入验证码'} onChangeText={this.codeChangeSearch}></TextInput>
                                 <Text allowFontScaling={false} style={styles.Code} onPress={this.gainCode}>{this.state.mobiletitle}</Text>
                             </View>
                             <View style={styles.forget}>
@@ -362,9 +363,8 @@ const styles = StyleSheet.create({
         position: 'relative',
         width: '100%',
         height: 50,
-        lineHeight: 50,
         color: '#333333',
-        fontSize: Fs/18,
+        fontSize: Fs/22,
         paddingLeft: 80,
     },
     forget:{

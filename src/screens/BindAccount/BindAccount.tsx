@@ -14,10 +14,6 @@ let api = require('../../utils/api')
 const height = Dimensions.get('window').height
 
 export class BindAccount extends Component<any,any> {
-    componentDidMount(): void {
-        console.log();
-        
-    }
     constructor(props: any) {
         super(props);
         this.state = {  
@@ -192,11 +188,11 @@ export class BindAccount extends Component<any,any> {
                     <View style={styles.con}>
                         <View  style={styles.list}>
                             <Image style={styles.Img} source={require('../../image/dl_user.png')}></Image>
-                            <TextInput style={styles.Input} placeholder={'输入用户名'} onChangeText={this.userNameChangeSearch} ></TextInput>
+                            <TextInput allowFontScaling={false} style={styles.Input} placeholder={'输入用户名'} onChangeText={this.userNameChangeSearch} ></TextInput>
                         </View>
                         <View  style={styles.list}>
                             <Image style={styles.Img} source={require('../../image/dl_password.png')}></Image>
-                            <TextInput style={styles.Input} placeholder={'输入密码'} onChangeText={this.passwordChangeSearch} secureTextEntry={true} ></TextInput>
+                            <TextInput allowFontScaling={false} style={styles.Input} placeholder={'输入密码'} onChangeText={this.passwordChangeSearch} secureTextEntry={true} ></TextInput>
                         </View>
                         <View style={styles.forget}>
                             <TouchableOpacity >
@@ -321,9 +317,8 @@ const styles = StyleSheet.create({
         position: 'relative',
         width: '100%',
         height: 50,
-        lineHeight: 50,
         color: '#333333',
-        fontSize: Fs/17,
+        fontSize: Fs/22,
         paddingLeft: 80,
     },
     forget:{

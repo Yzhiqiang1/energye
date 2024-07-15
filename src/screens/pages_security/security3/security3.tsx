@@ -338,13 +338,12 @@ export class Security3 extends Component<any,any> {
                                                       appkey: top_item.appkey,
                                                       secret: top_item.secret,
                                               })}}>
-                                                  <View style={styles.ico}>
-                                                  </View>
                                                   <Text allowFontScaling={false} style={styles.name}>
                                                       {top_item.name}
                                                   </Text>
-                                                  <View style={styles.state}>
-                                                  </View>
+                                                  <Text allowFontScaling={false} style={styles.text}>
+                                                    查询
+                                                  </Text>
                                               </Pressable>:''
                                           }
                                               
@@ -367,7 +366,7 @@ export class Security3 extends Component<any,any> {
                                                           </VideoPlayer>
                                                         :''} 
                                                         {top_item.value == ''?
-                                                          <Text allowFontScaling={false} style={styles.videoNone}>小程序仅支持直播地址HLS</Text>:''
+                                                          <Text allowFontScaling={false} style={styles.videoNone}>程序仅支持直播地址HLS</Text>:''
                                                         }
                                                       </View>:''
                                                   }
@@ -404,226 +403,221 @@ export class Security3 extends Component<any,any> {
 
 const styles = StyleSheet.create({
     dataList:{
-        position: 'absolute',
-        top: 40,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        // overflowAnchor: 'none',
+      position: 'absolute',
+      top: 40,
+      left: 0,
+      right: 0,
+      bottom: 0,
+    },
+    casePage :{
+      padding: 10,
+    },
+    listMasonry :{
+    },
+    itemMasonry :{
+      backgroundColor: '#fff',
+      paddingRight: 10,
+      paddingBottom: 10,
+      paddingLeft: 10,
+      position: 'relative',
+      marginBottom: 10,
+      borderRadius: 2,
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 4
       },
-      casePage :{
-        padding: 10,
-      },
-      listMasonry :{
-        /* column-count: 2,
-        column-gap: 20rpx, */
-      },
-      itemMasonry :{
-        backgroundColor: '#fff',
-        paddingRight: 10,
-        paddingBottom: 10,
-        paddingLeft: 10,
-        borderRadius: 5,
-        position: 'relative',
-        marginBottom: 10,
-      },
-      itemHead:{
-        position: 'relative',
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-        width: '100%',
-        height: 40,
-        borderBottomWidth: 1,
-        borderBottomColor: '#ebedf0',
-        borderStyle: 'solid',
-      },
-      ico:{
-        width: 23,
-        height: 23,
-        marginTop: 9,
-        marginLeft: 2,
-        overflow: 'hidden',
-      },
-      imgs:{
-        width: 23,
-        height: 23,
-        // borderRadius: '50%',
-        overflow: 'hidden',
-      },
-      name:{
-        width: '100%',
-        height: 40,
-        lineHeight: 40,
-        textAlignVertical: 'center',
-        fontSize: Fs/24,
-        color: '#333',
-        verticalAlign: 'middle',
-        overflow: 'hidden',
-      },
-      statess:{
-        position:'absolute',
-        top: 5,
-        right: -5,
-        width: 8,
-        height: 8,
-        // border:1px solid #2b92d4,
-        borderRadius: 25,
-        // background-image: radial-gradient(#6cc3fe, #21a1d0),
-        // box-shadow:0 1rpx 30rpx rgba(59,255,255,0.4),
-        zIndex: 999,
-        overflow:'hidden',
-      },
-      trigger:{
-        position:'absolute',
-        top: 20,
-        right: -5,
-        width: 16,
-        height: 16,
-        zIndex: 999,
-        overflow: 'hidden',
-      },
-      itemChart:{
-        position: 'relative',
-        width: '100%',
-        height: 40,
-        marginTop: 5,
-      
-      },
-      itemCon:{
-        position: 'relative',
-        width: '100%',
-        marginTop: 5,
-      },
-      itemValue:{
-        position: 'relative',
-        width: '100%',
-        display: 'flex',
-        justifyContent: 'center',
-        paddingTop: 10
-      },
-      value:{
-        fontSize: Fs/14,
-        color: '#333',
+      shadowOpacity: 0.25,
+      shadowRadius: 3.84,
+      elevation: 5
+    },
+    itemHead:{
+      position: 'relative',
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      width: '100%',
+      height: 40,
+      borderBottomWidth: 1,
+      borderBottomColor: '#ebedf0',
+      borderStyle: 'solid',
+    },
+    imgs:{
+      width: 23,
+      height: 23,
+      overflow: 'hidden',
+    },
+    name:{
+      width: '100%',
+      height: 40,
+      lineHeight: 40,
+      textAlignVertical: 'center',
+      fontSize: Fs/20,
+      color: '#333',
+      verticalAlign: 'middle',
+      overflow: 'hidden',
+    },
+    statess:{
+      position:'absolute',
+      top: 5,
+      right: -5,
+      width: 8,
+      height: 8,
+      borderRadius: 25,
+      zIndex: 999,
+      overflow:'hidden',
+    },
+    trigger:{
+      position:'absolute',
+      top: 20,
+      right: -5,
+      width: 16,
+      height: 16,
+      zIndex: 999,
+      overflow: 'hidden',
+    },
+    itemChart:{
+      position: 'relative',
+      width: '100%',
+      height: 40,
+      marginTop: 5,
+    },
+    itemCon:{
+      position: 'relative',
+      width: '100%',
+      marginTop: 5,
+    },
+    itemValue:{
+      position: 'relative',
+      width: '100%',
+      display: 'flex',
+      justifyContent: 'center',
+      paddingTop: 10
+    },
+    value:{
+      fontSize: Fs/14,
+      color: '#333',
+      textAlign: 'center',
+      overflow: 'hidden',
+    },
+    img:{
+      width: '100%',
+    },
+    unit:{
+      fontSize: Fs/22,
+      color: 'red',
+    },
+    video:{
+      width: '100%',
+      height: 120,
+      zIndex: 1,
+    },
+    videoErr:{
+      color:' red',
+      fontSize: Fs/24,
+    },
+    itemTime:{
+      position: 'relative',
+      width: '100%',
+      lineHeight: 15,
+      textAlign: 'center',
+      fontSize: Fs/24,
+      color:' rgb(255, 255, 255)',
+      marginTop: 5,
+      overflow: 'hidden',
+    },
+    /**  设备报警  **/
+    states:{
+    },
+    units:{
+      color: '#fc1c1c',
+    },
+    values:{
+      color: '#fc1c1c',
+    },
+    /**  设备离线  **/
+    state:{
+      position: 'absolute',
+      top: 5,
+      right: 5,
+      width:10,
+      height:10,
+      borderRadius: 5,
+      borderWidth: 1,
+      borderColor: '#2b92d4',
+      borderStyle: 'solid',
+      backgroundColor: '#63bff8'
+    },
+    offLinevalue:{
+      color: '#92938b',
+    },
+    nothing:{
+      position: 'relative',
+      width: '100%',
+      height: 50,
+      lineHeight: 50,
+      textAlign: 'center',
+      fontSize: Fs/24,
+      color: 'rgb(255, 255, 255)',
+      overflow: 'hidden',
+    },
+    /* 加载效果 */
+    isPageTxt:{
+      position: 'relative',
+      width: '100%',
+      height: 40,
+      lineHeight: 40,
+      textAlign: 'center',
+      fontSize: Fs/24,
+      color: 'rgb(255, 255, 255)',
+      overflow: 'hidden',
+    },
+    isPageLoad:{
+      position: 'relative',
+      width: '100%',
+      overflow: 'hidden',
+    },
+    load:{
+      position: 'relative',
+      width: 16,
+      height: 16,
+    },
+  
+    LowerInput:{
+      position: 'relative',
+      width: '100%',
+      height: 180,
+      backgroundColor: '#333',
+      color: '#fff',
+      padding: 10,
+    },
+    videoNone:{
+      position: 'absolute',
+      top: '50%',
+      left: 0,
+      width: '100%',
+      textAlign: 'center',
+      color: '#f2f2f2',
+      fontSize: Fs/26,
+      zIndex: 99999,
+    },
+    empty:{
         textAlign: 'center',
-        // text-overflow:ellipsis,
-        // white-space: nowrap,
-        overflow: 'hidden',
-      },
-      img:{
-        width: '100%',
-      },
-      unit:{
         fontSize: Fs/22,
-        color: 'red',
-      },
-      video:{
-        width: '100%',
-        height: 120,
-        zIndex: 1,
-      },
-      videoErr:{
-        color:' red',
-        fontSize: Fs/24,
-      },
-      itemTime:{
-        position: 'relative',
-        width: '100%',
-        lineHeight: 15,
-        textAlign: 'center',
-        fontSize: Fs/24,
-        color:' rgb(255, 255, 255)',
-        marginTop: 5,
-        overflow: 'hidden',
-      },
-      /**  设备报警  **/
-      states:{
-        // border: 1px solid #f82525,
-        // background-image: radial-gradient(#ff3c3c, #fd3030),
-        // box-shadow: 0 1rpx 30rpx rgba(218, 86, 81, 0.3),
-      },
-      units:{
-        color: '#fc1c1c',
-      },
-      values:{
-        color: '#fc1c1c',
-      },
-      /**  设备离线  **/
-      state:{
-        position: 'absolute',
-        top: 5,
-        right: 5,
-        width:10,
-        height:10,
-        borderRadius: 5,
-        borderWidth: 1,
-        borderColor: '#2b92d4',
-        borderStyle: 'solid',
-        backgroundColor: '#63bff8'
-      },
-      offLinevalue:{
-        color: '#92938b',
-      },
-      nothing:{
-        position: 'relative',
-        width: '100%',
-        height: 50,
-        lineHeight: 50,
-        textAlign: 'center',
-        fontSize: Fs/24,
-        color: 'rgb(255, 255, 255)',
-        overflow: 'hidden',
-      },
-      /* 加载效果 */
-      isPageTxt:{
-        position: 'relative',
-        width: '100%',
-        height: 40,
-        lineHeight: 40,
-        textAlign: 'center',
-        fontSize: Fs/24,
-        color: 'rgb(255, 255, 255)',
-        overflow: 'hidden',
-      },
-      isPageLoad:{
-        position: 'relative',
-        width: '100%',
-        overflow: 'hidden',
-      },
-      load:{
-        position: 'relative',
-        width: 16,
-        height: 16,
-      },
-   
-      LowerInput:{
-        position: 'relative',
-        width: '100%',
-        height: 180,
-        backgroundColor: '#333',
-        color: '#fff',
-        padding: 10,
-      },
-      videoNone:{
-        position: 'absolute',
-        top: '50%',
-        left: 0,
-        width: '100%',
-        textAlign: 'center',
-        color: '#f2f2f2',
-        fontSize: Fs/26,
-        zIndex: 99999,
-      },
-      empty:{
-          textAlign: 'center',
-          fontSize: 20,
-          color: '#333'
-      },
-      Video:{
-        width: '100%',
-        height: 200,
-        backgroundColor: '#333'
-      },
+        color: '#333'
+    },
+    Video:{
+      width: '100%',
+      height: 150,
+      backgroundColor: '#333'
+    },
+    text: {
+      position: 'absolute',
+      top: 5,
+      right: 10,
+      color: '#1890FF',
+      fontSize: Fs/22,
+    }
 })
 
 export default Security3

@@ -301,7 +301,7 @@ export class Scanqr extends Component<any,any> {
                             that.setState({
                                 msgType: 2,
                                 visible: true,
-                                LoadingMsg: that.props.t('FTOL')//'获取定位失败，请检查手机是否打开位置信息'
+                                LoadingMsg: '获取定位失败，请检查手机是否打开位置信息'
                             },()=>{
                                 setTimeout(()=>{
                                     that.setState({
@@ -848,7 +848,7 @@ export class Scanqr extends Component<any,any> {
                                     <Pressable style={styles.mapMenu} onPress={this._mapMenu}>
                                         <Image style={styles.img} source={require('../../image/mapMenu.png')}></Image>
                                     </Pressable>
-                                    <TextInput style={styles.in} value={this.state.positionVal} onChangeText={e=>this.bindKeywordsName(e)} placeholder={'输入关键字搜索或点击地图选址'}></TextInput>
+                                    <TextInput style={styles.in} allowFontScaling={false} value={this.state.positionVal} onChangeText={e=>this.bindKeywordsName(e)} placeholder={'输入关键字搜索或点击地图选址'}></TextInput>
                                     <Pressable style={styles.but} onPress={this._search}>
                                         <Image style={styles.ico} source={require('../../image/se.png')} ></Image>
                                     </Pressable>
@@ -995,7 +995,7 @@ const styles = StyleSheet.create({
         position: 'relative',
         width: '100%',
         height: ht/14,
-        fontSize: Fs/18,
+        fontSize: Fs/22,
         color: '#333',
         backgroundColor: '#fff',
         zIndex: 9,

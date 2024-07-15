@@ -360,19 +360,19 @@ export class AccountRegister extends Component<any,any> {
                     <View style={styles.con} >
                         <View style={styles.list} >
                             <Image style={styles.Img} source={require('../../image/zc_phone1x.png')}></Image>
-                            <TextInput style={styles.Input} placeholder={"输入手机号"} keyboardType='numeric' onChangeText={this.bindMobile}></TextInput>
+                            <TextInput allowFontScaling={false} style={styles.Input} placeholder={"输入手机号"} keyboardType='numeric' onChangeText={this.bindMobile}></TextInput>
                         </View>
                         <View style={styles.list} >
                             <Image style={styles.Img} source={require('../../image/dl_password.png')}></Image>
-                            <TextInput style={styles.Input} placeholder={"输入密码"} onChangeText={this.bindPassword} secureTextEntry={true}></TextInput>
+                            <TextInput allowFontScaling={false} style={styles.Input2} placeholder={"输入密码"} onChangeText={this.bindPassword}></TextInput>
                         </View>
                         <View style={styles.list} >
                             <Image style={styles.Img} source={require('../../image/dl_password.png')}></Image>
-                            <TextInput style={styles.Input} placeholder={"确认密码"} onChangeText={this.bindconfirmPsw} secureTextEntry={true}></TextInput>
+                            <TextInput style={styles.Input3} placeholder={"确认密码"} onChangeText={this.bindconfirmPsw} secureTextEntry={true}></TextInput>
                         </View>
                         <View style={styles.list} >
                             <Image style={styles.Img} source={require('../../image/dl_code.png')}></Image>
-                            <TextInput style={styles.Input} placeholder={"输入验证码"} onChangeText={this.bindCode}></TextInput>
+                            <TextInput allowFontScaling={false} style={styles.Input4} placeholder={"输入验证码"} onChangeText={this.bindCode}></TextInput>
                             <Text style={styles.Code} allowFontScaling={false}>{"获取验证码"}</Text>
                         </View>
                         <View style={[styles.lists,{marginTop: 25,}]}>
@@ -475,10 +475,39 @@ const styles = StyleSheet.create({
         position: 'relative',
         width: '100%',
         height: 50,
+        color: '#333333',
+        fontSize: Fs/22,
+        paddingLeft: 40,
+        textAlignVertical: 'center'
+    },
+    Input2:{
+        position: 'relative',
+        width: '100%',
+        height: 50,
         lineHeight: 50,
         color: '#333333',
-        fontSize: Fs/18,
+        fontSize: Fs/22,
         paddingLeft: 40,
+        textAlignVertical: 'center'
+    },
+    Input3:{
+        position: 'relative',
+        width: '100%',
+        height: 50,
+        color: '#333333',
+        fontSize: Fs/22,
+        paddingLeft: 40,
+        textAlignVertical: 'center'
+    },
+    Input4:{
+        position: 'relative',
+        width: '100%',
+        height: 50,
+        color: '#333333',
+        fontSize: Fs/22,
+        padding: 10,
+        paddingLeft: 40,
+        textAlignVertical: 'center',
     },
     agree:{
         fontSize: Fs/24,

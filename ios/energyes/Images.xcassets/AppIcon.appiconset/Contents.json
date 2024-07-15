@@ -4,34 +4,22 @@
       "filename": "icon-40@2x.png",
       "idiom" : "iphone",
       "scale" : "2x",
-      "size" : "20x20"
-    },
-    {
-      "filename": "icon-60@2x.png",
-      "idiom" : "iphone",
-      "scale" : "3x",
-      "size" : "20x20"
-    },
-    {
-      "filename": "icon-40@2x.png",
-      "idiom" : "iphone",
-      "scale" : "2x",
       "size" : "40x40"
     },
     {
-      "filename": "icon-40@2x.png",
+      "filename": "icon-40@3x.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "40x40"
     },
     {
-      "filename": "icon-60@2x.png",
+      "filename": "icon-120@2x.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "60x60"
     },
     {
-      "filename": "icon-60@3x.png",
+      "filename": "icon-180@2x.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "60x60"

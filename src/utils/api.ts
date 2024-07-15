@@ -91,11 +91,11 @@ module.exports = {
     kgjc_getHistory: RootPath +  "/api/safe/switchMonitor/getHistory",//开关监测-查看历史
     sxt_getData: RootPath +  "/api/common/getData",//获取摄像头
 
-    // ysToken: 'https://open.ys7.com/api/lapp/token/get',//获取萤石云Token
-
     getAccessToken: 'https://open.ys7.com/api/lapp/token/get',//获取萤石云最新AccessToken
     videoTime: 'https://open.ys7.com/api/lapp/video/by/time',//获取萤石云视频时间轴
     videoAddress: 'https://open.ys7.com/api/lapp/v2/live/address/get',//获取萤石云视频地址
+    videoCommand: 'https://open.ys7.com/api/lapp/device/ptzctrl',//云台控制
+
 
 
     yunzutaiList: RootPath +  "/api/yunzutai/list",//云组态

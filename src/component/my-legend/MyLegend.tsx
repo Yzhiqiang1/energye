@@ -2,7 +2,6 @@ import { Dimensions, Image, Pressable, StyleSheet, Text, View, Modal } from 'rea
 import * as React from 'react';
 import styleg from '../../indexCss'
 import { CheckBox, Dialog } from '@rneui/base';
-import { withTranslation  } from 'react-i18next';//语言包内容
 const Fs = Dimensions.get('window').width*0.8
 
 export class MyLegend extends React.Component<any,any> {
@@ -17,13 +16,13 @@ export class MyLegend extends React.Component<any,any> {
             show2: false,
             contentSel: [],
             actions: [{
-                    name: this.props.t('Options')+'1',//选项1
+                    name: '选项1'
                 },
                 {
-                    name: this.props.t('Options')+'2',//选项2
+                    name: '选项2'
                 },
                 {
-                    name: this.props.t('Options')+'3',//选项3
+                    name: '选项3'
                 },
             ],
             allCheck: '0', // 取消0  全选1
@@ -350,4 +349,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default withTranslation()(MyLegend)
+export default MyLegend

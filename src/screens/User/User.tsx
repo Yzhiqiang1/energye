@@ -1,4 +1,4 @@
-import { Text, View, Pressable, Dimensions, SafeAreaView, TouchableHighlight, ActivityIndicator } from 'react-native'
+import { Text, View, Pressable, Dimensions, SafeAreaView, TouchableHighlight } from 'react-native'
 import React, { Component } from 'react'
 import styleg from '../../indexCss'//公共scc
 import { StyleSheet } from 'react-native'
@@ -9,6 +9,7 @@ import Loading from '../../component/Loading/Loading'//加载窗口组件
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { LogOut } from '../../redux/reducers/counterSlice'
 import { store } from '../../redux/storer'
+import { Icon } from '@rneui/base'
 
 const api = require('../..//utils/api')
 const Fs = Dimensions.get('window').width*0.8
@@ -145,8 +146,17 @@ export class User extends Component<any,any> {
           </Loading>
           <View style={styleg.containerMax}>
             <View style={styles.nav}>
-              <Pressable style={({ pressed })=>[{backgroundColor: pressed? '#c3c3c3' : '#b4b4b4'  },styles.navLeft]} onPress={()=>{this.props.navigation.navigate('HomeBar')}}>
+              {/* <Pressable style={({ pressed })=>[{backgroundColor: pressed? '#c3c3c3' : '#b4b4b4'  },styles.navLeft]} onPress={()=>{this.props.navigation.navigate('HomeBar')}}>
                 <Image style={styles.navImg} source={require('../../image/Home.png')}></Image>
+              </Pressable> */}
+              <Pressable style={styles.navLeft} onPress={()=>{this.props.navigation.navigate('HomeBar')}}>
+                  <Icon
+                      name='left'
+                      type='antdesign'
+                      color='#fff'
+                      size={22}
+                  />
+                  <Text allowFontScaling={false} style={{fontSize: Fs/18,color: '#fff'}}>首页</Text>
               </Pressable>
               <Text allowFontScaling={false}style={styles.navName}>我的</Text>
             </View>
@@ -211,12 +221,12 @@ const styles = StyleSheet.create({
     top:'50%',
     marginTop: -15,
     zIndex:999,
-    width: 30,
+    width: 100,
     height: 30,
     borderRadius: 20,
     display:'flex',
+    flexDirection: 'row',
     alignItems:'center',
-    justifyContent:'center',
   },
   navImg:{
     width:25,
@@ -227,7 +237,7 @@ const styles = StyleSheet.create({
     lineHeight:ht/10,
     textAlignVertical: 'center',
     textAlign:'center',
-    fontSize:Fs/18,
+    fontSize: Fs/16,
     color:'#fff'
   },
   user:{
@@ -298,7 +308,7 @@ const styles = StyleSheet.create({
     width: '70%',
     height: 40,
     backgroundColor:'#1890FF',
-    borderRadius: 5,
+    borderRadius: 2,
     margin:40
   },
   signOutText:{
