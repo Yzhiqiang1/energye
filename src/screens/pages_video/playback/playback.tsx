@@ -12,6 +12,10 @@ import styleg from '../../../indexCss';
 import PickerBut from '../../../component/PickerBut/PickerBut';
 import { store } from '../../../redux/storer';
 import { Slider, Icon } from '@rneui/themed';
+import ViewShot,{ captureRef } from 'react-native-view-shot';//截图
+import { CameraRoll } from '@react-native-camera-roll/camera-roll';
+
+
 const api = require('../../../utils/api')
 const { StatusBarManager } = NativeModules;
 const STATUS_BAR_HEIGHT = Platform.OS === 'android' ? StatusBar.currentHeight : StatusBarManager.HEIGHT;//状态栏高度
@@ -22,6 +26,7 @@ const ht = size.height*0.8
 let autoHideTimer: any = undefined
 let livePlayerContext: any
 let unsubscribe: any
+let viewShot: any
 
 export class Playback extends Component<any,any> {
     constructor(props:any){
@@ -82,6 +87,10 @@ export class Playback extends Component<any,any> {
 
             /** 云台操作 */
             ptzctrl: false,//否正在进行
+            turn: 1,//翻转模式
+            rotateY: 0,
+            rotateX: 0,
+            rotate: 0,
         }
     }
     componentDidMount(): void {
@@ -286,13 +295,15 @@ export class Playback extends Component<any,any> {
     }
     //播放按钮
     handlePlay=()=>{
-        if(this.state.Internet){
-            this.setState({
-                playVideo: true, 
-                videoLoadingStatus: 100,
-                videoNetWorkError:false
-            })
-        }
+        // if(this.state.videoSrc){
+            if(this.state.Internet){
+                this.setState({
+                    playVideo: true, 
+                    videoLoadingStatus: 100,
+                    videoNetWorkError:false
+                })
+            }
+        // }
     }
     //断线重连
     reconnect=()=>{
@@ -849,9 +860,9 @@ export class Playback extends Component<any,any> {
         })
     }
 
-    play=()=>{
+    play=(playIf: number)=>{
         this.setState({
-            playIf: true
+            playIf: playIf
         })
     }
 
@@ -861,7 +872,7 @@ export class Playback extends Component<any,any> {
             this.setState({
                 ptzctrl: true
             })
-            let direction = type==1? 'left' : type==2? 'right' : type==2? 'up' : 'down'
+            let direction = type==1? 'left' : type==2? 'right' : type==3? 'up' : 'down'
             fetch( api.videoTime, {
                 method: 'POST',
                 headers: {
@@ -873,7 +884,7 @@ export class Playback extends Component<any,any> {
                     channelNo: 1,
                     direction: direction,
                 }), //提交的参数
-            }).then(response => response.json()) //数据解析的方式，json解析
+            }).then(response => response.json()) 
             .then(response => {
                 console.log('操作中',);
             }).catch((error) => {
@@ -887,7 +898,7 @@ export class Playback extends Component<any,any> {
     // 云台方向结束操作
     cloudDirectionFinish=(type: number)=>{
         if(this.state.ptzctrl){
-            let direction = type==1? 'left' : type==2? 'right' : type==2? 'up' : 'down'
+            let direction = type==1? 'left' : type==2? 'right' : type==3? 'up' : 'down'
             fetch( api.videoTime, {
                 method: 'POST',
                 headers: {
@@ -912,13 +923,84 @@ export class Playback extends Component<any,any> {
     }
 
     videoCapture=()=>{
+        captureRef(viewShot).then(
+            (uri: any) => {
+                this.saveImageToCameraRoll(uri);
+            },
+            (error: any) => {
+                 //信息提示
+                this.setState({
+                    msgType: 2,
+                    visible: true,
+                    LoadingMsg: error
+                },()=>{
+                    setTimeout(()=>{
+                        this.setState({
+                            visible: false,
+                        })
+                    },2000)
+                })
+            }
+        );
+    }
 
+    saveImageToCameraRoll = async (imagePath: any) => {
+        try {
+          // 将图片添加到相机胶卷
+          const result = await CameraRoll.saveAsset(imagePath);
+          if (result) {
+            //信息提示
+            this.setState({
+                msgType: 2,
+                visible: true,
+                LoadingMsg: `已保存到手机相册`
+            },()=>{
+                setTimeout(()=>{
+                    this.setState({
+                        visible: false,
+                    })
+                },2000)
+            })
+          }
+        } catch (error) {
+          //信息提示
+          this.setState({
+            msgType: 2,
+            visible: true,
+            LoadingMsg: error
+        },()=>{
+            setTimeout(()=>{
+                this.setState({
+                    visible: false,
+                })
+            },2000)
+        })
+        }
+    };
+
+    overturn(type: number) {
+        if(type==1) {
+            this.setState({
+                rotateY: this.state.rotateY==180? 0 : 180
+            })
+        }
+        if(type==2) {
+            this.setState({
+                rotateX: this.state.rotateX==180? 0 : 180
+            })
+        }
+        if(type==3) {
+            let rotate = this.state.rotate >= 360? 90 : this.state.rotate+ 90
+            this.setState({
+                rotate: rotate
+            })
+        }
     }
 
     render() {
         return (
             <View style={{flex: 1}}>
-                <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
+                <View style={{position: 'absolute', top: 0, width: "100%", height: "100%", backgroundColor: '#fff'}}>
                 </View>
                 <SafeAreaView style={{flex: 1}}>
                     {!this.state.fullScreen?
@@ -933,38 +1015,51 @@ export class Playback extends Component<any,any> {
                     <View style={styles.pageLive}>
                         {/* 视频 */}
                         <View style={this.state.fullScreen?styles.videoContainerFull:styles.videoContainer}>
-                            {this.state.videoSrc && this.state.Internet?
-                                <Video
-                                    ref={(ref: any) => {livePlayerContext = ref}}
-                                    source={{ uri: this.state.videoSrc }}
-                                    // source={{ uri: 'http://devimages.apple.com/iphone/samples/bipbop/gear1/prog_index.m3u8'}}
-                                    style={{position: 'absolute', width: '100%', height: '100%',zIndex:99}}
-                                    resizeMode="cover"
-                                    paused={!this.state.playVideo}
-                                    repeat={this.state.repeat}
-                                    muted={!this.state.openSound}
-                                    onProgress={(data: any)=>this.Progress(data)}
-                                    onError={(e: any)=>this.videoError(e)} // 视频播放出错
-                                    onBuffer={(data: any) => this.onBuffer(data)} // 视频播放缓冲
-                                    onLoad={(data: any) => this.onLoad(data)}
-                                    onPress={(data: any) => this.handleStop(data)}
+                            <ViewShot 
+                                ref={(ref) => viewShot = ref}
+                                options={{ fileName: "Your-File-Name", format: "png", quality: 1}}
+                                style={{width: '100%', height: '100%'}}
                                 >
-                                </Video>
-                            :''}
-                            <ImageBackground 
-                                style={{ position: 'absolute', width: '100%',height: '100%' }} 
-                                source={require('../image/live/live_loading_bg.png')}>
-                            </ImageBackground>
+                                <View style={{width: '100%', height: '100%'}}>
+                                {/* {this.state.videoSrc && this.state.Internet? */}
+                                    <Video
+                                        ref={(ref: any) => {livePlayerContext = ref}}
+                                        // source={{ uri: this.state.videoSrc }}
+                                        source={{ uri: 'http://devimages.apple.com/iphone/samples/bipbop/gear1/prog_index.m3u8'}}
+                                        style={{position: 'absolute', width: '100%', height: '100%',zIndex:99, transform: [
+                                            { rotateY: `${this.state.rotateY}deg` },
+                                            { rotateX: `${this.state.rotateX}deg`},
+                                            { rotate: `${this.state.rotate}deg` }
+                                        ],}}
+                                        resizeMode="cover"
+                                        paused={!this.state.playVideo}
+                                        repeat={this.state.repeat}
+                                        muted={!this.state.openSound}
+                                        onProgress={(data: any)=>this.Progress(data)}
+                                        onError={(e: any)=>this.videoError(e)} // 视频播放出错
+                                        onBuffer={(data: any) => this.onBuffer(data)} // 视频播放缓冲
+                                        onLoad={(data: any) => this.onLoad(data)}
+                                        onPress={(data: any) => this.handleStop(data)}
+                                    >
+                                    </Video>
+                                    {/* :''} */}
+                                    <ImageBackground 
+                                        style={{ position: 'absolute', width: '100%',height: '100%' }} 
+                                        source={require('../image/live/live_loading_bg.png')}>
+                                    </ImageBackground>
+                                </View>
+                            </ViewShot>
+
+                            
                             {/* loading状态 */}
                             {this.state.videoLoadingStatus === 100 ?
                                 '':
-                            <View style={{width:'100%',height:'100%'}}>
+                            <View style={{position: 'absolute',width:'100%',height:'100%'}}>
                                     {this.state.videoLoadingStatus !== 0 ?
                                         '':
                                         <Pressable style={styles.play} onPress={this.handlePlay}>
                                             <Image style={{width:46,height:46}} source={require('../image/live/landscape_play.png')}></Image>
                                         </Pressable>}
-                                    
                                     {this.state.videoLoadingStatus === 0 || this.state.videoNetWorkError?
                                         '':
                                         <View style={styles.videoLoaing}>
@@ -1054,18 +1149,24 @@ export class Playback extends Component<any,any> {
                         {/** 控制台*/}
                         <View style={styles.controlArea}>
                             <View style={styles.cloudeRvices}>
-                                <View style={styles.operate}>
-                                    <Image style={styles.img} source={require('../../../image/around.png')}></Image>
-                                    <Text allowFontScaling={false}>左右翻转</Text>
-                                </View>
-                                <View style={styles.operate}>
-                                    <Image style={styles.img} source={require('../../../image/fluctuate.png')}></Image>
-                                    <Text allowFontScaling={false}>上下翻转</Text>
-                                </View>
-                                <View style={styles.operate}>
-                                    <Image style={styles.img} source={require('../../../image/turn.png')}></Image>
-                                    <Text allowFontScaling={false}>中心翻转</Text>
-                                </View>
+                                <Pressable style={styles.operate} onPress={()=>this.overturn(1)}>
+                                    <View style={styles.operate}>
+                                        <Image style={styles.img} source={require('../../../image/around.png')}></Image>
+                                        <Text allowFontScaling={false}>左右翻转</Text>
+                                    </View>
+                                </Pressable>
+                                <Pressable style={styles.operate} onPress={()=>this.overturn(2)}>
+                                    <View style={styles.operate}>
+                                        <Image style={styles.img} source={require('../../../image/fluctuate.png')}></Image>
+                                        <Text allowFontScaling={false}>上下翻转</Text>
+                                    </View>
+                                </Pressable>
+                                <Pressable style={styles.operate} onPress={()=>this.overturn(3)}>
+                                    <View style={styles.operate}>
+                                        <Image style={styles.img} source={require('../../../image/turn.png')}></Image>
+                                        <Text allowFontScaling={false}>中心翻转</Text>
+                                    </View>
+                                </Pressable>
                                 <Pressable style={styles.operate} onPress={this.videoCapture}>
                                     <View style={[styles.img,{padding: '5%'}]}>
                                         <Image style={{width: '100%',height: '100%'}} source={require('../../../image/screenshot.png')}></Image>
@@ -1107,9 +1208,27 @@ export class Playback extends Component<any,any> {
                                                     onPressOut={()=>this.cloudDirectionFinish(1)}>
                                                     <Image resizeMode='contain' style={{width: 20}} source={require('../../../image/jt.png')}></Image>
                                                 </Pressable>
-                                                <Image resizeMode='contain' style={[styles.angleR,{width: 20}]} source={require('../../../image/jt.png')}></Image>
-                                                <Image resizeMode='contain' style={[styles.angleT,{width: 20}]} source={require('../../../image/jt.png')}></Image>
-                                                <Image resizeMode='contain' style={[styles.angleB,{width: 20}]} source={require('../../../image/jt.png')}></Image>
+                                                <Pressable  
+                                                    style={styles.angleR}
+                                                    delayLongPress={200} //按住0.2秒后开始onLongPress操作
+                                                    onLongPress={()=>this.cloudDirection(2)}
+                                                    onPressOut={()=>this.cloudDirectionFinish(2)}>
+                                                    <Image resizeMode='contain' style={{width: 20}} source={require('../../../image/jt.png')}></Image>
+                                                </Pressable>
+                                                <Pressable  
+                                                    style={styles.angleT}
+                                                    delayLongPress={200} //按住0.2秒后开始onLongPress操作
+                                                    onLongPress={()=>this.cloudDirection(3)}
+                                                    onPressOut={()=>this.cloudDirectionFinish(3)}>
+                                                    <Image resizeMode='contain' style={{width: 20}} source={require('../../../image/jt.png')}></Image>
+                                                </Pressable>
+                                                <Pressable  
+                                                    style={styles.angleB}
+                                                    delayLongPress={200} //按住0.2秒后开始onLongPress操作
+                                                    onLongPress={()=>this.cloudDirection(4)}
+                                                    onPressOut={()=>this.cloudDirectionFinish(4)}>
+                                                    <Image resizeMode='contain' style={{width: 20}} source={require('../../../image/jt.png')}></Image>
+                                                </Pressable>
                                                 {/* <Image resizeMode='contain' style={[styles.angleTL,styles.arrows]} source={require('../../../image/jt.png')}></Image>
                                                 <Image resizeMode='contain' style={[styles.angleTR,styles.arrows]} source={require('../../../image/jt.png')}></Image>
                                                 <Image resizeMode='contain' style={[styles.angleBL,styles.arrows]} source={require('../../../image/jt.png')}></Image>
@@ -1150,9 +1269,9 @@ export class Playback extends Component<any,any> {
                                                         <Text allowFontScaling={false} style={{fontSize: ht/30}}>sssssssssssssss</Text>
                                                     </View>
                                                     <View style={{width: '10%',justifyContent: 'center'}}>
-                                                        {this.state.playIf?
+                                                        {this.state.playIf == index?
                                                             <ActivityIndicator size={24} color={'#666666'}/>:
-                                                            <Pressable onPress={this.play}>
+                                                            <Pressable onPress={()=>this.play(index)}>
                                                                 <Image resizeMode='contain' style={{height: ht/26}} source={require('../../../image/play.png')} />
                                                             </Pressable>
                                                         }

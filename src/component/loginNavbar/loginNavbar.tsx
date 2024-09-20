@@ -39,54 +39,55 @@ export class LoginNavbar extends Component<any,any> {
 
 const styles = StyleSheet.create({
     nav:{
-        position: 'relative',
-        top: 0,
-        zIndex: 9999,
-        width:'100%',
-        height: ht/10,
-      },
-      navLeft:{
-        position:'absolute',
-        left:10,
-        top: '50%',
-        marginTop: -15,
-        zIndex:999,
-        width: 30,
-        height: 30,
-        backgroundColor:'#234e73',
-        borderRadius: 20,
-        display:'flex',
-        alignItems:'center',
-        justifyContent:'center',
-      },
-      navImg:{
-        width:25,
-        height:25,
-      },
-      navName:{
-        height: ht/10,
-        lineHeight: ht/10,
-        textAlignVertical: 'center',
-        textAlign:'center',
-        fontSize: Fs/17,
-        color:'#fff',
-        fontWeight: '600'
-      },
-      navbar_left: {
-        position: 'absolute',
-        top: '50%',
-        marginTop: -15,
-        width:100,
-        height:30,
-        left: 5,
-        zIndex:999,
-        display: 'flex',
-        flexDirection: 'row'
-      },
-      text: {
-        fontSize: Fs/16,
-        color: '#fff'
-      }
+      position: 'relative',
+      top: 0,
+      zIndex: 9999,
+      width:'100%',
+      height: ht/10,
+    },
+    navLeft:{
+      position:'absolute',
+      left:10,
+      top: '50%',
+      marginTop: -15,
+      zIndex:999,
+      width: 30,
+      height: 30,
+      backgroundColor:'#234e73',
+      borderRadius: 20,
+      display:'flex',
+      alignItems:'center',
+      justifyContent:'center',
+    },
+    navImg:{
+      width:25,
+      height:25,
+    },
+    navName:{
+      height: ht/10,
+      lineHeight: ht/10,
+      textAlignVertical: 'center',
+      textAlign:'center',
+      fontSize: Fs/17,
+      color:'#fff',
+      fontWeight: '600'
+    },
+    navbar_left: {
+      position: 'absolute',
+      top: '50%',
+      marginTop: -15,
+      width:100,
+      height:30,
+      left: 5,
+      zIndex:999,
+      display: 'flex',
+      alignItems: 'center',
+      flexDirection: 'row'
+    },
+    text: {
+      fontSize: Fs/16,
+      color: '#fff'
+    }
 })
 
 export default LoginNavbar

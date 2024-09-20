@@ -58,19 +58,19 @@ export class Tabbar extends Component<any,any> {
         <Tab.Screen
         options={{
           title: '首页',//'首页',
-          tabBarLabelStyle: [{ fontSize: 17,fontWeight: '700', marginTop: -10, marginBottom: 10}],
+          tabBarLabelStyle: [{ fontSize: 17,fontWeight: '700', marginTop: -5, marginBottom: 5 }],
         }}
         name="HomeBar" component={HomeBar} />
         <Tab.Screen
         options={{
           title: '云组态',//'云组态',
-          tabBarLabelStyle: [{ fontSize: 17,fontWeight: '700', marginTop: -10, marginBottom: 10 }],
+          tabBarLabelStyle: [{ fontSize: 17,fontWeight: '700', marginTop: -5, marginBottom: 5 }],
         }}
         name="Configuration" component={Configuration} />
         <Tab.Screen
         options={{
           title: '我的',//'我的',
-          tabBarLabelStyle: [{ fontSize: 17,fontWeight: '700', marginTop: -10, marginBottom: 10 }],
+          tabBarLabelStyle: [{ fontSize: 17,fontWeight: '700', marginTop: -5, marginBottom: 5 }],
         }}
         name="User" component={User} />
       </Tab.Navigator>
@@ -95,7 +95,6 @@ const styles = StyleSheet.create({
     top: '50%',
     left: '50%',
     width: Fs,
-    // height: 220,
     marginTop:-100,
     marginLeft:-Fs/2,
     backgroundColor: '#fff',

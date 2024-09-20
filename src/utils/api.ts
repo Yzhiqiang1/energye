@@ -1,8 +1,5 @@
-//云平台部署时使用
 let RootPath = 'https://api.energye.cn';
-
 // let RootPath = 'http://192.168.1.76:9000';
-
 let Imgurl = 'https://ui.dtuip.com';
 module.exports = {
     imgurl: Imgurl, //图片路径
@@ -94,7 +91,7 @@ module.exports = {
     getAccessToken: 'https://open.ys7.com/api/lapp/token/get',//获取萤石云最新AccessToken
     videoTime: 'https://open.ys7.com/api/lapp/video/by/time',//获取萤石云视频时间轴
     videoAddress: 'https://open.ys7.com/api/lapp/v2/live/address/get',//获取萤石云视频地址
-    videoCommand: 'https://open.ys7.com/api/lapp/device/ptzctrl',//云台控制
+    videoCommand: 'https://open.ys7.com/api/lapp/device/ptzctrl',//云台控制移动
 
 
 

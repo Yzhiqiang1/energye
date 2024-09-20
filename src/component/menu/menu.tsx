@@ -16,7 +16,7 @@ export class Menu extends Component<any,any> {
                   pagePath: "../index/index",
                   iconPath: require("../../image/index.png"),
                   selectedIconPath: require("../../image/index_se.png"),
-                  text: "首页"
+                  text: "我的"
                 },
                 {
                   id: '1002',
@@ -56,6 +56,7 @@ export class Menu extends Component<any,any> {
                         <View key={index} style={styles.urlFlex}>
                             <TouchableOpacity  style={styles.urlBar} onPress={()=> this._onPress(item.id)}>
                                 <Image style={styles.imgBar} source={item.id == this.state.myMeun ? item.selectedIconPath : item.iconPath}></Image>
+                                <Text></Text>
                                 <Text allowFontScaling={false} style={[styles.txtBar,item.id == this.state.myMeun ? styles.txtBarSe : null]}>{item.text}</Text>
                             </TouchableOpacity>
                         </View>

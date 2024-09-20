@@ -1075,7 +1075,7 @@ export class PowerTest4 extends Component<any,any> {
             <SafeAreaView style={{flex: 1}}>
                 {/* 引入自定义导航栏 */}
                 <Navbar 
-                    pageName={'电力运作报表'}
+                    pageName={'电力极值报表'}
                     showBack={true}
                     showHome={false}
                     isCheck={3}

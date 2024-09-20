@@ -1,7 +1,7 @@
 import { Dimensions, Image, Pressable, StyleSheet, Text, View, Modal } from 'react-native'
 import * as React from 'react';
 import styleg from '../../indexCss'
-import { CheckBox, Dialog } from '@rneui/base';
+import { CheckBox } from '@rneui/base';
 const Fs = Dimensions.get('window').width*0.8
 
 export class MyLegend extends React.Component<any,any> {
@@ -129,7 +129,7 @@ export class MyLegend extends React.Component<any,any> {
                     iconType="material-community"
                     checkedIcon="checkbox-marked"
                     uncheckedIcon="checkbox-blank-outline"
-                    title={t('phaseA')}//'A相'
+                    title='A相'
                     containerStyle={styles.CheckBox}
                     />
                     <CheckBox
@@ -138,7 +138,7 @@ export class MyLegend extends React.Component<any,any> {
                     iconType="material-community"
                     checkedIcon="checkbox-marked"
                     uncheckedIcon="checkbox-blank-outline"
-                    title={t('phaseB')}//'B相'
+                    title='B相'
                     containerStyle={styles.CheckBox}
                     />
                     <CheckBox
@@ -147,13 +147,13 @@ export class MyLegend extends React.Component<any,any> {
                     iconType="material-community"
                     checkedIcon="checkbox-marked"
                     uncheckedIcon="checkbox-blank-outline"
-                    title={t('phaseC')}//'C相'
+                    title='C相'
                     containerStyle={styles.CheckBox}
                     />
                 </View>
                 {/* 弹出框按钮  contentSel.length*/}
                 <Pressable style={styles.dial} onPress={this.showPopup}>
-                    <Text allowFontScaling={false} style={styles.dialText}>{t('Selected')}{this.state.n}{t('Kind')}</Text>
+                    <Text allowFontScaling={false} style={styles.dialText}>已选中{this.state.n}种谐波含量</Text>
                     <Image style={styleg.ico} source={require('../../image/down.png')}></Image>
                 </Pressable>
                 <Modal 
@@ -175,7 +175,7 @@ export class MyLegend extends React.Component<any,any> {
                                                     iconType="material-community"
                                                     checkedIcon="checkbox-marked"
                                                     uncheckedIcon="checkbox-blank-outline"
-                                                    title={t('Total')}//`总谐波`
+                                                    title="总谐波"
                                                     containerStyle={styles.CheckBox}
                                                     size={20}
                                                     />:
@@ -185,7 +185,7 @@ export class MyLegend extends React.Component<any,any> {
                                                     iconType="material-community"
                                                     checkedIcon="checkbox-marked"
                                                     uncheckedIcon="checkbox-blank-outline"
-                                                    title={`${data}`+t('wave')}//次谐波
+                                                    title={`${data}`+ "次谐波"}
                                                     containerStyle={styles.CheckBox}
                                                     size={20}
                                                     />
@@ -197,7 +197,7 @@ export class MyLegend extends React.Component<any,any> {
                                         <CheckBox
                                         checked={this.state.result2.length == 31}
                                         onPress={()=>this.setAllCheck(this.state.result2.length)}
-                                        title={t('selectAll')}//`全选`
+                                        title="全选"
                                         containerStyle={styles.CheckBox}
                                         iconType="material-community"
                                         checkedIcon="checkbox-marked"

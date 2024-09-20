@@ -9,7 +9,6 @@ import Tree from '../tree/Tree'
 import Loading from '../Loading/Loading'
 import { parameter_Group } from '../../redux/reducers/counterSlice'
 import { store } from '../../redux/storer'
-import { withTranslation  } from 'react-i18next';//语言包内容
 
 const api = require( '../../utils/api')//接口文件
 const ht = Dimensions.get('window').height*0.8
@@ -157,7 +156,7 @@ export class Navbar extends React.Component<any,any> {
                     isGroup: index,
                 }, () => {})
                 //更新全局变量
-                store.dispatch(parameter_Group({onlyGroupId:this.state.arrGroup[index].id}))
+                store.dispatch(parameter_Group({onlyGroupId: this.state.arrGroup[index].id}))
                 //向父组件传递参数
                 if(this.props.choiceGroup){
                     this.props.choiceGroup({type:true})
@@ -995,4 +994,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default withTranslation()(Navbar)
+export default Navbar

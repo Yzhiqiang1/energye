@@ -7,7 +7,6 @@ import { HttpService } from '../../../utils/http'
 import Loading from '../../../component/Loading/Loading'
 import { store } from '../../../redux/storer'
 import { localSocket } from '../../../redux/reducers/counterSlice'
-import { withTranslation } from 'react-i18next';//语言包
 
 const api = require('../../../utils/api')
 const Fs = Dimensions.get('window').width*0.8
@@ -526,4 +525,4 @@ const styles = StyleSheet.create({
     },
 },)
 
-export default withTranslation()(Security2)
+export default Security2

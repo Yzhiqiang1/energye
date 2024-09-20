@@ -9,7 +9,6 @@ import { Set_State } from '../../redux/reducers/counterSlice';
 
 const Fs = Dimensions.get('window').width*0.8
 let api = require('../../utils/api')
-
 //屏幕高
 const height = Dimensions.get('window').height
 
@@ -209,10 +208,10 @@ export class BindAccount extends Component<any,any> {
                         </View>
                         <View style={styles.link}>
                             <TouchableOpacity style={styles.Url}  onPress={()=>this.props.navigation.navigate('BindPhone')}>
-                                <Text style={{color: '#01AAED',fontSize:Fs/18}}>短信登录</Text>
+                                <Text style={{color: '#01AAED',fontSize:Fs/22}}>短信登录</Text>
                             </TouchableOpacity>
                             <TouchableOpacity style={styles.Url} onPress={()=>this.props.navigation.navigate('AccountRegister')}>
-                                <Text style={{color: '#01AAED',fontSize:Fs/18}}>注册账号</Text>
+                                <Text style={{color: '#01AAED',fontSize:Fs/22}}>注册账号</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styles.Tourist}>
