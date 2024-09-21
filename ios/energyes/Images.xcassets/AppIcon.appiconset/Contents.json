@@ -20,8 +20,20 @@
       "size" : "120x120"
     },
     {
+      "filename": "icon-120@1x.png",
+      "idiom" : "ipad",
+      "scale" : "2x",
+      "size" : "120x120"
+    },
+    {
       "filename": "icon-120@2x.png",
       "idiom" : "iphone",
+      "scale" : "2x",
+      "size" : "240x240"
+    },
+    {
+      "filename": "icon-120@2x.png",
+      "idiom" : "ipad",
       "scale" : "2x",
       "size" : "240x240"
     },
