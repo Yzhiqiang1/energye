@@ -21,6 +21,18 @@
     {
       "filename": "icon-120@1x.png",
       "idiom" : "iphone",
+      "scale" : "2x",
+      "size" : "60x60"
+    },
+    {
+      "filename": "icon-180@1x.png",
+      "idiom" : "iphone",
+      "scale" : "3x",
+      "size" : "60x60"
+    },
+    {
+      "filename": "icon-120@1x.png",
+      "idiom" : "iphone",
       "scale" : "3x",
       "size" : "60x60"
     },
