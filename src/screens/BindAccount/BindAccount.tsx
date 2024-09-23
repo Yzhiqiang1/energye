@@ -208,10 +208,10 @@ export class BindAccount extends Component<any,any> {
                         </View>
                         <View style={styles.link}>
                             <TouchableOpacity style={styles.Url}  onPress={()=>this.props.navigation.navigate('BindPhone')}>
-                                <Text style={{color: '#01AAED',fontSize:Fs/22}}>短信登录</Text>
+                                <Text allowFontScaling={false} style={{color: '#01AAED',fontSize:Fs/22}}>短信登录</Text>
                             </TouchableOpacity>
                             <TouchableOpacity style={styles.Url} onPress={()=>this.props.navigation.navigate('AccountRegister')}>
-                                <Text style={{color: '#01AAED',fontSize:Fs/22}}>注册账号</Text>
+                                <Text allowFontScaling={false} style={{color: '#01AAED',fontSize:Fs/22}}>注册账号</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styles.Tourist}>
