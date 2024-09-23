@@ -19,6 +19,12 @@
       "size" : "60x60"
     },
     {
+      "filename": "icon-120@1x.png",
+      "idiom" : "iphone",
+      "scale" : "3x",
+      "size" : "60x60"
+    },
+    {
       "filename": "icon-80@1x.png",
       "idiom" : "iphone",
       "scale" : "1x",
