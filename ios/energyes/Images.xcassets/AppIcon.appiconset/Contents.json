@@ -1,16 +1,9 @@
 {
   "images" : [
     {
-      "filename": "icon-40@2x.jpg",
+      "filename": "icon-60@1x.png",
       "idiom" : "iphone",
-      "scale" : "2x",
-      "size" : "40x40"
-    },
-
-    {
-      "filename": "icon-60@2x.jpg",
-      "idiom" : "iphone",
-      "scale" : "2x",
+      "scale" : "1x",
       "size" : "60x60"
     },
     {
@@ -20,31 +13,7 @@
       "size" : "120x120"
     },
     {
-      "filename": "icon-120@1x.png",
-      "idiom" : "ipad",
-      "scale" : "1x",
-      "size" : "120x120"
-    },
-    {
-      "filename": "icon-120@2x.png",
-      "idiom" : "iphone",
-      "scale" : "2x",
-      "size" : "240x240"
-    },
-    {
-      "filename": "icon-120@2x.png",
-      "idiom" : "ipad",
-      "scale" : "2x",
-      "size" : "240x240"
-    },
-    {
-      "filename": "icon-180@2x.jpg",
-      "idiom" : "iphone",
-      "scale" : "2x",
-      "size" : "180x180"
-    },
-    {
-      "filename": "icon-1024@1x.jpg",
+      "filename": "icon-1024@1x.png",
       "idiom" : "ios-marketing",
       "scale" : "1x",
       "size" : "1024x1024"
@@ -53,9 +22,5 @@
   "info" : {
     "author" : "xcode",
     "version" : 1
-  },
-  "properties" :{
-    "pre-renderer": true,
-    "localizable" : true
   }
 }

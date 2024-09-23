@@ -119,6 +119,8 @@ export class PowerAnalysis1 extends Component<any,any> {
         if (dataSwitchIn != e) {
             that.setState({
                 dataSwitchIn: e
+            },()=>{
+                this.getData();
             })
         }
     }
