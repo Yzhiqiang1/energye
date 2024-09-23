@@ -16,13 +16,13 @@
     {
       "filename": "icon-120@1x.png",
       "idiom" : "iphone",
-      "scale" : "2x",
+      "scale" : "1x",
       "size" : "120x120"
     },
     {
       "filename": "icon-120@1x.png",
       "idiom" : "ipad",
-      "scale" : "2x",
+      "scale" : "1x",
       "size" : "120x120"
     },
     {
