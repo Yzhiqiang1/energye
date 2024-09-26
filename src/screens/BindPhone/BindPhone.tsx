@@ -10,8 +10,6 @@ const height = Dimensions.get('window').height
 let api = require('../../utils/api')
 const Fs = Dimensions.get('window').width*0.8
 
-//全屏幕宽高
-
 export class BindPhone extends Component<any,any> {
     constructor(props: any) {
         super(props);
