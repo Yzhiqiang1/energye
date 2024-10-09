@@ -598,22 +598,6 @@ export class Scanqr extends Component<any,any> {
                     that.setState({
                         alertShow: true
                     })
-                    // Alert.alert(
-                    //     "提示",
-                    //     "当前摄像头权限已拒绝，无法使用扫码创建设备功能，是否去设置开启",
-                    //     [
-                    //         {
-                    //             text: "取消",
-                    //             onPress: () => console.log("Cancel Pressed"),
-                    //             style: "cancel"
-                    //         },
-                    //         { 
-                    //             text: "去设置", onPress: () => {
-                    //                 openSettings().catch(() => console.warn('cannot open settings'))
-                    //             }   
-                    //         }
-                    //     ]
-                    // );
                 }
             } catch (error) {
               console.warn('Error requesting camera permission:', error);
@@ -645,11 +629,14 @@ export class Scanqr extends Component<any,any> {
         let path = res ? res : '';
         if (path != '' && path != '*'){
             if (res) {
-                scene_id = path.match(/\/weixin\/(\S*).htm/) ? path.match(/\/weixin\/(\S*).htm/)[1] : '';
+                scene_id = path.match(/\/weixin\/(\S*).htm/) ? path.match(/\/weixin\/(\S*).htm/)[1] : path.match(/\/deviceno\/manage\/([^\/]+)$/)[1] ? path.match(/\/deviceno\/manage\/([^\/]+)$/)[1] : '';
+                console.log("scene_id--------------",scene_id);
             }
             // 是否登录
             if (loginStatus) {
                 //调用创建设备
+                console.log(scene_id);
+
                 if (scene_id != '') {
                     that.greateDevice(userId, scene_id, bd_lng, bd_lat);
                 } else {
@@ -672,24 +659,6 @@ export class Scanqr extends Component<any,any> {
                     scene_id: scene_id,
                     loginPrompt: true,
                 })
-            //     Alert.alert(
-            //         "未登录",
-            //         "  你还未登录点击去登录按钮登,请录后进行创建设备,点击取消放弃创建",
-            //         [{
-            //             text: "取消",
-            //             onPress: () => console.log("Cancel Pressed"),
-            //             style: "cancel"
-            //         },
-            //         { 
-            //             text: "请登录", onPress: () => {
-            //                 this.GoLogIn()
-            //                 this.setState({
-            //                     show: true,
-            //                     scene_id: scene_id
-            //                 })
-            //             }
-            //         }]
-            //     );
             }
         }else{
             this.setState({
@@ -726,6 +695,7 @@ export class Scanqr extends Component<any,any> {
             });
             store.dispatch(Scene({scene:[]}))
             if (data.flag == '00') {
+                console.log(data);
                 this.setState({
                     visible: false,
                 })

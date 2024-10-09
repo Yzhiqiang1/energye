@@ -156,7 +156,7 @@ export class BindAccount extends Component<any,any> {
             }, () => {
                 that.getLogin(); //登录
             })
-        }
+        } 
     }
     boxH=(e:any)=>{
         const { height: newHeight } = e.nativeEvent.layout;

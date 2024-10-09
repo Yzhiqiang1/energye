@@ -10,6 +10,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { LogOut } from '../../redux/reducers/counterSlice'
 import { store } from '../../redux/storer'
 import { Icon } from '@rneui/base'
+import { Linking } from 'react-native';
 
 const api = require('../..//utils/api')
 const Fs = Dimensions.get('window').width*0.8
@@ -132,6 +133,19 @@ export class User extends Component<any,any> {
       })
     })
   }
+
+  handleOpenWebsite=() => {
+    const url = 'https://www.energye.cn/login'; // 替换成您想要打开的网址
+    Linking.canOpenURL(url)
+      .then(supported => {
+        if (!supported) {
+          console.log('Can\'t handle url: ' + url);
+        } else {
+          return Linking.openURL(url);
+        }
+      })
+      .catch(err => console.error('An error occurred', err));
+  };
   render() {
     return (
       <View style={{flex: 1}}>
@@ -194,13 +208,18 @@ export class User extends Component<any,any> {
 
             <View style={styles.con}>
               {this.state.logonStatus?
-                <TouchableHighlight style={styles.signOut} onPress={this.signOut} underlayColor={'#2da2fe'}>
-                  <Text allowFontScaling={false} style={styles.signOutText}>
-                    退出登录
-                  </Text>
-                </TouchableHighlight>
+                  <TouchableHighlight style={styles.signOut} onPress={this.signOut} underlayColor={'#2da2fe'}>
+                    <Text allowFontScaling={false} style={styles.signOutText}>
+                      退出登录
+                    </Text>
+                  </TouchableHighlight>
                 : ''
               }
+              {this.state.logonStatus?
+                  <Text style={{color: '#178fff'}} allowFontScaling={false} onPress={this.handleOpenWebsite}>
+                    注销请访问官网
+                  </Text>
+              : ''}
             </View>
           </View>
         </SafeAreaView>
@@ -309,7 +328,7 @@ const styles = StyleSheet.create({
     height: 40,
     backgroundColor:'#1890FF',
     borderRadius: 2,
-    margin:40
+    margin: 40
   },
   signOutText:{
     fontSize: Fs/22,

@@ -368,7 +368,7 @@ export class AccountRegister extends Component<any,any> {
                         </View>
                         <View style={styles.list} >
                             <Image style={styles.Img} source={require('../../image/dl_password.png')}></Image>
-                            <TextInput style={styles.Input3} placeholder={"确认密码"} onChangeText={this.bindconfirmPsw} secureTextEntry={true}></TextInput>
+                            <TextInput allowFontScaling={false} style={styles.Input3} placeholder={"确认密码"} onChangeText={this.bindconfirmPsw} secureTextEntry={true}></TextInput>
                         </View>
                         <View style={styles.list} >
                             <Image style={styles.Img} source={require('../../image/dl_code.png')}></Image>
