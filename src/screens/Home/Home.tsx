@@ -1,8 +1,10 @@
-import { Text, View, Dimensions, Image, ScrollView, Pressable, SafeAreaView, StyleSheet, Modal} from 'react-native'
+import { Text, View, Dimensions, Image, ScrollView, Pressable, SafeAreaView, StyleSheet} from 'react-native'
 import React, { Component } from 'react'
 import Navbar from '../../component/navbar/navbar'
 import { Register } from '../../utils/app'
+import {Button,FormControl, Icon, Input, Modal } from 'native-base'
 const Fs = Dimensions.get('window').width*0.8//屏幕宽比 
+
 export class Index extends Component<any,any> {
     constructor(props: any){
         super(props)
@@ -10,7 +12,8 @@ export class Index extends Component<any,any> {
             LoginStatus: 1,//登录状态
             objType:1,
             boxHeight: 0,
-            visible: false
+            visible: false,
+            type: false,
         } 
     }
     componentDidMount(){
@@ -413,10 +416,40 @@ export class Index extends Component<any,any> {
                         </View>
                     </ScrollView >
                 </SafeAreaView>
+                <Button onPress={() => this.setShowModal(true)}>Button</Button>
+                <Modal isOpen={this.state.type} onClose={() => this.setShowModal(false)}
+                    _backdrop={{
+                        top: Fs/9,
+                        bottom: -100,// 覆盖保护区域
+                        opacity: 0.5, // 透明度
+                    }}
+                >
+                    <Modal.Content maxWidth="200px">
+                        <Modal.CloseButton />
+                        <Modal.Header>Contact Us</Modal.Header>
+                        <Modal.Body>
+                            <FormControl>
+                            <FormControl.Label>Name</FormControl.Label>
+                            <Input />
+                            </FormControl>
+                            <FormControl mt="3">
+                            <FormControl.Label>Email</FormControl.Label>
+                            <Input />
+                            </FormControl>
+                        </Modal.Body>
+                    </Modal.Content>
+                </Modal>
             </View>
         )
     }
+    setShowModal=(type: boolean)=>{
+        this.setState({
+            type: type
+        })
+    }
 }
+
+// 样式定义
 const styles = StyleSheet.create({
     containerMini: {
         flex: 1,

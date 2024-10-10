@@ -1,15 +1,15 @@
 import { StackNavigationProp } from '@react-navigation/stack'
 import React from 'react'
 import { Text, View, StyleSheet, TouchableOpacity, ActivityIndicator,
-Image, Pressable, Dimensions, DeviceEventEmitter, Animated, Modal, 
-ScrollView,
-Alert,} from 'react-native'
+Image, Pressable, Dimensions, DeviceEventEmitter, Animated, 
+ScrollView } from 'react-native'
 import { HttpService } from '../../utils/http'//网络请求服务
 import { Icon } from '@rneui/themed';
 import Tree from '../tree/Tree'
 import Loading from '../Loading/Loading'
 import { parameter_Group } from '../../redux/reducers/counterSlice'
 import { store } from '../../redux/storer'
+import {FormControl,Modal } from 'native-base'
 
 const api = require( '../../utils/api')//接口文件
 const ht = Dimensions.get('window').height*0.8
@@ -761,7 +761,7 @@ export class Navbar extends React.Component<any,any> {
                         }
                     </View>
                     {/** 设备选择 */}
-                    <Modal
+                    {/* <Modal
                         transparent={true}
                         visible={this.state.showTree}
                         onRequestClose={ this.handleOnRequestClose }
@@ -816,6 +816,59 @@ export class Navbar extends React.Component<any,any> {
                                 </View>
                             </View>
                         </View>
+                    </Modal> */}
+                    <Modal isOpen={this.state.showTree} onClose={() => this.handleOnRequestClose()}
+                        _backdrop={{
+                            top: ht/9 + 30,
+                            bottom: -100,// 覆盖保护区域
+                            opacity: 0.5, // 透明度
+                        }}
+                        size='full'
+                    >
+                        <Modal.Content maxWidth={'96%'} maxHeight={'100%'}>
+                            <Modal.Body>
+                                <View style={styles.con}>
+                                    <View style={styles.boxs}>
+                                        {this.state.isCheck != 6?
+                                            <View style={[styles.left,this.props.isCheck==4?styles.leftW100:null]}>
+                                                <ScrollView>
+                                                    {this.state.arrGroup.map((data:any, index:any) => {
+                                                        return(
+                                                            <Text allowFontScaling={false} key={index} 
+                                                                style={[styles.list,index == this.state.isGroup ? styles.listIs:null]}
+                                                                onPress={()=>this.choiceGroup(index)}
+                                                            >{data.name}</Text>
+                                                        )
+                                                    })}
+                                                </ScrollView>
+                                            </View>
+                                            :''
+                                        }
+                                        {this.props.isCheck == 1 || this.props.isCheck == 2 ||
+                                        this.props.isCheck == 3 || this.props.isCheck == 5 ||
+                                        this.props.isCheck == 6 ?
+                                            <ScrollView>
+                                                <View style={styles.right}>
+                                                    <ScrollView 
+                                                    horizontal={true}
+                                                    showsHorizontalScrollIndicator={false}
+                                                    >
+                                                        <Tree
+                                                            dataTree={this.state.dataTree}
+                                                            selectKey={this.state.selectKey}
+                                                            isChecks={this.props.isCheck}
+                                                            isOpenAll={true}
+                                                            handleSelect={this.handleSelect}
+                                                        ></Tree>
+                                                    </ScrollView>
+                                                </View>
+                                            </ScrollView>
+                                            : ''
+                                        }
+                                    </View>
+                                </View>
+                            </Modal.Body>
+                        </Modal.Content>
                     </Modal>
                 </View>
                 {/* 弹窗效果组件 */}
@@ -926,6 +979,7 @@ const styles = StyleSheet.create({
         borderRadius:10
     },
     con:{
+        height:900,
         position: 'absolute',
         top: 5,
         width: '96%', 
