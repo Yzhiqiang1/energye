@@ -44,18 +44,18 @@ export class Index extends Component<any,any> {
     render() {
         return (
             <View style={{flex: 1}}>
-                <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
-                </View>
+                {/* <View style={{position: 'absolute',top: 0,width: "100%",height: "100%",backgroundColor: '#fff'}}>
+                </View> */}
                 <SafeAreaView 
                     style={{flex: 1}}
                     onLayout={(event) => this.boxH(event)}>
                     {/* 引入自定义导航栏 */}
                     <Navbar 
-                    showBack={false} 
-                    showHome={false}
-                    pageName={'首页'}
-                    LoginStatus={this.state.LoginStatus}  
-                    props={this.props}
+                        showBack={false} 
+                        showHome={false}
+                        pageName={'首页'}
+                        LoginStatus={this.state.LoginStatus}  
+                        props={this.props}
                     ></Navbar>
                     {/* 内容 */}
                     <ScrollView style={styles.containerMini}>

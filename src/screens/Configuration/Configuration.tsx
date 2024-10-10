@@ -7,6 +7,7 @@ import { Register } from '../../utils/app'
 import { store } from '../../redux/storer'
 import Loading from '../../component/Loading/Loading'
 import { Icon } from '@rneui/base'
+import { Shadow } from 'react-native-shadow-2';
 
 const api = require('../../utils/api')
 const Fs = Dimensions.get('window').width*0.8
@@ -249,17 +250,21 @@ export class Configuration extends Component<any,any> {
                   <View style={styles.box}>
                   {this.state.objArr.map((data:any, index:any) => {
                     return (
-                        <Pressable key={index} style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': 'white'},styles.item]}
-                          onPress={()=>{this.props.navigation.navigate('ConfigurationDetails',{url:data.url,name:data.appname})}}
-                        >
-                            <View style={styles.images}>
-                                {data.appicon?
-                                  <Image style={styles.img} source={{uri: `${data.appicon}`}}></Image>:
-                                  <Image style={styles.img} source={require('../../image/Not.png')}></Image>
-                                }
-                            </View>
-                            <Text style={styles.Scrollname} allowFontScaling={false}>{data.appname}</Text>
-                        </Pressable>
+                      <Shadow style={styles.item} distance={5} offset={[-1, 1]}>
+                          <Pressable
+                            key={index} 
+                            style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': 'white'}]}
+                            onPress={()=>{this.props.navigation.navigate('ConfigurationDetails',{url:data.url,name:data.appname})}}
+                          >
+                              <View style={styles.images}>
+                                  {data.appicon?
+                                    <Image style={styles.img} source={{uri: `${data.appicon}`}}></Image>:
+                                    <Image style={styles.img} source={require('../../image/Not.png')}></Image>
+                                  }
+                              </View>
+                              <Text style={styles.Scrollname} allowFontScaling={false}>{data.appname}</Text>
+                          </Pressable>
+                        </Shadow>
                     );
                   })}
                   </View> : ''  
@@ -500,14 +505,14 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width/2 - 15,
     marginBottom: 10,
     borderRadius: 2,
-    shadowColor: '#000', // 阴影颜色
-    shadowOffset: { // 阴影的水平和垂直偏移量
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25, // 阴影的透明度
-    shadowRadius: 3.84, // 阴影的模糊半径
-    elevation: 5, // Android 阴影设置
+    // shadowColor: '#000', // 阴影颜色
+    // shadowOffset: { // 阴影的水平和垂直偏移量
+    //   width: 0,
+    //   height: 2,
+    // },
+    // shadowOpacity: 0.25, // 阴影的透明度
+    // shadowRadius: 3.84, // 阴影的模糊半径
+    // elevation: 5, // Android 阴影设置
   },
   images:{
     position: 'relative',
