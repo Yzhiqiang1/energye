@@ -500,14 +500,14 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width/2 - 15,
     marginBottom: 10,
     borderRadius: 2,
-    shadowColor: "#000",
-    shadowOffset: {
+    shadowColor: '#000', // 阴影颜色
+    shadowOffset: { // 阴影的水平和垂直偏移量
       width: 0,
-      height: 4
+      height: 2,
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5
+    shadowOpacity: 0.25, // 阴影的透明度
+    shadowRadius: 3.84, // 阴影的模糊半径
+    elevation: 5, // Android 阴影设置
   },
   images:{
     position: 'relative',

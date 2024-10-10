@@ -360,19 +360,19 @@ export class AccountRegister extends Component<any,any> {
                     <View style={styles.con} >
                         <View style={styles.list} >
                             <Image style={styles.Img} source={require('../../image/zc_phone1x.png')}></Image>
-                            <TextInput allowFontScaling={false} style={styles.Input} placeholder={"输入手机号"} keyboardType='numeric' onChangeText={this.bindMobile}></TextInput>
+                            <TextInput placeholderTextColor="#aeaeae" allowFontScaling={false} style={styles.Input} placeholder={"输入手机号"} keyboardType='numeric' onChangeText={this.bindMobile}></TextInput>
                         </View>
                         <View style={styles.list} >
                             <Image style={styles.Img} source={require('../../image/dl_password.png')}></Image>
-                            <TextInput allowFontScaling={false} style={styles.Input2} placeholder={"输入密码"} onChangeText={this.bindPassword}></TextInput>
+                            <TextInput placeholderTextColor="#aeaeae" allowFontScaling={false} style={styles.Input2} placeholder={"输入密码"} onChangeText={this.bindPassword}></TextInput>
                         </View>
                         <View style={styles.list} >
                             <Image style={styles.Img} source={require('../../image/dl_password.png')}></Image>
-                            <TextInput allowFontScaling={false} style={styles.Input3} placeholder={"确认密码"} onChangeText={this.bindconfirmPsw} secureTextEntry={true}></TextInput>
+                            <TextInput placeholderTextColor="#aeaeae" allowFontScaling={false} style={styles.Input3} placeholder={"确认密码"} onChangeText={this.bindconfirmPsw} secureTextEntry={true}></TextInput>
                         </View>
                         <View style={styles.list} >
                             <Image style={styles.Img} source={require('../../image/dl_code.png')}></Image>
-                            <TextInput allowFontScaling={false} style={styles.Input4} placeholder={"输入验证码"} onChangeText={this.bindCode}></TextInput>
+                            <TextInput placeholderTextColor="#aeaeae" allowFontScaling={false} style={styles.Input4} placeholder={"输入验证码"} onChangeText={this.bindCode}></TextInput>
                             <Text style={styles.Code} allowFontScaling={false}>{"获取验证码"}</Text>
                         </View>
                         <View style={[styles.lists,{marginTop: 25,}]}>

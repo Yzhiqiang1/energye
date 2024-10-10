@@ -216,8 +216,8 @@ export class User extends Component<any,any> {
                 : ''
               }
               {this.state.logonStatus?
-                  <Text style={{color: '#178fff'}} allowFontScaling={false} onPress={this.handleOpenWebsite}>
-                    注销请访问官网
+                  <Text style={{color: '#178fff'}} allowFontScaling={false} onPress={()=>{this.props.navigation.reset({routes: [{ name: 'Logout' }]})}}>
+                    注销账号
                   </Text>
               : ''}
             </View>

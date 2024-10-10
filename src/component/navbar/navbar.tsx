@@ -659,61 +659,65 @@ export class Navbar extends React.Component<any,any> {
     render() {
         const {navigation,}: { navigation?: StackNavigationProp<any, any> } = this.props.props
         return (
-            <View style={{zIndex: 9999999,width: '100%'}}>
-                
+            <View style={{
+                zIndex: 9999,
+                width: '100%',
+            }}>
                 {/** 设备选择 */}
-                <Modal
-                    transparent={true}
-                    visible={this.state.showTree}
-                    onRequestClose={this.handleOnRequestClose}
-                    presentationStyle={'overFullScreen'}
-                    hardwareAccelerated={true}
-                >
-                    <View style={[styles.modalBox,{top: ht/9}]}>
-                        <Pressable style={{width: '100%',height: '100%'}} onPress={this.treeSelectClick}>
-                        </Pressable>
-                        <View style={styles.con}>
-                            <View style={styles.boxs}>
-                                {this.state.isCheck != 6?
-                                    <View style={[styles.left,this.props.isCheck==4?styles.leftW100:null]}>
-                                        <ScrollView>
-                                            {this.state.arrGroup.map((data:any, index:any) => {
-                                                return(
-                                                    <Text allowFontScaling={false} key={index} 
-                                                        style={[styles.list,index == this.state.isGroup?styles.listIs:null]}
-                                                        onPress={()=>this.choiceGroup(index)}
-                                                    >{data.name}</Text>
-                                                )
-                                            })}
-                                        </ScrollView>
-                                    </View>
-                                    :''
-                                }
-                                {this.props.isCheck == 1 || this.props.isCheck == 2 ||
-                                this.props.isCheck == 3 || this.props.isCheck == 5 ||
-                                this.props.isCheck == 6 ?
-                                    <ScrollView>
-                                        <View style={styles.right}>
-                                            <ScrollView 
-                                            horizontal={true}
-                                            showsHorizontalScrollIndicator={false}
-                                            >
-                                                <Tree
-                                                    dataTree={this.state.dataTree}
-                                                    selectKey={this.state.selectKey}
-                                                    isChecks={this.props.isCheck}
-                                                    isOpenAll={true}
-                                                    handleSelect={this.handleSelect}
-                                                ></Tree>
+                <View style={styles.container}>
+                    <Modal
+                        transparent={true}
+                        visible={this.state.showTree}
+                        onRequestClose={this.handleOnRequestClose}
+                        presentationStyle={'overFullScreen'}
+                        hardwareAccelerated={true}
+                    >
+                        <View style={[styles.modalBox,{top: ht/9}]}>
+                            <Pressable style={{width: '100%',height: '100%'}} onPress={this.treeSelectClick}>
+                            </Pressable>
+                            <View style={styles.con}>
+                                <View style={styles.boxs}>
+                                    {this.state.isCheck != 6?
+                                        <View style={[styles.left,this.props.isCheck==4?styles.leftW100:null]}>
+                                            <ScrollView>
+                                                {this.state.arrGroup.map((data:any, index:any) => {
+                                                    return(
+                                                        <Text allowFontScaling={false} key={index} 
+                                                            style={[styles.list,index == this.state.isGroup?styles.listIs:null]}
+                                                            onPress={()=>this.choiceGroup(index)}
+                                                        >{data.name}</Text>
+                                                    )
+                                                })}
                                             </ScrollView>
                                         </View>
-                                    </ScrollView>
-                                    : ''
-                                }
+                                        :''
+                                    }
+                                    {this.props.isCheck == 1 || this.props.isCheck == 2 ||
+                                    this.props.isCheck == 3 || this.props.isCheck == 5 ||
+                                    this.props.isCheck == 6 ?
+                                        <ScrollView>
+                                            <View style={styles.right}>
+                                                <ScrollView 
+                                                horizontal={true}
+                                                showsHorizontalScrollIndicator={false}
+                                                >
+                                                    <Tree
+                                                        dataTree={this.state.dataTree}
+                                                        selectKey={this.state.selectKey}
+                                                        isChecks={this.props.isCheck}
+                                                        isOpenAll={true}
+                                                        handleSelect={this.handleSelect}
+                                                    ></Tree>
+                                                </ScrollView>
+                                            </View>
+                                        </ScrollView>
+                                        : ''
+                                    }
+                                </View>
                             </View>
                         </View>
-                    </View>
-                </Modal>
+                    </Modal>
+                </View>
 
                 <View style={[styles.navbar,{height: ht/9, pointerEvents: 'auto'}]}>
                     <View style={[styles.navbar_head]}>
@@ -827,6 +831,13 @@ export class Navbar extends React.Component<any,any> {
 
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#fff',
+    },
+
     navbar:{
         position: 'relative',
         top: 0,

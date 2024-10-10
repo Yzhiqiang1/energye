@@ -2,8 +2,6 @@ import { Dimensions, StyleSheet, Text, View, Image, TextInput, TouchableOpacity,
 import React, { Component,} from 'react'
 import {HttpService} from '../../utils/http'
 import LoginNavbar from '../../component/loginNavbar/loginNavbar'
-import { Set_State } from '../../redux/actions/user';
-import store from '../../redux/store'//全局管理
 import Loading from '../../component/Loading/Loading';
 const Fs = Dimensions.get('window').width*0.8
 let api = require('../../utils/api')
