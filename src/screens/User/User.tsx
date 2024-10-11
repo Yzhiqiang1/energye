@@ -69,7 +69,7 @@ export class User extends Component<any,any> {
     this.setState({
       msgType: 1,
       visible: true,
-      LoadingMsg: '注销中...'
+      LoadingMsg: '退出中...'
     })
     let userId = store.getState().userId;
     HttpService.apiPost(api.appSignOut,{

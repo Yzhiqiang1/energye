@@ -1,5 +1,5 @@
 import { StyleSheet, View, Image, TextInput, Pressable, Text, ScrollView, Animated,
-    Dimensions, Platform, SafeAreaView, Alert, StatusBar} from 'react-native'
+    Dimensions, Platform, SafeAreaView, StatusBar} from 'react-native'
 import React, { Component, useEffect } from 'react'
 import Geolocation from '@react-native-community/geolocation';//获取定位
 import { Camera, useCameraDevice, useCodeScanner} from "react-native-vision-camera"//摄像头扫码
@@ -730,7 +730,7 @@ export class Scanqr extends Component<any,any> {
             if (that.state.isManual == false) {
                 //跳转到首页
                 setTimeout(()=>{
-                    this.props.navigation.navigate('Index')
+                    this.props.navigation.reset('Tabbar')
                 }, 3000)
             }
         }).catch((fail_message) => {

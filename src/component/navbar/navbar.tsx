@@ -1,20 +1,22 @@
 import { StackNavigationProp } from '@react-navigation/stack'
 import React from 'react'
 import { Text, View, StyleSheet, TouchableOpacity, ActivityIndicator,
-Image, Pressable, Dimensions, DeviceEventEmitter, Animated, 
-ScrollView } from 'react-native'
+Image, Pressable, Dimensions, DeviceEventEmitter, Animated, ScrollView, NativeModules,
+Platform} from 'react-native'
 import { HttpService } from '../../utils/http'//网络请求服务
 import { Icon } from '@rneui/themed';
 import Tree from '../tree/Tree'
 import Loading from '../Loading/Loading'
 import { parameter_Group } from '../../redux/reducers/counterSlice'
 import { store } from '../../redux/storer'
-import {FormControl,Modal } from 'native-base'
+import { Modal } from 'native-base'
 
+const { StatusBarManager } = NativeModules;
 const api = require( '../../utils/api')//接口文件
 const ht = Dimensions.get('window').height*0.8
 const Fs = Dimensions.get('window').width*0.8
 
+const navigationBar = ht/9 + (Platform.OS === 'ios' ? '' : StatusBarManager.HEIGHT);//导航栏高度
 
 export class Navbar extends React.Component<any,any> {
     //下箭头旋转动画数值
@@ -126,9 +128,33 @@ export class Navbar extends React.Component<any,any> {
         })
     }
     //树下拉框关闭
-    treeSelectClose(e:any) {
+    handleOnRequestClose=()=>{
         this.setState({
-            showTree: true,
+            showTree: false
+        })
+        if(this.state.showTree){
+            Animated.timing(this.deg,
+                {
+                    toValue: 0,
+                    duration: 300,
+                    useNativeDriver: true
+                }
+            ).start();
+        }else{
+            Animated.timing(this.deg,
+                {
+                    toValue: 1,
+                    duration: 300,
+                    useNativeDriver: true
+                }
+            ).start();
+        }
+        const rotate = this.deg.interpolate({
+            inputRange: [0, 1],
+            outputRange: ['0deg', '180deg'],
+        })
+        this.setState({
+            rotate: rotate
         })
     }
     //选择组
@@ -646,11 +672,7 @@ export class Navbar extends React.Component<any,any> {
             });
         }
     }
-    handleOnRequestClose=()=>{
-        this.setState({
-            showTree: false
-        })
-    }
+
     static defaultProps = {
         LoginStatus: '',
         isCheck: 1,
@@ -665,56 +687,6 @@ export class Navbar extends React.Component<any,any> {
                 zIndex: 9999,
                 width: '100%',
             }}>
-            
-                {/* 设备选择弹窗 */}
-                {/* {
-                this.state.showTree?
-                    <View style={[styles.modalBox,{top: ht/9}]}>
-                        <Pressable style={{width: '100%',height: '100%'}} onPress={this.treeSelectClick}>
-                        </Pressable>
-                        <View style={styles.con}>
-                            <View style={styles.boxs}>
-                                {this.state.isCheck != 6?
-                                    <View style={[styles.left,this.props.isCheck==4?styles.leftW100:null]}>
-                                        <ScrollView>
-                                            {this.state.arrGroup.map((data:any, index:any) => {
-                                                return(
-                                                    <Text allowFontScaling={false} key={index} 
-                                                        style={[styles.list,index == this.state.isGroup?styles.listIs:null]}
-                                                        onPress={()=>this.choiceGroup(index)}
-                                                    >{data.name}</Text>
-                                                )
-                                            })}
-                                        </ScrollView>
-                                    </View>
-                                    :''
-                                }
-                                {this.props.isCheck == 1 || this.props.isCheck == 2 ||
-                                this.props.isCheck == 3 || this.props.isCheck == 5 ||
-                                this.props.isCheck == 6 ?
-                                    <ScrollView>
-                                        <View style={styles.right}>
-                                            <ScrollView 
-                                            horizontal={true}
-                                            showsHorizontalScrollIndicator={false}
-                                            >
-                                                <Tree
-                                                    dataTree={this.state.dataTree}
-                                                    selectKey={this.state.selectKey}
-                                                    isChecks={this.props.isCheck}
-                                                    isOpenAll={true}
-                                                    handleSelect={this.handleSelect}
-                                                ></Tree>
-                                            </ScrollView>
-                                        </View>
-                                    </ScrollView>
-                                    : ''
-                                }
-                            </View>
-                        </View>
-                    </View> :''
-                } */}
-
                 <View style={[styles.navbar,{height: ht/9, pointerEvents: 'auto'}]}>
                     <View style={[styles.navbar_head]}>
                         {this.props.showBack?
@@ -743,7 +715,7 @@ export class Navbar extends React.Component<any,any> {
                         {this.props.LoginStatus == 1?
                             <TouchableOpacity style={styles.treeSelect} onPress={()=>{navigation?.navigate('BindAccount')}}>
                                 <Text allowFontScaling={false} style={[styles.navbar_text,{fontSize:Fs/22,color:'#2EA4FF',fontWeight: '400'}]}>您还未登录,点击登录</Text>
-                        </TouchableOpacity>
+                            </TouchableOpacity>
                         : ''
                         }
                         {this.props.LoginStatus == 2?
@@ -760,73 +732,19 @@ export class Navbar extends React.Component<any,any> {
                             </Pressable>: ''
                         }
                     </View>
-                    {/** 设备选择 */}
-                    {/* <Modal
-                        transparent={true}
-                        visible={this.state.showTree}
-                        onRequestClose={ this.handleOnRequestClose }
-                        presentationStyle={'overFullScreen'}
-                        hardwareAccelerated={true}
-                    >
-                        <View style={[styles.modalBox,{top: ht/9}]}>
-                            <Pressable style={styles.starring} onPress={this.treeSelectClick}></Pressable>
-                            <Pressable 
-                                style={{width: '100%',height: '100%'}}
-                                onPress={this.treeSelectClick}
-                            >
-                            </Pressable>
-                            <View style={styles.con}>
-                                <View style={styles.boxs}>
-                                    {this.state.isCheck != 6?
-                                        <View style={[styles.left,this.props.isCheck==4?styles.leftW100:null]}>
-                                            <ScrollView>
-                                                {this.state.arrGroup.map((data:any, index:any) => {
-                                                    return(
-                                                        <Text allowFontScaling={false} key={index} 
-                                                            style={[styles.list,index == this.state.isGroup ? styles.listIs:null]}
-                                                            onPress={()=>this.choiceGroup(index)}
-                                                        >{data.name}</Text>
-                                                    )
-                                                })}
-                                            </ScrollView>
-                                        </View>
-                                        :''
-                                    }
-                                    {this.props.isCheck == 1 || this.props.isCheck == 2 ||
-                                    this.props.isCheck == 3 || this.props.isCheck == 5 ||
-                                    this.props.isCheck == 6 ?
-                                        <ScrollView>
-                                            <View style={styles.right}>
-                                                <ScrollView 
-                                                horizontal={true}
-                                                showsHorizontalScrollIndicator={false}
-                                                >
-                                                    <Tree
-                                                        dataTree={this.state.dataTree}
-                                                        selectKey={this.state.selectKey}
-                                                        isChecks={this.props.isCheck}
-                                                        isOpenAll={true}
-                                                        handleSelect={this.handleSelect}
-                                                    ></Tree>
-                                                </ScrollView>
-                                            </View>
-                                        </ScrollView>
-                                        : ''
-                                    }
-                                </View>
-                            </View>
-                        </View>
-                    </Modal> */}
-                    <Modal isOpen={this.state.showTree} onClose={() => this.handleOnRequestClose()}
+                    <Modal
+                        isOpen={this.state.showTree} 
+                        onClose={() => this.handleOnRequestClose()}
                         _backdrop={{
-                            top: ht/9 + 30,
+                            top: navigationBar,
                             bottom: -100,// 覆盖保护区域
                             opacity: 0.5, // 透明度
                         }}
                         size='full'
                     >
-                        <Modal.Content maxWidth={'96%'} maxHeight={'100%'}>
-                            <Modal.Body>
+                        <Pressable style={styles.starring} onPress={this.treeSelectClick}></Pressable>
+                        <Modal.Content style={{position: 'absolute', top: navigationBar+5}} maxWidth={'98%'}>
+                            <Modal.Body style={{minHeight: 350}} >
                                 <View style={styles.con}>
                                     <View style={styles.boxs}>
                                         {this.state.isCheck != 6?
@@ -882,7 +800,6 @@ export class Navbar extends React.Component<any,any> {
         )
     }
 }
-
 
 const styles = StyleSheet.create({
     container: {
@@ -973,17 +890,15 @@ const styles = StyleSheet.create({
     box:{
         position: 'relative',
         width:'96%',
-        height:300,
         marginTop:5,
         backgroundColor:'#ffff',
         borderRadius:10
     },
     con:{
-        height:900,
         position: 'absolute',
         top: 5,
-        width: '96%', 
-        minHeight: 300,
+        width: '120%', 
+        height: 350,
         backgroundColor: '#ffffff',
         borderRadius: 5,
         display: 'flex',
@@ -1059,7 +974,7 @@ const styles = StyleSheet.create({
     },
     starring: {
         position: 'absolute',
-        top: -30,
+        top: navigationBar/1.5,
         width: '100%',
         height: 20,
     },
