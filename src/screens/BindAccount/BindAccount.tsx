@@ -150,8 +150,10 @@ export class BindAccount extends Component<any,any> {
         if(that.state.intercept){
             that.setState({
                 //账号：jg2021 密码：sd2021
-                userName: 'jg2021',
-                password: 'sd2021',
+                // userName: 'tlink',
+                // password: 'admin',
+                userName: 'tlink',
+                password: 'admin',
                 intercept: false
             }, () => {
                 that.getLogin(); //登录
@@ -379,7 +381,7 @@ const styles = StyleSheet.create({
     Tourist:{
         position: 'absolute',
         left: 25,
-        bottom: 10,
+        bottom: 30,
         width: '100%',
         display:'flex',
         alignItems:'center',

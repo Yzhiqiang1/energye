@@ -11,37 +11,6 @@ export class Loading extends Component<any,any> {
     }
     render() {
         return (
-            // this.props.type == 1 ?
-            // <View>
-            //     <Modal
-            //     animationType="fade"
-            //     transparent={true}
-            //     visible={this.props.visible}
-            //     presentationStyle={'overFullScreen'}
-            //     >
-            //         <View style={styles.modalBox}>
-            //             <View style={styles.modal}>
-            //                 <ActivityIndicator size="large" color="#2da2fe"/>
-            //                 <Text allowFontScaling={false} style={styles.text}>{this.props.LoadingMsg}</Text>
-            //             </View>
-            //         </View>
-            //     </Modal>
-            // </View>
-            // :
-            // <View>
-            //     <Modal
-            //         animationType='fade'
-            //         transparent={true}
-            //         visible={ this.props.visible }
-            //         presentationStyle={'overFullScreen'}
-            //     >
-            //         <View style={styles.box}>
-            //             <View style={styles.showLoading}>
-            //                 <Text allowFontScaling={false} style={styles.showText}>{this.props.LoadingMsg}</Text>
-            //             </View>
-            //         </View>
-            //     </Modal>
-            // </View>
             this.props.type == 1 ?
                 this.props.visible?
                     <View style={styles.modalBox}>

@@ -2,7 +2,8 @@ import { StackNavigationProp } from '@react-navigation/stack'
 import React from 'react'
 import { Text, View, StyleSheet, TouchableOpacity, ActivityIndicator,
 Image, Pressable, Dimensions, DeviceEventEmitter, Animated, ScrollView, NativeModules,
-Platform} from 'react-native'
+Platform,
+StatusBar} from 'react-native'
 import { HttpService } from '../../utils/http'//网络请求服务
 import { Icon } from '@rneui/themed';
 import Tree from '../tree/Tree'
@@ -16,7 +17,7 @@ const api = require( '../../utils/api')//接口文件
 const ht = Dimensions.get('window').height*0.8
 const Fs = Dimensions.get('window').width*0.8
 
-const navigationBar = ht/9 + (Platform.OS === 'ios' ? '' : StatusBarManager.HEIGHT);//导航栏高度
+const navigationBar = ht/9 + (Platform.OS === 'ios' ? StatusBar.currentHeight : StatusBarManager.HEIGHT);//导航栏高度
 
 export class Navbar extends React.Component<any,any> {
     //下箭头旋转动画数值
@@ -86,7 +87,6 @@ export class Navbar extends React.Component<any,any> {
             }
         }
     }
-    
     //回退
     navBack = ()=> {
         this.props.props.navigation.goBack()
@@ -743,8 +743,8 @@ export class Navbar extends React.Component<any,any> {
                         size='full'
                     >
                         <Pressable style={styles.starring} onPress={this.treeSelectClick}></Pressable>
-                        <Modal.Content style={{position: 'absolute', top: navigationBar+5}} maxWidth={'98%'}>
-                            <Modal.Body style={{minHeight: 350}} >
+                        <Modal.Content style={{marginBottom: "auto", marginTop: navigationBar+5}} maxWidth={'98%'}>
+                            <Modal.Body style={{minHeight: 350, backgroundColor: "#ffffff"}}>
                                 <View style={styles.con}>
                                     <View style={styles.boxs}>
                                         {this.state.isCheck != 6?
@@ -808,7 +808,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#fff',
     },
-
     navbar:{
         position: 'relative',
         top: 0,
@@ -897,7 +896,7 @@ const styles = StyleSheet.create({
     con:{
         position: 'absolute',
         top: 5,
-        width: '120%', 
+        width: '100%', 
         height: 350,
         backgroundColor: '#ffffff',
         borderRadius: 5,

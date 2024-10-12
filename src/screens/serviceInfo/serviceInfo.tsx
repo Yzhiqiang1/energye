@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
     container:{
         position: 'relative',
         width: '90%',
-        height: Dimensions.get('window').height-ht/9
+        height: Dimensions.get('window').height-ht/6,
     },
     title1:{
         color: '#333',

@@ -16,7 +16,7 @@ export class Index extends Component<any,any> {
     }
     componentDidMount(){
         // 验证登录
-        Register.userSignIn(false).then(res => {            
+        Register.userSignIn(false).then(res => {      
             //校验登录成功后执行
             if (res == true) {
                 //向自定义导航传递登录状态

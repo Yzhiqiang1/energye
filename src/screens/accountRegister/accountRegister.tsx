@@ -18,25 +18,23 @@ export class AccountRegister extends Component<any,any> {
             code: '', //验证码
             isCode: true, //验证码发送状态
             mobiletitle: '获取验证码', //文字提示
-            count: 60, //获取验证码时间间隔(S)
-            // agree: 'agree' ,//勾选协议，默认勾选
-            // checked:true,
+            count: 120, //获取验证码时间间隔(S)
             btn_disable: true, //按钮
-            agreeVal: false,
-
+            agreeVal: false,//勾选协议，默认勾选
             msgType: 1,
             LoadingMsg: '',
             visible: false,
         }
     }
     //输入手机号
-    bindMobile=(e:any)=>{
+    bindMobile=(e: any)=>{
         this.setState({
             mobile: e
         })
     }
+
     //输入密码
-    bindPassword=(e:any)=>{
+    bindPassword=(e: any)=>{
         this.setState({
             password: e
         })
@@ -306,7 +304,7 @@ export class AccountRegister extends Component<any,any> {
                     this.setState({
                         msgType: 2,
                         visible: true,
-                        LoadingMsg:'发送成功！'
+                        LoadingMsg: res.msg
                     },()=>{
                         setTimeout(()=>{
                             this.setState({
@@ -373,7 +371,7 @@ export class AccountRegister extends Component<any,any> {
                         <View style={styles.list} >
                             <Image style={styles.Img} source={require('../../image/dl_code.png')}></Image>
                             <TextInput placeholderTextColor="#aeaeae" allowFontScaling={false} style={styles.Input4} placeholder={"输入验证码"} onChangeText={this.bindCode}></TextInput>
-                            <Text style={styles.Code} allowFontScaling={false}>{"获取验证码"}</Text>
+                            <Text style={styles.Code} allowFontScaling={false} onPress={this.gainCode}>{this.state.mobiletitle}</Text>
                         </View>
                         <View style={[styles.lists,{marginTop: 25,}]}>
                             <CheckBox
