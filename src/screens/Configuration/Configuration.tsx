@@ -250,9 +250,8 @@ export class Configuration extends Component<any,any> {
                   <View style={styles.box}>
                   {this.state.objArr.map((data:any, index:any) => {
                     return (
-                      <Shadow style={styles.item} distance={5} offset={[-1, 1]}>
+                      <Shadow key={index} style={styles.item} distance={5} offset={[-1, 1]}>
                           <Pressable
-                            key={index} 
                             style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': 'white'}]}
                             onPress={()=>{this.props.navigation.navigate('ConfigurationDetails',{url:data.url,name:data.appname})}}
                           >

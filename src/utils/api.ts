@@ -12,9 +12,10 @@ module.exports = {
     verifyCodeLogin: RootPath + '/api/user/verifyCodeLogin', //验证码登录
     appVerifyCodeLogin: RootPath + '/api/user/appVerifyCodeLogin',//APP验证码登录
     register: RootPath + '/api/user/register', //注册
-    appRegister: RootPath + "/api/user/appRegister",//APP注册
+    appRegister: RootPath + "/api/user/appRegister", //APP注册
     signOut: RootPath + '/api/user/signOut', //退出登录
-    appSignOut: RootPath + '/api/user/appSignOut',//APP退出登录
+    appSignOut: RootPath + '/api/user/appSignOut', //APP退出登录
+    appRemove: RootPath + '/api/user/appRemove', //App注销帐号
 
     
     getGroup: RootPath + '/api/common/getGroup', //获取用户回路分组

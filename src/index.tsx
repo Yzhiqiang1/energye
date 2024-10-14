@@ -51,7 +51,7 @@ export class Index extends Component {
   render() {
     return (
       <SafeAreaProvider>
-        <Stack.Navigator screenOptions={{headerShown:false}}>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Screen name="Tabbar" component={Tabbar}></Stack.Screen>
             <Stack.Screen name="BindAccount" component={BindAccount}></Stack.Screen>
             <Stack.Screen name="ConfigurationDetails" component={ConfigurationDetails}></Stack.Screen>

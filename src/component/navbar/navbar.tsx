@@ -737,13 +737,13 @@ export class Navbar extends React.Component<any,any> {
                         onClose={() => this.handleOnRequestClose()}
                         _backdrop={{
                             top: navigationBar,
-                            bottom: -100,// 覆盖保护区域
+                            bottom: -100, // 覆盖保护区域
                             opacity: 0.5, // 透明度
                         }}
                         size='full'
                     >
                         <Pressable style={styles.starring} onPress={this.treeSelectClick}></Pressable>
-                        <Modal.Content style={{marginBottom: "auto", marginTop: navigationBar+5}} maxWidth={'98%'}>
+                        <Modal.Content style={{marginBottom: "auto", marginTop: navigationBar + 5}} maxWidth={'98%'}>
                             <Modal.Body style={{minHeight: 350, backgroundColor: "#ffffff"}}>
                                 <View style={styles.con}>
                                     <View style={styles.boxs}>
@@ -788,6 +788,7 @@ export class Navbar extends React.Component<any,any> {
                             </Modal.Body>
                         </Modal.Content>
                     </Modal>
+
                 </View>
                 {/* 弹窗效果组件 */}
                 <Loading 

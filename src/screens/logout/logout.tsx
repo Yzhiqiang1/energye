@@ -4,8 +4,10 @@ import {HttpService} from '../../utils/http'
 import LoginNavbar from '../../component/loginNavbar/loginNavbar'
 import Loading from '../../component/Loading/Loading';
 import { connect } from 'react-redux';
-import { Set_State } from '../../redux/reducers/counterSlice';
+import { LogOut, Set_State } from '../../redux/reducers/counterSlice';
+import { store } from '../../redux/storer';
 import tool from '../../utils/tool';
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const Fs = Dimensions.get('window').width*0.8
 let api = require('../../utils/api')
@@ -20,6 +22,9 @@ export class Logout extends Component<any,any> {
             code: '',
             boxHeight: 0,
             intercept: true,
+            mobiletitle: '获取验证码', //文字提示
+            isCode: true, //验证码发送状态
+            count: 120,
         };
     };
     //输入手机号
@@ -33,6 +38,116 @@ export class Logout extends Component<any,any> {
         this.setState({
             code: value
         })
+    }
+    //获取验证码
+    gainCode=(e:any)=>{
+        var that = this;
+        if (that.state.isCode == true) {
+            var mobile = that.state.mobile
+            if (mobile == "") {
+                this.setState({
+                    msgType: 2,
+                    visible: true,
+                    LoadingMsg:'请输入手机号！'
+                },()=>{
+                    setTimeout(()=>{
+                        this.setState({
+                            visible: false,
+                        })
+                    },2000)
+                })
+                return false;
+            } else if (tool.regMobile(mobile) == false) {
+                this.setState({
+                    msgType: 2,
+                    visible: true,
+                    LoadingMsg:'手机号格式错误！'
+                },()=>{
+                    setTimeout(()=>{
+                        this.setState({
+                            visible: false,
+                        })
+                    },2000)
+                })
+                return false;
+            }
+            this.setState({
+                msgType: 1,
+                visible: true,
+                LoadingMsg:'加载中...'
+            }); //加载效果
+            var down = that.state.count;
+            HttpService.Post(api.getVerifyCode, {
+                mobile: mobile
+            }).then((res:any) => {
+                if (res.flag == "00") {
+                    this.setState({
+                        msgType: 2,
+                        visible: true,
+                        LoadingMsg:'发送成功！'
+                    },()=>{
+                        setTimeout(()=>{
+                            this.setState({
+                                visible: false,
+                            })
+                        },2000)
+                    })
+                    //更改验证码发送状态
+                    that.setState({
+                        isCode: false
+                    })
+                    //倒计时从新发送
+                    var interval = setInterval(function () {
+                        down--;
+                        that.setState({
+                            mobiletitle: '重新获取(' + down + ')'
+                        })
+                        if (down == 0) {
+                            clearInterval(interval)
+                            that.setState({
+                                isCode: true,
+                                mobiletitle: '重新获取验证码'
+                            })
+                        }
+                    }, 1000)
+                } else {
+                    this.setState({
+                        visible: false,
+                    })
+                    this.setState({
+                        msgType: 2,
+                        visible: true,
+                        LoadingMsg: res.msg
+                    },()=>{
+                        setTimeout(()=>{
+                            this.setState({
+                                visible: false,
+                            })
+                        },2000)
+                    })
+                    return false;
+                }
+            }).catch((err) => {
+                //关闭加载效果
+                this.setState({
+                    visible: false,
+                })
+                // //信息提示
+                this.setState({
+                    msgType: 2,
+                    visible: true,
+                    LoadingMsg: err
+                },()=>{
+                    setTimeout(()=>{
+                        this.setState({
+                            visible: false,
+                        })
+                    },2000)
+                })
+                //终止程序
+                return false;
+            });
+        }
     }
     //注销校验
     littleTiger = ()=>{
@@ -54,7 +169,7 @@ export class Logout extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg:'手机号格式错误！'
+                LoadingMsg: '手机号格式错误！'
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -87,22 +202,54 @@ export class Logout extends Component<any,any> {
         })
         var mobile = this.state.mobile;
         var code = this.state.code;
-        HttpService.Post(api.applogin,{
-            userName: mobile,
-            password: code
-        }).then((res:any)=>{
-            this.setState({
-                msgType: 2,
-                visible: true,
-                LoadingMsg: '注销失败'
-            },()=>{
-                setTimeout(()=>{
-                    this.setState({
-                        visible: false,
-                    })
-                },2000)
-            })
-        }).catch(res=>{
+        let userId = store.getState().userId //用户ID
+        HttpService.apiPost(api.appRemove,{
+            userId: userId,
+            phoneNumber: mobile,
+            verifyCode: code
+        }).then(( res :any)=>{
+            if(res.flag == "00"){
+                this.setState({
+                    msgType: 2,
+                    visible: true,
+                    LoadingMsg: '注销成功'
+                },()=>{
+                    setTimeout(()=>{
+                        this.setState({
+                            visible: false,
+                        })
+                    },2000)
+                })
+                //清空全局数据
+                store.dispatch(LogOut())
+                //清理本地存储
+                const removeData = async () => {
+                try {
+                    await AsyncStorage.removeItem('@user');
+                } catch(e) {
+                    console.log('Error removing data');
+                }
+                };
+                removeData()
+                //跳转登录页面
+                this.props.navigation.reset({
+                    index: 1,
+                    routes: [{ name: 'Tabbar' }],
+                });
+            }else {
+                this.setState({
+                    msgType: 2,
+                    visible: true,
+                    LoadingMsg: res.msg
+                },()=>{
+                    setTimeout(()=>{
+                        this.setState({
+                            visible: false,
+                        })
+                    },2000)
+                })
+            }
+        }).catch( res =>{
             this.setState({
                 msgType: 2,
                 visible: true,
@@ -145,12 +292,17 @@ export class Logout extends Component<any,any> {
                     <View style={styles.con}>
                         <View  style={styles.list}>
                             <Image style={styles.Img} source={require('../../image/zc_phone1x.png')}></Image>
-                            <TextInput allowFontScaling={false} style={styles.Input} placeholder={'注册时手机号'} onChangeText={this.PhoneNumberChangeSearch} ></TextInput>
+                            <TextInput  
+                                allowFontScaling={false}
+                                style={styles.Input}
+                                placeholder={'输入手机号'}
+                                onChangeText={this.PhoneNumberChangeSearch}
+                            ></TextInput>
                         </View>
                         <View  style={styles.list}>
                             <Image style={styles.Img} source={require('../../image/dl_code.png')}></Image>
                             <TextInput allowFontScaling={false} style={styles.Input} placeholder={'输入验证码'} onChangeText={this.codeChangeSearch}></TextInput>
-                            <Text style={styles.Code} allowFontScaling={false}>{"获取验证码"}</Text>
+                            <Text style={styles.Code} allowFontScaling={false} onPress={this.gainCode}>{this.state.mobiletitle}</Text>
                         </View>
                         <View style={styles.forget}>
                             <TouchableOpacity >
