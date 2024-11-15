@@ -1,9 +1,8 @@
 import { StackNavigationProp } from '@react-navigation/stack'
 import React from 'react'
 import { Text, View, StyleSheet, TouchableOpacity, ActivityIndicator,
-Image, Pressable, Dimensions, DeviceEventEmitter, Animated, ScrollView, NativeModules,
-Platform,
-StatusBar} from 'react-native'
+    Image, Pressable, Dimensions, DeviceEventEmitter, Animated, ScrollView, NativeModules,
+    Platform, StatusBar} from 'react-native'
 import { HttpService } from '../../utils/http'//网络请求服务
 import { Icon } from '@rneui/themed';
 import Tree from '../tree/Tree'
@@ -11,13 +10,31 @@ import Loading from '../Loading/Loading'
 import { parameter_Group } from '../../redux/reducers/counterSlice'
 import { store } from '../../redux/storer'
 import { Modal } from 'native-base'
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const { StatusBarManager } = NativeModules;
 const api = require( '../../utils/api')//接口文件
 const ht = Dimensions.get('window').height*0.8
 const Fs = Dimensions.get('window').width*0.8
 
-const navigationBar = ht/9 + (Platform.OS === 'ios' ? StatusBar.currentHeight : StatusBarManager.HEIGHT);//导航栏高度
+const isIphoneXOrAbove = () => {
+    const dimen = Dimensions.get('window');
+    return (
+      Platform.OS === 'ios' &&
+      !Platform.isPad &&
+      !Platform.isTV &&
+      (dimen.height === 812 || dimen.width === 812 || dimen.height === 896 || dimen.width === 896)
+    );
+};
+  
+  const getStatusBarHeight = () => {
+    if (isIphoneXOrAbove()) {
+      return 44; // iPhone X 及以上设备的状态栏高度
+    }
+    return 20; // 其他 iOS 设备的状态栏高度
+  };
+
+const navigationBar = ht/9 + (Platform.OS === 'ios' ? getStatusBarHeight() : StatusBarManager.HEIGHT);//导航栏高度
 
 export class Navbar extends React.Component<any,any> {
     //下箭头旋转动画数值
