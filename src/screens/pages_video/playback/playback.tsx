@@ -82,7 +82,9 @@ export class Playback extends Component<any,any> {
 
             Internet: false,//网络状态
 
-            vertValue: 20,//滑块
+            //滑块
+            vertValue: 20,//聚焦
+            sizeValue: 20,//大小
             playIf: false,
 
             /** 云台操作 */
@@ -107,6 +109,7 @@ export class Playback extends Component<any,any> {
                 let appkey = store.getState().appkey ? store.getState().appkey : '';
                 let secret = store.getState().secret ? store.getState().secret : '';
                 if (sensorName && accessToken && deviceSerial && channelNo && appkey && secret) {
+                    console.log('进入true');
                     //更新数据
                     that.setState({
                         sensorName: sensorName, //传感器名称
@@ -853,10 +856,16 @@ export class Playback extends Component<any,any> {
         console.log('onLoad触发',data);
     }
 
+    //聚焦改变
     setVertValue=(e: any)=>{
-        console.log(1);
         this.setState({
             vertValue:  e
+        })
+    }
+    //大小改变
+    setSizeValue=(e: any)=>{
+        this.setState({
+            sizeValue:  e
         })
     }
 
@@ -868,12 +877,13 @@ export class Playback extends Component<any,any> {
 
     // 云台方向开始操作
     cloudDirection=(type: number)=>{
+        console.log(type);
         if(this.state.accessToken){
             this.setState({
                 ptzctrl: true
             })
             let direction = type==1? 'left' : type==2? 'right' : type==3? 'up' : 'down'
-            fetch( api.videoTime, {
+            fetch( api.videoCommand, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -899,7 +909,7 @@ export class Playback extends Component<any,any> {
     cloudDirectionFinish=(type: number)=>{
         if(this.state.ptzctrl){
             let direction = type==1? 'left' : type==2? 'right' : type==3? 'up' : 'down'
-            fetch( api.videoTime, {
+            fetch( api.videoCommand, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -1181,7 +1191,7 @@ export class Playback extends Component<any,any> {
                                     <View style={styles.verticalContent}>
                                         <Slider
                                             value={this.state.vertValue}
-                                            onValueChange={()=>this.setVertValue}
+                                            onValueChange={this.setVertValue}
                                             maximumValue={50}
                                             minimumValue={0}
                                             step={1}
@@ -1241,8 +1251,8 @@ export class Playback extends Component<any,any> {
                                     <Text allowFontScaling={false} style={styles.text}>大小</Text>
                                     <View style={styles.verticalContent}>
                                         <Slider
-                                            value={this.state.vertValue}
-                                            onValueChange={()=>this.setVertValue}
+                                            value={this.state.sizeValue}
+                                            onValueChange={this.setSizeValue}
                                             maximumValue={50}
                                             minimumValue={0}
                                             step={1}
@@ -1284,11 +1294,11 @@ export class Playback extends Component<any,any> {
                         </View>
                     </View>
                     {/* 弹窗效果 */}
-                    {/* <Loading 
+                    <Loading 
                         type={this.state.msgType} 
                         visible={this.state.visible} 
                         LoadingMsg={this.state.LoadingMsg}>
-                    </Loading> */}
+                    </Loading>
                     {/* 日期选择 */}
                     {this.state.open ? 
                         this.state.typePk==1?
