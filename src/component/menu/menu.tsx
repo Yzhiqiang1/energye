@@ -98,14 +98,14 @@ const styles = StyleSheet.create({
     },
     imgBar:{
         margin:'auto',
-        width:30,
-        height:30,
+        width:20,
+        height:20,
     },
     txtBar:{
         width: '100%',
         textAlign: 'center',
         color: '#707070',
-        fontSize: Fs/22,
+        fontSize: Fs/20,
     },
     txtBarSe:{
         color: '#00b4e6'

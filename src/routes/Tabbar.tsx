@@ -30,47 +30,48 @@ export class Tabbar extends Component<any,any> {
           tabBarIcon: ({ focused }) =>{
             if(route.name == 'HomeBar'){
               if(focused){
-                return (<Image style={{width: ht/24}}  resizeMode='contain' source={require('../image/index_se.png')} />)
+                return (<Image style={{width: 27}}  resizeMode='contain' source={require('../image/index_se.png')} />)
               }else{
-                return (<Image style={{width: ht/24}}  resizeMode='contain' source={require('../image/index.png')} />)
+                return (<Image style={{width: 27}}  resizeMode='contain' source={require('../image/index.png')} />)
               }
             }else if(route.name == 'Configuration'){
               if(focused){
-                return (<Image style={{width: ht/24}}  resizeMode='contain' source={require('../image/configuration_se.png')} />)
+                return (<Image style={{width: 27}}  resizeMode='contain' source={require('../image/configuration_se.png')} />)
               }else{
-                return (<Image style={{width: ht/24}}  resizeMode='contain' source={require('../image/configuration.png')} />)
+                return (<Image style={{width: 27}}  resizeMode='contain' source={require('../image/configuration.png')} />)
               }
             }else if(route.name == 'User'){
+              
               if(focused){
-                return (<Image style={{width: ht/24}}  resizeMode='contain' source={require('../image/user_se.png')} />)
+                return (<Image style={{width: 27}}  resizeMode='contain' source={require('../image/user_se.png')} />)
               }else{
-                return (<Image style={{width: ht/24}}  resizeMode='contain' source={require('../image/user.png')} />)
+                return (<Image style={{width: 27}}  resizeMode='contain' source={require('../image/user.png')} />)
               }
             }
           },
           headerShown: false,
           tabBarStyle: {
-            height: ht/10,
-            paddingBottom: 10,
+            height: ht/12,
+            paddingBottom: 5,
           },
         })}
       >
         <Tab.Screen
         options={{
-          title: '首页',//'首页',
-          tabBarLabelStyle: [{ fontSize: 17,fontWeight: '700', marginTop: -5, marginBottom: 5 }],
+          title: '首页',
+          tabBarLabelStyle: [{ fontSize: 15,fontWeight: '700', marginTop: -5, marginBottom: 5 }],
         }}
         name="HomeBar" component={HomeBar} />
         <Tab.Screen
         options={{
-          title: '云组态',//'云组态',
-          tabBarLabelStyle: [{ fontSize: 17,fontWeight: '700', marginTop: -5, marginBottom: 5 }],
+          title: '云组态',
+          tabBarLabelStyle: [{ fontSize: 15,fontWeight: '700', marginTop: -5, marginBottom: 5 }],
         }}
         name="Configuration" component={Configuration} />
         <Tab.Screen
         options={{
-          title: '我的',//'我的',
-          tabBarLabelStyle: [{ fontSize: 17,fontWeight: '700', marginTop: -5, marginBottom: 5 }],
+          title: '我的',
+          tabBarLabelStyle: [{ fontSize: 15,fontWeight: '700', marginTop: -5, marginBottom: 5 }],
         }}
         name="User" component={User} />
       </Tab.Navigator>
