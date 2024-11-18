@@ -29,20 +29,19 @@ export class Tabbar extends Component<any,any> {
         screenOptions={({route})=>({
           tabBarIcon: ({ focused }) =>{
             if(route.name == 'HomeBar'){
-              if(focused){
+              if(focused) {
                 return (<Image style={{width: 27}}  resizeMode='contain' source={require('../image/index_se.png')} />)
               }else{
                 return (<Image style={{width: 27}}  resizeMode='contain' source={require('../image/index.png')} />)
               }
             }else if(route.name == 'Configuration'){
-              if(focused){
-                return (<Image style={{width: 27}}  resizeMode='contain' source={require('../image/configuration_se.png')} />)
+              if(focused) {
+                return (<Image style={{width: 27}} resizeMode='contain' source={require('../image/configuration_se.png')} />)
               }else{
-                return (<Image style={{width: 27}}  resizeMode='contain' source={require('../image/configuration.png')} />)
+                return (<Image style={{width: 27}} resizeMode='contain' source={require('../image/configuration.png')} />)
               }
             }else if(route.name == 'User'){
-              
-              if(focused){
+              if(focused) {
                 return (<Image style={{width: 27}}  resizeMode='contain' source={require('../image/user_se.png')} />)
               }else{
                 return (<Image style={{width: 27}}  resizeMode='contain' source={require('../image/user.png')} />)
