@@ -7622,10 +7622,10 @@ react-native-date-picker@^5.0.0:
   resolved "https://registry.npmmirror.com/react-native-date-picker/-/react-native-date-picker-5.0.0.tgz"
   integrity sha512-ApTKpZocalFCDMfczY34ugo85oQJfYO4VKqAxrtSFolzJdUqIJXa8ot0PIINokVI1O2X2L5hLboeqrM84GNfpQ==
 
-react-native-echarts-pro@^1.9.1:
-  version "1.9.1"
-  resolved "https://registry.npmmirror.com/react-native-echarts-pro/-/react-native-echarts-pro-1.9.1.tgz#5e084a8747ff5d893bb395c873899e0bed81ebc4"
-  integrity sha512-rKZ1cpq9LF/zKTS13wFQJj5ejBEJ9n5t+MWqdPYZuiM/KP3aUqOWIDSeXAwVi6wBHk7kjVX5sYwA2BFrZGgtBQ==
+react-native-echarts-pro@^1.9.3:
+  version "1.9.3"
+  resolved "https://registry.npmmirror.com/react-native-echarts-pro/-/react-native-echarts-pro-1.9.3.tgz#262f5581d4f89c946738e96750be17aa82b2858f"
+  integrity sha512-vyxZAFw3X0bipQHyEqtawKTJXJ9xkCvVJ/0gXJqzpRLjj1PS6yVxQVNC/+GnLjnqRaN09GcY4rXKDWPruywUdQ==
 
 react-native-echarts@^0.0.1:
   version "0.0.1"

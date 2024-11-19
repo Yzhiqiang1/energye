@@ -199,6 +199,7 @@ export class MyCanvas extends React.Component<any,any> {
         })
     }
   }
+  
   static defaultProps = {
     objData: {},
     objType: 1,
@@ -206,14 +207,11 @@ export class MyCanvas extends React.Component<any,any> {
   };
   render() {
     return (
-      <View style = {[styles.my_canvas,this.props.objType == 3?{height:this.props.objHeight}:null]}>
-        {/* {this.state.ecLine? */}
-          <RNEChartsPro
-            option={ this.state.option }
-            height={ this.props.objType == 3?this.props.objHeight: 300 }
-          ></RNEChartsPro>
-          {/* :''
-        } */}
+      <View style = {[styles.my_canvas,this.props.objType == 3 ? {height:this.props.objHeight}:null]}>
+        <RNEChartsPro
+          option={ this.state.option }
+          height={ this.props.objType == 3?this.props.objHeight: 300 }
+        ></RNEChartsPro>
       </View>
     )
   }

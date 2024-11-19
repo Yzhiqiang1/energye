@@ -11,7 +11,7 @@ import NetInfo from "@react-native-community/netinfo";
 import styleg from '../../../indexCss';
 import PickerBut from '../../../component/PickerBut/PickerBut';
 import { store } from '../../../redux/storer';
-import { Slider, Icon } from '@rneui/themed';
+import { Slider } from '@rneui/themed';
 import ViewShot,{ captureRef } from 'react-native-view-shot';//截图
 import { CameraRoll } from '@react-native-camera-roll/camera-roll';
 
@@ -859,7 +859,7 @@ export class Playback extends Component<any,any> {
     //聚焦改变
     setVertValue=(e: any)=>{
         this.setState({
-            vertValue:  e
+            vertValue: e
         })
     }
     //大小改变
@@ -1187,7 +1187,7 @@ export class Playback extends Component<any,any> {
 
                             <View style={styles.controlBox}>
                                 <View style={[styles.box,{flex: 1}]}>
-                                    <Text allowFontScaling={false} style={styles.text}>聚焦</Text>
+                                    <Text allowFontScaling={false} style={styles.text}>聚焦{this.state.vertValue}</Text>
                                     <View style={styles.verticalContent}>
                                         <Slider
                                             value={this.state.vertValue}

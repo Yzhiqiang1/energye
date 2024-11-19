@@ -1,8 +1,7 @@
 import { StackNavigationProp } from '@react-navigation/stack'
 import React from 'react'
 import { Text, View, StyleSheet, TouchableOpacity, ActivityIndicator,
-    Image, Pressable, Dimensions, DeviceEventEmitter, Animated, ScrollView, NativeModules,
-    Platform, StatusBar} from 'react-native'
+    Image, Pressable, Dimensions, DeviceEventEmitter, Animated, ScrollView, NativeModules, Platform} from 'react-native'
 import { HttpService } from '../../utils/http'//网络请求服务
 import { Icon } from '@rneui/themed';
 import Tree from '../tree/Tree'
@@ -10,7 +9,6 @@ import Loading from '../Loading/Loading'
 import { parameter_Group } from '../../redux/reducers/counterSlice'
 import { store } from '../../redux/storer'
 import { Modal } from 'native-base'
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const { StatusBarManager } = NativeModules;
 const api = require( '../../utils/api')//接口文件
@@ -27,18 +25,19 @@ const isIphoneXOrAbove = () => {
     );
 };
   
-  const getStatusBarHeight = () => {
-    if (isIphoneXOrAbove()) {
-      return 44; // iPhone X 及以上设备的状态栏高度
-    }
-    return 20; // 其他 iOS 设备的状态栏高度
-  };
+const getStatusBarHeight = () => {
+if (isIphoneXOrAbove()) {
+    return 44; // iPhone X 及以上设备的状态栏高度
+}
+return 20; // 其他 iOS 设备的状态栏高度
+};
 
 const navigationBar = ht/9 + (Platform.OS === 'ios' ? getStatusBarHeight() : StatusBarManager.HEIGHT);//导航栏高度
 
 export class Navbar extends React.Component<any,any> {
     //下箭头旋转动画数值
     deg = new Animated.Value(0);
+    refreshListener: any;
     constructor(props: any ){
         super(props)
         this.state = {
@@ -75,7 +74,7 @@ export class Navbar extends React.Component<any,any> {
             })
         }
         // 监听数据变化
-        DeviceEventEmitter.addListener('refresh', () => {
+        this.refreshListener = DeviceEventEmitter.addListener('refresh', () => {
             if(this.props.pageName === '首页'){
                 this.getGroup();
             }
@@ -102,6 +101,11 @@ export class Navbar extends React.Component<any,any> {
                     }
                 })
             }
+        }
+    }
+    componentWillUnmount() {
+        if (this.refreshListener) {
+            this.refreshListener.remove();
         }
     }
     //回退
@@ -211,6 +215,7 @@ export class Navbar extends React.Component<any,any> {
     }
     //树选择
     handleSelect=(e: any)=>{
+        console.log('Navbar');
         let isCheck = this.props.isCheck; //选中类型
         let isGroup = this.state.isGroup; //选中组下标
         //单选
@@ -363,8 +368,6 @@ export class Navbar extends React.Component<any,any> {
         HttpService.apiPost(api.getGroup, {
             userId: userId,
         }).then((res:any)=>{
-            console.log(res);
-            
             if (res.flag == '00') {
                 if (res.data.length > 0) {
                     //获取选中设备组位置(选中组下标)
@@ -740,7 +743,9 @@ export class Navbar extends React.Component<any,any> {
                                 {this.state.treeLoading?
                                     <ActivityIndicator color="#1989fa"/> :
                                     <View style={styles.test}>
-                                        <Text allowFontScaling={false} style={styles.testName}>{this.state.treeName}</Text>
+                                        <Text allowFontScaling={false} style={styles.testName} numberOfLines={1} ellipsizeMode='tail'>
+                                            {this.state.treeName}
+                                        </Text>
                                         <Animated.View style={[styles.ico,{transform: [{rotate: this.state.rotate}]}]}>
                                             <Image style={styles.img} source={require("../../image/down.png")}></Image>
                                         </Animated.View>
@@ -833,9 +838,13 @@ const styles = StyleSheet.create({
         width: '100%',
         zIndex: 9999999,
         backgroundColor: '#fff',
-        borderBlockColor: '#f4f4f4',
-        borderStyle: 'solid',
-        borderBottomWidth: 1,
+        // iOS 阴影样式
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.8,
+        shadowRadius: 2,
+        // Android 阴影样式
+        elevation: 5,
     },
     navbar_head:{
         position: 'absolute',
@@ -886,12 +895,12 @@ const styles = StyleSheet.create({
         flexDirection:'row',
     },
     testName:{
+        maxWidth: 120,
         height: 28,
         lineHeight: 28,
         fontSize: Fs/24,
         color:'#666',
-        overflow: 'hidden',
-        marginRight: 10
+        marginRight: 10,
     },
     ico:{
         display:'flex',

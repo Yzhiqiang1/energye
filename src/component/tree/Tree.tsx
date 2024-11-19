@@ -88,7 +88,7 @@ export class Tree extends Component<any,any> {
                             </View>
                             
                             {/*  单选 复选 状态  */}
-                            <Pressable style={styles.ul} onPress={()=>this.select(index)} >
+                            <Pressable style={styles.ul} onPress={()=>this.select(index)}>
                                 <View style={styles.checkbox}>
                                     {this.props.isChecks == 1 || this.props.isChecks == 2?
                                         <CheckBox
@@ -195,6 +195,7 @@ const styles = StyleSheet.create({
         display:'flex',
         flexDirection:'row',
         alignItems:'center',
+        justifyContent: 'center',
     },
     checkbox:{
         width: 20,
@@ -214,8 +215,8 @@ const styles = StyleSheet.create({
         paddingRight: 5,
         paddingLeft: 5,
         color: '#333',
-        lineHeight: 26,
-        height: 26,
+        lineHeight: 22,
+        height: 22,
         textAlignVertical: 'center'
     },
 
