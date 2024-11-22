@@ -15,7 +15,7 @@ export class MyCanvas extends React.Component<any,any> {
   
   componentDidMount(): void {
       this.ecLine(this.props.objData)
-  }   
+  }
 
   componentDidUpdate(prevProps: Readonly<any>): void {
     if(prevProps.objData !== this.props.objData){
@@ -35,18 +35,18 @@ export class MyCanvas extends React.Component<any,any> {
             text: res.title,
             padding: [0,10],
             textStyle: {
-                color: '#666666',
-                fontWeight: 'normal',
-                fontSize: 14,
-                height: 40,
-                lineHeight: 40,
+              color: '#666666',
+              fontWeight: 'normal',
+              fontSize: 14,
+              height: 40,
+              lineHeight: 40,
             }
         },
         legend:{
-            type: 'scroll',
-            top: 29,
-            right: 10,
-            data: res.legendData,
+          type: 'scroll',
+          top: 29,
+          right: 10,
+          data: res.legendData,
         },
         tooltip: {
             show: true,
@@ -95,13 +95,13 @@ export class MyCanvas extends React.Component<any,any> {
         this.setState({
           option: {
             backgroundColor: '#ffffff',
-            color:["#1890FF","#17BBB8","#F1A910","#E86B78","#02848B","#FF0096","#FF6803","6CAB06","#8485F6","#476CB2"],
+            color: ["#1890FF","#17BBB8","#F1A910","#E86B78","#02848B","#FF0096","#FF6803","6CAB06","#8485F6","#476CB2"],
             title: {
                 text: res.title,
                 padding: [0,10],
                 textStyle: {color: '#666666',fontWeight: 'normal',fontSize: 14,height: 40,lineHeight: 40}
             },
-            legend:{
+            legend: {
                 type: 'scroll',
                 top: 29,
                 right: 10,

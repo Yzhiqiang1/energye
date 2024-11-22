@@ -889,6 +889,7 @@ const styles = StyleSheet.create({
         color: '#666',
         overflow: 'hidden',
         justifyContent:'center',
+        alignItems: 'center'
     },
     testBox:{
         display:'flex',

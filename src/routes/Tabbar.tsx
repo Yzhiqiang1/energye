@@ -73,7 +73,7 @@ export class Tabbar extends Component<any,any> {
           tabBarLabelStyle: [{ fontSize: 15,fontWeight: '700', marginTop: -5, marginBottom: 5 }],
         }}
         name="User" component={User} />
-      </Tab.Navigator>
+      </Tab.Navigator> 
       :
       <View style={{flex: 1}}>
         <View style={styles.privacy}>

@@ -261,7 +261,7 @@ export class Configuration extends Component<any,any> {
                                     <Image style={styles.img} source={require('../../image/Not.png')}></Image>
                                   }
                               </View>
-                              <Text style={styles.Scrollname} allowFontScaling={false}>{data.appname}</Text>
+                              <Text style={styles.Scrollname} allowFontScaling={false} numberOfLines={1} ellipsizeMode='tail'>{data.appname}</Text>
                           </Pressable>
                         </Shadow>
                     );
@@ -534,6 +534,8 @@ const styles = StyleSheet.create({
     fontSize: Fs/20,
     color: '#333333',
     overflow: 'hidden',
+    paddingLeft: 30,
+    paddingRight: 30
   },
   isPageTxt:{
     position: 'relative',
