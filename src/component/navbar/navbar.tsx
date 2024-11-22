@@ -838,13 +838,8 @@ const styles = StyleSheet.create({
         width: '100%',
         zIndex: 9999999,
         backgroundColor: '#fff',
-        // iOS 阴影样式
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.8,
-        shadowRadius: 2,
-        // Android 阴影样式
-        elevation: 5,
+        borderBottomWidth: 1,
+        borderBottomColor: '#f1f1f1'
     },
     navbar_head:{
         position: 'absolute',
