@@ -32,7 +32,7 @@ if (isIphoneXOrAbove()) {
 return 20; // 其他 iOS 设备的状态栏高度
 };
 
-const navigationBar = ht/9 + (Platform.OS === 'ios' ? getStatusBarHeight() : StatusBarManager.HEIGHT);//导航栏高度
+const navigationBar = ht/8 + (Platform.OS === 'ios' ? getStatusBarHeight() : StatusBarManager.HEIGHT);//导航栏高度
 
 export class Navbar extends React.Component<any,any> {
     //下箭头旋转动画数值
@@ -707,7 +707,7 @@ export class Navbar extends React.Component<any,any> {
                 zIndex: 9999,
                 width: '100%',
             }}>
-                <View style={[styles.navbar,{height: ht/9, pointerEvents: 'auto'}]}>
+                <View style={[styles.navbar,{height: ht/8, pointerEvents: 'auto'}]}>
                     <View style={[styles.navbar_head]}>
                         {this.props.showBack?
                             <Pressable style={styles.navbar_left} onPress={this.navBack}>
@@ -950,7 +950,7 @@ const styles = StyleSheet.create({
     listIs:{
         backgroundColor: '#ffffff',
         fontWeight: '700',
-        color: '#333',
+        color: '#1890FF',
     },
     right:{
         position: 'relative',
@@ -978,7 +978,7 @@ const styles = StyleSheet.create({
     }, 
     custom:{
         flex: 1,
-        top: ht/9,
+        top: ht/8,
         backgroundColor: '#333',
     },
     modalBox: {

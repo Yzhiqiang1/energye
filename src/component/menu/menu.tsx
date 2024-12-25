@@ -16,7 +16,7 @@ export class Menu extends Component<any,any> {
                   pagePath: "../index/index",
                   iconPath: require("../../image/index.png"),
                   selectedIconPath: require("../../image/index_se.png"),
-                  text: "我的"
+                //   text: "我的"
                 },
                 {
                   id: '1002',

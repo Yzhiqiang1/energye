@@ -80,6 +80,25 @@ const styleg = StyleSheet.create({
         width: 15,
         height: 15,
         overflow: 'hidden',
+    },
+    /******* 首页图标 *******/
+    svgCss:{
+        width: 25,
+        height: 25,
+        marginTop: 5,
+        marginBottom: 5,
+    },
+    svgCss1:{
+        width: 48,
+        height: 48,
+        marginTop: 5,
+        marginBottom: 5,
+    },
+    svgCss2:{
+        width: 38,
+        height: 38,
+        marginTop: 5,
+        marginBottom: 5,
     }
 })
 export default styleg

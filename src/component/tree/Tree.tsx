@@ -62,7 +62,6 @@ export class Tree extends Component<any,any> {
                     <View key={index} style={styles.tree}>
                         <View style={styles.treeItem}>
                             {/*  节点操作图标  */}
-
                             {data.children && data.children.length > 0?
                                  <Pressable style={styles.treeItemOnOff} onPress={()=>this.isOpen(index)}>
                                     {data.open?
@@ -76,17 +75,6 @@ export class Tree extends Component<any,any> {
                                 </View>
                             }
 
-                            {/* <!-- 节点状态图标 --> */}
-                            <View  style={styles.node}>
-                                {data.children && data.children.length > 0?
-                                    <View>
-                                        <Image style={styles.img} source={require('../../image/node_y.png')}></Image>
-                                    </View>
-                                    :
-                                    <Image style={styles.img} source={require('../../image/node_n.png')}></Image>
-                                }
-                            </View>
-                            
                             {/*  单选 复选 状态  */}
                             <Pressable style={styles.ul} onPress={()=>this.select(index)}>
                                 <View style={styles.checkbox}>
@@ -133,8 +121,19 @@ export class Tree extends Component<any,any> {
                                     }
                                 </View>
                                 <View style={styles.treeItemName}>
+                                    {/* <!-- 节点状态图标 --> */}
+                                    <View  style={styles.node}>
+                                        {data.children && data.children.length > 0?
+                                            <View>
+                                                <Image style={styles.img} source={require('../../image/node_y.png')}></Image>
+                                            </View>
+                                            :
+                                            <Image style={styles.img} source={require('../../image/node_n.png')}></Image>
+                                        }
+                                    </View>
+
                                     {/*  内容  */}
-                                    <Text allowFontScaling={false} style={styles.name}>
+                                    <Text allowFontScaling={false} style={[styles.name, this.props.selectKey == data.id ? styles.change : null ]}>
                                         {data.title}{this.props.isOpenAll}
                                     </Text>
                                 </View>
@@ -206,8 +205,9 @@ const styles = StyleSheet.create({
         marginTop:5,
         marginLeft:5
     },
-
     treeItemName:{
+        display: 'flex',
+        flexDirection: 'row',
         height: 26,
     },
     name:{
@@ -219,7 +219,9 @@ const styles = StyleSheet.create({
         height: 22,
         textAlignVertical: 'center'
     },
-
+    change:{
+        color: '#00A1C9'
+    }
 })
 
 export default Tree

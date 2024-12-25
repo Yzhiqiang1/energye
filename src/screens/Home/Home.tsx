@@ -2,9 +2,12 @@ import { Text, View, Dimensions, Image, ScrollView, Pressable, SafeAreaView, Sty
 import React, { Component } from 'react'
 import Navbar from '../../component/navbar/navbar'
 import { Register } from '../../utils/app'
+import * as Icons from '../../assets/component/index';
+import styleg from '../../indexCss';
 const Fs = Dimensions.get('window').width*0.8//屏幕宽比 
 
 export class Index extends Component<any,any> {
+    
     constructor(props: any){
         super(props)
         this.state = {
@@ -67,8 +70,26 @@ export class Index extends Component<any,any> {
                                     <Text allowFontScaling={false} style={styles.title}>
                                         设备概况
                                     </Text>
-                                    <View style={[styles.con,{justifyContent: 'space-between'}]}>
-                                        <View style={[styles.listTop,styles.row48]}>
+                                    <View style={[styles.con,{marginBottom: 10,marginTop: 10}]}>
+                                        <View style={[styles.row,styles.row25]}>
+                                            <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'},styles.BR20]} 
+                                                onPress={()=>this.props.navigation.navigate('PowerTest1')}>
+                                                <View style={styles.box}>
+                                                    <Icons.EnerRoughly style={styleg.svgCss2}/>
+                                                    <Text allowFontScaling={false} style={styles.size22}>用能概况</Text>
+                                                </View>
+                                            </Pressable>
+                                        </View>
+                                        <View style={[styles.row,styles.row25]}>
+                                            <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'},styles.BR20]} 
+                                                onPress={()=>this.props.navigation.navigate('PowerTest1')}>
+                                                <View style={styles.box}>
+                                                    <Icons.Scan style={styleg.svgCss2}/>
+                                                    <Text allowFontScaling={false} style={styles.size22}>创建设备</Text>
+                                                </View>
+                                            </Pressable>
+                                        </View>
+                                        {/* <View style={[styles.listTop,styles.row48]}>
                                             <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#b5e3fd': '#76cffb'},styles.overview]}
                                                 onPress={()=>this.props.navigation.navigate('Survey')}>
                                                 <Text allowFontScaling={false} style={styles.size19}>用能概况</Text>
@@ -81,7 +102,7 @@ export class Index extends Component<any,any> {
                                                 <Text allowFontScaling={false} style={styles.size19}>创建设备</Text>
                                                 <Image style={{width: 40}} resizeMode='contain' source={require('../../image/scanqr.png')} />
                                             </Pressable>
-                                        </View>
+                                        </View> */}
                                     </View>
                                 </View>
                             </View>
@@ -93,70 +114,67 @@ export class Index extends Component<any,any> {
                                     </Text>
                                     <View style={[styles.con,styles.bac]}>
                                         <View style={[styles.list,styles.item]}>
-                                            <View style={[styles.row,styles.row33]}>
+                                            <View style={[styles.row,styles.row25]}>
                                                 <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'},styles.BR20]} 
                                                     onPress={()=>this.props.navigation.navigate('PowerTest1')}>
                                                     <View style={styles.box}>
-                                                        <Image style={styles.img} resizeMode='contain' source={require('../../image/dl_1.png')}></Image>
+                                                        <Icons.ElectricPowerDaily style={styleg.svgCss1}/>
                                                         <Text allowFontScaling={false} style={styles.size22}>日原数据</Text>
                                                     </View>
                                                 </Pressable>
                                             </View>
-                                            <View style={[styles.row,styles.row33]}>
+                                            <View style={[styles.row,styles.row25]}>
                                                 <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'},styles.BR20]} 
                                                     onPress={()=>this.props.navigation.navigate('PowerTest2')}>
                                                     <View style={styles.box}>
-                                                        <Image style={styles.img} resizeMode='contain' source={require('../../image/dl_2.png')}></Image>
-                                                        <Text allowFontScaling={false} style={styles.size22}>逐日极值数据</Text>
+                                                        <Icons.DailyExtremes style={styleg.svgCss1} />
+                                                        <Text allowFontScaling={false} style={styles.size22}>逐日极值</Text>
                                                     </View>
                                                 </Pressable>
                                             </View>
-                                            <View style={[styles.row,styles.row33]}>
+                                            <View style={[styles.row,styles.row25]}>
                                                 <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'},styles.BR20]} 
                                                     onPress={()=>this.props.navigation.navigate('PowerTest3')}>
                                                     <View style={styles.box}>
-                                                        <Image style={styles.img} resizeMode='contain' source={require('../../image/dl_3.png')}></Image>
-                                                        <Text allowFontScaling={false} style={styles.size22}>电力运行报表</Text>
+                                                        <Icons.ElectricityChart style={styleg.svgCss1}/>
+                                                        <Text allowFontScaling={false} style={styles.size22}>电力报表</Text>
+                                                    </View>
+                                                </Pressable>
+                                            </View>
+                                            <View style={[styles.row,styles.row25]}>
+                                                <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'},styles.BR20]} 
+                                                    onPress={()=>this.props.navigation.navigate('PowerTest4')}>
+                                                    <View style={styles.box}>
+                                                        <Icons.ExtremeValueReport style={styleg.svgCss1}/>
+                                                        <Text allowFontScaling={false} style={styles.size22}>极值报表</Text>
                                                     </View>
                                                 </Pressable>
                                             </View>
                                         </View>
                                         <View style={[styles.list,styles.item]}>
-                                            <View style={[styles.row,styles.row33]}>
-                                                <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'},styles.BR20]} 
-                                                    onPress={()=>this.props.navigation.navigate('PowerTest4')}>
-                                                    <View style={styles.box}>
-                                                        <Image style={styles.img} resizeMode='contain' source={require('../../image/dl_4.png')}></Image>
-                                                        <Text allowFontScaling={false} style={styles.size22}>电力极值报表</Text>
-                                                    </View>
-                                                </Pressable>
-                                            </View>
-                                            <View style={[styles.row,styles.row33]}>
-                                                
+                                            <View style={[styles.row,styles.row25]}>
                                                 <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'},styles.BR20]} 
                                                     onPress={()=>this.props.navigation.navigate('PowerTest5')}>
                                                         <View style={styles.box}>
-                                                            <Image style={styles.img} resizeMode='contain' source={require('../../image/dl_5.png')}></Image>
-                                                            <Text allowFontScaling={false} style={styles.size22}>平均功率因数</Text>
+                                                            <Icons.PowerFactor style={styleg.svgCss1} />
+                                                            <Text allowFontScaling={false} style={styles.size22}>功率因数</Text>
                                                         </View>
                                                 </Pressable>
                                             </View>
-                                            <View style={[styles.row,styles.row33]}>
+                                            <View style={[styles.row,styles.row25]}>
                                                 <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'},styles.BR20]} 
                                                     onPress={()=>this.props.navigation.navigate('PowerTest6')}>
                                                         <View style={styles.box}>
-                                                            <Image style={styles.img} resizeMode='contain' source={require('../../image/dl_6.png')} ></Image>
-                                                            <Text allowFontScaling={false} style={styles.size22}>电力运行日报</Text>
+                                                            <Icons.ElectricPowerDaily style={styleg.svgCss1} />
+                                                            <Text allowFontScaling={false} style={styles.size22}>电力日报</Text>
                                                         </View>
                                                 </Pressable>
                                             </View>
-                                        </View>
-                                        <View style={styles.list}>
-                                            <View style={[styles.row,styles.row33]}>
+                                            <View style={[styles.row,styles.row25]}>
                                                 <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'},styles.BR20]} 
                                                     onPress={()=>this.props.navigation.navigate('PowerTest7')}>
                                                         <View style={styles.box}>
-                                                            <Image style={styles.img} resizeMode='contain' source={require('../../image/dl_7.png')}></Image>
+                                                            <Icons.HarmonicMonitoring style={styleg.svgCss1} />
                                                             <Text allowFontScaling={false} style={styles.size22}>谐波检测</Text>
                                                         </View>
                                                 </Pressable>
@@ -177,7 +195,7 @@ export class Index extends Component<any,any> {
                                                 <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'},styles.BR20]} 
                                                     onPress={()=>this.props.navigation.navigate('powerAnalysis1')}>
                                                         <View style={styles.box}>
-                                                            <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_1.png')}></Image>
+                                                            <Icons.EnergyChart style={styleg.svgCss} />
                                                             <Text allowFontScaling={false} style={styles.size22}>用能报表</Text>
                                                         </View>
                                                 </Pressable>
@@ -186,7 +204,7 @@ export class Index extends Component<any,any> {
                                                 <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'},styles.BR20]} 
                                                     onPress={()=>this.props.navigation.navigate('powerAnalysis2')}>
                                                         <View style={styles.box}>
-                                                            <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_2.png')}></Image>
+                                                            <Icons.YearOnYearAnalysis style={styleg.svgCss} />
                                                             <Text allowFontScaling={false} style={styles.size22}>同比分析</Text>
                                                         </View>
                                                 </Pressable>
@@ -194,8 +212,8 @@ export class Index extends Component<any,any> {
                                             <View style={[styles.row,styles.row25]}>
                                                 <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'},styles.BR20]} 
                                                     onPress={()=>this.props.navigation.navigate('powerAnalysis3')}>
-                                                    <View style={styles.box}>
-                                                        <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_3.png')}></Image>
+                                                        <View style={styles.box}>
+                                                        <Icons.Qoq style={styleg.svgCss} />
                                                         <Text allowFontScaling={false} style={styles.size22}>环比分析</Text>
                                                     </View>
                                                 </Pressable>
@@ -204,7 +222,7 @@ export class Index extends Component<any,any> {
                                                 <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'},styles.BR20]} 
                                                     onPress={()=>this.props.navigation.navigate('powerAnalysis4')}>
                                                     <View style={styles.box}>
-                                                        <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_4.png')}></Image>
+                                                        <Icons.LossAnalysis style={styleg.svgCss} />
                                                         <Text allowFontScaling={false} style={styles.size22}>损耗分析</Text>
                                                     </View>
                                                 </Pressable>
@@ -215,7 +233,7 @@ export class Index extends Component<any,any> {
                                             <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'},styles.BR20]} 
                                                 onPress={()=>this.props.navigation.navigate('powerAnalysis5')}>
                                                     <View style={styles.box}>
-                                                        <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_5.png')}></Image>
+                                                        <Icons.ElectricEnergyCollection style={styleg.svgCss} />
                                                         <Text allowFontScaling={false} style={styles.size22}>电能集抄</Text>
                                                     </View>
                                                 </Pressable>
@@ -224,7 +242,7 @@ export class Index extends Component<any,any> {
                                                 <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'},styles.BR20]} 
                                                     onPress={()=>this.props.navigation.navigate('powerAnalysis6')}>
                                                     <View style={styles.box}>
-                                                        <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_6.png')}></Image>
+                                                        <Icons.SharpPeaksAndValleys style={styleg.svgCss} />
                                                         <Text allowFontScaling={false} style={styles.size22}>尖峰平谷</Text>
                                                     </View>
                                                 </Pressable>
@@ -234,7 +252,7 @@ export class Index extends Component<any,any> {
                                                 <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'},styles.BR20]} 
                                                     onPress={()=>this.props.navigation.navigate('powerAnalysis7')}>
                                                     <View style={styles.box}>
-                                                        <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_8.png')}></Image>
+                                                        <Icons.MaxDemand style={styleg.svgCss} />
                                                         <Text allowFontScaling={false} style={styles.size22}>最大需量</Text>
                                                     </View>
                                                 </Pressable>
@@ -255,7 +273,7 @@ export class Index extends Component<any,any> {
                                                 <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'},styles.BR20]} 
                                                     onPress={()=>this.props.navigation.navigate('waterAnalysis1')}>
                                                     <View style={styles.box}>
-                                                        <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_1.png')}></Image>
+                                                        <Icons.EnergyChart style={styleg.svgCss} />
                                                         <Text allowFontScaling={false} style={styles.size22}>用水报表</Text>
                                                     </View>
                                                 </Pressable>
@@ -264,7 +282,7 @@ export class Index extends Component<any,any> {
                                                 <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'},styles.BR20]} 
                                                     onPress={()=>this.props.navigation.navigate('waterAnalysis2')}>
                                                     <View style={styles.box}>
-                                                        <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_2.png')}></Image>
+                                                        <Icons.YearOnYearAnalysis style={styleg.svgCss} />
                                                         <Text allowFontScaling={false} style={styles.size22}>同比分析</Text>
                                                     </View>
                                                 </Pressable>
@@ -273,7 +291,7 @@ export class Index extends Component<any,any> {
                                                 <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'},styles.BR20]} 
                                                     onPress={()=>this.props.navigation.navigate('waterAnalysis3')}>
                                                     <View style={styles.box}>
-                                                        <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_3.png')}></Image>
+                                                        <Icons.Qoq style={styleg.svgCss} />
                                                         <Text allowFontScaling={false} style={styles.size22}>环比分析</Text>
                                                     </View>
                                                 </Pressable>
@@ -282,7 +300,7 @@ export class Index extends Component<any,any> {
                                                 <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'},styles.BR20]} 
                                                     onPress={()=>this.props.navigation.navigate('waterAnalysis4')}>
                                                     <View style={styles.box}>
-                                                        <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_4.png')}></Image>
+                                                        <Icons.LossAnalysis style={styleg.svgCss} />
                                                         <Text allowFontScaling={false} style={styles.size22}>损耗分析</Text>
                                                     </View>
                                                 </Pressable>
@@ -293,7 +311,7 @@ export class Index extends Component<any,any> {
                                                 <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'},styles.BR20]} 
                                                     onPress={()=>this.props.navigation.navigate('waterAnalysis5')}>
                                                     <View style={styles.box}>
-                                                        <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_5.png')}></Image>
+                                                        <Icons.ElectricEnergyCollection style={styleg.svgCss} />
                                                         <Text allowFontScaling={false} style={styles.size22}>水能集抄</Text>
                                                     </View>
                                                 </Pressable>
@@ -315,7 +333,7 @@ export class Index extends Component<any,any> {
                                                 <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'},styles.BR20]} 
                                                     onPress={()=>this.props.navigation.navigate('gasAnalysis1')}>
                                                     <View style={styles.box}>
-                                                        <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_1.png')}></Image>
+                                                        <Icons.EnergyChart style={styleg.svgCss} />
                                                         <Text allowFontScaling={false} style={styles.size22}>用气报表</Text>
                                                     </View>
                                                 </Pressable>
@@ -324,7 +342,7 @@ export class Index extends Component<any,any> {
                                                 <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'},styles.BR20]} 
                                                     onPress={()=>this.props.navigation.navigate('gasAnalysis2')}>
                                                     <View style={styles.box}>
-                                                        <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_2.png')}></Image>
+                                                        <Icons.YearOnYearAnalysis style={styleg.svgCss} />
                                                         <Text allowFontScaling={false} style={styles.size22}>同比分析</Text>
                                                     </View>
                                                 </Pressable>
@@ -333,7 +351,7 @@ export class Index extends Component<any,any> {
                                                 <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'},styles.BR20]} 
                                                     onPress={()=>this.props.navigation.navigate('gasAnalysis3')}>
                                                     <View style={styles.box}>
-                                                        <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_3.png')}></Image>
+                                                        <Icons.Qoq style={styleg.svgCss} />
                                                         <Text allowFontScaling={false} style={styles.size22}>环比分析</Text>
                                                     </View>
                                                 </Pressable>
@@ -342,7 +360,7 @@ export class Index extends Component<any,any> {
                                                 <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'},styles.BR20]} 
                                                     onPress={()=>this.props.navigation.navigate('gasAnalysis4')}>
                                                     <View style={styles.box}>
-                                                        <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_4.png')}></Image>
+                                                        <Icons.LossAnalysis style={styleg.svgCss} />
                                                         <Text allowFontScaling={false} style={styles.size22}>损耗分析</Text>
                                                     </View>
                                                 </Pressable>
@@ -353,7 +371,7 @@ export class Index extends Component<any,any> {
                                                 <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'},styles.BR20]} 
                                                     onPress={()=>this.props.navigation.navigate('gasAnalysis5')}>
                                                     <View style={styles.box}>
-                                                        <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/yd_5.png')}></Image>
+                                                        <Icons.ElectricEnergyCollection style={styleg.svgCss} />
                                                         <Text allowFontScaling={false} style={styles.size22}>气能集抄</Text>
                                                     </View>
                                                 </Pressable>
@@ -374,7 +392,7 @@ export class Index extends Component<any,any> {
                                                 <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'},styles.BR20]} 
                                                     onPress={()=>this.props.navigation.navigate('security1')}>
                                                         <View style={styles.box}>
-                                                            <Image style={styles.imgMini}  resizeMode='contain' source={require('../../image/aq1.png')}></Image>
+                                                            <Icons.Ltd style={styleg.svgCss}/>
                                                             <Text allowFontScaling={false} style={styles.size22}>漏电/温度监测</Text>
                                                         </View>
                                                 </Pressable>
@@ -383,7 +401,7 @@ export class Index extends Component<any,any> {
                                                 <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'},styles.BR20]} 
                                                     onPress={()=>this.props.navigation.navigate('security2')}>
                                                     <View style={styles.box}>
-                                                        <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/aq2.png')} ></Image>
+                                                        <Icons.Switch style={styleg.svgCss}/>
                                                         <Text allowFontScaling={false} style={styles.size22}>开关控制</Text>
                                                     </View>
                                                 </Pressable>
@@ -392,7 +410,7 @@ export class Index extends Component<any,any> {
                                                 <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'},styles.BR20]} 
                                                     onPress={()=>this.props.navigation.navigate('security5')}>
                                                     <View style={styles.box}>
-                                                        <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/switch-monitor.png')} ></Image>
+                                                        <Icons.SwitchMonitoring style={styleg.svgCss}/>
                                                         <Text allowFontScaling={false} style={styles.size22}>开关监测</Text>
                                                     </View>
                                                 </Pressable>
@@ -402,7 +420,7 @@ export class Index extends Component<any,any> {
                                                 <Pressable style={({ pressed }) => [{backgroundColor: pressed ? '#ededed': '#fff'},styles.BR20]} 
                                                     onPress={()=>this.props.navigation.navigate('security3')}>
                                                     <View style={styles.box}>
-                                                        <Image style={styles.imgMini} resizeMode='contain' source={require('../../image/aq3.png')}></Image>
+                                                        <Icons.Camera style={styleg.svgCss}/>
                                                         <Text allowFontScaling={false} style={styles.size22}>摄像头</Text>
                                                     </View>
                                                 </Pressable>
@@ -443,8 +461,8 @@ const styles = StyleSheet.create({
     back: {
         borderRadius: 10,
         backgroundColor: '#fff',
-        paddingLeft: 10,
-        paddingRight: 10,
+        paddingLeft: 5,
+        paddingRight: 5,
     },
     title:{
         position: 'relative',

@@ -50,7 +50,7 @@ export class Tabbar extends Component<any,any> {
           },
           headerShown: false,
           tabBarStyle: {
-            height: ht/12,
+            height: ht/9,
             paddingBottom: 5,
           },
         })}
@@ -58,19 +58,19 @@ export class Tabbar extends Component<any,any> {
         <Tab.Screen
         options={{
           title: '首页',
-          tabBarLabelStyle: [{ fontSize: 15,fontWeight: '700', marginTop: -5, marginBottom: 5 }],
+          tabBarLabelStyle: [{ fontSize: 15,fontWeight: '700', marginTop: -5, marginBottom: 25 }],
         }}
         name="HomeBar" component={HomeBar} />
         <Tab.Screen
         options={{
           title: '云组态',
-          tabBarLabelStyle: [{ fontSize: 15,fontWeight: '700', marginTop: -5, marginBottom: 5 }],
+          tabBarLabelStyle: [{ fontSize: 15,fontWeight: '700', marginTop: -5, marginBottom: 25 }],
         }}
         name="Configuration" component={Configuration} />
         <Tab.Screen
         options={{
           title: '我的',
-          tabBarLabelStyle: [{ fontSize: 15,fontWeight: '700', marginTop: -5, marginBottom: 5 }],
+          tabBarLabelStyle: [{ fontSize: 15,fontWeight: '700', marginTop: -5, marginBottom: 25 }],
         }}
         name="User" component={User} />
       </Tab.Navigator> 
@@ -90,7 +90,7 @@ export class Tabbar extends Component<any,any> {
 }
 
 const styles = StyleSheet.create({
-  privacy: {
+privacy: {
     position: 'absolute',
     top: '50%',
     left: '50%',

@@ -315,6 +315,5 @@
     "operation":"operation succeeded.",
     "selectGroup":"There is no data in the group, please select group",
     "SelectAdevice":"Select a device",
-    "YANLIC":"You are not logged in, click login",
-    "":""
+    "YANLIC":"You are not logged in, click login"
 }
