@@ -11,6 +11,7 @@ import { LogOut } from '../../redux/reducers/counterSlice'
 import { store } from '../../redux/storer'
 import { Icon } from '@rneui/base'
 import { Linking } from 'react-native';
+import { t } from 'i18next'
 
 const api = require('../..//utils/api')
 const Fs = Dimensions.get('window').width*0.8
@@ -69,7 +70,7 @@ export class User extends Component<any,any> {
     this.setState({
       msgType: 1,
       visible: true,
-      LoadingMsg: '退出中...'
+      LoadingMsg: t('Loading')
     })
     let userId = store.getState().userId;
     HttpService.apiPost(api.appSignOut,{
@@ -105,7 +106,7 @@ export class User extends Component<any,any> {
         this.setState({
           msgType: 2,
           visible: true,
-          LoadingMsg: '注销失败'
+          LoadingMsg: t('onLogout')
         },()=>{
           setTimeout(()=>{
               this.setState({
@@ -170,9 +171,9 @@ export class User extends Component<any,any> {
                       color='#fff'
                       size={22}
                   />
-                  <Text allowFontScaling={false} style={{fontSize: Fs/18,color: '#fff'}}>首页</Text>
+                  <Text allowFontScaling={false} style={{fontSize: Fs/18,color: '#fff'}}>{t('home')}</Text>
               </Pressable>
-              <Text allowFontScaling={false}style={styles.navName}>我的</Text>
+              <Text allowFontScaling={false}style={styles.navName}>{t('Mine')}</Text>
             </View>
             
             <Pressable style={styles.user}>
@@ -190,16 +191,16 @@ export class User extends Component<any,any> {
                           {this.state.userName}
                       </Text>
                       <Text allowFontScaling={false}style={styles.id}>
-                        账号ID：{this.state.userId}
+                        {t('AccountID')}：{this.state.userId}
                       </Text>
                   </View>
                     :
                   <Pressable style={styles.text} onPress={()=>this.props.navigation.navigate('BindAccount')}>
                     <Text allowFontScaling={false}style={styles.name}>
-                        您还没有登录
+                        {t('onLog')}
                     </Text>
                     <Text allowFontScaling={false}style={styles.id}>
-                        点击登录或注册账号
+                        {t('clickLogin')}
                     </Text>
                   </Pressable>
                   }
@@ -210,14 +211,14 @@ export class User extends Component<any,any> {
               {this.state.logonStatus?
                   <TouchableHighlight style={styles.signOut} onPress={this.signOut} underlayColor={'#2da2fe'}>
                     <Text allowFontScaling={false} style={styles.signOutText}>
-                      退出登录
+                      {t('logOut')}
                     </Text>
                   </TouchableHighlight>
                 : ''
               }
               {this.state.logonStatus?
                   <Text style={{color: '#178fff'}} allowFontScaling={false} onPress={()=>{this.props.navigation.reset({routes: [{ name: 'Logout' }]})}}>
-                    注销账号
+                    {t('writeOff')}
                   </Text>
               : ''}
             </View>

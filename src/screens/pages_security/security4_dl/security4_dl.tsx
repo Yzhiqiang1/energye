@@ -6,6 +6,8 @@ import { Register } from '../../../utils/app'
 import {store} from '../../../redux/storer'
 import { HttpService } from '../../../utils/http'
 import Loading from '../../../component/Loading/Loading'
+import { t } from 'i18next'
+
 const api = require('../../../utils/api')
 const Fs = Dimensions.get('window').width*0.8
 
@@ -45,7 +47,7 @@ export class Security4_dl extends Component<any,any> {
                     this.setState({
                         msgType: 2,
                         visible: true,
-                        LoadingMsg: '获取参数失败！'
+                        LoadingMsg: t('getNotData')
                     },()=>{
                         setTimeout(()=>{
                             this.setState({
@@ -85,7 +87,7 @@ export class Security4_dl extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '开始日期不能大于结束日期!'
+                LoadingMsg: t('TSDMN')
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -163,7 +165,7 @@ export class Security4_dl extends Component<any,any> {
         this.setState({
             msgType: 1,
             visible: true,
-            LoadingMsg: '加载中...'
+            LoadingMsg: t('Loading')
         }); //加载效果
         let userId = store.getState().userId; //用户ID
         let deviceId = that.state.deviceId; //获取设备ID
@@ -263,7 +265,7 @@ export class Security4_dl extends Component<any,any> {
                             </picker> */}
                         </View>
                         <Text style={styles.text}>
-                            至
+                            {t('to')}
                         </Text>
                         <View style={styles.flex}>
                             {/* <picker mode="date" value="{{end}}" bindchange="clickEnd">
@@ -273,7 +275,7 @@ export class Security4_dl extends Component<any,any> {
                                 </View>
                             </picker> */}
                         </View>
-                        <Text style={styles.button}>查询</Text>
+                        <Text style={styles.button}>{t('inquire')}</Text>
                     </View>
 
                     <View style={styles.echarts_con}>

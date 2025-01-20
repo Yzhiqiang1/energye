@@ -12,6 +12,7 @@ import MyCanvas from '../../../component/my-canvas/MyCanvas'
 import MyLegend from '../../../component/my-legend/MyLegend'
 import Loading from '../../../component/Loading/Loading'//加载动画组件
 import PickerBut from '../../../component/PickerBut/PickerBut'
+import { t } from 'i18next'
 
 const api = require('../../../utils/api')
 const Fs = Dimensions.get('window').width*0.8
@@ -24,7 +25,7 @@ export class PowerTest7 extends Component<any,any> {
             start: plusReduceData(util.nowDate(), 1, 5), //查询日期-5天内的日期
             end: util.nowDate(), //结束日期
             optionData: [{
-                    name: "电流谐波",
+                    name: t('HOC'),
                     state: true,
                     title: '',
                     legendData: [],
@@ -33,7 +34,7 @@ export class PowerTest7 extends Component<any,any> {
                     series: []
                 },
                 {
-                    name: "电压谐波",
+                    name: t('HOV'),
                     state: true,
                     title: '',
                     legendData: [],
@@ -89,7 +90,7 @@ export class PowerTest7 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '获取参数失败！'
+                LoadingMsg: t('getNotData')
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -128,7 +129,7 @@ export class PowerTest7 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '开始日期不能大于结束日期'
+                LoadingMsg: t('TSDMN')
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -180,7 +181,7 @@ export class PowerTest7 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '您还未登录,无法查询数据！'
+                LoadingMsg: t('YANLIA')
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -202,7 +203,7 @@ export class PowerTest7 extends Component<any,any> {
 
         //初始图表值【加载页面时没有数据的返回空的图表，防止空白页面】
         let queryData = [{
-            name: "电流谐波",
+            name: t('HOC'),
             state: true,
             title: '',
             legendData: [],
@@ -210,7 +211,7 @@ export class PowerTest7 extends Component<any,any> {
             yAxisName: "",
             series: []
         }, {
-            name: "电压谐波",
+            name: t('HOV'),
             state: true,
             title: '',
             legendData: [],
@@ -222,7 +223,7 @@ export class PowerTest7 extends Component<any,any> {
         this.setState({
             msgType: 1,
             visible: true,
-            LoadingMsg: '加载中...'
+            LoadingMsg: t('Loading')
         });
         /**
          * 查询数据
@@ -287,7 +288,7 @@ export class PowerTest7 extends Component<any,any> {
                     if (listData.length > 0) {
                         let labelName = JSON.stringify(res.data.labelName).replace(/\[|\]|\"/g, "").split(",");
                         let open:any = {
-                            name: _index == 0 ? "电流谐波" : "电压谐波",
+                            name: _index == 0 ? t('HOC') : t('HOV'),
                             state: true,
                             title: "",
                             legendData: labelName,
@@ -383,7 +384,7 @@ export class PowerTest7 extends Component<any,any> {
                 that.setState({
                     msgType: 2,
                     visible: true,
-                    LoadingMsg: '请求出错',
+                    LoadingMsg: t('request'),
                 },()=>{
                     setTimeout(()=>{
                         that.setState({
@@ -408,7 +409,7 @@ export class PowerTest7 extends Component<any,any> {
                 <SafeAreaView style={{flex: 1}}>
                     {/* 引入自定义导航栏 */}
                     <Navbar
-                        pageName={'谐波检测'}
+                        pageName={t('harmonicDetection')}
                         showBack={true}
                         showHome={false}
                         isCheck={2}
@@ -420,33 +421,21 @@ export class PowerTest7 extends Component<any,any> {
                     <View style={styleg.container}>
                         <View style={styles.query_head}>
                             <View style={styles.flex}>
-                                {/* <Picker
-                                    pickerType={1}
-                                    date={this.state.start}
-                                    precisionType={1}
-                                    click={this.clickStart}
-                                ></Picker> */}
                                 <Pressable style={styleg.button} onPress={()=>this.setState({open: true, typePk: 1})}>
                                     <Text allowFontScaling={false} style={styleg.TextButton}>{this.state.start}</Text>
                                     <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
                                 </Pressable>
                             </View>
                             <Text allowFontScaling={false} style={styles.text}>
-                                至
+                                {t('to')}
                             </Text>
                             <View style={styles.flex}>
-                                {/* <Picker
-                                    pickerType={1}
-                                    date={this.state.end}
-                                    precisionType={1}
-                                    click={this.clickEnd}
-                                ></Picker> */}
                                 <Pressable style={styleg.button} onPress={()=>this.setState({open: true, typePk: 2})}>
                                     <Text allowFontScaling={false} style={styleg.TextButton}>{this.state.end}</Text>
                                     <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
                                 </Pressable>
                             </View>
-                            <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>查询</Text>
+                            <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>{t('inquire')}</Text>
                         </View>
 
                         
@@ -461,7 +450,7 @@ export class PowerTest7 extends Component<any,any> {
                                         <MyLegend objData={this.state.params[index]} dataIndex={index} myevent={this.myevent} myevent2={this.myevent2}></MyLegend>
                                         <View style={styles.echarts}>
                                             <MyCanvas objData={item}></MyCanvas>
-                                        </View>
+                                        </View> 
                                     </View>:''
                                 )
                             })}

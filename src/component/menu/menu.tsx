@@ -1,7 +1,9 @@
 import { Text, View, Image, TouchableOpacity, Dimensions } from 'react-native'
 import React, { Component } from 'react'
 import { StyleSheet } from 'react-native'
-import { Index }from '../../screens/Home/Home'
+import { Index } from '../../screens/Home/Home'
+import { t } from 'i18next'
+
 const Fs = Dimensions.get('window').width*0.8
 const ht = Dimensions.get('window').height*0.8
 
@@ -16,21 +18,21 @@ export class Menu extends Component<any,any> {
                   pagePath: "../index/index",
                   iconPath: require("../../image/index.png"),
                   selectedIconPath: require("../../image/index_se.png"),
-                //   text: "我的"
+                  text: t('home'),
                 },
                 {
                   id: '1002',
                   pagePath: "../configuration/configuration",
                   iconPath: require("../../image/configuration.png"),
                   selectedIconPath: require("../../image/configuration_se.png"),
-                  text: "云组态"
+                  text: t('SCADA')
                 },
                 {
                   id: '1004',
                   pagePath: "../user/user",
                   iconPath: require("../../image/user.png"),
                   selectedIconPath: require("../../image/user_se.png"),
-                  text: "我的"
+                  text: t('Mine')
                 }
             ],
         }

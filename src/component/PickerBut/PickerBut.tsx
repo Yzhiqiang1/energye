@@ -2,6 +2,8 @@ import { Dimensions, Pressable, StyleSheet, Text, View, Button } from 'react-nat
 import React, { Component } from 'react'
 import { DatePickerView, PickerValue, PickerView } from '@ant-design/react-native'
 import { getTransition } from '../../utils/util'
+import { t } from 'i18next'
+
 const Fs = Dimensions.get('window').width*0.8
 const ht = Dimensions.get('window').height*0.8
 
@@ -50,7 +52,7 @@ export class PickerBut extends Component<any,any> {
         }else if(this.props.precisionType == 3){
             precision = 'hour'//精度 时
             date = this.props.date[0] + ' ' + this.props.date[1] + ':00'
-            dateName = this.props.date[0] + ' ' + this.props.date[1] + '时'
+            dateName = this.props.date[0] + ' ' + this.props.date[1] + t('hour')
         }else if(this.props.precisionType == 4){
             precision = 'year'//精度 年
         }else if(this.props.precisionType == 5){
@@ -79,7 +81,7 @@ export class PickerBut extends Component<any,any> {
             let dateName = this.props.date
             if(this.props.precisionType == 3){
                 date = this.props.date[0] + ' ' + this.props.date[1] + ':00'
-                dateName = this.props.date[0] + ' ' + this.props.date[1] + '时'
+                dateName = this.props.date[0] + ' ' + this.props.date[1] + t('hour')
             }
             this.setState({
                 date: date,
@@ -245,7 +247,7 @@ export class PickerBut extends Component<any,any> {
         let date: any = getTransition(this.state.datePicker,type)
         if(type == 3){//精度 时
             if(this.state.datePicker){
-                let dateName = date.replace(':00','时')
+                let dateName = date.replace(':00', t('hour'))
                 this.setState({
                     dateName: dateName,
                     date: date,
@@ -403,7 +405,7 @@ export class PickerBut extends Component<any,any> {
                     }
                     <View style={styles.butBase}>
                         <Pressable style={styles.but}>
-                            <Text allowFontScaling={false} style={styles.bot} onPress={()=>this.props.cancel()}>取消</Text>
+                            <Text allowFontScaling={false} style={styles.bot} onPress={()=>this.props.cancel()}>{t('cancel')}</Text>
                         </Pressable>
                         <Pressable style={styles.but}>
                             <Text allowFontScaling={false}
@@ -419,7 +421,7 @@ export class PickerBut extends Component<any,any> {
                                     this.dataConfirm()
                                 }
                             }}
-                            >确定</Text>
+                            >{t('confirm')}</Text>
                         </Pressable>
                     </View>
                 </View>

@@ -8,6 +8,7 @@ import { LogOut, Set_State } from '../../redux/reducers/counterSlice';
 import { store } from '../../redux/storer';
 import tool from '../../utils/tool';
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { t } from 'i18next'
 
 const Fs = Dimensions.get('window').width*0.8
 let api = require('../../utils/api')
@@ -22,7 +23,7 @@ export class Logout extends Component<any,any> {
             code: '',
             boxHeight: 0,
             intercept: true,
-            mobiletitle: '获取验证码', //文字提示
+            mobiletitle: t('getVerificationCode'), //文字提示
             isCode: true, //验证码发送状态
             count: 120,
         };
@@ -48,7 +49,7 @@ export class Logout extends Component<any,any> {
                 this.setState({
                     msgType: 2,
                     visible: true,
-                    LoadingMsg:'请输入手机号！'
+                    LoadingMsg: t('pleaseEnterThePhoneNumber')
                 },()=>{
                     setTimeout(()=>{
                         this.setState({
@@ -61,7 +62,7 @@ export class Logout extends Component<any,any> {
                 this.setState({
                     msgType: 2,
                     visible: true,
-                    LoadingMsg:'手机号格式错误！'
+                    LoadingMsg: t('phoneError')
                 },()=>{
                     setTimeout(()=>{
                         this.setState({
@@ -74,7 +75,7 @@ export class Logout extends Component<any,any> {
             this.setState({
                 msgType: 1,
                 visible: true,
-                LoadingMsg:'加载中...'
+                LoadingMsg: t('Loading')
             }); //加载效果
             var down = that.state.count;
             HttpService.Post(api.getVerifyCode, {
@@ -84,7 +85,7 @@ export class Logout extends Component<any,any> {
                     this.setState({
                         msgType: 2,
                         visible: true,
-                        LoadingMsg:'发送成功！'
+                        LoadingMsg: t('sentSuccessfully'),
                     },()=>{
                         setTimeout(()=>{
                             this.setState({
@@ -100,13 +101,13 @@ export class Logout extends Component<any,any> {
                     var interval = setInterval(function () {
                         down--;
                         that.setState({
-                            mobiletitle: '重新获取(' + down + ')'
+                            mobiletitle: t('reacquire') + '(' + down + ')'
                         })
                         if (down == 0) {
                             clearInterval(interval)
                             that.setState({
                                 isCode: true,
-                                mobiletitle: '重新获取验证码'
+                                mobiletitle: t('getVerification')
                             })
                         }
                     }, 1000)
@@ -156,7 +157,7 @@ export class Logout extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: "请输入手机号！"
+                LoadingMsg: t('pleaseEnterThePhoneNumber')
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -169,7 +170,7 @@ export class Logout extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '手机号格式错误！'
+                LoadingMsg: t('phoneError')
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -182,7 +183,7 @@ export class Logout extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '请输入验证码！'
+                LoadingMsg: t('PETVC')
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -198,7 +199,7 @@ export class Logout extends Component<any,any> {
         this.setState({
             msgType: 1,
             visible: true,
-            LoadingMsg: '注销中...'
+            LoadingMsg: t('Inlogout')
         })
         var mobile = this.state.mobile;
         var code = this.state.code;
@@ -212,7 +213,7 @@ export class Logout extends Component<any,any> {
                 this.setState({
                     msgType: 2,
                     visible: true,
-                    LoadingMsg: '注销成功'
+                    LoadingMsg: t('Inlogout'),
                 },()=>{
                     setTimeout(()=>{
                         this.setState({
@@ -253,7 +254,7 @@ export class Logout extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '注销失败'
+                LoadingMsg: t('onLogout')
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -284,7 +285,7 @@ export class Logout extends Component<any,any> {
             <SafeAreaView style={styles.view}>
                 <LoginNavbar
                     props={this.props}
-                    name={'注销账号'}
+                    name={t('writeOff')}
                     showBack={false}
                     showHome={true}
                 ></LoginNavbar>
@@ -295,13 +296,13 @@ export class Logout extends Component<any,any> {
                             <TextInput  
                                 allowFontScaling={false}
                                 style={styles.Input}
-                                placeholder={'输入手机号'}
+                                placeholder={t('enterMobileNumber')}
                                 onChangeText={this.PhoneNumberChangeSearch}
                             ></TextInput>
                         </View>
                         <View  style={styles.list}>
                             <Image style={styles.Img} source={require('../../image/dl_code.png')}></Image>
-                            <TextInput allowFontScaling={false} style={styles.Input} placeholder={'输入验证码'} onChangeText={this.codeChangeSearch}></TextInput>
+                            <TextInput allowFontScaling={false} style={styles.Input} placeholder={t('enterVerificationCode')} onChangeText={this.codeChangeSearch}></TextInput>
                             <Text style={styles.Code} allowFontScaling={false} onPress={this.gainCode}>{this.state.mobiletitle}</Text>
                         </View>
                         <View style={styles.forget}>
@@ -310,14 +311,14 @@ export class Logout extends Component<any,any> {
                         </View>
                         <View style={styles.butList}>
                             <Pressable style={({ pressed })=>[{backgroundColor: pressed ? '#f3f3f3' : '#eeeeee'},styles.button]} onPress={()=>this.props.navigation.navigate('Tabbar')}>
-                                <Text style={styles.buttonL} allowFontScaling={false} >取消注销</Text>
+                                <Text style={styles.buttonL} allowFontScaling={false} >{t('cancelLogout')}</Text>
                             </Pressable>
                             <Pressable style={({ pressed })=>[{backgroundColor: pressed ? '#2da2fe' : '#1890FF'},styles.button]} onPress={this.littleTiger}>
-                                <Text style={styles.buttonR} allowFontScaling={false} >注销</Text>
+                                <Text style={styles.buttonR} allowFontScaling={false} >{t('logout')}</Text>
                             </Pressable>
                         </View>
                         <View style={styles.butList}>
-                            <Text style={styles.hint} allowFontScaling={false}>注销后账号所有数据将删除，请谨慎操作！！！</Text>
+                            <Text style={styles.hint} allowFontScaling={false}>{t('AADW')}</Text>
                         </View>
                     </View>
                 </View>

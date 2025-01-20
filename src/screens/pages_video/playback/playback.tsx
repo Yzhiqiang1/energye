@@ -14,7 +14,7 @@ import { store } from '../../../redux/storer';
 import { Slider } from '@rneui/themed';
 import ViewShot,{ captureRef } from 'react-native-view-shot';//截图
 import { CameraRoll } from '@react-native-camera-roll/camera-roll';
-
+import { t } from 'i18next'
 
 const api = require('../../../utils/api')
 const { StatusBarManager } = NativeModules;
@@ -32,7 +32,7 @@ export class Playback extends Component<any,any> {
     constructor(props:any){
         super(props)
         this.state = {
-            title: '加载中...',
+            title: t('Loading'),
             sensorName: '', //传感器名称
             accessToken: '', //accessToken
             deviceSerial: '', //设备序列号
@@ -65,7 +65,7 @@ export class Playback extends Component<any,any> {
             playCode: 0, // 当前播放错误码
             recType: 2, // 1-云存储，2-本地录像
             type: 2, // 2-本地录像回放，3-云存储录像回放
-            storageType: ['本地存储', '云存储'],
+            storageType: [t('local'), t('cloud')],
             storageIn: 0, // true-本地存储，false-云存储
 
             param: {}, //获取播放片段参数
@@ -128,7 +128,7 @@ export class Playback extends Component<any,any> {
                     this.setState({
                         msgType: 1,
                         visible: true,
-                        LoadingMsg: '本地存储查询中'
+                        LoadingMsg: t('LSQ')
                     })
                     that.check_ok();
                 } else {
@@ -136,7 +136,7 @@ export class Playback extends Component<any,any> {
                     this.setState({
                         msgType: 2,
                         visible: true,
-                        LoadingMsg: '获取视频信息失败！提示：视频回放必须设置监控地址'
+                        LoadingMsg: t('FTRVI')
                     },()=>{
                         setTimeout(()=>{
                             this.setState({
@@ -156,7 +156,7 @@ export class Playback extends Component<any,any> {
                     Internet: false,
                     msgType: 2,
                     visible: true,
-                    LoadingMsg: '当前网络异常',
+                    LoadingMsg: t('anomaly'),
                     videoNetWorkError: true,
                     videoLoadingStatus: 100,
                 },()=>{
@@ -207,7 +207,7 @@ export class Playback extends Component<any,any> {
                 this.setState({
                     msgType: 2,
                     visible: true,
-                    LoadingMsg: 'accessToken异常(请求accessToken失败!)'
+                    LoadingMsg: t('ATEF')
                 },()=>{
                     setTimeout(()=>{
                         this.setState({
@@ -222,7 +222,7 @@ export class Playback extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: 'accessToken异常(请求accessToken失败!)'
+                LoadingMsg: t('ATEF')
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -240,7 +240,7 @@ export class Playback extends Component<any,any> {
                 this.setState({
                     msgType: 1,
                     visible: true,
-                    LoadingMsg: '查询中'
+                    LoadingMsg: t('inTheQuery')
                 })
                 this.setState({
                     storageIn: e,
@@ -253,7 +253,7 @@ export class Playback extends Component<any,any> {
                 this.setState({
                     msgType: 1,
                     visible: true,
-                    LoadingMsg: '查询中'
+                    LoadingMsg: t('inTheQuery')
                 })
                 this.setState({
                     storageIn: e,
@@ -320,7 +320,7 @@ export class Playback extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '网络异常'
+                LoadingMsg: t('networkAnomaly')
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -416,7 +416,7 @@ export class Playback extends Component<any,any> {
                 that.setState({
                     msgType: 2,
                     visible: true,
-                    LoadingMsg: '当前网络异常'
+                    LoadingMsg: t('anomaly')
                 },()=>{
                     setTimeout(()=>{
                         that.setState({
@@ -598,7 +598,7 @@ export class Playback extends Component<any,any> {
                     this.setState({
                         msgType: 2,
                         visible: true,
-                        LoadingMsg: '暂无录像片段'
+                        LoadingMsg: t('NVFIA')
                     },()=>{
                         setTimeout(()=>{
                             this.setState({
@@ -617,7 +617,7 @@ export class Playback extends Component<any,any> {
                 this.setState({
                     msgType: 2,
                     visible: true,
-                    LoadingMsg: 'accessToken过期或异常'
+                    LoadingMsg: t('ATEF')
                 },()=>{
                     setTimeout(()=>{
                         this.setState({
@@ -635,7 +635,7 @@ export class Playback extends Component<any,any> {
                 this.setState({
                     msgType: 2,
                     visible: true,
-                    LoadingMsg: '获取播放时间片段失败(设备不存在)'
+                    LoadingMsg: t('FTGPT')
                 },()=>{
                     setTimeout(()=>{
                         this.setState({
@@ -655,7 +655,7 @@ export class Playback extends Component<any,any> {
                 this.setState({
                     msgType: 2,
                     visible: true,
-                    LoadingMsg: '获取播放时间片段失败(设备不在线)'
+                    LoadingMsg: t('NOdevice')
                 },()=>{
                     setTimeout(()=>{
                         this.setState({
@@ -673,7 +673,7 @@ export class Playback extends Component<any,any> {
                 this.setState({
                     msgType: 2,
                     visible: true,
-                    LoadingMsg: '获取播放时间片段失败'
+                    LoadingMsg: t('FTTF')
                 },()=>{
                     setTimeout(()=>{
                         this.setState({
@@ -745,7 +745,7 @@ export class Playback extends Component<any,any> {
                 this.setState({
                     msgType: 2,
                     visible: true,
-                    LoadingMsg: '获取播放地址失败(设备不在线)'
+                    LoadingMsg: t('NOdevice')
                 },()=>{
                     setTimeout(()=>{
                         this.setState({
@@ -758,7 +758,7 @@ export class Playback extends Component<any,any> {
                 this.setState({
                     msgType: 2,
                     visible: true,
-                    LoadingMsg: '(获取播放地址失败设备不存在)'
+                    LoadingMsg: t('notExist')
                 },()=>{
                     setTimeout(()=>{
                         this.setState({
@@ -771,7 +771,7 @@ export class Playback extends Component<any,any> {
                 this.setState({
                     msgType: 2,
                     visible: true,
-                    LoadingMsg: '获取播放地址失败(摄像头不存在)'
+                    LoadingMsg: t('notCamera')
                 },()=>{
                     setTimeout(()=>{
                         this.setState({
@@ -784,7 +784,7 @@ export class Playback extends Component<any,any> {
                 this.setState({
                     msgType: 2,
                     visible: true,
-                    LoadingMsg: '获取播放地址失败(用户不拥有该设备)'
+                    LoadingMsg: t('userNot')
                 },()=>{
                     setTimeout(()=>{
                         this.setState({
@@ -797,7 +797,7 @@ export class Playback extends Component<any,any> {
                 this.setState({
                     msgType: 2,
                     visible: true,
-                    LoadingMsg: '获取播放地址失败(参数错误)'
+                    LoadingMsg: t('parameterError')
                 },()=>{
                     setTimeout(()=>{
                         this.setState({
@@ -810,7 +810,7 @@ export class Playback extends Component<any,any> {
                 this.setState({
                     msgType: 2,
                     visible: true,
-                    LoadingMsg: '获取播放地址失败(设备已被加密，无法继续查看，请前往萤石云app解密。)'
+                    LoadingMsg: t('please')
                 },()=>{
                     setTimeout(()=>{
                         this.setState({
@@ -823,7 +823,7 @@ export class Playback extends Component<any,any> {
                 this.setState({
                     msgType: 2,
                     visible: true,
-                    LoadingMsg: `获取播放地址失败(${response.msg})`
+                    LoadingMsg: t('GTPA') + `(${response.msg})`
                 },()=>{
                     setTimeout(()=>{
                         this.setState({
@@ -963,7 +963,7 @@ export class Playback extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: `已保存到手机相册`
+                LoadingMsg: t('savedToPhone')
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -1074,7 +1074,7 @@ export class Playback extends Component<any,any> {
                                         '':
                                         <View style={styles.videoLoaing}>
                                             <Image style={styles.loadingGif} source={require('../image/live/loading_grey.gif')}></Image>
-                                            <Text allowFontScaling={false} style={styles.videoLoadingText} >视频安全传输中...</Text>
+                                            <Text allowFontScaling={false} style={styles.videoLoadingText} >{t('VST')}</Text>
                                         </View>
                                     }
                             </View>
@@ -1083,15 +1083,15 @@ export class Playback extends Component<any,any> {
                                 '':
                                 <View style={styles.mesh}>
                                     <Image style={{width:36,height:36}} source={require('../image/live/preview_fail.png')}></Image>
-                                    <Text allowFontScaling={false} style={styles.meshHint}>网络不稳定，加载失败</Text>
-                                    <Text allowFontScaling={false} style={styles.meshBut} onPress={this.reconnect}>重试</Text>
+                                    <Text allowFontScaling={false} style={styles.meshHint}>{t('loadFailure')}</Text>
+                                    <Text allowFontScaling={false} style={styles.meshBut} onPress={this.reconnect}>{t('Retry')}</Text>
                                 </View>
                             }
                             {/* 设备不在线 */}
                             {this.state.deviceOffline?'':
                                 <View style={styles.videoLoaing}>
                                     <Image style={[styles.loadingGif,{marginBottom:10}]} source={require('../image/live/preview_fail_offline.png')}></Image>
-                                    <Text allowFontScaling={false} style={styles.videoLoadingText}>设备不在线</Text>
+                                    <Text allowFontScaling={false} style={styles.videoLoadingText}>{t('online')}</Text>
                                 </View>
                             }
                             <View style={styles.videoPlay} >
@@ -1162,32 +1162,32 @@ export class Playback extends Component<any,any> {
                                 <Pressable style={styles.operate} onPress={()=>this.overturn(1)}>
                                     <View style={styles.operate}>
                                         <Image style={styles.img} source={require('../../../image/around.png')}></Image>
-                                        <Text allowFontScaling={false}>左右翻转</Text>
+                                        <Text allowFontScaling={false}>{t('FSTS')}</Text>
                                     </View>
                                 </Pressable>
                                 <Pressable style={styles.operate} onPress={()=>this.overturn(2)}>
                                     <View style={styles.operate}>
                                         <Image style={styles.img} source={require('../../../image/fluctuate.png')}></Image>
-                                        <Text allowFontScaling={false}>上下翻转</Text>
+                                        <Text allowFontScaling={false}>{t('TUD')}</Text>
                                     </View>
                                 </Pressable>
                                 <Pressable style={styles.operate} onPress={()=>this.overturn(3)}>
                                     <View style={styles.operate}>
                                         <Image style={styles.img} source={require('../../../image/turn.png')}></Image>
-                                        <Text allowFontScaling={false}>中心翻转</Text>
+                                        <Text allowFontScaling={false}>{t('CenterFlip')}</Text>
                                     </View>
                                 </Pressable>
                                 <Pressable style={styles.operate} onPress={this.videoCapture}>
                                     <View style={[styles.img,{padding: '5%'}]}>
                                         <Image style={{width: '100%',height: '100%'}} source={require('../../../image/screenshot.png')}></Image>
                                     </View>
-                                    <Text allowFontScaling={false}>抓拍图片</Text>
+                                    <Text allowFontScaling={false}>{t('SnapP')}</Text>
                                 </Pressable>
                             </View>
 
                             <View style={styles.controlBox}>
                                 <View style={[styles.box,{flex: 1}]}>
-                                    <Text allowFontScaling={false} style={styles.text}>聚焦{this.state.vertValue}</Text>
+                                    <Text allowFontScaling={false} style={styles.text}>{t('focussing')}{this.state.vertValue}</Text>
                                     <View style={styles.verticalContent}>
                                         <Slider
                                             value={this.state.vertValue}
@@ -1204,12 +1204,12 @@ export class Playback extends Component<any,any> {
                                     </View>
                                 </View>
                                 <View style={[styles.box,{flex: 3}]}>
-                                    <Text allowFontScaling={false} style={styles.text}>云台方向</Text>
+                                    <Text allowFontScaling={false} style={styles.text}>{t('PanTilt')}</Text>
                                     <View style={[styles.verticalContent,styles.wt]}>
                                         <View style={styles.direction}>
                                             <View style={styles.roundWire}>
                                                 <View style={styles.centreBut}>
-                                                    <Text allowFontScaling={false} style={{fontSize: Fs/20}}>正常</Text>
+                                                    <Text allowFontScaling={false} style={{fontSize: Fs/20}}>{t('normal')}</Text>
                                                 </View>
                                                 <Pressable  
                                                     style={styles.angleL}
@@ -1269,14 +1269,14 @@ export class Playback extends Component<any,any> {
                             {/** 日期回放*/}
                             <View style={{flex: 1}}>
                                 <ScrollView style={styles.playbackTime}>
-                                    <Text allowFontScaling={false} style={{textAlign: 'center',fontSize: Fs/20,marginTop: 10}}>视频回放</Text>
+                                    <Text allowFontScaling={false} style={{textAlign: 'center',fontSize: Fs/20,marginTop: 10}}>{t('playback')}</Text>
                                     {this.state.dateLine.length!=0?
                                         this.state.dateLine.map((data:any, index:any) => {
                                             return(
                                                 <View key={index} style={[styles.List,styles.flex]}>
                                                     <View style={styles.flex}>
                                                         <Image resizeMode='contain' style={{height: ht/30,marginRight: 10}} source={require('../../../image/calendar.png')} />
-                                                        <Text allowFontScaling={false} style={{fontSize: ht/30}}>sssssssssssssss</Text>
+                                                        <Text allowFontScaling={false} style={{fontSize: ht/30}}></Text>
                                                     </View>
                                                     <View style={{width: '10%',justifyContent: 'center'}}>
                                                         {this.state.playIf == index?
@@ -1287,7 +1287,7 @@ export class Playback extends Component<any,any> {
                                                         }
                                                     </View>
                                                 </View>
-                                        )}):<Text allowFontScaling={false} style={{textAlign: 'center',margin: 10,fontSize: Fs/20}}>暂无数据</Text>
+                                        )}):<Text allowFontScaling={false} style={{textAlign: 'center',margin: 10,fontSize: Fs/20}}>{t('noData')}</Text>
                                     }
                                 </ScrollView>
                             </View>

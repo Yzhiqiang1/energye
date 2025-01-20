@@ -6,6 +6,7 @@ import Loading from '../../component/Loading/Loading'
 import tool from '../../utils/tool'
 import { Set_State } from '../../redux/reducers/counterSlice'
 import { connect } from 'react-redux'
+import { t } from 'i18next';
 const height = Dimensions.get('window').height
 let api = require('../../utils/api')
 const Fs = Dimensions.get('window').width*0.8
@@ -17,7 +18,7 @@ export class BindPhone extends Component<any,any> {
             mobile: '',//手机
             code: '', //验证码
             isCode: true, //验证码发送状态
-            mobiletitle: '获取验证码', //文字提示
+            mobiletitle: t('getVerificationCode'), //文字提示
             count: 120, //获取验证码时间间隔(S)
 
             type: 2,
@@ -47,7 +48,7 @@ export class BindPhone extends Component<any,any> {
                 this.setState({
                     msgType: 2,
                     visible: true,
-                    LoadingMsg: '请输入手机号！'
+                    LoadingMsg: t('pleaseEnterThePhoneNumber')
                 },()=>{
                     setTimeout(()=>{
                         this.setState({
@@ -60,7 +61,7 @@ export class BindPhone extends Component<any,any> {
                 this.setState({
                     msgType: 2,
                     visible: true,
-                    LoadingMsg: '手机号格式错误！'
+                    LoadingMsg: t('phoneError')
                 },()=>{
                     setTimeout(()=>{
                         this.setState({
@@ -73,7 +74,7 @@ export class BindPhone extends Component<any,any> {
             this.setState({
                 msgType: 1,
                 visible: true,
-                LoadingMsg: '发送中...'
+                LoadingMsg: t('beBeingSent')
             }); //加载效果
             var down = that.state.count;
             HttpService.Post(api.getVerifyCode, {
@@ -83,7 +84,7 @@ export class BindPhone extends Component<any,any> {
                     this.setState({
                         msgType: 2,
                         visible: true,
-                        LoadingMsg: '发送成功！'
+                        LoadingMsg: t('sentSuccessfully')
                     },()=>{
                         setTimeout(()=>{
                             this.setState({
@@ -99,13 +100,13 @@ export class BindPhone extends Component<any,any> {
                     var interval = setInterval(function () {
                         down--;
                         that.setState({
-                            mobiletitle: '(重新获取' + down + ')'
+                            mobiletitle: '('+ t('reacquire') + down + ')'
                         })
                         if (down == 0) {
                             clearInterval(interval)
                             that.setState({
                                 isCode: true,
-                                mobiletitle: '重新获取验证码'
+                                mobiletitle: t('getVerification')
                             })
                         }
                     }, 1000)
@@ -117,7 +118,7 @@ export class BindPhone extends Component<any,any> {
                     this.setState({
                         msgType: 2,
                         visible: true,
-                        LoadingMsg: '获取验证码失败！'
+                        LoadingMsg: t('FTOVC')
                     },()=>{
                         setTimeout(()=>{
                             this.setState({
@@ -156,7 +157,7 @@ export class BindPhone extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '请输入手机号！'
+                LoadingMsg: t('pleaseEnterThePhoneNumber')
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -169,7 +170,7 @@ export class BindPhone extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '手机号格式错误！'
+                LoadingMsg: t('phoneError')
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -182,7 +183,7 @@ export class BindPhone extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '请输入验证码！'
+                LoadingMsg: t('PETVC')
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -201,7 +202,7 @@ export class BindPhone extends Component<any,any> {
         this.setState({
             msgType: 1,
             visible: true,
-            LoadingMsg: '登录中...'
+            LoadingMsg: t('beLoggingIn')
         })
         HttpService.Post(api.appVerifyCodeLogin,{
             userName:mobile,
@@ -251,7 +252,7 @@ export class BindPhone extends Component<any,any> {
                 <SafeAreaView style={styles.view}>
                     <LoginNavbar
                         props={this.props}
-                        name={'短信登录'}  //短信登录
+                        name={t('SMSlogin')}  //短信登录
                         showBack={true}
                         showHome={false}
                     ></LoginNavbar>
@@ -264,32 +265,32 @@ export class BindPhone extends Component<any,any> {
                                 placeholderTextColor="#aeaeae"
                                 allowFontScaling={false}
                                 style={styles.Input} 
-                                placeholder={'输入手机号'} 
+                                placeholder={t('enterMobileNumber')} 
                                 onChangeText={this.mobileChangeSearch} 
                                 keyboardType='numeric'>
                                 </TextInput>
                             </View>
                             <View  style={styles.list}>
                                 <Image style={styles.Img} source={require('../../image/dl_password.png')}></Image>
-                                <TextInput allowFontScaling={false} style={styles.Input} placeholderTextColor="#aeaeae" placeholder={'输入验证码'} onChangeText={this.codeChangeSearch}></TextInput>
+                                <TextInput allowFontScaling={false} style={styles.Input} placeholderTextColor="#aeaeae" placeholder={t('enterVerificationCode')} onChangeText={this.codeChangeSearch}></TextInput>
                                 <Text allowFontScaling={false} style={styles.Code} onPress={this.gainCode}>{this.state.mobiletitle}</Text>
                             </View>
                             <View style={styles.forget}>
                             </View>
                             <View  style={styles.butList}>
                                 <Pressable style={({ pressed })=>[{backgroundColor: pressed? '#f3f3f3' : '#eeeeee'},styles.button]} onPress={()=>this.props.navigation.navigate('Tabbar')}>
-                                    <Text allowFontScaling={false} style={styles.buttonL}>取消登录</Text>
+                                    <Text allowFontScaling={false} style={styles.buttonL}>{t('cancelLogin')}</Text>
                                 </Pressable>
                                 <Pressable style={({ pressed })=>[{backgroundColor: pressed? '#2da2fe' : '#1890FF'},styles.button]} onPress={this.Login}>
-                                    <Text allowFontScaling={false} style={styles.buttonR}>登录</Text>
+                                    <Text allowFontScaling={false} style={styles.buttonR}>{t('logIn')}</Text>
                                 </Pressable>
                             </View>
                             <View style={styles.link}>
                                 <TouchableOpacity style={styles.Url} onPress={()=>this.props.navigation.navigate('BindAccount')}>
-                                    <Text allowFontScaling={false} style={{color: '#01AAED',fontSize:Fs/22}}>账号登录</Text>
+                                    <Text allowFontScaling={false} style={{color: '#01AAED',fontSize:Fs/22}}>{t('AccountLogin')}</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity style={styles.Url} onPress={()=>this.props.navigation.navigate('AccountRegister')}>
-                                    <Text allowFontScaling={false} style={{color: '#01AAED',fontSize:Fs/22}}>注册账号</Text>
+                                    <Text allowFontScaling={false} style={{color: '#01AAED',fontSize:Fs/22}}>{t('registerAnAccount')}</Text>
                                 </TouchableOpacity>
                             </View>
                         </View>

@@ -1,6 +1,8 @@
 import { Dimensions, Pressable, StyleSheet, Text, View } from 'react-native'
 import React, { Component } from 'react'
 import { Icon } from '@rneui/themed';//ico图标
+import { t } from 'i18next'
+
 const Fs = Dimensions.get('window').width*0.8
 const ht = Dimensions.get('window').height*0.8
 
@@ -17,7 +19,7 @@ export class LoginNavbar extends Component<any,any> {
                   color='#fff'
                   size={22}
               />
-              <Text style={styles.text}>首页</Text>
+              <Text style={styles.text}>{t('home')}</Text>
               </Pressable> : ''
             }
             {this.props.showBack ?
@@ -28,7 +30,7 @@ export class LoginNavbar extends Component<any,any> {
                     color='#fff'
                     size={22}
                 />
-                <Text style={styles.text}>返回</Text>
+                <Text style={styles.text}>{t('return')}</Text>
             </Pressable>:''
             }
           <Text allowFontScaling={false} style={styles.navName}>{this.props.name}</Text>

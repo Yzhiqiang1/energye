@@ -11,7 +11,8 @@ import {Index} from './src/index'
 import { Provider } from 'react-redux';
 import {store, persistor} from './src/redux/storer';
 import { PersistGate } from 'redux-persist/integration/react';
-import { NativeBaseProvider, extendTheme } from "native-base";
+import { NativeBaseProvider } from "native-base";
+import './src/i18n'
 
 function App(): React.JSX.Element {
   return (

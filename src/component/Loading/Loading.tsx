@@ -1,12 +1,14 @@
 import { Dimensions, StyleSheet, Text, StatusBar, View, ActivityIndicator, Modal} from 'react-native'
 import React, { Component } from 'react'
+import { t } from 'i18next'
+
 const Fs = Dimensions.get('window').width*0.8
 const screenHeight = Dimensions.get('screen').height
 
 export class Loading extends Component<any,any> {
     static defaultProps = {
         type: 1,
-        LoadingMsg: '加载中...',
+        LoadingMsg: t('Loading'),
         visible: false
     }
     render() {

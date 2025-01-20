@@ -5,6 +5,7 @@ import Loading from '../../../component/Loading/Loading';
 import { WebView } from 'react-native-webview'
 import styleg from '../../../indexCss';
 let api = require('../../utils/api.js'); //引入API文件
+import { t } from 'i18next'
 
 export class PlayH5 extends Component<any,any> {
     constructor(props:any){
@@ -67,7 +68,7 @@ export class PlayH5 extends Component<any,any> {
         this.setState({
             msgType: 1,
             visible: true,
-            LoadingMsg: '加载中...'
+            LoadingMsg: t('Loading')
         });
        //获取数据  
         fetch(api.ysToken, {

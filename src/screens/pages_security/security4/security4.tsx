@@ -6,6 +6,8 @@ import { Register } from '../../../utils/app'
 import { store } from '../../../redux/storer'
 import { HttpService } from '../../../utils/http'
 import Loading from '../../../component/Loading/Loading'
+import { t } from 'i18next'
+
 const api = require('../../../utils/api')
 const Fs = Dimensions.get('window').width*0.8
 
@@ -55,7 +57,7 @@ export class Security4 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '获取参数失败！'
+                LoadingMsg: t('getNotData')
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -79,7 +81,7 @@ export class Security4 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '获您还未登录,无法查询数据！取参数失败！'
+                LoadingMsg: t('YANLIA')
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -92,7 +94,7 @@ export class Security4 extends Component<any,any> {
         this.setState({
             msgType: 1,
             visible: true,
-            LoadingMsg: '加载中...'
+            LoadingMsg: t('Loading')
         }); //加载效果
         let userId = store.getState().userId; //用户ID
         let groupId = store.getState().parameterGroup.onlyGroup.groupId; //获取组ID
@@ -159,7 +161,7 @@ export class Security4 extends Component<any,any> {
                 <SafeAreaView style={{flex: 1}}>
                     {/* 引入自定义导航栏 */}
                     <Navbar 
-                        pageName={'相电流'}
+                        pageName={t('phaseCurrent')}
                         showBack={true}
                         showHome={false}
                         isCheck={4}
@@ -170,7 +172,7 @@ export class Security4 extends Component<any,any> {
                     <View style={styleg.container}>
                         <View  style={styles.device}>
                             {this.state.dataArr.length == 0?
-                                <Text allowFontScaling={false} style={styles.empty}>暂无数据</Text>:''
+                                <Text allowFontScaling={false} style={styles.empty}>{t('noData')}</Text>:''
                             }
                             {this.state.dataArr.map((item:any,index:number)=>{
                                 return(

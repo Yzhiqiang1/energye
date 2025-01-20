@@ -8,6 +8,7 @@ import { store } from '../../redux/storer'
 import Loading from '../../component/Loading/Loading'
 import { Icon } from '@rneui/base'
 import { Shadow } from 'react-native-shadow-2';
+import { t } from 'i18next'
 
 const api = require('../../utils/api')
 const Fs = Dimensions.get('window').width*0.8
@@ -69,7 +70,7 @@ export class Configuration extends Component<any,any> {
     this.setState({
         msgType: 1,
         visible: true,
-        LoadingMsg: '查询中...'
+        LoadingMsg: t('inTheQuery')
     })
     //查询数据
     that.setState({
@@ -95,7 +96,7 @@ export class Configuration extends Component<any,any> {
         this.setState({
           msgType: 2,
           visible: true,
-          LoadingMsg: '关键字不能为空'
+          LoadingMsg: t('TKCBE')
         },()=>{
             setTimeout(()=>{
                 this.setState({
@@ -206,15 +207,15 @@ export class Configuration extends Component<any,any> {
                       color='#fff'
                       size={22}
                   />
-                  <Text allowFontScaling={false} style={styles.text}>首页</Text>
+                  <Text allowFontScaling={false} style={styles.text}>{t('home')}</Text>
               </Pressable>
-              <Text style={styles.navName} allowFontScaling={false}>云组态</Text>
+              <Text style={styles.navName} allowFontScaling={false}>{t('configuration')}</Text>
             </View>
 
             <View style={styles.head}>
               <View style={styles.search}>
                   <View style={styles.flex}>
-                      <TextInput allowFontScaling={false} style={styles.input} value={this.state.searchVal} placeholder='关键字搜索' onChangeText={this._search} ></TextInput>
+                      <TextInput allowFontScaling={false} style={styles.input} value={this.state.searchVal} placeholder={t('keywordSearch')} onChangeText={this._search} ></TextInput>
                       {this.state.searchVal!=''?
                         <Pressable style={styles.close} onPress={this.searchClose}>
                             <Image style={styles.closeimg} source={require('../../image/search-close.png')}></Image>
@@ -224,25 +225,25 @@ export class Configuration extends Component<any,any> {
                   <TouchableHighlight style={styles.button} onPress={this.searchSubmit} underlayColor={'#2da2fe'}>
                       <View style={{width: '100%', height: '100%'}} >
                         <Image style={styles.ico} source={require('../../image/searcha.png')} ></Image>
-                        <Text style={styles.searchT} allowFontScaling={false}>搜索</Text>
+                        <Text style={styles.searchT} allowFontScaling={false}>{t('search')}</Text>
                       </View>
                   </TouchableHighlight>
               </View>
-              <View style={styles.allowance}>
-                  <Text style={styles.name} allowFontScaling={false}>我的组态</Text>
-                  <View style={styles.number}>
-                    <View style={styles.numberSpot1}></View>
-                    <Text style={styles.Spot} allowFontScaling={false}>总计 {this.state.objList.cfgnum}</Text>
-                  </View>
-                  <View style={styles.number}>
-                    <View style={styles.numberSpot2}></View>
-                    <Text style={styles.Spot} allowFontScaling={false}>已用 {this.state.objList.count}</Text>
-                  </View>
-                  <View style={styles.number}>
-                    <View style={styles.numberSpot3}></View>
-                    <Text style={styles.Spot} allowFontScaling={false}>剩余 {this.state.objList ? this.state.objList.cfgnum - this.state.objList.count:''}</Text>
-                  </View>
-              </View>
+              <ScrollView horizontal={true}>
+                <Text style={styles.name} allowFontScaling={false}>{t('myConfiguration')}</Text>
+                <View style={styles.number}>
+                  <View style={styles.numberSpot1}></View>
+                  <Text style={styles.Spot} allowFontScaling={false}>{t('total')} {this.state.objList.cfgnum}</Text>
+                </View>
+                <View style={styles.number}>
+                  <View style={styles.numberSpot2}></View>
+                  <Text style={styles.Spot} allowFontScaling={false}>{t('used')} {this.state.objList.count}</Text>
+                </View>
+                <View style={styles.number}>
+                  <View style={styles.numberSpot3}></View>
+                  <Text style={styles.Spot} allowFontScaling={false}>{t('Remaining')} {this.state.objList ? this.state.objList.cfgnum - this.state.objList.count:''}</Text>
+                </View>
+              </ScrollView>
             </View>
 
             <ScrollView style={[styles.view,{height:this.state.boxHeight-ht/6-ht/10-5}]} onMomentumScrollEnd={this.downScroll} overScrollMode={'never'}>
@@ -272,13 +273,13 @@ export class Configuration extends Component<any,any> {
                   <View>
                     {this.state.objArr.length > 0 && this.state.isLastPage == true?
                       <Text style={styles.isPageTxt} allowFontScaling={false}>
-                          已加载所有数据
+                          {t('ADHBL')}
                       </Text> : ''
                     }
                   
                     {this.state.objArr.length == 0 && this.state.isPageLoad == true?
                       <Text style={styles.nothing} allowFontScaling={false}>
-                        未查询到数据
+                        {t('NoData')}
                       </Text>:''
                     }
                     
@@ -289,8 +290,8 @@ export class Configuration extends Component<any,any> {
                     }
                   </View> :
                     <Text style={styles.notLoggedIn} allowFontScaling={false}>
-                        您还未登录
-                        <Text style={styles.url} onPress={()=>this.props.navigation.navigate('BindAccount')}>点击登录</Text>
+                        {t('youNotlogin')}
+                        <Text style={styles.url} onPress={()=>this.props.navigation.navigate('BindAccount')}>{t('clickLogIn')}</Text>
                     </Text> 
                 }
             </ScrollView>

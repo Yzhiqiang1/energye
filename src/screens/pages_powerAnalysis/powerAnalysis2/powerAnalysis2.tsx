@@ -11,6 +11,7 @@ import Loading from '../../../component/Loading/Loading'
 import PickerBut from '../../../component/PickerBut/PickerBut'
 const api = require('../../../utils/api') 
 const Fs = Dimensions.get('window').width*0.8
+import { t } from 'i18next'
 
 export class PowerAnalysis2 extends Component<any,any> {
     constructor(psopr:any){
@@ -61,7 +62,7 @@ export class PowerAnalysis2 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '获取参数失败！'
+                LoadingMsg: t('getNotData')
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -118,7 +119,7 @@ export class PowerAnalysis2 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '您还未登录,无法查询数据！'
+                LoadingMsg: t('YANLIA')
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -131,7 +132,7 @@ export class PowerAnalysis2 extends Component<any,any> {
         this.setState({
             msgType: 1,
             visible: true,
-            LoadingMsg: '加载中...'
+            LoadingMsg: t('Loading')
         }); //加载效果
         let userId = store.getState().userId; //用户ID
         let deviceId = store.getState().parameterGroup.radioGroup.selectKey;; //获取设备ID
@@ -140,20 +141,20 @@ export class PowerAnalysis2 extends Component<any,any> {
         //定义图表数据
         let queryData:any = [
         {
-            name: "柱状图",
+            name: t('barChart'),
             state: true,
             type: 2,
-            title: date + "年",
-            legendData: ['本期', '同期'],
+            title: date + t('years'),
+            legendData: [t('currentPeriod'), t('theSamePeriod')],
             xAxisData: [],
             xAxisDataIs: false,
             yAxisName: [""],
             series: [{
-                name: '本期',
+                name: t('currentPeriod'),
                 type: 'bar',
                 data: []
             }, {
-                name: '同期',
+                name: t('theSamePeriod'),
                 type: 'bar',
                 data: []
             }]
@@ -255,7 +256,7 @@ export class PowerAnalysis2 extends Component<any,any> {
                 <SafeAreaView style={{flex: 1}}>
                     {/* 引入自定义导航栏 */}
                     <Navbar 
-                        pageName={'同比分析'}
+                        pageName={t('yearyearAnalysis')}
                         showBack={true}
                         showHome={false}
                         isCheck={2}
@@ -278,13 +279,13 @@ export class PowerAnalysis2 extends Component<any,any> {
                                     <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
                                 </Pressable>
                             </View>
-                            <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>查询</Text>
-                            <Text allowFontScaling={false} style={[styles.button,styles.buttonC1]} onPress={this.preDate}>上一年</Text>
-                            <Text allowFontScaling={false} style={styles.button} onPress={this.nextData}>下一年</Text>
+                            <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>{t('inquire')}</Text>
+                            <Text allowFontScaling={false} style={[styles.button,styles.buttonC1]} onPress={this.preDate}>{t('thePreviousYear')}</Text>
+                            <Text allowFontScaling={false} style={styles.button} onPress={this.nextData}>{t('nextYear')}</Text>
                         </View>
                         <ScrollView style={styles.echarts_con}>
                             {this.state.optionData.length == 0?
-                                <Text allowFontScaling={false} style={styles.empty}>未查询到数据</Text>:''
+                                <Text allowFontScaling={false} style={styles.empty}>{t('NoData')}</Text>:''
                             }
                             {/* 柱形图 */}
                             {this.state.optionData.map((item:any,index:number)=>{
@@ -305,16 +306,16 @@ export class PowerAnalysis2 extends Component<any,any> {
                                 return(
                                     <View style={styles.item} key={topindex}>
                                         <Text allowFontScaling={false} style={styles.name}>
-                                            列表
+                                            {t('list')}
                                         </Text>
                                         <View style={styles.echarts}>
                                             <View style={styles.table}>
                                                 <View style={styles.row}>
-                                                    <Text allowFontScaling={false} style={[styles.th,{width: '15%'}]}>月份</Text>
-                                                    <Text allowFontScaling={false} style={styles.th}>本期</Text>
-                                                    <Text allowFontScaling={false} style={styles.th}>同期</Text>
-                                                    <Text allowFontScaling={false} style={[styles.th,{width: "21%",textAlign: 'center'}]}>同比(%)</Text>
-                                                    <Text allowFontScaling={false} style={[styles.th,{width: "24%",textAlign: 'center'}]}>累计同比(%)</Text>
+                                                    <Text allowFontScaling={false} style={[styles.th,{width: '15%'}]}>{t('months')}</Text>
+                                                    <Text allowFontScaling={false} style={styles.th}>{t('currentPeriod')}</Text>
+                                                    <Text allowFontScaling={false} style={styles.th}>{t('theSamePeriod')}</Text>
+                                                    <Text allowFontScaling={false} style={[styles.th,{width: "21%",textAlign: 'center'}]}>{t('YearYear')}(%)</Text>
+                                                    <Text allowFontScaling={false} style={[styles.th,{width: "24%",textAlign: 'center'}]}>{t('Cumulative')}(%)</Text>
                                                 </View>
                                                 {this.state.optionData2.map((item:any,index:number)=>{
                                                     return(

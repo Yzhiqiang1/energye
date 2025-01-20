@@ -10,6 +10,7 @@ import Loading from '../../../component/Loading/Loading'
 import PickerBut from '../../../component/PickerBut/PickerBut'
 const api = require('../../../utils/api')
 const Fs = Dimensions.get('window').width*0.8
+import { t } from 'i18next'
 
 export class History_leakage extends Component<any,any> {
     constructor(props:any){
@@ -28,7 +29,7 @@ export class History_leakage extends Component<any,any> {
         }
     }
     componentDidMount(): void {
-        let deviceid = this.props.route.params.deviceid ? this.props.route.params.deviceid : "获取参数失败";
+        let deviceid = this.props.route.params.deviceid ? this.props.route.params.deviceid : t('getNotData');
         this.setState({
             deviceid: deviceid
         }, () => {
@@ -83,29 +84,29 @@ export class History_leakage extends Component<any,any> {
         let queryData:any = [{ //漏电流
                 state: true,
                 title: '', //跟上面选择的时间一致
-                name: "漏电流",
+                name: t('leakageCurrent'),
                 xAxisData: [], //x轴信息
                 series: [{ //y轴信息
                     type: 'line',
                     data: [],
                     connectNulls: true
                 }],
-                yAxisName: "单位：(mA)", //y轴单位
+                yAxisName: t('unit') + "：(mA)", //y轴单位
             },
             { //温度
                 state: true,
                 legendData: [],
                 title: [], //跟上面选择的时间一致
-                name: "温度",
+                name: t('temperature'),
                 xAxisData: [], //x轴信息
                 series: [], //y轴信息
-                yAxisName: "单位：(℃)", //y轴单位
+                yAxisName: t('unit') + "：(℃)", //y轴单位
             }
         ];
        this.setState({
             msgType: 1,
             visible: true,
-            LoadingMsg: '加载中...'
+            LoadingMsg: t('Loading')
        })
         HttpService.apiPost(api.ldjc_getVoltage, {
             userId: userId,
@@ -287,7 +288,7 @@ export class History_leakage extends Component<any,any> {
                 </Loading>
                 <SafeAreaView style={{flex: 1}}>
                     <Navbars
-                        name={'历史查询'}//
+                        name={t('historicalQuery')}
                         showHome={false}
                         showBack={true}
                         props={this.props}>
@@ -308,14 +309,14 @@ export class History_leakage extends Component<any,any> {
                                     <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
                                 </Pressable>
                             </View>
-                            <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>查询</Text>
-                            <Text allowFontScaling={false} style={[styles.button,styles.buttonC1]} onPress={this.preDate}>上一日</Text>
-                            <Text allowFontScaling={false} style={styles.button} onPress={this.nextData}>下一日</Text>
+                            <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>{t('inquire')}</Text>
+                            <Text allowFontScaling={false} style={[styles.button,styles.buttonC1]} onPress={this.preDate}>{t('topDay')}</Text>
+                            <Text allowFontScaling={false} style={styles.button} onPress={this.nextData}>{t('nextDay')}</Text>
                         </View>
                         
                         <ScrollView style={styles.echartsCon}>
                             {this.state.optionData.length == 0?
-                                <Text allowFontScaling={false} style={styles.empty}>暂无漏电信息数据</Text> : ''
+                                <Text allowFontScaling={false} style={styles.empty}>{t('NoLeakage')}</Text> : ''
                             }
                             {this.state.optionData.map((item:any,index:number)=>{
                                 return(

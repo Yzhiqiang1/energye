@@ -1,6 +1,8 @@
 // import { Set_accessToken,Log_Out, localSocket } from '../redux/actions/user';
 import { setAccessToken,LogOut,localSocket } from '../redux/reducers/counterSlice';
 import { store } from '../redux/storer'//全局管理
+import { t } from 'i18next'
+
 const api = require('./api')
 const base64 = require('./base64');//引入base64
 const Overlay = require('rn-overlay') //信息提示框
@@ -59,7 +61,7 @@ export class Register {
                         reject(response.error)
                     }
                 }).catch((error) => {
-                    reject('网络错误！');
+                    reject(t('networkError'));
                 })
         })
     }
@@ -127,7 +129,7 @@ export class Register {
             if (store.getState().dropLineNum > 0){//最多重连10次
                 that.openWebsocket();//重新链接
             }else{
-               Toast.show('WebSocket连接似乎遇到一个问题，请从新打开程序或者联系技术支持。')
+               Toast.show(t('TSTBAP'))
             }
             //重置定时器
             timeout = null;

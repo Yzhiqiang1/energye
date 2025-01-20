@@ -11,6 +11,7 @@ import Loading from '../../../component/Loading/Loading'//加载组件
 let util = require('../../../utils/util.js');
 const api = require('../../../utils/api')
 const Fs = Dimensions.get('window').width*0.8
+import { t } from 'i18next'
 
 export class PowerTest3 extends Component<any,any> {
     constructor(props:any){
@@ -21,7 +22,7 @@ export class PowerTest3 extends Component<any,any> {
 
             _date: util.nowDate(), //日期选择
             //时间选择
-            _timeArr: ["一分钟", "五分钟", "十五分钟", "半小时", "一个小时"],
+            _timeArr: [t('oneMinute'), t('fiveMinutes'),t('fifteenMinutes'),t('HalfAnHour'),t('anHour')],
             _timeIn: 3,
             //数据项
             optionData: [],
@@ -67,7 +68,7 @@ export class PowerTest3 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '获取参数失败！'
+                LoadingMsg: t('getNotData')
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -108,7 +109,7 @@ export class PowerTest3 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '您还未登录,无法查询数据！'
+                LoadingMsg: t('YANLIA')
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -121,7 +122,7 @@ export class PowerTest3 extends Component<any,any> {
         this.setState({
             msgType: 1,
             visible: true,
-            LoadingMsg: '加载中...'
+            LoadingMsg: t('Loading')
         })//加载效果
         let userId = store.getState().userId; //用户ID
         //处理设备ID
@@ -154,12 +155,12 @@ export class PowerTest3 extends Component<any,any> {
                         //初始化变量
                         if (queryIs[objData.id] == undefined) {
                             let querylist = {
-                                name: "用电总量",
+                                name: t('TEC'),
                                 state: true,
                                 title: date + ' ' + objData.deviceName,
                                 legendData: ["Epi"],
                                 xAxisData: [],
-                                yAxisName: ["单位(" + objData.Epi_unit + ")"],
+                                yAxisName: [t('unit') + "(" + objData.Epi_unit + ")"],
                                 series: [{
                                     name: "Epi",
                                     type: 'line',
@@ -186,7 +187,6 @@ export class PowerTest3 extends Component<any,any> {
                             queryData[queryIs[objData.id]].series[0].data.push(objData.Epi);
                         }
                     }
-                    // console.log(queryData,6455465);
                     that.setState({
                         optionData: queryData,
                     }, () => {
@@ -266,7 +266,7 @@ export class PowerTest3 extends Component<any,any> {
                 <SafeAreaView style={{flex: 1}}>
                     {/* 引入自定义导航栏 */}
                     <Navbar 
-                        pageName={'电力运作报表'}
+                        pageName={t('PowerOperationReport')}
                         showBack={true}
                         showHome={false}
                         isCheck={3}
@@ -300,11 +300,11 @@ export class PowerTest3 extends Component<any,any> {
                                 <Text allowFontScaling={false} style={styleg.TextButton}>{this.state._timeArr[this.state._timeIn]}</Text>
                                 <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
                             </Pressable>
-                            <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>查询</Text>
+                            <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>{t('inquire')}</Text>
                         </View>
                         <ScrollView style={styles.echarts_con}>
                             {this.state.optionData == 0?
-                                <Text allowFontScaling={false} style={styles.empty}>暂无数据</Text>:""
+                                <Text allowFontScaling={false} style={styles.empty}>{t('noData')}</Text>:""
                             }
                             {this.state.optionData.map((data:any,index:number)=>{
                                 return(

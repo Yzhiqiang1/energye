@@ -9,6 +9,8 @@ import { HttpService } from '../../../utils/http'
 import tool from '../../../utils/tool'
 import Loading from '../../../component/Loading/Loading'
 import PickerBut from '../../../component/PickerBut/PickerBut'
+import { t } from 'i18next'
+
 const api = require('../../../utils/api')
 const Fs = Dimensions.get('window').width*0.8
 
@@ -70,7 +72,7 @@ export class WaterAnalysis5 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '获取参数失败！'
+                LoadingMsg: t('getNotData')
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -108,7 +110,7 @@ export class WaterAnalysis5 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '开始日期不得大于结束日期！'
+                LoadingMsg: t('TSDMN')
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -130,7 +132,7 @@ export class WaterAnalysis5 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '您还未登录,无法查询数据！'
+                LoadingMsg: t('YANLI')
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -143,7 +145,7 @@ export class WaterAnalysis5 extends Component<any,any> {
         this.setState({
             msgType: 1,
             visible: true,
-            LoadingMsg: '加载中...'
+            LoadingMsg: t('Loading')
         }); //加载效果
         //用户ID
         let userId = store.getState().userId;
@@ -243,7 +245,7 @@ export class WaterAnalysis5 extends Component<any,any> {
                 <SafeAreaView style={{flex: 1}}>
                     {/* 引入自定义导航栏 */}
                     <Navbar 
-                        pageName={'水能集抄'}
+                        pageName={t('WaterEnergyCollection')}
                         showBack={true}
                         showHome={false}
                         isCheck={3}
@@ -267,7 +269,7 @@ export class WaterAnalysis5 extends Component<any,any> {
                                 </Pressable>
                             </View>
                             <Text allowFontScaling={false} style={styles.text}>
-                                至
+                                {t('to')}
                             </Text>
                             <View style={styles.flex}>
                                 {/* <Picker
@@ -281,22 +283,22 @@ export class WaterAnalysis5 extends Component<any,any> {
                                     <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
                                 </Pressable>
                             </View>
-                            <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>查询</Text>
+                            <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>{t('inquire')}</Text>
                         </View>
                         
                         <View style={styles.echarts_con}>
                             {this.state.optionData.length == 0?
-                                <Text allowFontScaling={false} style={styles.empty}>暂无数据</Text>:
+                                <Text allowFontScaling={false} style={styles.empty}>{t('noData')}</Text>:
                                 <View style={styles.item}>
                                     <Text allowFontScaling={false} style={styles.name}>
-                                        <Text allowFontScaling={false} style={styles.nameText}>电能集抄统计数据</Text>
+                                        <Text allowFontScaling={false} style={styles.nameText}>{t('SDOE')}</Text>
                                     </Text>
                                     <View style={styles.table}>
                                         <View style={styles.row}>
-                                            <Text allowFontScaling={false} style={styles.th}>回柜名称</Text>
-                                            <Text allowFontScaling={false} style={styles.th}>起始数据</Text>
-                                            <Text allowFontScaling={false} style={styles.th}>截止数据</Text>
-                                            <Text allowFontScaling={false} style={styles.th}>差值</Text>
+                                            <Text allowFontScaling={false} style={styles.th}>{t('returnCabinetName')}</Text>
+                                            <Text allowFontScaling={false} style={styles.th}>{t('startingData')}</Text>
+                                            <Text allowFontScaling={false} style={styles.th}>{t('cutoffData')}</Text>
+                                            <Text allowFontScaling={false} style={styles.th}>{t('value')}</Text>
                                         </View>
                                         {this.state.optionData.map((item:any,index:number)=>{
                                             return(

@@ -9,6 +9,7 @@ import { HttpService } from '../../../utils/http'
 import MyCanvas from '../../../component/my-canvas/MyCanvas'
 import Loading from '../../../component/Loading/Loading'//加载组件
 import { PickerBut } from '../../../component/PickerBut/PickerBut'
+import { t } from 'i18next'
 
 const api = require('../../../utils/api')
 const tool = require('../../../utils/tool.js');
@@ -23,7 +24,7 @@ export class PowerTest6 extends Component<any,any> {
 
             _date: util.nowDate(), //日期选择
             //类型选择
-            _typeArr: ["全部", "相电压", "线电压"],
+            _typeArr: [t('all'), t('phaseVoltage'), t('lineVoltage')],
             _typeIn: 0,
             names: ["Uan,Ubn,Ucn,Uab,Ubc,Uca,Ia,Ib,Ic,P,Q,S,Pf,T", "Uan,Ubn,Ucn,Ia,Ib,Ic,P,Q,S,Pf,T", "Uab,Ubc,Uca,Ia,Ib,Ic,P,Q,S,Pf,T"],
             //数据项
@@ -66,7 +67,7 @@ export class PowerTest6 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '获取参数失败！'
+                LoadingMsg: t('getNotData')
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -108,7 +109,7 @@ export class PowerTest6 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '您还未登录,无法查询数据！'
+                LoadingMsg: t('YANLIA')
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -121,7 +122,7 @@ export class PowerTest6 extends Component<any,any> {
         this.setState({
             msgType: 1,
             visible: true,
-            LoadingMsg: '加载中...'
+            LoadingMsg: t('Loading')
         }); //加载效果
         let userId = store.getState().userId; //用户ID
         //处理设备ID
@@ -161,7 +162,7 @@ export class PowerTest6 extends Component<any,any> {
                                 queryIs['dya' + id] = queryData.length;
                                 queryData.push({
                                     id: tool.randomNum(6),
-                                    name: "相电压",
+                                    name: t('phaseVoltage'),
                                     state: true,
                                     title: date + ' ' + objData.name,
                                     legendData: [],
@@ -190,7 +191,7 @@ export class PowerTest6 extends Component<any,any> {
                                     let num = a < 10 ? 'h0' + a : 'h' + a;
                                     if (arrData[num] != undefined) {
                                         if (queryData[queryIs['dya' + id]].xAxisDataIs == false) {
-                                            queryData[queryIs['dya' + id]].xAxisData.push(a + '时')
+                                            queryData[queryIs['dya' + id]].xAxisData.push(a + t('Time'))
                                         }
                                         queryData[queryIs['dya' + id]].series[seIs[objData.sensorLabel + id]].data.push(arrData[num])
                                     }
@@ -205,7 +206,7 @@ export class PowerTest6 extends Component<any,any> {
                                 queryIs['dyb' + id] = queryData.length;
                                 queryData.push({
                                     id: tool.randomNum(6),
-                                    name: "线电压",
+                                    name: t('lineVoltage'),
                                     state: true,
                                     title: date + ' ' + objData.name,
                                     legendData: [],
@@ -234,7 +235,7 @@ export class PowerTest6 extends Component<any,any> {
                                     let num = a < 10 ? 'h0' + a : 'h' + a;
                                     if (arrData[num] != undefined) {
                                         if (queryData[queryIs['dyb' + id]].xAxisDataIs == false) {
-                                            queryData[queryIs['dyb' + id]].xAxisData.push(a + '时')
+                                            queryData[queryIs['dyb' + id]].xAxisData.push(a + t('hour'))
                                         }
                                         queryData[queryIs['dyb' + id]].series[seIs[objData.sensorLabel + id]].data.push(arrData[num])
                                     }
@@ -251,7 +252,7 @@ export class PowerTest6 extends Component<any,any> {
                                 // console.log(queryIs['dl' + id],"queryIs['dl' + id'");
                                 queryData.push({
                                     id: tool.randomNum(6),
-                                    name: "电流",
+                                    name: t('current'),
                                     state: true,
                                     title: date + ' ' + objData.name,
                                     legendData: [],
@@ -280,7 +281,7 @@ export class PowerTest6 extends Component<any,any> {
                                     let num = a < 10 ? 'h0' + a : 'h' + a;
                                     if (arrData[num] != undefined) {
                                         if (queryData[queryIs['dl' + id]].xAxisDataIs == false) {
-                                            queryData[queryIs['dl' + id]].xAxisData.push(a + '时') //xAxisData
+                                            queryData[queryIs['dl' + id]].xAxisData.push(a + t('hour')) //xAxisData
                                         }
                                         queryData[queryIs['dl' + id]].series[seIs[objData.sensorLabel + id]].data.push(arrData[num]) //queryData.series.data
                                     }
@@ -295,7 +296,7 @@ export class PowerTest6 extends Component<any,any> {
                                 queryIs['gl' + id] = queryData.length;
                                 queryData.push({
                                     id: tool.randomNum(6),
-                                    name: "功率",
+                                    name: t('power'),
                                     state: true,
                                     title: date + ' ' + objData.name,
                                     legendData: [],
@@ -324,7 +325,7 @@ export class PowerTest6 extends Component<any,any> {
                                     let num = a < 10 ? 'h0' + a : 'h' + a;
                                     if (arrData[num] != undefined) {
                                         if (queryData[queryIs['gl' + id]].xAxisDataIs == false) {
-                                            queryData[queryIs['gl' + id]].xAxisData.push(a + '时')
+                                            queryData[queryIs['gl' + id]].xAxisData.push(a + t('hour'))
                                         }
                                         queryData[queryIs['gl' + id]].series[seIs[objData.sensorLabel + id]].data.push(arrData[num])
                                     }
@@ -339,7 +340,7 @@ export class PowerTest6 extends Component<any,any> {
                                 queryIs['ys' + id] = queryData.length;
                                 queryData.push({
                                     id: tool.randomNum(6),
-                                    name: "功率因数",
+                                    name: t('powerFactor'),
                                     state: true,
                                     title: date + ' ' + objData.name,
                                     legendData: [],
@@ -383,7 +384,7 @@ export class PowerTest6 extends Component<any,any> {
                                 queryIs['dn' + id] = queryData.length;
                                 queryData.push({
                                     id: tool.randomNum(6),
-                                    name: "电能",
+                                    name: t('energy'),
                                     state: true,
                                     title: date + ' ' + objData.name,
                                     legendData: [],
@@ -412,7 +413,7 @@ export class PowerTest6 extends Component<any,any> {
                                     let num = a < 10 ? 'h0' + a : 'h' + a;
                                     if (arrData[num] != undefined) {
                                         if (queryData[queryIs['dn' + id]].xAxisDataIs == false) {
-                                            queryData[queryIs['dn' + id]].xAxisData.push(a + '时')
+                                            queryData[queryIs['dn' + id]].xAxisData.push(a + t('hour'))
                                         }
                                         queryData[queryIs['dn' + id]].series[seIs[objData.sensorLabel + id]].data.push(arrData[num])
                                     }
@@ -494,7 +495,7 @@ export class PowerTest6 extends Component<any,any> {
             <SafeAreaView style={{flex: 1}}>
                 {/* 引入自定义导航栏 */}
                 <Navbar 
-                    pageName={'电力运行日报'}
+                    pageName={t('Dropo')}
                     showBack={true}
                     showHome={false}
                     isCheck={2}
@@ -507,35 +508,23 @@ export class PowerTest6 extends Component<any,any> {
                 <View style={styleg.container}>
                     <View style={styles.query_head}>
                         <View style={{flex:2}}>
-                            {/* <Picker
-                                pickerType={1}
-                                date={this.state._date}
-                                precisionType={1}
-                                click={this.clickDate}
-                            ></Picker> */}
                             <Pressable style={styleg.button} onPress={()=>this.setState({open: true, typePk: 1})}>
                                 <Text allowFontScaling={false} style={styleg.TextButton}>{this.state._date}</Text>
                                 <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
                             </Pressable>
                         </View>
                         <View style={styles.flex}>
-                            {/* <Picker
-                                pickerType={4}
-                                dataSwitch={this.state._typeArr}
-                                dataSwitchIn={this.state._typeIn}
-                                click={this.clickType}
-                                >
-                            </Picker> */}
+
                             <Pressable style={styleg.button} onPress={()=>this.setState({open: true, typePk: 2})}>
                                 <Text allowFontScaling={false} style={styleg.TextButton}>{this.state._typeArr[this.state._typeIn]}</Text>
                                 <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
                             </Pressable>
                         </View>
-                        <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>查询</Text>
+                        <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>{t('inquire')}</Text>
                     </View>
                     <ScrollView style={styles.echarts_con}>
                         {this.state.optionData.length == 0?
-                            <Text allowFontScaling={false} style={styles.empty}>暂无数据</Text>:''
+                            <Text allowFontScaling={false} style={styles.empty}>{t('noData')}</Text>:''
                         }
                         {this.state.optionData.map((item:any,index:any)=>{
                             return(

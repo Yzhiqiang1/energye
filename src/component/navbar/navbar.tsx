@@ -9,6 +9,7 @@ import Loading from '../Loading/Loading'
 import { parameter_Group } from '../../redux/reducers/counterSlice'
 import { store } from '../../redux/storer'
 import { Modal } from 'native-base'
+import { t } from 'i18next'
 
 const { StatusBarManager } = NativeModules;
 const api = require( '../../utils/api')//接口文件
@@ -75,7 +76,7 @@ export class Navbar extends React.Component<any,any> {
         }
         // 监听数据变化
         this.refreshListener = DeviceEventEmitter.addListener('refresh', () => {
-            if(this.props.pageName === '首页'){
+            if(this.props.pageName === t('home')){
                 this.getGroup();
             }
         })
@@ -188,7 +189,7 @@ export class Navbar extends React.Component<any,any> {
                 this.setState({
                     msgType: 1,
                     visible: true,
-                    LoadingMsg: '查询中...'
+                    LoadingMsg: t('inTheQuery')
                 })
                 this.setState({
                     isGroup: index,
@@ -263,7 +264,7 @@ export class Navbar extends React.Component<any,any> {
                     this.setState({
                         msgType: 2,
                         visible: true,
-                        LoadingMsg: '您至少选择一个设备'
+                        LoadingMsg: t('selectDevice')
                     },()=>{
                         setTimeout(()=>{
                             this.setState({
@@ -279,7 +280,7 @@ export class Navbar extends React.Component<any,any> {
             store.dispatch(
                 parameter_Group({
                     multiSelectKey: selectKey,
-                    multiselectName: '/选中' + Object.keys(selectKey).length + '个设备'
+                    multiselectName: '/'+ t('Select') + Object.keys(selectKey).length + t('numberDevices')
                 })
             )
             // this.props.parameter_Group({
@@ -288,7 +289,7 @@ export class Navbar extends React.Component<any,any> {
             // })
             this.setState({
                 selectKey: selectKey,
-                treeName: this.state.arrGroup[isGroup].name + '/选中' + Object.keys(selectKey).length + '个设备',
+                treeName: this.state.arrGroup[isGroup].name + '/' + t('Select') + Object.keys(selectKey).length + t('numberDevices'),
             })
         } else if (isCheck == 5) { //单选且父组件包含子组件
             let id = e.id; //子组件传递过来的ID
@@ -298,7 +299,7 @@ export class Navbar extends React.Component<any,any> {
                 parameter_Group({
                     radioSonGroupId: this.state.arrGroup[isGroup].id,
                     radioSonSelectKey: selectKey,
-                    radioSonSelectName: '/选中' + Object.keys(selectKey).length + '个设备'
+                    radioSonSelectName: '/'+ t('Select') + Object.keys(selectKey).length + t('numberDevices')
                 })
             )
             // this.props.parameter_Group({
@@ -308,7 +309,7 @@ export class Navbar extends React.Component<any,any> {
             // })
             this.setState({
                 selectKey: selectKey,
-                treeName: this.state.arrGroup[this.state.isGroup].name + '/选中' + Object.keys(selectKey).length + '个设备',
+                treeName: this.state.arrGroup[this.state.isGroup].name + '/'+ t('Select') + Object.keys(selectKey).length + t('numberDevices'),
             })
         } else if (isCheck == 6) { //摄像头设备
             let id = e.id; //子组件传递过来的ID
@@ -323,7 +324,7 @@ export class Navbar extends React.Component<any,any> {
                     this.setState({
                         msgType: 2,
                         visible: true,
-                        LoadingMsg: '您至少选择一个设备'
+                        LoadingMsg: t('selectDevice')
                     },()=>{
                         setTimeout(()=>{
                             this.setState({
@@ -339,7 +340,7 @@ export class Navbar extends React.Component<any,any> {
             store.dispatch(
                 parameter_Group({
                     monitorSelectKey: selectKey,
-                    monitorSelectName: '选中' + Object.keys(selectKey).length + '个设备'
+                    monitorSelectName: t('Select') + Object.keys(selectKey).length + t('numberDevices') 
                 })
             )
             // this.props.parameter_Group({
@@ -348,7 +349,7 @@ export class Navbar extends React.Component<any,any> {
             // })
             this.setState({
                 selectKey: selectKey,
-                treeName: '选中' + Object.keys(selectKey).length + '个设备',
+                treeName: t('Select') + Object.keys(selectKey).length + t('numberDevices'),
             })
         }
         /**
@@ -384,7 +385,7 @@ export class Navbar extends React.Component<any,any> {
                     //更新数据
                     this.setState({
                         treeLoading: false,
-                        treeName: '当前账号下没有设备组',
+                        treeName: t('noDevices'),
                     })
                 }
             } else {
@@ -453,7 +454,7 @@ export class Navbar extends React.Component<any,any> {
                     if (isCheck == 1 || isCheck == 3) {
                         if (store.getState().parameterGroup.multiGroup.selectKey == '') {
                             selectKey2[res.data[0].id] = res.data[0].id;
-                            name2 = '/选中' + Object.keys(selectKey2).length + '个设备';
+                            name2 = '/'+ t('Select') + Object.keys(selectKey2).length + t('numberDevices');
                             //更新全局变量
                             // this.props.parameter_Group({multiSelectKey:selectKey2,multiselectName:name2})
                             store.dispatch(parameter_Group({multiSelectKey:selectKey2,multiselectName:name2}))
@@ -469,7 +470,7 @@ export class Navbar extends React.Component<any,any> {
                         if (store.getState().parameterGroup.radioSonGroup.selectKey == '') {
                             //默认选中第一个以及所有子元素
                             selectKey3 = that.getChild(res.data, res.data[0].id)
-                            name3 = '/选中' + Object.keys(selectKey3).length + '个设备';
+                            name3 = '/'+ t('Select') + Object.keys(selectKey3).length + t('numberDevices');
                             //更新全局变量
                             store.dispatch(
                                 parameter_Group({
@@ -510,7 +511,7 @@ export class Navbar extends React.Component<any,any> {
                 //更新数据
                 that.setState({
                     treeLoading: false,
-                    treeName: res.msg != '操作成功' ? res.msg : '该分组下无数据，请点击选择分组！',
+                    treeName: res.msg != t('operation') ? res.msg : t('selectGroup'),
                     dataTree: []
                 })
             }
@@ -538,8 +539,8 @@ export class Navbar extends React.Component<any,any> {
         let userId = store.getState().userId; //用户ID
         this.setState({
             msgType: 1,
-            visible: true,//打开加载窗口
-            LoadingMsg: '加载中...'
+            visible: true, //打开加载窗口
+            LoadingMsg: t('Loading')
         })
         HttpService.apiPost(api.getMonitor, {
             userId: userId,
@@ -552,7 +553,7 @@ export class Navbar extends React.Component<any,any> {
                 let selectKey:any = {}; //处理多选选中数据
                 if (store.getState().parameterGroup.monitorGroup.selectKey == '') {
                     selectKey[res.data.LayuiTree[0].id] = res.data.LayuiTree[0].id; //默认选中第一个
-                    name = "选中一个设备";
+                    name = t('SelectAdevice');
                     store.dispatch(
                         parameter_Group({
                             monitorSelectKey: selectKey,
@@ -578,7 +579,7 @@ export class Navbar extends React.Component<any,any> {
                 //更新数据
                 that.setState({
                     treeLoading: false,
-                    treeName: res.msg != '操作成功' ? 'null' : "该分组下无数据，请点击选择分组！",
+                    treeName: res.msg != t('operation') ? 'null' : t('selectGroup'),
                 })
             }
         }).catch((fail_message) => {
@@ -617,7 +618,6 @@ export class Navbar extends React.Component<any,any> {
             }
             isGroup = isGroup_2;
             store.dispatch(parameter_Group({groupId:res[isGroup_2].id}))
-            // this.props.parameter_Group({groupId:res[isGroup_2].id})
         }
         //多选
         if (isCheck == 1 || isCheck == 3) {
@@ -632,7 +632,6 @@ export class Navbar extends React.Component<any,any> {
             }
 
             if (isCheck == 3) isGroup = isGroup_3;
-            // this.props.parameter_Group({multiIsGroup:isGroup_3,multiGroupId:res[isGroup_3].id})
             store.dispatch(parameter_Group({multiIsGroup:isGroup_3,multiGroupId:res[isGroup_3].id}))
         }
         //仅设备
@@ -648,7 +647,6 @@ export class Navbar extends React.Component<any,any> {
             }
             if (isCheck == 4) isGroup = isGroup_4;
             store.dispatch(parameter_Group({onlyGroupId:res[isGroup_4].id}))
-            // this.props.parameter_Group({onlyGroupId:res[isGroup_4].id})
         }
         //单选包含子组件
         if (isCheck == 1 || isCheck == 5) {
@@ -662,7 +660,6 @@ export class Navbar extends React.Component<any,any> {
                 }
             }
             if (isCheck == 5) isGroup = isGroup_5;
-            // this.props.parameter_Group({radioSonGroupId:res[isGroup_5].id})
             store.dispatch(parameter_Group({radioSonGroupId:res[isGroup_5].id}))
         }
         return isGroup;
@@ -717,7 +714,7 @@ export class Navbar extends React.Component<any,any> {
                                     color='#333'
                                     size={22}
                                 />
-                                <Text allowFontScaling={false} style={styles.text}>返回</Text>
+                                <Text allowFontScaling={false} style={styles.text}>{t('return')}</Text>
                             </Pressable>:''
                         }
                         {this.props.showHome?
@@ -728,13 +725,13 @@ export class Navbar extends React.Component<any,any> {
                                     color='#333'
                                     size={22}
                                 />
-                                <Text style={styles.text}>首页</Text>
+                                <Text style={styles.text}>{t('home')}</Text>
                             </Pressable>:''
                         }
                         <Text allowFontScaling={false} style={styles.navbar_text}>{this.props.pageName}</Text>
                         {this.props.LoginStatus == 1?
                             <TouchableOpacity style={styles.treeSelect} onPress={()=>{navigation?.navigate('BindAccount')}}>
-                                <Text allowFontScaling={false} style={[styles.navbar_text,{fontSize:Fs/22,color:'#2EA4FF',fontWeight: '400'}]}>您还未登录,点击登录</Text>
+                                <Text allowFontScaling={false} style={[styles.navbar_text,{fontSize:Fs/22,color:'#2EA4FF',fontWeight: '400'}]}>{t('youNotlogin')}</Text>
                             </TouchableOpacity>
                         : ''
                         }

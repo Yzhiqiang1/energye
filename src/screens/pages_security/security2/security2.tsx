@@ -10,6 +10,8 @@ import Loading from '../../../component/Loading/Loading'
 
 import { store } from '../../../redux/storer'
 import { localSocket } from '../../../redux/reducers/counterSlice'
+import { t } from 'i18next'
+
 const { StatusBarManager } = NativeModules;
 const STATUS_BAR_HEIGHT = Platform.OS === 'ios' ? StatusBar.currentHeight : StatusBarManager.HEIGHT;//状态栏高度
 const api = require('../../../utils/api')
@@ -112,7 +114,7 @@ export class Security1 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '获取参数失败！'
+                LoadingMsg: t('getNotData')
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -262,7 +264,7 @@ export class Security1 extends Component<any,any> {
         this.setState({
             msgType: 1,
             visible: true,
-            LoadingMsg: '加载中...'
+            LoadingMsg: t('Loading')
         })
         HttpService.apiPost(api.kgkz_sendData, {
             userId: userId,
@@ -277,7 +279,7 @@ export class Security1 extends Component<any,any> {
                 this.setState({
                     msgType: 2,
                     visible: true,
-                    LoadingMsg: '操作下发成功,请等待设备回传!'
+                    LoadingMsg: t('TOWSI')
                 },()=>{
                     setTimeout(()=>{
                         this.setState({
@@ -335,7 +337,7 @@ export class Security1 extends Component<any,any> {
                 <SafeAreaView style={{flex: 1}}>
                     {/* 引入自定义导航栏 */}
                     <Navbar 
-                        pageName={'开关控制'}
+                        pageName={t('onoffControl')}
                         showBack={true}
                         showHome={false}
                         isCheck={5}
@@ -348,7 +350,7 @@ export class Security1 extends Component<any,any> {
                     <View style={styleg.containerMini}>
                         <View style={styles.containerMini}>
                             {this.state.sensorArr.length==0?
-                                <Text allowFontScaling={false} style={styles.empty}>{'没有对应传感器'}</Text>:''
+                                <Text allowFontScaling={false} style={styles.empty}>{t('noSensor')}</Text>:''
                             }
                             {/* 面板item */}
                             {this.state.sensorArr.map((top_item:any,top_index:number)=>{
@@ -359,20 +361,20 @@ export class Security1 extends Component<any,any> {
                                             <Image source={require('../../../image/switch1.png')} resizeMode='contain' style={styles.devieceImg}></Image>
                                             <View style={styles.devieceInfo}>
                                                 <Text allowFontScaling={false} style={styles.devieceName}>{top_item.deviceName}</Text>
-                                                <Text allowFontScaling={false}>更新时间: 
-                                                    <Text allowFontScaling={false} style={styles.lastTime}>{top_item.updateTime ? top_item.updateTime : '暂无数据'}</Text>
+                                                <Text allowFontScaling={false}>{t('updateTime')}: 
+                                                    <Text allowFontScaling={false} style={styles.lastTime}>{top_item.updateTime ? top_item.updateTime : t('noData')}</Text>
                                                 </Text>
                                             </View>
                                             <Text allowFontScaling={false} 
                                                 style={styles.search}
                                                 onPress={()=>this.historySearch(top_index)}
                                             >
-                                            查询
+                                            {t('inquire')}
                                             </Text>
                                         </View>
                                         {/* 传感器信息行 */}
                                         {top_item.sensorList.length==0?
-                                            <Text allowFontScaling={false}>暂无数据</Text>:''
+                                            <Text allowFontScaling={false}>{t('noData')}</Text>:''
                                         }
                                         {top_item.sensorList.map((item:any,index:number)=>{
                                             return(
@@ -400,17 +402,17 @@ export class Security1 extends Component<any,any> {
                     overlayStyle={styles.overlay}
                     backdropStyle={{height:'120%'}}
                     >
-                    <Text allowFontScaling={false} style={styles.SwitchText}>确定操作设备开关吗？</Text>
+                    <Text allowFontScaling={false} style={styles.SwitchText}>{t('AYSTOT')}</Text>
 
                     <View style={styles.actions}>
                         <Pressable style={styles.but}>
-                            <Text allowFontScaling={false} style={styles.bot} onPress={()=>this.cancel()}>取消</Text>
+                            <Text allowFontScaling={false} style={styles.bot} onPress={()=>this.cancel()}>{t('cancel')}</Text>
                         </Pressable>
                         <Pressable style={[styles.but,{backgroundColor: '#1890FF',}]}>
                             <Text allowFontScaling={false}
                             style={[styles.bot,{color: '#fff'}]} 
                             onPress={()=>{this.confirm()}}
-                            >确定</Text>
+                            >{t('confirm')}</Text>
                         </Pressable>
                     </View>
                 </Dialog>

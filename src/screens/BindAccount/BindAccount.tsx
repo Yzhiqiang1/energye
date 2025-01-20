@@ -6,6 +6,7 @@ import Loading from '../../component/Loading/Loading';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { connect } from 'react-redux';
 import { Set_State } from '../../redux/reducers/counterSlice';
+import { t } from 'i18next';
 
 const Fs = Dimensions.get('window').width*0.8
 let api = require('../../utils/api')
@@ -41,7 +42,7 @@ export class BindAccount extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: "请输入账号！"
+                LoadingMsg: t('Pleaseente')
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -54,7 +55,7 @@ export class BindAccount extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '请输入密码！'
+                LoadingMsg: t('pleaseEnterYourPassword')
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -70,7 +71,7 @@ export class BindAccount extends Component<any,any> {
         this.setState({
             msgType: 1,
             visible: true,
-            LoadingMsg: '登录中...'
+            LoadingMsg: t('beLoggingIn')
         })
         var userName = this.state.userName;
         var password = this.state.password;
@@ -118,7 +119,7 @@ export class BindAccount extends Component<any,any> {
                 this.setState({
                     msgType: 2,
                     visible: true,
-                    LoadingMsg: '登录异常，检查账号是否正确',
+                    LoadingMsg: t('LECW'),
                     intercept: true,
                 },()=>{
                     setTimeout(()=>{
@@ -132,7 +133,7 @@ export class BindAccount extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '登录异常，检查网络是否连接',
+                LoadingMsg: t('loginError'),
                 intercept: true,
             },()=>{
                 setTimeout(()=>{
@@ -181,19 +182,19 @@ export class BindAccount extends Component<any,any> {
             <SafeAreaView style={styles.view}>
                 <LoginNavbar
                     props={this.props}
-                    name={'账号登录'}
-                    showBack={false}
+                    name={t('AccountLogin')}
+                    showBack={false}    
                     showHome={true}
                 ></LoginNavbar>
                 <View style={[styles.flex,{top: this.state.boxHeight,height: Dimensions.get('window').height-this.state.boxHeight}]}>
                     <View style={styles.con}>
                         <View  style={styles.list}>
                             <Image style={styles.Img} source={require('../../image/dl_user.png')}></Image>
-                            <TextInput allowFontScaling={false} style={styles.Input} placeholderTextColor="#aeaeae" placeholder={'输入用户名'} onChangeText={this.userNameChangeSearch} ></TextInput>
+                            <TextInput allowFontScaling={false} style={styles.Input} placeholderTextColor="#aeaeae" placeholder={t('enterUsername')} onChangeText={this.userNameChangeSearch} ></TextInput>
                         </View>
                         <View  style={styles.list}>
                             <Image style={styles.Img} source={require('../../image/dl_password.png')}></Image>
-                            <TextInput allowFontScaling={false} style={styles.Input} placeholderTextColor="#aeaeae" placeholder={'输入密码'} onChangeText={this.passwordChangeSearch} secureTextEntry={true} ></TextInput>
+                            <TextInput allowFontScaling={false} style={styles.Input} placeholderTextColor="#aeaeae" placeholder={t('enterPassword')} onChangeText={this.passwordChangeSearch} secureTextEntry={true} ></TextInput>
                         </View>
                         <View style={styles.forget}>
                             <TouchableOpacity >
@@ -201,24 +202,24 @@ export class BindAccount extends Component<any,any> {
                         </View>
                         <View  style={styles.butList}>
                             <Pressable style={({ pressed })=>[{backgroundColor: pressed ? '#f3f3f3' : '#eeeeee'},styles.button]} onPress={()=>this.props.navigation.navigate('Tabbar')}>
-                                <Text style={styles.buttonL} allowFontScaling={false} >取消登录</Text>
+                                <Text style={styles.buttonL} allowFontScaling={false} > {t('cancelLogin')} </Text>
                             </Pressable>
                             <Pressable style={({ pressed })=>[{backgroundColor: pressed ? '#2da2fe' : '#1890FF'},styles.button]} onPress={this.Login}>
-                                <Text style={styles.buttonR} allowFontScaling={false} >登录</Text>
+                                <Text style={styles.buttonR} allowFontScaling={false} >{t('logIn')}</Text>
                             </Pressable>
                         </View>
                         <View style={styles.link}>
                             <TouchableOpacity style={styles.Url}  onPress={()=>this.props.navigation.navigate('BindPhone')}>
-                                <Text allowFontScaling={false} style={{color: '#01AAED',fontSize:Fs/22}}>短信登录</Text>
+                                <Text allowFontScaling={false} style={{color: '#01AAED',fontSize:Fs/22}}>{t('SMSlogin')}</Text>
                             </TouchableOpacity>
                             <TouchableOpacity style={styles.Url} onPress={()=>this.props.navigation.navigate('AccountRegister')}>
-                                <Text allowFontScaling={false} style={{color: '#01AAED',fontSize:Fs/22}}>注册账号</Text>
+                                <Text allowFontScaling={false} style={{color: '#01AAED',fontSize:Fs/22}}>{t('registerAnAccount')}</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styles.Tourist}>
                             <Pressable style={styles.experience} onPress={this.touristLongin}>
                                 <Image style={{width:30,height:30}} source={require('../../image/Tourist.png')}></Image>
-                                <Text style={styles.Text} allowFontScaling={false}>体验账号登录</Text>
+                                <Text style={styles.Text} allowFontScaling={false}>{t('Experience')}</Text>
                             </Pressable> 
                         </View>
                     </View>

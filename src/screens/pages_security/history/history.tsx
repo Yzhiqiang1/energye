@@ -10,6 +10,7 @@ import Loading from '../../../component/Loading/Loading'
 import PickerBut from '../../../component/PickerBut/PickerBut'
 const api = require('../../../utils/api')
 const Fs = Dimensions.get('window').width*0.8
+import { t } from 'i18next'
 
 export class History extends Component<any,any> {
     constructor(props:any){
@@ -23,7 +24,7 @@ export class History extends Component<any,any> {
         }
     }
     componentDidMount(): void {
-        let sids = this.props.route.params.sids ? this.props.route.params.sids : '获取参数失败';
+        let sids = this.props.route.params.sids ? this.props.route.params.sids : t('getNotData');
         this.setState({
             sids: sids
         }, () => {
@@ -57,7 +58,7 @@ export class History extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '开始日期不能大于结束日期！'
+                LoadingMsg: t('TSDMN')
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -88,7 +89,7 @@ export class History extends Component<any,any> {
         this.setState({
             msgType: 1,
             visible: true,
-            LoadingMsg: '加载中...'
+            LoadingMsg: t('Loading')
         })
         HttpService.apiPost(api.kgkz_getHistory, {
             userId: userId,
@@ -181,7 +182,7 @@ export class History extends Component<any,any> {
                 </Loading>
                 <SafeAreaView style={{flex: 1}}>
                     <Navbars
-                        name={'历史查询'}
+                        name={t('historicalQuery')}
                         showHome={false}
                         showBack={true}
                         props={this.props}>
@@ -203,7 +204,7 @@ export class History extends Component<any,any> {
                                 </Pressable>
                             </View>
                             <Text allowFontScaling={false} style={styles.text}>
-                                至
+                                {t('to')}
                             </Text>
                             <View style={styles.flex}>
                                 {/* <Picker
@@ -218,12 +219,12 @@ export class History extends Component<any,any> {
                                     <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
                                 </Pressable>
                             </View>
-                            <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>查询</Text>
+                            <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>{t('inquire')}</Text>
                         </View>
                         
                         <ScrollView style={styles.echartsCon}>
                             {this.state.optionData.length == 0?
-                                <Text allowFontScaling={false} style={styles.empty}>暂无数据</Text>:''
+                                <Text allowFontScaling={false} style={styles.empty}>{t('noData')}</Text>:''
                             }
                             {this.state.optionData.map((item:any,index:number)=>{
                                 return(

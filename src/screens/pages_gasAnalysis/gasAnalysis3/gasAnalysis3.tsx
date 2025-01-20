@@ -10,6 +10,7 @@ import Loading from '../../../component/Loading/Loading'
 import PickerBut from '../../../component/PickerBut/PickerBut'
 const api = require('../../../utils/api')
 const Fs = Dimensions.get('window').width*0.8
+import { t } from 'i18next'
 
 let arrWeekTime = String(util.nowDate(1)).split('-');
 let getWeek = util.getWeek(arrWeekTime[0], arrWeekTime[1])
@@ -30,7 +31,7 @@ export class GasAnalysis3 extends Component<any,any> {
             _weekTime: getWeek.value,
             _weekTimeDate: getWeek.data,
             _weekTimeIn: 0,
-            _weekSeveral: ["第一周","第二周","第三周","第四周","第五周"],
+            _weekSeveral: [t('FirstWeek'),t('secondWeek'),t('thirdWeek'),t('fourthWeek'),t('fifthWeek')],
             //月报处理
             _month: util.nowDate(1),
             //数据项
@@ -78,7 +79,7 @@ export class GasAnalysis3 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '获取参数失败！'
+                LoadingMsg: t('getNotData')
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -158,7 +159,7 @@ export class GasAnalysis3 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '您还未登录,无法查询数据！'
+                LoadingMsg: t('YANLIA')
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -171,7 +172,7 @@ export class GasAnalysis3 extends Component<any,any> {
         this.setState({
             msgType: 1,
             visible: true,
-            LoadingMsg: '加载中...'
+            LoadingMsg: t('Loading')
         })
         //用户ID
         let userId = store.getState().userId;
@@ -194,13 +195,13 @@ export class GasAnalysis3 extends Component<any,any> {
         let dataName:any = [];
         if (dataSwitchIn == 0) {
             parameter.date = that.state._day;
-            dataName = ['回路名称','当日用电(gc·h)', '上日用电(gc·h)', '增加值', '环比(%)'];
+            dataName = [t('LoopName'),t('DEC')+'(gc·h)', t('UDE')+'(gc·h)', t('valueAdded'), t('Chain')+'(%)'];
         } else if (dataSwitchIn == 1) {
             parameter.date = that.state._weekTimeDate[that.state._weekTimeIn][1];
-            dataName = ['回路名称', '当月' + that.state._weekTimeDate[that.state._weekTimeIn][0]+'(gc·h)', '上月' + that.state._weekTimeDate[that.state._weekTimeIn][0]+'(gc·h)', '增加值', '环比(%)'];
+            dataName = [t('LoopName'), t('ofMonth') + that.state._weekTimeDate[that.state._weekTimeIn][0]+'(gc·h)', t('lastMonth') + that.state._weekTimeDate[that.state._weekTimeIn][0]+'(gc·h)', t('valueAdded'), t('Chain')+'(%)'];
         } else if (dataSwitchIn == 2) {
             parameter.date = that.state._month;
-            dataName = ['回路名称', '当月用电(gc·h)', '上月用电(gc·h)', '增加值', '环比(%)'];
+            dataName = [t('LoopName'), t('ECOTF') + '(gc·h)', t('ECLM') + '(gc·h)', t('valueAdded'), t('Chain')+'(%)'];
         }
         that.setState({
             titleData:dataName
@@ -304,7 +305,7 @@ export class GasAnalysis3 extends Component<any,any> {
                 <SafeAreaView style={{flex: 1}}>
                     {/* 引入自定义导航栏 */}
                     <Navbar 
-                        pageName={'环比分析'}
+                        pageName={t('sequentialAnalysis')}
                         showBack={true}
                         showHome={false}
                         isCheck={3}
@@ -317,9 +318,9 @@ export class GasAnalysis3 extends Component<any,any> {
                         {/* 查询框 */}
                         <View style={styles.query_head}>
                             <View style={styles.tab}>
-                                <Text allowFontScaling={false} style={[styles.tabFlex,this.state.dataSwitchIn == 0 ? styles.flexIs : null]} onPress={()=>this.clickDataSwitch(0)}>日</Text>
-                                <Text allowFontScaling={false} style={[styles.tabFlex,this.state.dataSwitchIn == 1 ? styles.flexIs : null]} onPress={()=>this.clickDataSwitch(1)}>周</Text>
-                                <Text allowFontScaling={false} style={[styles.tabFlex,this.state.dataSwitchIn == 2 ? styles.flexIs : null]} onPress={()=>this.clickDataSwitch(2)}>月</Text>
+                                <Text allowFontScaling={false} style={[styles.tabFlex,this.state.dataSwitchIn == 0 ? styles.flexIs : null]} onPress={()=>this.clickDataSwitch(0)}>{t('Dy')}</Text>
+                                <Text allowFontScaling={false} style={[styles.tabFlex,this.state.dataSwitchIn == 1 ? styles.flexIs : null]} onPress={()=>this.clickDataSwitch(1)}>{t('Wk')}</Text>
+                                <Text allowFontScaling={false} style={[styles.tabFlex,this.state.dataSwitchIn == 2 ? styles.flexIs : null]} onPress={()=>this.clickDataSwitch(2)}>{t('Mh')}</Text>
                             </View>
                             {/* 日报处理 */}
                             {this.state.dataSwitchIn == 0?
@@ -352,15 +353,15 @@ export class GasAnalysis3 extends Component<any,any> {
                                         </Pressable>
                                     </View>:''
                                 }
-                            <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>查询</Text>
+                            <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>{t('inquire')}</Text>
                         </View>
 
                         <View style={styles.echarts_con}>
                             {this.state.optionData.length == 0?
-                                <Text allowFontScaling={false} style={styles.empty}>暂无数据</Text>:
+                                <Text allowFontScaling={false} style={styles.empty}>{t('noData')}</Text>:
                                 <View style={styles.item}>
                                     <Text allowFontScaling={false} style={styles.name}>
-                                        环比分析数据
+                                        {t('Analyze')}
                                     </Text>
                                     <View style={styles.table}>
                                         <View style={styles.row}>

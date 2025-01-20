@@ -10,6 +10,7 @@ import Loading from '../../../component/Loading/Loading'
 import PickerBut from '../../../component/PickerBut/PickerBut'
 const api = require('../../../utils/api')
 const Fs = Dimensions.get('window').width*0.8
+import { t } from 'i18next'
 
 export class PowerAnalysis7 extends Component<any,any> {
     constructor(props:any){
@@ -61,7 +62,7 @@ export class PowerAnalysis7 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '获取参数失败！'
+                LoadingMsg: t('getNotData')
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -100,7 +101,7 @@ export class PowerAnalysis7 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '开始日期不能大于结束日期!'
+                LoadingMsg: t('TSDMN')
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -122,7 +123,7 @@ export class PowerAnalysis7 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '您还未登录,无法查询数据！'
+                LoadingMsg: t('YANLI')
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -135,7 +136,7 @@ export class PowerAnalysis7 extends Component<any,any> {
         this.setState({
             msgType: 1,
             visible: true,
-            LoadingMsg: '加载中...'
+            LoadingMsg: t('Loading')
         }); //加载效果
         let userId = store.getState().userId; //用户ID
         //查询设备ID
@@ -236,7 +237,7 @@ export class PowerAnalysis7 extends Component<any,any> {
                 <SafeAreaView style={{flex: 1}}>
                     {/* 引入自定义导航栏 */}
                     <Navbar 
-                        pageName={'最大需量'}
+                        pageName={t('maximumDemand')}
                         showBack={true}
                         showHome={false}
                         isCheck={3}
@@ -254,7 +255,7 @@ export class PowerAnalysis7 extends Component<any,any> {
                                 </Pressable>
                             </View>
                             <Text allowFontScaling={false} style={styles.text}>
-                                至
+                                {t('to')}
                             </Text>
                             <View style={styles.flex}>
                                 <Pressable style={styleg.button} onPress={()=>this.setState({open: true,typePk: 2})}>
@@ -262,15 +263,15 @@ export class PowerAnalysis7 extends Component<any,any> {
                                     <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
                                 </Pressable>
                             </View>
-                            <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>查询</Text>
+                            <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>{t('inquire')}</Text>
                         </View>
                         
                         <ScrollView style={styles.echarts_con}>
                             {this.state.optionData.length == 0?
-                                <Text allowFontScaling={false} style={styles.empty}>暂无数据</Text>:
+                                <Text allowFontScaling={false} style={styles.empty}>{t('noData')}</Text>:
                                 <View style={styles.item}>
                                     <Text allowFontScaling={false} style={styles.name}>
-                                        最大需量数据统计
+                                        {t('MDDS')}
                                     </Text>
                                     <View style={styles.table}>
                                         {this.state.optionData.map((top_item: any,top_index: number)=>{
@@ -287,12 +288,12 @@ export class PowerAnalysis7 extends Component<any,any> {
                                                     <View style={styles.label}></View>
                                                     <View style={styles.cellflex}>
                                                         <View style={styles.cellCen}>
-                                                            <Text allowFontScaling={false} style={styles.value}>数值</Text>
+                                                            <Text allowFontScaling={false} style={styles.value}>{t('numericalValue')}</Text>
                                                         </View>
                                                     </View>
                                                     <View style={styles.cellflex}>
                                                         <View style={styles.cellCen}>
-                                                            <Text allowFontScaling={false} style={styles.value}>时间</Text>
+                                                            <Text allowFontScaling={false} style={styles.value}>{t('Time')}</Text>
                                                         </View>
                                                     </View>
                                                 </View>
@@ -303,7 +304,7 @@ export class PowerAnalysis7 extends Component<any,any> {
                                                             <View style={styles.cell}>
                                                                 <View style={styles.label}>
                                                                     <View style={styles.cellCen}>
-                                                                        <Text allowFontScaling={false} style={styles.value}>{top_item2.month+'月'}</Text>
+                                                                        <Text allowFontScaling={false} style={styles.value}>{top_item2.month + t('month')}</Text>
                                                                     </View>
                                                                 </View>
                                                                 <View style={styles.cellflex}>

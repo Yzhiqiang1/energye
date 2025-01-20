@@ -1,3 +1,4 @@
+import { t } from 'i18next'
 //获取年月日时分秒
 const formatTime = function(date,sep,type) {
   let _sep = sep ? sep : '/';
@@ -124,13 +125,13 @@ function getWeek(year, month) {
         d.setFullYear(year, month-1, sunday);
         to = d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate();
     }
-    arrWeek.value.push("第"+(i+1)+"周 (" + from + " 至 " + to + ")");
-    arrWeek.data.push(["第"+(i+1)+"周",from,to]);
+    arrWeek.value.push(t('di')+(i+1)+t('week')+" (" + from + t('to') + to + ")");
+    arrWeek.data.push([t('di')+(i+1)+t('week'),from,to]);
   }
   return arrWeek;
 }
 //时间戳转换
-function getTransition(timestamp,type) {
+export function getTransition(timestamp,type) {
   let time = new Date(timestamp)
   let fullYear = time.getFullYear()
   let month = time.getMonth() + 1

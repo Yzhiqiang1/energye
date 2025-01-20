@@ -7,6 +7,8 @@ import { Register } from '../../../utils/app'
 import store from '../../../redux/store'
 import { HttpService } from '../../../utils/http'
 import Loading from '../../../component/Loading/Loading'
+import { t } from 'i18next'
+
 const api = require('../../../utils/api')
 
 export class Security3_ph extends Component<any,any> {
@@ -43,7 +45,7 @@ export class Security3_ph extends Component<any,any> {
                     this.setState({
                         msgType: 2,
                         visible: true,
-                        LoadingMsg: '获取参数失败！'
+                        LoadingMsg: t('getNotData')
                     },()=>{
                         setTimeout(()=>{
                             this.setState({
@@ -163,7 +165,7 @@ export class Security3_ph extends Component<any,any> {
         this.setState({
             msgType: 1,
             visible: true,
-            LoadingMsg: '加载中...'
+            LoadingMsg: t('Loading')
         }); //加载效果
         let userId = store.getState().userReducer.userId; //用户ID
         let deviceId = that.state.deviceId; //获取设备ID
@@ -240,9 +242,9 @@ export class Security3_ph extends Component<any,any> {
                                 </View>
                             </picker> */}
                         </View>
-                        <View style={styles.button}>查询</View>
-                        <View style={[styles.button,styles.buttonC1]}>上一日</View>
-                        <View style={styles.button}>下一日</View>
+                        <View style={styles.button}>{t('inquire')}</View>
+                        <View style={[styles.button,styles.buttonC1]}>{t('topDay')}</View>
+                        <View style={styles.button}>{t('nextDay')}</View>
                     </View>
                     <View style={styles.echarts_con}>
                         <View style={styles.item}>

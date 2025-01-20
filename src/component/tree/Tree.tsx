@@ -51,7 +51,7 @@ export class Tree extends Component<any,any> {
     }
     // 选择树
     select = (e:number) =>{
-        let item = this.state.tree[e];
+        let item = this.state.tree[e]; 
         this.props.handleSelect(item)
     }
   render() {

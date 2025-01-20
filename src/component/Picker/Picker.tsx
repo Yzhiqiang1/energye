@@ -3,6 +3,8 @@ import React, { Component } from 'react'
 import { DatePickerView, PickerValue, PickerView } from '@ant-design/react-native'
 import styleg from '../../indexCss';
 import { getTransition } from '../../utils/util';
+import { t } from 'i18next'
+
 const Fs = Dimensions.get('window').width*0.8
 
 export class Picker extends Component<any,any> {
@@ -241,7 +243,6 @@ export class Picker extends Component<any,any> {
             this.setState({
                 weekValue: this.state.weekTransfer,
                 week: week[0],
-               
             })
             this.props.click(this.state.weekTransfer)
         }
@@ -285,8 +286,8 @@ export class Picker extends Component<any,any> {
                         </Pressable>
                         <View style={[styles.dialogBox]}>
                             <View style={styles.butTop}>
-                                <Text allowFontScaling={false} style={styles.bot} onPress={()=>{this.setState({open:false})}}>取消</Text>
-                                <Text allowFontScaling={false} style={[styles.bot,styles.right]} onPress={this.confirm}>确定</Text>
+                                <Text allowFontScaling={false} style={styles.bot} onPress={()=>{this.setState({open:false})}}>{t('cancel')}</Text>
+                                <Text allowFontScaling={false} style={[styles.bot,styles.right]} onPress={this.confirm}>{t('confirm')}</Text>
                             </View>
                             <DatePickerView
                                 precision={this.state.precision}
@@ -301,7 +302,7 @@ export class Picker extends Component<any,any> {
             this.props.pickerType == 2?
             <View>
                 <Pressable style={styleg.button} onPress={()=>{this.setState({open:true})}}>
-                    <Text allowFontScaling={false} style={styleg.TextButton}>{this.state.startDay+this.props.text +' 至 '+ this.state.endDay+this.props.text}</Text>
+                    <Text allowFontScaling={false} style={styleg.TextButton}>{this.state.startDay+this.props.text + t('to') + this.state.endDay+this.props.text}</Text>
                     <Image style={styleg.ico} source={require('../../image/down.png')}></Image>
                 </Pressable>
                 <Modal 
@@ -314,8 +315,8 @@ export class Picker extends Component<any,any> {
                         </Pressable>
                         <View style={[styles.dialogBox,{position: 'absolute',zIndex: 999}]}>
                             <View style={styles.butTop}>
-                                <Text allowFontScaling={false} style={styles.bot} onPress={()=>{this.setState({open:false})}}>取消</Text>
-                                <Text allowFontScaling={false} style={[styles.bot,styles.right]} onPress={this.uniteConfirm}>确定</Text>
+                                <Text allowFontScaling={false} style={styles.bot} onPress={()=>{this.setState({open:false})}}>{t('cancel')}</Text>
+                                <Text allowFontScaling={false} style={[styles.bot,styles.right]} onPress={this.uniteConfirm}>{t('confirm')}</Text>
                             </View>
 
                             <View style={{display:'flex',flexDirection:'row'}}>
@@ -354,8 +355,8 @@ export class Picker extends Component<any,any> {
                         </Pressable>
                         <View style={[styles.dialogBox,{position: 'absolute',zIndex: 999}]}>
                             <View style={styles.butTop}>
-                                <Text allowFontScaling={false} style={styles.bot} onPress={()=>{this.setState({open:false})}}>取消</Text>
-                                <Text allowFontScaling={false} style={[styles.bot,styles.right]} onPress={this.weekConfirm}>确定</Text>
+                                <Text allowFontScaling={false} style={styles.bot} onPress={()=>{this.setState({open:false})}}>{t('cancel')}</Text>
+                                <Text allowFontScaling={false} style={[styles.bot,styles.right]} onPress={this.weekConfirm}>{t('confirm')}</Text>
                             </View>
 
                             <View>
@@ -385,8 +386,8 @@ export class Picker extends Component<any,any> {
                         </Pressable>
                         <View style={[styles.dialogBox,{position: 'absolute',zIndex: 99999}]}>
                             <View style={styles.butTop}>
-                                <Text allowFontScaling={false} style={styles.bot} onPress={()=>{this.setState({open:false})}}>取消</Text>{/*取消*/}
-                                <Text allowFontScaling={false} style={[styles.bot,styles.right]} onPress={this.dataConfirm}>确定</Text>{/*取消*/}
+                                <Text allowFontScaling={false} style={styles.bot} onPress={()=>{this.setState({open:false})}}>{t('cancel')}</Text>{/*取消*/}
+                                <Text allowFontScaling={false} style={[styles.bot,styles.right]} onPress={this.dataConfirm}>{t('confirm')}</Text>{/*取消*/}
                             </View>
 
                             <View>

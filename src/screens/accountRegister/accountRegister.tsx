@@ -7,6 +7,7 @@ import { HttpService } from '../../utils/http';
 import Loading from '../../component/Loading/Loading';
 const api = require('../../utils/api')
 const Fs = Dimensions.get('window').width*0.8
+import { t } from 'i18next';
 
 export class AccountRegister extends Component<any,any> {
     constructor(props: any){
@@ -17,7 +18,7 @@ export class AccountRegister extends Component<any,any> {
             confirmPsw: '', //确认密码
             code: '', //验证码
             isCode: true, //验证码发送状态
-            mobiletitle: '获取验证码', //文字提示
+            mobiletitle: t('getVerificationCode'), //文字提示
             count: 120, //获取验证码时间间隔(S)
             btn_disable: true, //按钮
             agreeVal: false,//勾选协议，默认勾选
@@ -69,7 +70,7 @@ export class AccountRegister extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg:'请输入手机号！'
+                LoadingMsg: t('pleaseEnterThePhoneNumber')
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -82,7 +83,7 @@ export class AccountRegister extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg:'手机号格式错误！'
+                LoadingMsg: t('phoneError')
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -95,7 +96,7 @@ export class AccountRegister extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg:'请输入密码！'
+                LoadingMsg: t('pleaseEnterYourPassword')
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -108,7 +109,7 @@ export class AccountRegister extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg:'请输入确认密码！'
+                LoadingMsg: t('PleasePassword')
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -121,7 +122,7 @@ export class AccountRegister extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg:'两次密码不一致！'
+                LoadingMsg: t('twoDifferentPasswords')
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -134,7 +135,7 @@ export class AccountRegister extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg:'验证码为空！'
+                LoadingMsg: t('TVCIE')
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -147,7 +148,7 @@ export class AccountRegister extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg:'请勾选服务条款！'
+                LoadingMsg: t('PCTTOS')
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -166,7 +167,7 @@ export class AccountRegister extends Component<any,any> {
         this.setState({
             msgType: 1,
             visible: true,
-            LoadingMsg:'注册中...'
+            LoadingMsg: t('underEegistration')
         }); //加载效果
         var mobile = that.state.mobile;
         var password = that.state.password;
@@ -176,12 +177,11 @@ export class AccountRegister extends Component<any,any> {
         verifyCode: verifyCode,
         password: password,
         }).then((res:any) => {
-            console.log(res);
             if (res.flag == '00') {
                 this.setState({
                     msgType: 2,
                     visible: true,
-                    LoadingMsg:'注册成功！'
+                    LoadingMsg: t('registeredSuccessfully')
                 },()=>{
                     setTimeout(()=>{
                         this.setState({
@@ -215,7 +215,7 @@ export class AccountRegister extends Component<any,any> {
         this.setState({
             msgType: 2,
             visible: true,
-            LoadingMsg:'注册成功！'
+            LoadingMsg:t('registeredSuccessfully')
         },()=>{
             setTimeout(()=>{
                 this.setState({
@@ -235,7 +235,7 @@ export class AccountRegister extends Component<any,any> {
                 this.setState({
                     msgType: 2,
                     visible: true,
-                    LoadingMsg:'请输入手机号！'
+                    LoadingMsg: t('pleaseEnterThePhoneNumber')
                 },()=>{
                     setTimeout(()=>{
                         this.setState({
@@ -248,7 +248,7 @@ export class AccountRegister extends Component<any,any> {
                 this.setState({
                     msgType: 2,
                     visible: true,
-                    LoadingMsg:'手机号格式错误！'
+                    LoadingMsg: t('phoneError')
                 },()=>{
                     setTimeout(()=>{
                         this.setState({
@@ -261,7 +261,7 @@ export class AccountRegister extends Component<any,any> {
             this.setState({
                 msgType: 1,
                 visible: true,
-                LoadingMsg:'加载中...'
+                LoadingMsg: t('Loading')
             }); //加载效果
             var down = that.state.count;
             HttpService.Post(api.getVerifyCode, {
@@ -271,7 +271,7 @@ export class AccountRegister extends Component<any,any> {
                     this.setState({
                         msgType: 2,
                         visible: true,
-                        LoadingMsg:'发送成功！'
+                        LoadingMsg: t('sentSuccessfully')
                     },()=>{
                         setTimeout(()=>{
                             this.setState({
@@ -287,13 +287,13 @@ export class AccountRegister extends Component<any,any> {
                     var interval = setInterval(function () {
                         down--;
                         that.setState({
-                            mobiletitle: '重新获取(' + down + ')'
+                            mobiletitle: '('+ t('reacquire') + down + ')'
                         })
                         if (down == 0) {
                             clearInterval(interval)
                             that.setState({
                                 isCode: true,
-                                mobiletitle: '重新获取验证码'
+                                mobiletitle:  t('getVerification')
                             })
                         }
                     }, 1000)
@@ -349,7 +349,7 @@ export class AccountRegister extends Component<any,any> {
             <SafeAreaView style={styles.box}>
                 <Navbar
                     props={this.props}
-                    pageName={'注册账号'}
+                    pageName={t('registerAnAccount')}
                     showBack={true}     
                     showHome={false}
                     LoginStatus={3}
@@ -358,19 +358,19 @@ export class AccountRegister extends Component<any,any> {
                     <View style={styles.con} >
                         <View style={styles.list} >
                             <Image style={styles.Img} source={require('../../image/zc_phone1x.png')}></Image>
-                            <TextInput placeholderTextColor="#aeaeae" allowFontScaling={false} style={styles.Input} placeholder={"输入手机号"} keyboardType='numeric' onChangeText={this.bindMobile}></TextInput>
+                            <TextInput placeholderTextColor="#aeaeae" allowFontScaling={false} style={styles.Input} placeholder={t('enterMobileNumber')} keyboardType='numeric' onChangeText={this.bindMobile}></TextInput>
                         </View>
                         <View style={styles.list} >
                             <Image style={styles.Img} source={require('../../image/dl_password.png')}></Image>
-                            <TextInput placeholderTextColor="#aeaeae" allowFontScaling={false} style={styles.Input2} placeholder={"输入密码"} onChangeText={this.bindPassword}></TextInput>
+                            <TextInput placeholderTextColor="#aeaeae" allowFontScaling={false} style={styles.Input2} placeholder={t('enterPassword')} onChangeText={this.bindPassword}></TextInput>
                         </View>
                         <View style={styles.list} >
                             <Image style={styles.Img} source={require('../../image/dl_password.png')}></Image>
-                            <TextInput placeholderTextColor="#aeaeae" allowFontScaling={false} style={styles.Input3} placeholder={"确认密码"} onChangeText={this.bindconfirmPsw} secureTextEntry={true}></TextInput>
+                            <TextInput placeholderTextColor="#aeaeae" allowFontScaling={false} style={styles.Input3} placeholder={t('confirmPassword')} onChangeText={this.bindconfirmPsw} secureTextEntry={true}></TextInput>
                         </View>
                         <View style={styles.list} >
                             <Image style={styles.Img} source={require('../../image/dl_code.png')}></Image>
-                            <TextInput placeholderTextColor="#aeaeae" allowFontScaling={false} style={styles.Input4} placeholder={"输入验证码"} onChangeText={this.bindCode}></TextInput>
+                            <TextInput placeholderTextColor="#aeaeae" allowFontScaling={false} style={styles.Input4} placeholder={t('enterVerificationCode')} onChangeText={this.bindCode}></TextInput>
                             <Text style={styles.Code} allowFontScaling={false} onPress={this.gainCode}>{this.state.mobiletitle}</Text>
                         </View>
                         <View style={[styles.lists,{marginTop: 25,}]}>
@@ -382,26 +382,26 @@ export class AccountRegister extends Component<any,any> {
                             uncheckedIcon={'checkbox-blank-outline'}
                             containerStyle={styles.CheckBox}
                             />
-                            <Text style={styles.agree} allowFontScaling={false}>{"我已阅读并同意"}</Text>
+                            <Text style={styles.agree} allowFontScaling={false}>{t('IAgree')}</Text>
                             <Text style={styles.service} allowFontScaling={false}
                                 onPress={()=>this.props.navigation.navigate('ServiceInfo')}
-                            >{'TLINK物联网平台服务条款》'}</Text>
+                            >{t('TLINK')}</Text>
                         </View>
 
                         <View style={styles.butList}>
                             <Pressable style={({ pressed })=>[{backgroundColor: pressed ? '#f3f3f3' : '#eeeeee'},styles.buttonL]} onPress={()=>this.props.navigation.navigate('Tabbar')}>
-                                <Text style={styles.buttonText} allowFontScaling={false}>取消注册</Text>
+                                <Text style={styles.buttonText} allowFontScaling={false}>{t('cancelRegister')}</Text>
                             </Pressable>
                             <Pressable style={({ pressed })=>[{backgroundColor: pressed ? '#2da2fe' : '#1890FF'},styles.buttonR]} onPress={this.register} >
-                                <Text style={[styles.buttonText,{color: '#fff'}]} allowFontScaling={false}>注册账号</Text>
+                                <Text style={[styles.buttonText,{color: '#fff'}]} allowFontScaling={false}>{t('registerAnAccount')}</Text>
                             </Pressable>
                         </View>
                         <View style={styles.link} >
                             <TouchableOpacity>
-                                <Text style={styles.Url} onPress={()=>{this.props.navigation.navigate('BindPhone')}} allowFontScaling={false}>短信登录</Text>
+                                <Text style={styles.Url} onPress={()=>{this.props.navigation.navigate('BindPhone')}} allowFontScaling={false}>{t('SMSlogin')}</Text>
                             </TouchableOpacity>
                             <TouchableOpacity>
-                                <Text style={styles.Url} onPress={()=>{this.props.navigation.navigate('BindAccount')}} allowFontScaling={false}>账号登录</Text>
+                                <Text style={styles.Url} onPress={()=>{this.props.navigation.navigate('BindAccount')}} allowFontScaling={false}>{t('AccountLogin')}</Text>
                             </TouchableOpacity>
                         </View>
                     </View>

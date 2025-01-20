@@ -12,6 +12,7 @@ const util = require('../../../utils/util.js');
 const api = require('../../../utils/api')
 const { plusReduceData } = require('../../../utils/util.js');
 const Fs = Dimensions.get('window').width*0.8
+import { t } from 'i18next'
 
 export class PowerTest2 extends Component<any,any> {
     constructor(props:any){
@@ -62,7 +63,7 @@ export class PowerTest2 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '获取参数失败！'
+                LoadingMsg: t('getNotData')
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -100,7 +101,7 @@ export class PowerTest2 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '开始日期不能大于结束日期!'
+                LoadingMsg: t('TSDMN')
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -122,7 +123,7 @@ export class PowerTest2 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '您还未登录,无法查询数据！'
+                LoadingMsg: t('YANLI')
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -136,7 +137,7 @@ export class PowerTest2 extends Component<any,any> {
         this.setState({
             msgType: 1,
             visible: true,
-            LoadingMsg: '加载中...'
+            LoadingMsg: t('Loading')
         })//加载效果
         let userId = store.getState().userId; //用户ID
         let deviceId = store.getState().parameterGroup.radioGroup.selectKey; //获取设备ID
@@ -165,11 +166,11 @@ export class PowerTest2 extends Component<any,any> {
                             name: "",
                             state: true,
                             title: objData.deviceName,
-                            legendData: ["最大值", "最小值", "平均值"],
+                            legendData: [t('Max'), t('Min'), t('average')],
                             xAxisData: [],
-                            yAxisName: ["单位(" + objData.sensorUnit + ")"],
+                            yAxisName: [t('unit') + "(" + objData.sensorUnit + ")"],
                             series: [{
-                                name: "最大值",
+                                name: t('Max'),
                                 type: 'line',
                                 connectNulls: true,
                                 markPoint: {
@@ -183,7 +184,7 @@ export class PowerTest2 extends Component<any,any> {
                                 },
                                 data: []
                             }, {
-                                name: "最小值",
+                                name: t('Min'),
                                 type: 'line',
                                 connectNulls: true,
                                 markPoint: {
@@ -197,7 +198,7 @@ export class PowerTest2 extends Component<any,any> {
                                 },
                                 data: []
                             }, {
-                                name: "平均值",
+                                name: t('average'),
                                 type: 'line',
                                 connectNulls: true,
                                 markPoint: {
@@ -214,30 +215,30 @@ export class PowerTest2 extends Component<any,any> {
                         };
                             //有功功率
                         if (name == 'P' || name == 'Pa' || name == 'Pb' || name == 'Pc') {
-                            querylist.name = name == 'P' ? '总有功功率' : name == 'Pa' ? 'A相有功功率' : name == 'Pb' ? 'B相有功功率' : 'C相有功功率';
+                            querylist.name = name == 'P' ? t('totalActivePower') : name == 'Pa' ? t('Aactive') : name == 'Pb' ? t('Bactive') : t('Cactive');
                             //电流
                         } else if (name == 'Ia' || name == 'Ib' || name == 'Ic') {
-                            querylist.name = name == 'Ia' ?  'A相电流' : name == 'Ib' ? 'B相电流' : 'C相电流';
+                            querylist.name = name == 'Ia' ?  t('PAC') : name == 'Ib' ? t('PBC') : t('PCC');
                             //相电压
                         } else if (name == 'Uan' || name == 'Ubn' || name == 'Ucn') {
-                            querylist.name = name == 'Uan' ? 'A相电压' : name == 'Ubn' ? 'B相电压':'C相电压'
+                            querylist.name = name == 'Uan' ? t('PAV') : name == 'Ubn' ? t('PBV') : t('PCV')
                             //线电压
                         } else if (name == 'Uab' || name == 'Ubc' || name == 'Uca') {
-                            querylist.name = name == 'Uab' ? 'A线电压' : name == 'Ubc' ? 'B线电压' : 'C线电压';
+                            querylist.name = name == 'Uab' ? t('LAV') : name == 'Ubc' ? t('LBV') : t('LCV');
                             //频率
                         } else if (name == 'Fr') {
-                            querylist.name = "频率";
+                            querylist.name = t('frequency');
                             //功率因素
                         } else if (name == 'Pf') {
-                            querylist.name = "功率因素";
+                            querylist.name = t('powerFactor');
                             //无功功率
                         } else if (name == 'Q') {
-                            querylist.name = "无功功率";
+                            querylist.name = t('reactivePower');
                             //视在功率
                         } else if (name == 'S') {
-                            querylist.name = "视在功率";
+                            querylist.name = t('apparentPower');
                         } else if (name == 'IUnB' || name == 'UUnB') {
-                            querylist.name = name == 'IUnB' ? "电流不平衡度" : "电压不平衡度"
+                            querylist.name = name == 'IUnB' ? t('CID') : t('VID')
                         }
                         // //处理数据数值
                         let objList:any = objData.data;
@@ -298,7 +299,7 @@ export class PowerTest2 extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '请求出错'
+                LoadingMsg: t('request')
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -329,7 +330,7 @@ export class PowerTest2 extends Component<any,any> {
                 <SafeAreaView style={{flex: 1}}>
                     {/* 引入自定义导航栏 */}
                     <Navbar 
-                        pageName={'逐日极数据'}
+                        pageName={t('Devd2')}
                         showBack={true}
                         showHome={false}
                         isCheck={2}
@@ -347,7 +348,7 @@ export class PowerTest2 extends Component<any,any> {
                                 </Pressable>
                             </View>
                             <Text allowFontScaling={false} style={styles.text}>
-                                至
+                                {t('to')}
                             </Text>
                             <View style={styles.flex}>
                                 <Pressable style={styleg.button} onPress={()=>this.openPicker(2)}>
@@ -355,12 +356,12 @@ export class PowerTest2 extends Component<any,any> {
                                     <Image style={styleg.ico} source={require('../../../image/down.png')}></Image>
                                 </Pressable>
                             </View>
-                            <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>查询</Text>
+                            <Text allowFontScaling={false} style={styles.button} onPress={this.clickSearch}>{t('inquire')}</Text>
                         </View>
                         
                         <ScrollView style={styles.echarts_con}>
                             {this.state.optionData.length == 0?
-                                <Text allowFontScaling={false} style={styles.empty}>暂无数据</Text>:''
+                                <Text allowFontScaling={false} style={styles.empty}>{t('noData')}</Text>:''
                             }
                             {this.state.optionData.map((data:any,index:number)=>{
                                 return(

@@ -1,7 +1,9 @@
-import { Dimensions, Image, Pressable, StyleSheet, Text, View, Modal } from 'react-native'
+import { Dimensions, Image, Pressable, StyleSheet, Text, View, Modal, ScrollView } from 'react-native'
 import * as React from 'react';
 import styleg from '../../indexCss'
 import { CheckBox } from '@rneui/base';
+import { t } from 'i18next'
+
 const Fs = Dimensions.get('window').width*0.8
 
 export class MyLegend extends React.Component<any,any> {
@@ -16,13 +18,13 @@ export class MyLegend extends React.Component<any,any> {
             show2: false,
             contentSel: [],
             actions: [{
-                    name: '选项1'
+                    name: t('Options') + '1'
                 },
                 {
-                    name: '选项2'
+                    name: t('Options') + '2'
                 },
                 {
-                    name: '选项3'
+                    name: t('Options') + '3'
                 },
             ],
             allCheck: '0', // 取消0  全选1
@@ -117,45 +119,46 @@ export class MyLegend extends React.Component<any,any> {
         });
     }
     render=()=> {
-        const { t } = this.props
         return (
         <View>
             <View style={styles.query_head}>
-                {/* 复选框 */}
-                <View style={styles.flex}>
-                    <CheckBox
-                    checked={this.state.result.includes('a')}
-                    onPress={()=>this.onChange('a')}
-                    iconType="material-community"
-                    checkedIcon="checkbox-marked"
-                    uncheckedIcon="checkbox-blank-outline"
-                    title='A相'
-                    containerStyle={styles.CheckBox}
-                    />
-                    <CheckBox
-                    checked={this.state.result.includes('b')}
-                    onPress={()=>this.onChange('b')}
-                    iconType="material-community"
-                    checkedIcon="checkbox-marked"
-                    uncheckedIcon="checkbox-blank-outline"
-                    title='B相'
-                    containerStyle={styles.CheckBox}
-                    />
-                    <CheckBox
-                    checked={this.state.result.includes('c')}
-                    onPress={()=>this.onChange('c')}
-                    iconType="material-community"
-                    checkedIcon="checkbox-marked"
-                    uncheckedIcon="checkbox-blank-outline"
-                    title='C相'
-                    containerStyle={styles.CheckBox}
-                    />
-                </View>
-                {/* 弹出框按钮  contentSel.length*/}
-                <Pressable style={styles.dial} onPress={this.showPopup}>
-                    <Text allowFontScaling={false} style={styles.dialText}>已选中{this.state.n}种谐波含量</Text>
-                    <Image style={styleg.ico} source={require('../../image/down.png')}></Image>
-                </Pressable>
+                <ScrollView horizontal={true}>
+                    {/* 复选框 */}
+                    <View style={styles.flex}>
+                        <CheckBox
+                        checked={this.state.result.includes('a')}
+                        onPress={()=>this.onChange('a')}
+                        iconType="material-community"
+                        checkedIcon="checkbox-marked"
+                        uncheckedIcon="checkbox-blank-outline"
+                        title={t('phaseA')}
+                        containerStyle={styles.CheckBox}
+                        />
+                        <CheckBox
+                        checked={this.state.result.includes('b')}
+                        onPress={()=>this.onChange('b')}
+                        iconType="material-community"
+                        checkedIcon="checkbox-marked"
+                        uncheckedIcon="checkbox-blank-outline"
+                        title={t('phaseB')}
+                        containerStyle={styles.CheckBox}
+                        />
+                        <CheckBox
+                        checked={this.state.result.includes('c')}
+                        onPress={()=>this.onChange('c')}
+                        iconType="material-community"
+                        checkedIcon="checkbox-marked"
+                        uncheckedIcon="checkbox-blank-outline"
+                        title={t('phaseC')}
+                        containerStyle={styles.CheckBox}
+                        />
+                    </View>
+                    {/* 弹出框按钮  contentSel.length*/}
+                    <Pressable style={styles.dial} onPress={this.showPopup}>
+                        <Text allowFontScaling={false} style={styles.dialText}>{t('Selected')}{this.state.n}{t('Kind')}</Text>
+                        <Image style={styleg.ico} source={require('../../image/down.png')}></Image>
+                    </Pressable>
+                </ScrollView>
                 <Modal 
                     transparent={true}
                     visible={this.state.show}
@@ -164,51 +167,53 @@ export class MyLegend extends React.Component<any,any> {
                     <View style={styles.modalBox}>
                         <View style={styles.dialogBox}>
                             <View style={styles.dialogCont}>
-                                <View style={[styles.tr,styles.bgG]}>
-                                    {this.state.result2for.map((data:any,index:number)=>{
-                                        return(
-                                            <View style={styles.Box} key={index}>
-                                                {index==0?
-                                                    <CheckBox
-                                                    checked={this.state.result2.includes(data)}
-                                                    onPress={()=>this.onChange2(data)}
-                                                    iconType="material-community"
-                                                    checkedIcon="checkbox-marked"
-                                                    uncheckedIcon="checkbox-blank-outline"
-                                                    title="总谐波"
-                                                    containerStyle={styles.CheckBox}
-                                                    size={20}
-                                                    />:
-                                                    <CheckBox
-                                                    checked={this.state.result2.includes(data)}
-                                                    onPress={()=>this.onChange2(data)}
-                                                    iconType="material-community"
-                                                    checkedIcon="checkbox-marked"
-                                                    uncheckedIcon="checkbox-blank-outline"
-                                                    title={`${data}`+ "次谐波"}
-                                                    containerStyle={styles.CheckBox}
-                                                    size={20}
-                                                    />
-                                                }
+                                <ScrollView>
+                                    <View style={[styles.tr,styles.bgG]}>
+                                        {this.state.result2for.map((data:any,index:number)=>{
+                                            return(
+                                                <View style={styles.Box} key={index}>
+                                                    {index==0?
+                                                        <CheckBox
+                                                        checked={this.state.result2.includes(data)}
+                                                        onPress={()=>this.onChange2(data)}
+                                                        iconType="material-community"
+                                                        checkedIcon="checkbox-marked"
+                                                        uncheckedIcon="checkbox-blank-outline"
+                                                        title={t('Total')}
+                                                        containerStyle={styles.CheckBox}
+                                                        size={20}
+                                                        />:
+                                                        <CheckBox
+                                                        checked={this.state.result2.includes(data)}
+                                                        onPress={()=>this.onChange2(data)}
+                                                        iconType="material-community"
+                                                        checkedIcon="checkbox-marked"
+                                                        uncheckedIcon="checkbox-blank-outline"
+                                                        title={`${data}`+ t('wave')}
+                                                        containerStyle={styles.CheckBox}
+                                                        size={20}
+                                                        />
+                                                    }
+                                                </View>
+                                            )
+                                        })}
+                                        <View style={styles.dialogBottom}>
+                                            <CheckBox
+                                                checked={this.state.result2.length == 31}
+                                                onPress={()=>this.setAllCheck(this.state.result2.length)}
+                                                title={t('selectAll')}
+                                                containerStyle={styles.CheckBox}
+                                                iconType="material-community"
+                                                checkedIcon="checkbox-marked"
+                                                uncheckedIcon="checkbox-blank-outline"
+                                                size={20}
+                                            /> 
+                                            <View style={styles.dialBottom}>
+                                                <Text allowFontScaling={false} style={styles.button} onPress={this.onTap}>{t('confirm')}</Text>
                                             </View>
-                                        )
-                                    })}
-                                    <View style={styles.dialogBottom}>
-                                        <CheckBox
-                                        checked={this.state.result2.length == 31}
-                                        onPress={()=>this.setAllCheck(this.state.result2.length)}
-                                        title="全选"
-                                        containerStyle={styles.CheckBox}
-                                        iconType="material-community"
-                                        checkedIcon="checkbox-marked"
-                                        uncheckedIcon="checkbox-blank-outline"
-                                        size={20}
-                                        />
-                                        <View style={styles.dialBottom}>
-                                            <Text allowFontScaling={false} style={styles.button} onPress={this.onTap}>确定</Text>
                                         </View>
                                     </View>
-                                </View>
+                                </ScrollView>
                             </View>
                         </View>
                     </View>

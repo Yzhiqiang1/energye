@@ -5,6 +5,7 @@ import LoginNavbar from '../../component/loginNavbar/loginNavbar'
 import Loading from '../../component/Loading/Loading';
 const Fs = Dimensions.get('window').width*0.8
 let api = require('../../utils/api')
+import { t } from 'i18next'
 
 //屏幕高
 const height = Dimensions.get('window').height
@@ -37,7 +38,7 @@ export class GetPassword extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '请输入账号！'
+                LoadingMsg: t('Pleaseente')
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -50,7 +51,7 @@ export class GetPassword extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '请输入密码！'
+                LoadingMsg: t('pleaseEnterYourPassword')
             },()=>{
                 setTimeout(()=>{
                     this.setState({
@@ -66,7 +67,7 @@ export class GetPassword extends Component<any,any> {
         this.setState({
             msgType: 1,
             visible: true,
-            LoadingMsg: '登录中...'
+            LoadingMsg: t('beLoggingIn')
         })
         var userName = this.state.userName;
         var password = this.state.password;
@@ -74,7 +75,7 @@ export class GetPassword extends Component<any,any> {
             userName:userName,
             password:password
         }).then((res:any)=>{
-            console.log(res, "登录获取的数据!！")
+            console.log(res, t('DOBL'))
             if(res.flag){
                 if (res.flag == '00') {
                     this.setState({
@@ -101,7 +102,7 @@ export class GetPassword extends Component<any,any> {
                 this.setState({
                     msgType: 2,
                     visible: true,
-                    LoadingMsg: '登录异常，检查账号是否正确',
+                    LoadingMsg: t('LECW'),
                     intercept: true,
                 },()=>{
                     setTimeout(()=>{
@@ -115,7 +116,7 @@ export class GetPassword extends Component<any,any> {
             this.setState({
                 msgType: 2,
                 visible: true,
-                LoadingMsg: '登录异常，检查网络是否连接',
+                LoadingMsg: t('loginError'),
                 intercept: true,
             },()=>{
                 setTimeout(()=>{
@@ -156,7 +157,7 @@ export class GetPassword extends Component<any,any> {
             <SafeAreaView style={styles.view}>
                 <LoginNavbar
                     props={this.props}
-                    name={'重置密码'}   
+                    name={t('resetPasswords')}   
                     showBack={true}
                     showHome={false}
                 ></LoginNavbar>
