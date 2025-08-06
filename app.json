@@ -1,4 +1,20 @@
 {
   "name": "energyes",
-  "displayName": "energyes"
+  "displayName": "energyes",
+  "expo": {
+    "ios": {
+      "bundleIdentifier": "io.energye.io"
+    },
+    "icon": ".ios/energyes/Images.xcassets/AppIcon.appiconset/icon-1024@1x.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "83eae9d1-ce35-4079-b81a-9602e95ba987"
+      }
+    }
+  }
 }

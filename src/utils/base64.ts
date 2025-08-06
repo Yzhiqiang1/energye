@@ -143,8 +143,3 @@ var Base64 = {
     encode: base64Encode,
     decode: base64Decode
   }
-  
-  //console.log(base64Encode("f3bd6af0f0744b1f947c35f804ec561c:13ce593e3f3e4a40905654de62eaef0b"));
-  //console.log(base64Decode(base64Encode("f3bd6af0f0744b1f947c35f804ec561c:13ce593e3f3e4a40905654de62eaef0b")));
-  ///console.log(Base64.encode("f3bd6af0f0744b1f947c35f804ec561c:13ce593e3f3e4a40905654de62eaef0b"))
-  //console.log(Base64.decode(Base64.encode("f3bd6af0f0744b1f947c35f804ec561c:13ce593e3f3e4a40905654de62eaef0b")))
