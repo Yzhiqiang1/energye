@@ -12,16 +12,7 @@
       "distribution": "internal"
     },
     "production": {
-      "autoIncrement": true,
-      "ios": {
-        "credentialsSource": "remote",
-        "distribution": "store",
-        "provisioningProfilePath": "./energy.mobileprovision",
-        "distributionCertificate": {
-          "path": "./证书.p12",
-          "password": "tp1234"
-        }
-      }
+      "autoIncrement": true
     }
   },
   "submit": {

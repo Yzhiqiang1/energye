@@ -2,12 +2,14 @@
   "expo": {
     "name": "energyes",
     "displayName": "energyes",
+    "version": "1.0.1",
     "ios": {
-      "bundleIdentifier": "io.energye.io"
+      "bundleIdentifier": "io.energye.io",
+      "buildNumber": "1.0.1"
     },
     "icon": ".ios/energyes/Images.xcassets/AppIcon.appiconset/icon-1024@1x.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": ".ios/energyes/Images.xcassets/AppIcon.appiconset/icon-1024@1x.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
