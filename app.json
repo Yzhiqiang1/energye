@@ -1,7 +1,7 @@
 {
-  "name": "energyes",
-  "displayName": "energyes",
   "expo": {
+    "name": "energyes",
+    "displayName": "energyes",
     "ios": {
       "bundleIdentifier": "io.energye.io"
     },
