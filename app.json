@@ -5,7 +5,9 @@
     "version": "1.0.1",
     "ios": {
       "bundleIdentifier": "io.energye.io",
-      "buildNumber": "1.0.1"
+      "buildNumber": "1.0.1",
+      "deploymentTarget": "13.4",
+      "newArchEnabled": false
     },
     "icon": ".ios/energyes/Images.xcassets/AppIcon.appiconset/icon-1024@1x.png",
     "splash": {
