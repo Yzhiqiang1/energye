@@ -9,9 +9,8 @@
       "deploymentTarget": "13.4",
       "newArchEnabled": false
     },
-    "icon": ".ios/energyes/Images.xcassets/AppIcon.appiconset/icon-1024@1x.png",
+    "icon": "./ios/energyes/Images.xcassets/AppIcon.appiconset/icon-1024@1x.png",
     "splash": {
-      "image": ".ios/energyes/Images.xcassets/AppIcon.appiconset/icon-1024@1x.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
