@@ -4,19 +4,6 @@
     "appVersionSource": "remote"
   },
   "build": {
-    "development": {
-      "developmentClient": false,
-      "distribution": "internal",
-      "env": {
-        "RCT_NEW_ARCH_ENABLED": "1"
-      }
-    },
-    "preview": {
-      "distribution": "internal",
-      "env": {
-        "RCT_NEW_ARCH_ENABLED": "1"
-      }
-    },
     "production": {
       "autoIncrement": true,
       "env": {
