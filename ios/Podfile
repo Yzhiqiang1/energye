@@ -79,5 +79,11 @@ target 'energyes' do
       config[:reactNativePath],
       :mac_catalyst_enabled => false
     )
+    
+    installer.pods_project.targets.each do |target|
+      target.build_configurations.each do |config|
+        config.build_settings['OTHER_LDFLAGS'] = ['$(inherited)', '-ld64']
+      end
+    end
   end
 end
