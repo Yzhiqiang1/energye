@@ -6,6 +6,11 @@
   "build": {
     "production": {
       "autoIncrement": true,
+      "ios": {
+        "xcodeEnvironment": {
+          "xcodeVersion": "14.3.1"
+        }
+      },
       "env": {
         "RCT_NEW_ARCH_ENABLED": "0"
       }
