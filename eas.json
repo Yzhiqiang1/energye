@@ -8,19 +8,19 @@
       "developmentClient": false,
       "distribution": "internal",
       "env": {
-        "RCT_NEW_ARCH_ENABLED": "1"
+        "RCT_NEW_ARCH_ENABLED": "0"
       }
     },
     "preview": {
       "distribution": "internal",
       "env": {
-        "RCT_NEW_ARCH_ENABLED": "1"
+        "RCT_NEW_ARCH_ENABLED": "0"
       }
     },
     "production": {
       "autoIncrement": true,
       "env": {
-        "RCT_NEW_ARCH_ENABLED": "1"
+        "RCT_NEW_ARCH_ENABLED": "0"
       }
     }
   },
